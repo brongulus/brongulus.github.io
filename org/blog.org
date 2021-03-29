@@ -44,6 +44,8 @@ Hi! Take 1
 :EXPORT_FILE_NAME: blog-creation
 :END:
 
+So I was going to make this post explaining how I made this blog but it was rendered pretty useless by [[https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n][this.]] So yeah, I might archive this post later.
+
 1. Install hugo from your package manager.
 2. Create a new site:
 #+begin_src sh
@@ -66,5 +68,8 @@ git submodule add <theme_url> themes/<name>
 #+end_src
 5. TODO Explain the process of content and properties, tags etc.
 6. Export
-7. Config.toml (theme, title, url, etc)
+7. Config.toml (theme, title, url, publishdir, etc)
 8. Run server, check localhost.
+9. Push
+10. Go to GitHub repository Settings > GitHub pages. Select /docs in Source.
+11. Voila!
