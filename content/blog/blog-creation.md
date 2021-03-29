@@ -22,7 +22,6 @@ hugo new site blog
 cd blog
 git init
 git submodule add <theme_url> themes/<name>
-echo theme = \"<name>\" >> config.toml
 ```
 
 1.  Install ox-hugo in emacs
@@ -39,3 +38,6 @@ echo theme = \"<name>\" >> config.toml
 ```
 
 1.  TODO Explain the process of content and properties, tags etc.
+2.  Export
+3.  Config.toml (theme, title, url, etc)
+4.  Run server, check localhost.
