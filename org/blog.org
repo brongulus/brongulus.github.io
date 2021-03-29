@@ -1,0 +1,70 @@
+:CONFIG:
+#+hugo_base_dir: ../
+#+seq_todo: TODO DRAFT DONE
+#+options: creator:t
+:END:
+
+#+title: Blog Source File
+#+author: Prashant Tak
+
+* About
+:PROPERTIES:
+:EXPORT_FILE_NAME: about
+:EXPORT_HUGO_SECTION: about
+:END:
+
+Hi! Take 1
+
+* Blog
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: blog
+:END:
+
+** Morphosyntactic Tagging with a Meta-BiLSTM Model over Context Sensitive Token Encodings - An Overview
+:PROPERTIES:
+:EXPORT_FILE_NAME: nnfl-paper
+:END:
+*** Abstract
+1. RNN leads to advances in speech tagging accuracy [[https://www.aclweb.org/anthology/K18-2001.pdf][Zeman et al]]
+2. Common thing among models, /rich initial word encodings/. (What does encoding, maybe related to RNN)
+3. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings. (What are embeddings here)
+4. Problem with the encodings, context restriced to a single word hence only via subsequent recurrent layers the word information is processed.
+5. The paper deals with models that use RNN with sentence-level context.
+6. This provides results via synchronized training with a meta-model that learns to combine their states.
+7. Results are provided on part-of-speech and morphological tagging \footnote{Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.} with great performance on a number of languages.
+*** Terms
+1. Morphosyntactic = Morphology + Syntax and Morphology is study of words, how they are formed, and their relationship to other words in the same language.
+2. [[https://medium.datadriveninvestor.com/how-do-lstm-networks-solve-the-problem-of-vanishing-gradients-a6784971a577][RNN]]: [[https://arxiv.org/pdf/1211.5063.pdf][On difficulty of training RNNs]]
+3. [[http://colah.github.io/posts/2015-08-Understanding-LSTMs/][LSTM]]: Long Short-Term Memory is a type of RNN that addresses the vanishing gradient problem through additional cells, input and output gates.
+4. BiLSTM: It is a sequence processing model that consists of two LSTMs. They effectively increase the amount of information available to the network, improving the context available to the algorithm (e.g. knowing what words immediately follow and precede a word in a sentence).
+
+
+** Creating a blog using ox-hugo, org mode and github pages
+:PROPERTIES:
+:EXPORT_FILE_NAME: blog-creation
+:END:
+
+1. Install hugo from your package manager.
+2. Create a new site:
+#+begin_src sh
+hugo new site blog
+#+end_src
+3. Add a theme:
+#+begin_src sh
+cd blog
+git init
+git submodule add <theme_url> themes/<name>
+#+end_src
+4. Install ox-hugo in emacs
+#+begin_src emacs-lisp
+;; goes in packages.el
+(package! ox-hugo)
+
+;; goes in config.el
+(use-package ox-hugo
+  :after ox)
+#+end_src
+5. TODO Explain the process of content and properties, tags etc.
+6. Export
+7. Config.toml (theme, title, url, etc)
+8. Run server, check localhost.

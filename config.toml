@@ -1,0 +1,4 @@
+baseURL = "https://brongulus.github.io"
+languageCode = "en-us"
+title = "bacchanalian madness"
+theme = "tale"
