@@ -21,7 +21,12 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://brongulus.github.io/blog/blog-creation/</guid>
-      <description>Install hugo from your package manager. Create a new site:  hugo new site blog  Add a theme:  cd blog git init git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name&amp;gt;  Install ox-hugo in emacs  ;; goes in packages.el (package! ox-hugo) ;; goes in config.el (use-package ox-hugo :after ox)  TODO Explain the process of content and properties, tags etc. Export Config.toml (theme, title, url, etc) Run server, check localhost.</description>
+      <description>So I was going to make this post explaining how I made this blog but it was rendered pretty useless by this. So yeah, I might archive this post later.
+  Install hugo from your package manager.
+  Create a new site:
+hugo new site blog   Add a theme:
+cd blog git init git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name&amp;gt;   Install ox-hugo in emacs
+;; goes in packages.</description>
     </item>
     
     <item>

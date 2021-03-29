@@ -47,34 +47,51 @@
 
 		
 
-		<ol>
-<li>Install hugo from your package manager.</li>
-<li>Create a new site:</li>
-</ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">hugo new site blog
-</code></pre></div><ol>
-<li>Add a theme:</li>
-</ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd blog
-git init
-git submodule add &lt;theme_url&gt; themes/&lt;name&gt;
-</code></pre></div><ol>
-<li>Install ox-hugo in emacs</li>
-</ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="color:#75715e">;; goes in packages.el</span>
-(package! ox-hugo)
+		<p>So I was going to make this post explaining how I made this blog but it was rendered pretty useless by <a href="https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n">this.</a> So yeah, I might archive this post later.</p>
+<ol>
+<li>
+<p>Install hugo from your package manager.</p>
+</li>
+<li>
+<p>Create a new site:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">   hugo new site blog
+</code></pre></div></li>
+<li>
+<p>Add a theme:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">   cd blog
+   git init
+   git submodule add &lt;theme_url&gt; themes/&lt;name&gt;
+</code></pre></div></li>
+<li>
+<p>Install ox-hugo in emacs</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">   <span style="color:#75715e">;; goes in packages.el</span>
+   (package! ox-hugo)
 
-<span style="color:#75715e">;; goes in config.el</span>
-(use-package ox-hugo
-  :after ox)
-</code></pre></div><ol>
-<li>TODO Explain the process of content and properties, tags etc.</li>
-<li>Export</li>
-<li>Config.toml (theme, title, url, etc)</li>
-<li>Run server, check localhost.</li>
+   <span style="color:#75715e">;; goes in config.el</span>
+   (use-package ox-hugo
+     :after ox)
+</code></pre></div></li>
+<li>
+<p>TODO Explain the process of content and properties, tags etc.</p>
+</li>
+<li>
+<p>Export</p>
+</li>
+<li>
+<p>Config.toml (theme, title, url, publishdir, etc)</p>
+</li>
+<li>
+<p>Run server, check localhost.</p>
+</li>
+<li>
+<p>Push</p>
+</li>
+<li>
+<p>Go to GitHub repository Settings &gt; GitHub pages. Select /docs in Source.</p>
+</li>
+<li>
+<p>Voila!</p>
+</li>
 </ol>
 
 
@@ -93,7 +110,7 @@ git submodule add &lt;theme_url&gt; themes/&lt;name&gt;
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-03-29 12:14:32.982010214 &#43;0530 IST m=&#43;0.098946313">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2021-03-29 12:30:48.978236925 &#43;0530 IST m=&#43;0.059845851">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

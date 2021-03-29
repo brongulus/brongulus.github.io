@@ -1,12 +1,13 @@
 :CONFIG:
 #+hugo_base_dir: ../
-#+seq_todo: TODO DRAFT DONE
+#+seq_todo: TODO DRAFT DONE FIXME
 #+options: creator:t
 :END:
 
 #+title: Blog Source File
 #+author: Prashant Tak
 
+* TODO Fix Time, section...
 * About
 :PROPERTIES:
 :EXPORT_FILE_NAME: about
@@ -48,24 +49,24 @@ So I was going to make this post explaining how I made this blog but it was rend
 
 1. Install hugo from your package manager.
 2. Create a new site:
-#+begin_src sh
+   #+begin_src sh
 hugo new site blog
-#+end_src
+   #+end_src
 3. Add a theme:
-#+begin_src sh
+   #+begin_src sh
 cd blog
 git init
 git submodule add <theme_url> themes/<name>
-#+end_src
+   #+end_src
 4. Install ox-hugo in emacs
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 ;; goes in packages.el
 (package! ox-hugo)
 
 ;; goes in config.el
 (use-package ox-hugo
   :after ox)
-#+end_src
+   #+end_src
 5. TODO Explain the process of content and properties, tags etc.
 6. Export
 7. Config.toml (theme, title, url, publishdir, etc)
