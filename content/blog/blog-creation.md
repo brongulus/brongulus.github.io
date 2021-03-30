@@ -5,7 +5,7 @@ draft = true
 creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 +++
 
-So I was going to make this post explaining how I made this blog but it was rendered pretty useless by [this.](https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n) So yeah, I might archive this post later.
+I was going to make a post explaining how I made this blog but it was rendered pretty useless by [this.](https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n) So yeah, I might archive this later.
 
 1.  Install hugo from your package manager.
 2.  Create a new site:
