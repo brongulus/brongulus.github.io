@@ -1,7 +1,7 @@
 +++
 title = "Creating a blog using ox-hugo, org mode and github pages"
 author = ["Prashant Tak"]
-draft = true
+draft = false
 creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 +++
 

@@ -26,16 +26,14 @@
 :EXPORT_HUGO_SECTION: about
 :END:
 
-Hi! Take 1
+Hi! I'm Prashant.
 
 * Blog
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: blog
 :END:
 
-** DONE Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
-CLOSED: [2021-03-30 Tue 14:37]
-
+** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
 :PROPERTIES:
 :EXPORT_FILE_NAME: nnfl-paper
 :EXPORT_AUTHOR: Bernd Bohnet, et al
@@ -225,7 +223,7 @@ The training is synchronous as the meta-BiLSTM model is trained in tandem with t
 [fn:7] [[http://machinelearning.org/archive/icml2008/papers/391.pdf][Unified architecture for NLP]]
 [fn:8] [[https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf][NLP(almost) from Scratch]]
 
-** DRAFT Creating a blog using ox-hugo, org mode and github pages
+** Creating a blog using ox-hugo, org mode and github pages
 :PROPERTIES:
 :EXPORT_FILE_NAME: blog-creation
 :END:

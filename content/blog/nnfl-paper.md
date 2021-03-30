@@ -1,7 +1,7 @@
 +++
 title = "Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview"
 author = ["Bernd Bohnet", "et al"]
-draft = true
+draft = false
 creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 +++
 
@@ -31,7 +31,7 @@ This post contains a complete overview of the titled paper and provides a basic 
 ## [Basics of NLP](https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html) / Pre-requisites {#basics-of-nlp-pre-requisites}
 
 
-### <span class="org-todo todo TODO">TODO</span> (Add root, lemma, morphemes and their difference) Key Terms {#add-root-lemma-morphemes-and-their-difference--key-terms}
+### Key Terms {#key-terms}
 
 1.  **NLP**: Natural Language Processing concerns itself with interaction of technology with human languages.
 2.  **Tokenization**: An early step in the NLP process which splits longer strings of text into smaller pieces, or _tokens_.
