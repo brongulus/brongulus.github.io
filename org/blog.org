@@ -19,6 +19,10 @@
 6. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
 7. Replace with material scroll bar
 8. Open external links in new tab by default, unless it's meta-links.
+* Doubts
+1. What is r?
+2. dev-corpus refers to?
+3. What precisely are embeddings: https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe
 
 * About
 :PROPERTIES:
@@ -43,8 +47,8 @@ This post contains a complete overview of the titled paper and provides a basic 
 
 *** Abstract
 1. RNN leads to advances in speech tagging accuracy [[https://www.aclweb.org/anthology/K18-2001.pdf][Zeman et al]]
-2. Common thing among models, /rich initial word encodings/. (What does encoding, maybe related to RNN)
-3. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings. (What are embeddings here)
+2. Common thing among models, /rich initial word encodings/.
+3. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings[fn:10].
 4. Problem with the encodings, context restriced to a single word hence only via subsequent recurrent layers the word information is processed.
 5. The paper deals with models that use RNN with sentence-level context.
 6. This provides results via synchronized training with a meta-model that learns to combine their states.
@@ -184,6 +188,21 @@ In terms of model selection, after each epoch, the algorithm evaluates the taggi
 The training is synchronous as the meta-BiLSTM model is trained in tandem with the two encoding models, and not after they have converged. When the meta-BiLSTM was allowed to back-propagate through the whole network, performance degraded regardless of the number of loss functions used. Each language could in theory used separate hyperparameters but identical settings for each language works well for large corpora.
 *** Experiments and Results
 **** Experimental Setup
+The word embeddings are initialized with zero values and the pre-trained embeddings are not updated during training. The dropout[fn:9] used on the embeddings is achieved by a single dropout mask and dropout is used on the input and the states of the LSTM.
+
+#+NAME: Architecture
+| Model | Parameter                     | Value |
+|-------+-------------------------------+-------|
+| C,W   | BiLSTM Layers                 |     3 |
+| M     | BiLSTM Layers                 |     1 |
+| CWM   | BiLSTM size                   |   400 |
+| CWM   | Dropout LSTM                  |  0.33 |
+| CWM   | Dropout MLP                   |  0.33 |
+| W     | Dropout Embeddings            |  0.33 |
+| C     | Dropout Embedding             |   0.5 |
+| CWM   | Nonlinear Activation Fn (MLP) |   ELU |
+
+TODO Add two remaining tables
 **** Data Sets
 **** POS Tagging Results
 **** POS Tagging on WSJ
@@ -224,7 +243,8 @@ The training is synchronous as the meta-BiLSTM model is trained in tandem with t
 [fn:6] [[http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&rep=rep1&type=pdf][*Fast POS Tagging: SVM Approach]]
 [fn:7] [[http://machinelearning.org/archive/icml2008/papers/391.pdf][Unified architecture for NLP]]
 [fn:8] [[https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf][NLP(almost) from Scratch]]
-
+[fn:9] Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.
+[fn:10] [[https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe][Everything about Embeddings]]
 ** Creating a blog using ox-hugo, org mode and github pages
 :PROPERTIES:
 :EXPORT_FILE_NAME: blog-creation

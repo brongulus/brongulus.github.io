@@ -12,12 +12,12 @@ This post contains a complete overview of the titled paper and provides a basic 
 ## Abstract {#abstract}
 
 1.  RNN leads to advances in speech tagging accuracy [Zeman et al](https://www.aclweb.org/anthology/K18-2001.pdf)
-2.  Common thing among models, _rich initial word encodings_. (What does encoding, maybe related to RNN)
-3.  Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings. (What are embeddings here)
+2.  Common thing among models, _rich initial word encodings_.
+3.  Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings[^fn:1].
 4.  Problem with the encodings, context restriced to a single word hence only via subsequent recurrent layers the word information is processed.
 5.  The paper deals with models that use RNN with sentence-level context.
 6.  This provides results via synchronized training with a meta-model that learns to combine their states.
-7.  Results are provided on part-of-speech and morphological tagging[^fn:1] with great performance on a number of languages.
+7.  Results are provided on part-of-speech and morphological tagging[^fn:2] with great performance on a number of languages.
 
 
 ## Terms {#terms}
@@ -67,13 +67,13 @@ This post contains a complete overview of the titled paper and provides a basic 
 4.  **Dense Embedding Vectors**:
     -   The information of the semantic relationship between tokens can be conveyed using manual or learned POS tagging that determines which tokens in a text perform what type of function. (noun, verb, adverb, etc)
     -   This is useful for _named entity recognition_, i.e. our search is restricted to just the nouns.
-    -   But if one represents _features_[^fn:2] as dense vectors i.e. with core features embedded into an embedding space of size _d_ dimensions, we can compress the number of dimensions used to represent a large corpus into a manageable amount.
+    -   But if one represents _features_[^fn:3] as dense vectors i.e. with core features embedded into an embedding space of size _d_ dimensions, we can compress the number of dimensions used to represent a large corpus into a manageable amount.
     -   Here, each feature no longer has its own dimension but is rather mapped to a vector.
 
 
 ### [Subword models](https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.) {#subword-models-20is-pairs-20into-20a-20new-20byte-dot-and-text-bpe-20is-20a-20word-20segmentation--unicode--20characters-20in-20data-dot}
 
-1.  **Purely Character-level models**: In character-level modes, word embeddings[^fn:3] can be composed of character embeddings which have several advantages. _Character-level_ models are needed because:
+1.  **Purely Character-level models**: In character-level modes, word embeddings[^fn:4] can be composed of character embeddings which have several advantages. _Character-level_ models are needed because:
     -   Languages like Chinese don't have _word segmentations_.
     -   For languages that do have, they segment in different ways.
     -   To handle large, open, informal vocabulary.
@@ -84,13 +84,13 @@ This post contains a complete overview of the titled paper and provides a basic 
 
 ## Introduction {#introduction}
 
-Morphosyntactic tagging accuracy has improved due to using BiLSTMs to create _sentence-level context sensitive encodings_[^fn:4] of words which is done by creating an initial context insensitive word representation[^fn:5] having three parts:
+Morphosyntactic tagging accuracy has improved due to using BiLSTMs to create _sentence-level context sensitive encodings_[^fn:5] of words which is done by creating an initial context insensitive word representation[^fn:6] having three parts:
 
 1.  A dynamically trained word embedding
 2.  A fixed pre-trained word-embedding, induced from a large corpus
 3.  A sub-word character model, which is the final state of a RNN model that ingests one character at a time.
 
-In such a model, sub-word character-based representations only interact via subsequent recurrent layers. To elaborate, context insensitive representations would normalize words that shouldn't be, but due to the subsequent BiLSTM layer, this would be overridden. This behaviour differs from traditional linear models.[^fn:6]
+In such a model, sub-word character-based representations only interact via subsequent recurrent layers. To elaborate, context insensitive representations would normalize words that shouldn't be, but due to the subsequent BiLSTM layer, this would be overridden. This behaviour differs from traditional linear models.[^fn:7]
 
 This paper aims to investigate to what extent having initial subword and word context insensitive representations affect performance. It proposes a hybrid model based on three models- context sensitive initial character and word models and a meta-BiLSTM model which are all trained synchronously.
 
@@ -99,11 +99,11 @@ On testing this system on 2017 CoNLL data sets, largest gains were found for mor
 
 ## Related Work {#related-work}
 
-1.  An excellent example of an accurate linear model that uses both word and sub-word features.[^fn:6] It uses context sensitive n-gram affix features.
-2.  First Modern NN for tagging which initially used only word embeddings[^fn:7], was later extended to include suffix embeddings.[^fn:8]
+1.  An excellent example of an accurate linear model that uses both word and sub-word features.[^fn:7] It uses context sensitive n-gram affix features.
+2.  First Modern NN for tagging which initially used only word embeddings[^fn:8], was later extended to include suffix embeddings.[^fn:9]
 3.  TBD TBD
-4.  This is the jumping point for current architectures for tagging models with RNNs.[^fn:5]
-5.  Then&nbsp;[^fn:4] showed that subword/word combination representation leads to state-of-the-art morphosyntactic tagging accuracy.
+4.  This is the jumping point for current architectures for tagging models with RNNs.[^fn:6]
+5.  Then&nbsp;[^fn:5] showed that subword/word combination representation leads to state-of-the-art morphosyntactic tagging accuracy.
 
 
 ## Models {#models}
@@ -192,6 +192,23 @@ The training is synchronous as the meta-BiLSTM model is trained in tandem with t
 
 ### Experimental Setup {#experimental-setup}
 
+The word embeddings are initialized with zero values and the pre-trained embeddings are not updated during training. The dropout[^fn:10] used on the embeddings is achieved by a single dropout mask and dropout is used on the input and the states of the LSTM.
+
+<a id="table--Architecture"></a>
+
+| Model | Parameter                     | Value |
+|-------|-------------------------------|-------|
+| C,W   | BiLSTM Layers                 | 3     |
+| M     | BiLSTM Layers                 | 1     |
+| CWM   | BiLSTM size                   | 400   |
+| CWM   | Dropout LSTM                  | 0.33  |
+| CWM   | Dropout MLP                   | 0.33  |
+| W     | Dropout Embeddings            | 0.33  |
+| C     | Dropout Embedding             | 0.5   |
+| CWM   | Nonlinear Activation Fn (MLP) | ELU   |
+
+TODO Add two remaining tables
+
 
 ### Data Sets {#data-sets}
 
@@ -250,11 +267,13 @@ The training is synchronous as the meta-BiLSTM model is trained in tandem with t
 7.  BiLSTM: [Improving POS tagging](https://arxiv.org/pdf/1807.00818v1.pdf)
 8.  [Implementation](https://github.com/google/meta%5Ftagger) of the paper
 
-[^fn:1]: Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.
-[^fn:2]: They are the different categorical characteristic of the given data. For example, it could be _grammatical_ classes or some _physical_ features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.
-[^fn:3]: A word embedding is a learned representation for text where words that have the same meaning have a similar representation.
-[^fn:4]: [Graph based Neural Dependency Parser](https://www.aclweb.org/anthology/K17-3002.pdf)
-[^fn:5]: [POS Tagging with BiLSTM](https://arxiv.org/pdf/1604.05529.pdf)
-[^fn:6]: [\*Fast POS Tagging: SVM Approach](http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&rep=rep1&type=pdf)
-[^fn:7]: [Unified architecture for NLP](http://machinelearning.org/archive/icml2008/papers/391.pdf)
-[^fn:8]: [NLP(almost) from Scratch](https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf)
+[^fn:1]: [Everything about Embeddings](https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe)
+[^fn:2]: Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.
+[^fn:3]: They are the different categorical characteristic of the given data. For example, it could be _grammatical_ classes or some _physical_ features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.
+[^fn:4]: A word embedding is a learned representation for text where words that have the same meaning have a similar representation.
+[^fn:5]: [Graph based Neural Dependency Parser](https://www.aclweb.org/anthology/K17-3002.pdf)
+[^fn:6]: [POS Tagging with BiLSTM](https://arxiv.org/pdf/1604.05529.pdf)
+[^fn:7]: [\*Fast POS Tagging: SVM Approach](http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&rep=rep1&type=pdf)
+[^fn:8]: [Unified architecture for NLP](http://machinelearning.org/archive/icml2008/papers/391.pdf)
+[^fn:9]: [NLP(almost) from Scratch](https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf)
+[^fn:10]: Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.

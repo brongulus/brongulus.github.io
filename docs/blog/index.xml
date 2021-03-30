@@ -27,7 +27,7 @@ cd blog git init git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name
       
       <guid>https://brongulus.github.io/blog/nnfl-paper/</guid>
       <description>(Subtitle: I had shingles, which is a painful disease.) This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
-Abstract  RNN leads to advances in speech tagging accuracy Zeman et al Common thing among models, rich initial word encodings. (What does encoding, maybe related to RNN) Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings.</description>
+Abstract  RNN leads to advances in speech tagging accuracy Zeman et al Common thing among models, rich initial word encodings. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings1.</description>
     </item>
     
   </channel>
