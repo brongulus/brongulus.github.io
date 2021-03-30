@@ -35,7 +35,10 @@ h2 {
   font-size: 2.2rem;
   line-height: 1; }
 
-h3,
+h3 {
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 1.6rem; }
+
 h4,
 h5,
 h6 {
