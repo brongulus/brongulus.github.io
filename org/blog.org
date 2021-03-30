@@ -245,7 +245,7 @@ TODO Add two remaining tables
 [fn:7] [[http://machinelearning.org/archive/icml2008/papers/391.pdf][Unified architecture for NLP]]
 [fn:8] [[https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf][NLP(almost) from Scratch]]
 [fn:9] Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.
-[fn:10] [[https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe][Everything about Embeddings]]
+[fn:10] [[https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe][Everything about Embeddings]] Embedding converts symbolic representations into meaningful numbers
 ** Creating a blog using ox-hugo, org mode and github pages
 :PROPERTIES:
 :EXPORT_FILE_NAME: blog-creation

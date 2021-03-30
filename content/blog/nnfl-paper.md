@@ -256,7 +256,7 @@ TODO Add two remaining tables
 7.  BiLSTM: [Improving POS tagging](https://arxiv.org/pdf/1807.00818v1.pdf)
 8.  [Implementation](https://github.com/google/meta%5Ftagger) of the paper
 
-[^fn:1]: [Everything about Embeddings](https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe)
+[^fn:1]: [Everything about Embeddings](https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe) Embedding converts symbolic representations into meaningful numbers
 [^fn:2]: Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.
 [^fn:3]: They are the different categorical characteristic of the given data. For example, it could be _grammatical_ classes or some _physical_ features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.
 [^fn:4]: A word embedding is a learned representation for text where words that have the same meaning have a similar representation.
