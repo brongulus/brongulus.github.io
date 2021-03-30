@@ -1,9 +1,10 @@
 :CONFIG:
 #+hugo_base_dir: ../
-#+seq_todo: TODO DRAFT DONE FIXME
+#+seq_todo: TODO DRAFT DONE
 #+options: creator:t
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
 #+startup: inlineimages
+#+startup: lodone
 :END:
 
 #+title: Blog Source File
@@ -32,7 +33,9 @@ Hi! Take 1
 :EXPORT_HUGO_SECTION: blog
 :END:
 
-** DRAFT Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
+** DONE Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
+CLOSED: [2021-03-30 Tue 14:37]
+
 :PROPERTIES:
 :EXPORT_FILE_NAME: nnfl-paper
 :EXPORT_AUTHOR: Bernd Bohnet, et al
@@ -54,7 +57,7 @@ This post contains a complete overview of the titled paper and provides a basic 
 3. [[http://colah.github.io/posts/2015-08-Understanding-LSTMs/][LSTM]]: Long Short-Term Memory is a type of RNN that addresses the vanishing gradient problem through additional cells, input and output gates.
 4. BiLSTM: It is a sequence processing model that consists of two LSTMs. They effectively increase the amount of information available to the network, improving the context available to the algorithm (e.g. knowing what words immediately follow and precede a word in a sentence).
 *** [[https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html][Basics of NLP]] / Pre-requisites
-**** TODO (Add root, lemma, morphemes and their difference) Key Terms
+**** Key Terms
 1. *NLP*: Natural Language Processing concerns itself with interaction of technology with human languages.
 2. *Tokenization*: An early step in the NLP process which splits longer strings of text into smaller pieces, or /tokens/.
 3. *Normalization*: A series of tasks meant to put all text on a level playing field i.e. converting it to lowercase, removing punctuation, expanding contractions, converting numbers to their word equivalents, stripping white space, removing stop words and so on.
