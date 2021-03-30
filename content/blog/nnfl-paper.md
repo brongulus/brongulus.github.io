@@ -222,25 +222,14 @@ TODO Add two remaining tables
 ### Morphological Tagging Results {#morphological-tagging-results}
 
 
-## Ablation Study {#ablation-study}
+## Ablation Study (Takeaways) {#ablation-study--takeaways}
 
-
-### Impact of the training schema {#impact-of-the-training-schema}
-
-
-### Impact of the Sentence-based Character Model {#impact-of-the-sentence-based-character-model}
-
-
-### Impact of the Meta-BiLSTM Model Combination {#impact-of-the-meta-bilstm-model-combination}
-
-
-### Concatenation Strategies for the Context-Sensitive Character Encodings {#concatenation-strategies-for-the-context-sensitive-character-encodings}
-
-
-### Sensitivity to Hyperparameter Search {#sensitivity-to-hyperparameter-search}
-
-
-### Discussion {#discussion}
+-   **Impact of the training schema**: Separate optimization better than Joint optimization
+-   **Impact of the Sentence-based Character Model**: Higher accuracy than word-based character context
+-   **Impact of the Meta-BiLSTM Model Combination**: Combined model has significantly higher accuracy than individual models
+-   **Concatenation Strategies for the Context-Sensitive Character Encodings**: Model bases a token encoding on both forward and backward character representations of both first and last character in token. (_Fig. 1_) ....
+-   **Sensitivity to Hyperparameter Search**: With larger network sizes, capacity of the network increases, but it becomes prone to overfitting. Future variants of this model might benefit from higer regularization.
+-   **Discussion**: TODO Proposed modifications
 
 
 ## Conclusions {#conclusions}

@@ -290,13 +290,15 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 <h3 id="pos-tagging-results">POS Tagging Results</h3>
 <h3 id="pos-tagging-on-wsj">POS Tagging on WSJ</h3>
 <h3 id="morphological-tagging-results">Morphological Tagging Results</h3>
-<h2 id="ablation-study">Ablation Study</h2>
-<h3 id="impact-of-the-training-schema">Impact of the training schema</h3>
-<h3 id="impact-of-the-sentence-based-character-model">Impact of the Sentence-based Character Model</h3>
-<h3 id="impact-of-the-meta-bilstm-model-combination">Impact of the Meta-BiLSTM Model Combination</h3>
-<h3 id="concatenation-strategies-for-the-context-sensitive-character-encodings">Concatenation Strategies for the Context-Sensitive Character Encodings</h3>
-<h3 id="sensitivity-to-hyperparameter-search">Sensitivity to Hyperparameter Search</h3>
-<h3 id="discussion">Discussion</h3>
+<h2 id="ablation-study--takeaways">Ablation Study (Takeaways)</h2>
+<ul>
+<li><strong>Impact of the training schema</strong>: Separate optimization better than Joint optimization</li>
+<li><strong>Impact of the Sentence-based Character Model</strong>: Higher accuracy than word-based character context</li>
+<li><strong>Impact of the Meta-BiLSTM Model Combination</strong>: Combined model has significantly higher accuracy than individual models</li>
+<li><strong>Concatenation Strategies for the Context-Sensitive Character Encodings</strong>: Model bases a token encoding on both forward and backward character representations of both first and last character in token. (<em>Fig. 1</em>) &hellip;.</li>
+<li><strong>Sensitivity to Hyperparameter Search</strong>: With larger network sizes, capacity of the network increases, but it becomes prone to overfitting. Future variants of this model might benefit from higer regularization.</li>
+<li><strong>Discussion</strong>: TODO Proposed modifications</li>
+</ul>
 <h2 id="conclusions">Conclusions</h2>
 <h2 id="readings-and-resources">Readings and Resources</h2>
 <ol>
@@ -376,7 +378,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-03-30 17:40:08.253225107 &#43;0530 IST m=&#43;0.034409247">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-03-30 17:54:40.510431334 &#43;0530 IST m=&#43;0.050938967">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script type="text/javascript"
          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
