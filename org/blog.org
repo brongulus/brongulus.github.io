@@ -142,9 +142,6 @@ To investigate whether a sentence sensitive character model (/Fig.1/) is better 
 #+CAPTION: BiLSTM variant of Character-level word representation
 [[file:assets/nnfl1.png]]
 
-#+CAPTION: Tagging Architecture of Word-based Character Model
-[[file:assets/nnfl2a.png]]
-
 **** Sentence-based Word Model
 The inputs are the words of the sentence and for each of the words, we use pre-trained word embeddings \((p_{1}^{word},...,p_{n}^{word})\) summed with a dynamically learned word embedding for each word in the corpus \((e_{1}^{word},...,e_{n}^{word})\):
 \[
@@ -158,6 +155,11 @@ o_{i}^{word} = concat(f_{w,i}^{l}, b_{w,i}^{l})
 m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
+
+#+CAPTION: Tagging Architecture of Word-based Character Model and Sentence-based Word Model
+[[file:assets/nnfl2a.png]]
+
+
 **** Meta-BiLSTM: Model Combination
 If each of the character or word-based encodings are trained with their own loss and are combined using an additional meta-BiLSTM model, optimal performance is obtained. The meta-biLSTM model concatenates the output of context sensitive character and word-based encoding for each word and puts this through another BiLSTM to create an /additional/ combined context sensitive encoding. This is followed by a final MLP whose output is passed to a linear layer for tag prediction.
 \[

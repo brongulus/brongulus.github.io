@@ -184,13 +184,6 @@ A tag can then be predicted with a <em>linear classifier</em> that takes as inpu
         </figcaption>
 </figure>
 
-<figure>
-    <img src="/ox-hugo/nnfl2a.png"
-         alt="Figure 4: Tagging Architecture of Word-based Character Model"/> <figcaption>
-            <p>Figure 4: Tagging Architecture of Word-based Character Model</p>
-        </figcaption>
-</figure>
-
 <h3 id="sentence-based-word-model">Sentence-based Word Model</h3>
 <p>The inputs are the words of the sentence and for each of the words, we use pre-trained word embeddings \((p_{1}^{word},&hellip;,p_{n}^{word})\) summed with a dynamically learned word embedding for each word in the corpus \((e_{1}^{word},&hellip;,e_{n}^{word})\):
 \[
@@ -204,6 +197,13 @@ o_{i}^{word} = concat(f_{w,i}^{l}, b_{w,i}^{l})
 m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.</p>
+<figure>
+    <img src="/ox-hugo/nnfl2a.png"
+         alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/> <figcaption>
+            <p>Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
+        </figcaption>
+</figure>
+
 <h3 id="meta-bilstm-model-combination">Meta-BiLSTM: Model Combination</h3>
 <p>If each of the character or word-based encodings are trained with their own loss and are combined using an additional meta-BiLSTM model, optimal performance is obtained. The meta-biLSTM model concatenates the output of context sensitive character and word-based encoding for each word and puts this through another BiLSTM to create an <em>additional</em> combined context sensitive encoding. This is followed by a final MLP whose output is passed to a linear layer for tag prediction.
 \[
@@ -316,7 +316,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-03-30 15:57:40.433486462 &#43;0530 IST m=&#43;0.079631393">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-03-30 16:35:05.415175008 &#43;0530 IST m=&#43;0.033740861">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script type="text/javascript"
          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">

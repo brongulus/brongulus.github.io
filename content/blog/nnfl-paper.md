@@ -141,8 +141,6 @@ To investigate whether a sentence sensitive character model (_Fig.1_) is better 
 
 {{< figure src="/ox-hugo/nnfl1.png" caption="Figure 3: BiLSTM variant of Character-level word representation" >}}
 
-{{< figure src="/ox-hugo/nnfl2a.png" caption="Figure 4: Tagging Architecture of Word-based Character Model" >}}
-
 
 ### Sentence-based Word Model {#sentence-based-word-model}
 
@@ -158,6 +156,8 @@ o\_{i}^{word} = concat(f\_{w,i}^{l}, b\_{w,i}^{l})
 m\_{i}^{word} = MLP(o\_{i}^{word})
 \\]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
+
+{{< figure src="/ox-hugo/nnfl2a.png" caption="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model" >}}
 
 
 ### Meta-BiLSTM: Model Combination {#meta-bilstm-model-combination}
