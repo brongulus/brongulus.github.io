@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <input type="checkbox" class="checkbox" id="check" />
+    <div class="content">
+        <label class="label" for="check">
+            <i class="fab fa-galactic-republic"></i>
+            <i class="fab fa-rebel"></i>
+            
+            
+            
+        <div class="ball"></div>
+        <head>
+		
+		
+		
+		
+		
+
+		
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
+	</head>
+
+    </label>
+        <body>
+        <div class="container custom-scrollbar">
+            		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">bacchanalian madness</h2>
+				</a>
+				<ul>
+    
+    
+</ul>
+			</div>
+		</nav>
+
+            
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        [Prashant Tak]
+</div>
+
+		<h1 class="post-title">Differential Geometry</h1>
+<div class="post-line"></div>
+
+		
+
+		<h2 id="first-fundamental-form-and-local-intrinsic-properties-of-a-surface">First Fundamental Form and Local Intrinsic Properties of a Surface</h2>
+<h3 id="introduction">Introduction</h3>
+<ul>
+<li>The surfaces are defined similar to curves by an equation of the type F(<em>x,y,z</em>) = 0 or parametrically by expressing <em>x,y,z</em> in terms of two parameters <em>u,v</em> varying over a domain.</li>
+<li>After defining the surface locally, its points are classified as ordinary or singular.</li>
+<li>Then using tangent plane at a point and the surface normal at it, a coordinate system <strong>\((r_1, r_2, N)\)</strong> at every point of the surface is introduced.</li>
+<li>After that, a certain quadratic differential form known as <em>first fundamental form</em> on a surface and direction coefficients are introduced.</li>
+</ul>
+<h3 id="definition-of-a-surface">Definition of a Surface</h3>
+<p><strong>Definition 1:</strong> Locus of a point P(<em>x,y,z</em>) in \(E_{3}\) satisfying some restrictions on <em>x,y,z</em> which is expressed by a relation of the type F(<em>x,y,z</em>) = 0.</p>
+<p>This equation is called the <em>implicit</em> or the <em>constraint</em> equation of the surface which allows for a global study of the surface.</p>
+<p><strong>Definition 2:</strong> For parameters <em>u, v</em> taking real values and varying over a domain D, a surface is defined <em>parametrically</em> as
+\[
+x = f(u,v), y = g(u,v), z = h(u,v)
+\]
+where <em>f, g</em> and <em>h</em> are single valued continuous functions possessing continuous derivatives of <em>r</em>-th order. Such surfaces are called surfaces of class <em>r</em>.</p>
+<p>Parametric representation is useful for local study of surfaces i.e. in the neighbourhood of a point which is a small region <strong>but</strong> it is not unique for a surface. Also, the parameters <em>u</em> and <em>v</em> are called <em>curvilinear coordinates</em>.</p>
+<p><strong>Definition 3:</strong> For two parametric representations <em>u, v</em> and <em>u', v'</em> of the same surface, any transformation of the form \(u'=\phi(u,v)\) and \(v'=\psi(u,v)\) relating the two representations is called a <em>parametric transformation</em>.</p>
+<p><strong>Definition 4:</strong> A parametric transformation is <em>proper</em> if:</p>
+<ol>
+<li>φ and ψ are single valued functions.</li>
+<li>The Jacobian \(\frac{\delta (\phi,\psi)}{\delta (u,v)}\neq0\) in some domain D.</li>
+</ol>
+<p>These conditions are necessary and sufficient for existence of inverse in the neighbourhood of any point in D' which is the domain of <em>u', v'</em> corresponding to the domain D of the <em>u, v</em> plane.</p>
+<h3 id="nature-of-points-on-a-surface">Nature of Points on a Surface</h3>
+<p><strong>Notation:</strong> For <strong>r</strong> being the position vector of a point on the surface, <strong>r</strong> = (x,y,z), we can take r = r(u,v) as the parametric form of the surface and use \(r_1 = \frac{\delta r}{\delta u} = (x_{1},y_{1},z_{1})\) and \(r_2 = \frac{\delta r}{\delta v} = (x_{2},y_{2},z_{2})\), similarly we can denote second order derivatives using \(r_{11}, r_{21}\) etc.</p>
+<p><strong>Definition 1:</strong> If \(r_{1}\times r_{2}\neq0\) at a point on a surface, then the point is called an <em>ordinary</em> point. A point which is not an ordinary point is called a <em>singularity</em>.</p>
+<p>Remarks:</p>
+<ul>
+<li>Considering M = \(\begin{bmatrix} x_{1} &amp; y_{1} &amp; z_{1}\\\<br>
+x_{2} &amp; y_{2} &amp; z_{2}\end{bmatrix}\)
+For \(r_{1} \times r_{2} \neq 0\) at an ordinary point, i.e. rank of M is two at that point.</li>
+<li>If the rank of M is either zero or one, the point on the surface is a singular point.</li>
+<li>If \(r_{1} \times r_{2}\neq0\) or equivalently rank of M is two, then <em>x,y,z</em> uniquely determine the parameters <em>u,v</em> in the neighbourhood of an ordinary point.</li>
+<li>When only one determinant minor of M is zero, one cannot conclude that the point is a singular point.</li>
+<li>A <em>proper</em> parametric transformation transforms an ordinary point into an ordinary point.</li>
+<li>Due to geometrical nature of the surface, some singularities continue to be singularities, regardless of the parametric representations, these are called <em>essential singularities</em>.</li>
+<li>There are other singularities depending on the choice of parametric representation which are called <em>artificial singularities</em>.</li>
+</ul>
+<p><strong>Example:</strong> Consider the circular cone represented by <em>x = u sinα cosv, y = u sinα sinv, z = u cosα</em> where α is the semivertical angle of cone with O as origin and OP = <em>u</em>, where P is any point on the cone.
+Computing M, then at <em>u</em> = 0, the determinant of every second order minor is zero, hence it is an essential singularity.</p>
+<p><strong>Example:</strong> Taking any point 0 as origin in the plane, <em>x = u cosv, y = u sinv, z = 0</em>, we get \(r_{1} \times r_{2} = u\textbf{k}\). Hence it is zero only when <em>u</em> = 0 i.e. it is an artificial singularity <em>since</em> it arises due to the choice of the parametric coordinates and not due to the nature of the surface.</p>
+<h3 id="representation-of-a-surface">Representation of a Surface</h3>
+<p>For our study of surfaces, we consider only ordinary points. And we consider the entire surface as a collection of parts, each part being given a particular parametrisation and the adjacent parts being related by a <em>proper</em> parametric transformation.</p>
+<p><strong>Definition 1:</strong> A representation R of a surface S of class <em>r</em> in \(E_{3}\) is a collection of points in \(E_{3}\) covered by a system of overlapping parts \({S_{j}}\) where each part \(S_{j}\) is given by a parametric equation of class <em>r</em>. Each point lying in the common portion of two parts \(S_{i}, S_{j}\) is such that the change of parameters from one part to is adjacent is given by a <em>proper</em> parametric transformation of class <em>r</em>.</p>
+<p><strong><em>Note:</em></strong> Since one cannot parameterise the whole surface without introducing artificial singularities, one has to resort to a surface composed of many overlapping parts.</p>
+<p>It is possible to have many representations of the same surface by considering different systems of overlapping parts (\(S_{j}\)), each part is given by a parametric equation of class <em>r</em>.</p>
+<p><strong>Definition 2:</strong> For R and R' being two representations of class <em>r</em> of the surface S, they are <em>equivalent</em> if the composite family of parts {\(S_{j},S'_{j}\)} satisfies the condition that for each point P lying in the place of overlap, the change of parameter from \(S_{j}\)  to \(S'_{j}\) at P is given by a proper parametric transformation of class r.</p>
+<p><strong>Theorem:</strong> The notion of <em>r</em>-equivalence of representations of a surface is an equivalence relation.</p>
+<p>This equivalence relation introduces a partition into the family of surfaces of class <em>r</em> splitting them into mutually disjoint equivalence classes, each class containing the surface equivalent to one another in the above equivalence relation.</p>
+<p><strong>Definition 3:</strong> A surface S of class <em>r</em> in \(E_{3}\) is an <em>r</em>-equivalence class of representations.</p>
+<p>Thus a surface consists of different overlapping portions related to one another by proper parametric transformations and all other surfaces related to the given one by the equivalence relation of class <em>r</em>.</p>
+<h3 id="curves-on-surfaces">Curves on Surfaces</h3>
+<p>For a surface <strong>r</strong> = r(<em>u,v</em>), let <em>u = u(t)</em> and <em>v = v(t)</em> be a curve of class <em>s</em> lying in the domain D of the <em>uv</em>-plane. Considering <strong>r</strong> = r[u(t), v(t)] which gives the position vector of a point in terms of a single parameter <em>t</em> such that it is a curve lying on a surface with class equal to the smaller of <em>r</em> and <em>s</em>. The equation <em>u = u(t)</em> and <em>v = v(t)</em> are called <em>curvilinear equations</em> of the curve on the surface.</p>
+<p><strong>Definition 1:</strong> For <strong>r</strong>, a given surface of class <em>r</em>, let <em>v = c</em>, then position vector <strong>r</strong> = r(u,c) is a function of a single parameter <em>t</em> and hence <strong>r</strong> = r(u,c) represents a curve lying on the surface <strong>r</strong> = r(u,v). This curve is called the <em>parametric curve</em> v = constant.</p>
+<p>By varying the values of <em>c</em>, a system of parametric curves <em>v</em> = constant is generated and similarly another system is generated by keeping <em>u</em> constant and varying <em>v</em>.</p>
+<p>Properties that are a consequence of assuming only ordinary points on the surface:</p>
+<ol>
+<li>Through every point of the surface, there passes one and only one parametric curve of each system.</li>
+<li>No two curves of the same system intersect.</li>
+<li>The curves of the system \(u=u_{o}\) and \(v=v_{o}\) intersect once but not more than once if \((u_{o},v_{o}) \in D\).</li>
+<li>The parametric curves of the system u = \(c_{1}\) and v = \(c_{2}\) cannot touch each other.</li>
+</ol>
+<p><strong>Definition 2:</strong> Let u = \(c_{1}\) and v = \(c_{2}\), when the constants vary, the whole surface is covered with a net of parametric curves, two of which pass through each point.</p>
+<p><strong>Definition 3:</strong> Two parametric curves through a point P are <em>othogonal</em> if \(\textbf{r}_{1}.\textbf{r}_{2}= 0\) at P.</p>
+<h3 id="tangent-plane-and-surface-normal">Tangent Plane and Surface Normal</h3>
+<p>Let <strong>r</strong> = r[u(t), v(t)] be a general curve lying on the surface passing through [u(t), v(t)], then the tangent to the curve at any point P on the surface is
+\[
+\frac{dr}{dt} = r_{1}\frac{du}{dt}+r_{2}\frac{dv}{dt}
+\]
+<strong>Definition 1:</strong> Tagnent to any curve drawn on a surface is called a tangent line to the surface. The tangents to different curves through P on a surface lie in a plane containing two independent vectors \(r_{1}\) and \(r_{2}\) at P called the <em>tangent plane</em> at P.</p>
+<p><strong>Theorem 1:</strong> The equation of a tangent plane at P on a surface with position vector <strong>r</strong> = r(u,v) is either \(R = r+ar_{1}+br_{2}\) or \((R-r).(r_{1}\times r_{2}) = 0\) where a and b are parameters.</p>
+<p><strong>Definition 2:</strong> The normal to the surface P is a line through P and perpendicular to the tangent plane at P.</p>
+<p><strong>Theorem 2:</strong> The equation of the normal <strong>N</strong> at a point P on the surface r = r(u,v) is \(R=r+a(r_{1}\times r_{2})\).</p>
+<p><strong>Theorem 3:</strong> A proper parametric transformation either leaves every normal unchanged or reverses the direction of the normal.</p>
+<h3 id="general-surface-of-revolution">General Surface of Revolution</h3>
+<p><strong>Definiton 1:</strong> A surface generated by the rotation of a plane curve about an axis in its plane is called a <em>surface of revolution</em>.</p>
+<p><strong>Theorem 1:</strong> The position vector of any point on the surface of revolution generated by the curve [g(u),o,f(u)] in the XOZ plane is
+\[
+\textbf{r} = [g(u)cosv, g(u)sinv, f(u)]
+\]
+where <em>v</em> is the angle of roatation about the <em>z</em>-axis.</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/notes/microprocessors-notes/" class="left arrow">&#8592;</a>
+		<a href="/blog/blog-creation/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+            		<footer>
+			
+			<span>
+			&copy; <time datetime="2021-04-10 05:16:57.291858491 &#43;0530 IST m=&#43;1.579794329">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			</span>
+            <script async type="text/javascript" 
+         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+            </script>
+		</footer>
+
+        </div>
+        </body>
+</html>

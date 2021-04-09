@@ -6,6 +6,8 @@ creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 +++
 
 (Subtitle: _I had shingles, which is a painful disease._)
+![](/ox-hugo/machine_learning.png)
+
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
 
 
@@ -69,6 +71,9 @@ This post contains a complete overview of the titled paper and provides a basic 
     -   This is useful for _named entity recognition_, i.e. our search is restricted to just the nouns.
     -   But if one represents _features_[^fn:3] as dense vectors i.e. with core features embedded into an embedding space of size _d_ dimensions, we can compress the number of dimensions used to represent a large corpus into a manageable amount.
     -   Here, each feature no longer has its own dimension but is rather mapped to a vector.
+
+
+### [Word Representation](http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf) {#word-representation}
 
 
 ### [Subword models](https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.) {#subword-models-20is-pairs-20into-20a-20new-20byte-dot-and-text-bpe-20is-20a-20word-20segmentation--unicode--20characters-20in-20data-dot}

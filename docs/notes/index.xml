@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes on bacchanalian madness</title>
+    <link>https://brongulus.github.io/notes/</link>
+    <description>Recent content in Notes on bacchanalian madness</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Differential Geometry</title>
+      <link>https://brongulus.github.io/notes/dg-notes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/dg-notes/</guid>
+      <description>First Fundamental Form and Local Intrinsic Properties of a Surface Introduction  The surfaces are defined similar to curves by an equation of the type F(x,y,z) = 0 or parametrically by expressing x,y,z in terms of two parameters u,v varying over a domain. After defining the surface locally, its points are classified as ordinary or singular. Then using tangent plane at a point and the surface normal at it, a coordinate system \((r_1, r_2, N)\) at every point of the surface is introduced.</description>
+    </item>
+    
+    <item>
+      <title>Microprocessors and Interfacing</title>
+      <link>https://brongulus.github.io/notes/microprocessors-notes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/microprocessors-notes/</guid>
+      <description>Programmer&amp;rsquo;s Model 8086   </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,16 +1,29 @@
+:root {
+  --light-bg: #fbf1c7;
+  --dark-bg: #2E3440;
+  --light-font: #555;
+  --dark-font: #e1e1ff;
+  --bg: var(--light-bg);
+  --txt: var(--light-font);
+  --light-link: #458588;
+  --dark-link: #88C0D0;
+  --link: var(--light-link); }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  line-height: 1.5; }
+  line-height: 1.5;
+  box-sizing: border-box; }
 
 html,
-body {
-  color: #555;
-  background-color: #fbf1c7;
+.content {
+  color: var(--txt);
+  background-color: var(--bg);
   margin-left: auto;
   margin-right: auto;
-  max-width: 1400px; }
+  max-width: 1400px;
+  transition: background 0.3s ease; }
 
 html {
   font-family: "Libre Baskerville", "Times New Roman", Times, serif;
@@ -23,12 +36,14 @@ body {
   -webkit-text-size-adjust: 100%; }
 
 h1 {
+  color: var(--txt);
   margin-top: 4rem;
   margin-bottom: 1.5rem;
   font-size: 3.2rem;
   line-height: 1; }
 
 h2 {
+  color: var(--txt);
   font-weight: 400;
   margin-top: 2.1rem;
   margin-bottom: 1.4rem;
@@ -42,12 +57,11 @@ h3 {
 h4,
 h5,
 h6 {
-  color: #353535;
   font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: normal; }
 
 a {
-  color: #458588;
+  color: var(--link);
   text-decoration: none; }
 
 blockquote {
@@ -63,10 +77,74 @@ blockquote {
 img {
   display: block;
   margin: 0 0 1rem;
-  max-width: 100%; }
+  max-width: 100%;
+  filter: invert(7%) sepia(22%) saturate(405%) hue-rotate(340deg) brightness(102%) contrast(97%); }
 
 td {
   vertical-align: top; }
+
+::-webkit-scrollbar {
+  width: 20px; }
+
+::-webkit-scrollbar-track {
+  background-color: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background-color: #d5c4a1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box; }
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf; }
+
+.checkbox {
+  display: none; }
+
+.label {
+  display: flex;
+  align-items: right;
+  justify-content: space-between;
+  position: relative;
+  background: var(--txt);
+  border-radius: 5rem;
+  padding: 0.5rem;
+  height: 2.5rem;
+  width: 5rem;
+  font-size: 1.5rem;
+  transition: background 0.5s ease;
+  cursor: pointer;
+  z-index: 1; }
+
+.label .ball {
+  position: absolute;
+  background-color: var(--bg);
+  border-radius: 50%;
+  top: 0.25rem;
+  left: 0.25rem;
+  height: 2rem;
+  width: 2rem;
+  transform: translateX(0);
+  transition: transform 0.3s ease, background-color 0.5s ease; }
+
+.checkbox:checked + .content .label .ball {
+  transform: translateX(2.5rem); }
+
+.checkbox:checked + .content {
+  --bg: var(--dark-bg);
+  --txt: var(--dark-font); }
+
+.checkbox:checked + a {
+  --link: var(--dark-link); }
+
+.checkbox:checked + h1 h2 {
+  --txt: var(--dark-font); }
+
+.fa-galactic-republic {
+  color: var(--dark-font); }
+
+.fa-rebel {
+  color: var(--light-font); }
 
 pre,
 code {

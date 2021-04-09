@@ -4,7 +4,8 @@
 #+options: creator:t
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
 #+startup: inlineimages
-#+startup: lodone
+#+startup: logdone
+#+startup: latexpreview
 :END:
 
 #+title: Blog Source File
@@ -15,10 +16,11 @@
 2. Add Sections
 3. Link to RSS feed
 4. Add dark mode toggle
-5. Look into whether latex can be used and generated properly for displaying notes
+5. +Look into whether latex can be used and generated properly for displaying notes+ Improve mathjax performance
 6. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
-7. Replace with material scroll bar
+7. +Replace with material scroll bar+
 8. Open external links in new tab by default, unless it's meta-links.
+9. Improve Image filter sigh
 * Doubts
 1. What is r?
 2. dev-corpus refers to?
@@ -44,6 +46,8 @@ Hi! I'm Prashant.
 :EXPORT_AUTHOR: Bernd Bohnet, et al
 :END:
 (Subtitle: /I had shingles, which is a painful disease./)
+[[file:assets/machine_learning.png]]
+
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
 
 *** Abstract
@@ -91,6 +95,7 @@ This post contains a complete overview of the titled paper and provides a basic 
    + This is useful for /named entity recognition/, i.e. our search is restricted to just the nouns.
    + But if one represents /features/[fn:2] as dense vectors i.e. with core features embedded into an embedding space of size /d/ dimensions, we can compress the number of dimensions used to represent a large corpus into a manageable amount.
    + Here, each feature no longer has its own dimension but is rather mapped to a vector.
+**** [[http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf][Word Representation]]
 **** [[https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.][Subword models]]
 1. *Purely Character-level models*: In character-level modes, word embeddings[fn:3] can be composed of character embeddings which have several advantages. /Character-level/ models are needed because:
    + Languages like Chinese don't have /word segmentations/.
@@ -163,7 +168,6 @@ The output of this BiLSTM is essentially the Word-based Character Model before t
 
 #+CAPTION: Tagging Architecture of Word-based Character Model and Sentence-based Word Model
 [[file:assets/nnfl2a.png]]
-
 
 **** Meta-BiLSTM: Model Combination
 If each of the character or word-based encodings are trained with their own loss and are combined using an additional meta-BiLSTM model, optimal performance is obtained. The meta-biLSTM model concatenates the output of context sensitive character and word-based encoding for each word and puts this through another BiLSTM to create an /additional/ combined context sensitive encoding. This is followed by a final MLP whose output is passed to a linear layer for tag prediction.
@@ -283,3 +287,117 @@ git submodule add <theme_url> themes/<name>
 * Readings
 * Resources
 * Notes
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: notes
+:END:
+** Microprocessors and Interfacing
+:PROPERTIES:
+:EXPORT_FILE_NAME: microprocessors-notes
+:END:
+*** Programmer's Model 8086
+
+[[file:assets/8086model.png]]
+** Differential Geometry
+:PROPERTIES:
+:EXPORT_FILE_NAME: dg-notes
+:END:
+*** First Fundamental Form and Local Intrinsic Properties of a Surface
+**** Introduction
++ The surfaces are defined similar to curves by an equation of the type F(/x,y,z/) = 0 or parametrically by expressing /x,y,z/ in terms of two parameters /u,v/ varying over a domain.
++ After defining the surface locally, its points are classified as ordinary or singular.
++ Then using tangent plane at a point and the surface normal at it, a coordinate system *\((r_1, r_2, N)\)* at every point of the surface is introduced.
++ After that, a certain quadratic differential form known as /first fundamental form/ on a surface and direction coefficients are introduced.
+**** Definition of a Surface
+*Definition 1:* Locus of a point P(/x,y,z/) in $E_{3}$ satisfying some restrictions on /x,y,z/ which is expressed by a relation of the type F(/x,y,z/) = 0.
+
+This equation is called the /implicit/ or the /constraint/ equation of the surface which allows for a global study of the surface.
+
+*Definition 2:* For parameters /u, v/ taking real values and varying over a domain D, a surface is defined /parametrically/ as
+  \[
+      x = f(u,v), y = g(u,v), z = h(u,v)
+  \]
+  where /f, g/ and /h/ are single valued continuous functions possessing continuous derivatives of /r/-th order. Such surfaces are called surfaces of class /r/.
+
+Parametric representation is useful for local study of surfaces i.e. in the neighbourhood of a point which is a small region *but* it is not unique for a surface. Also, the parameters /u/ and /v/ are called /curvilinear coordinates/.
+
+*Definition 3:* For two parametric representations /u, v/ and /u', v'/ of the same surface, any transformation of the form $u'=\phi(u,v)$ and $v'=\psi(u,v)$ relating the two representations is called a /parametric transformation/.
+
+*Definition 4:* A parametric transformation is /proper/ if:
+  1. \phi and \psi are single valued functions.
+  2. The Jacobian $\frac{\delta (\phi,\psi)}{\delta (u,v)}\neq0$ in some domain D.
+These conditions are necessary and sufficient for existence of inverse in the neighbourhood of any point in D' which is the domain of /u', v'/ corresponding to the domain D of the /u, v/ plane.
+**** Nature of Points on a Surface
+*Notation:* For *r* being the position vector of a point on the surface, *r* = (x,y,z), we can take r = r(u,v) as the parametric form of the surface and use $r_1 = \frac{\delta r}{\delta u} = (x_{1},y_{1},z_{1})$ and $r_2 = \frac{\delta r}{\delta v} = (x_{2},y_{2},z_{2})$, similarly we can denote second order derivatives using $r_{11}, r_{21}$ etc.
+
+*Definition 1:* If $r_{1}\times r_{2}\neq0$ at a point on a surface, then the point is called an /ordinary/ point. A point which is not an ordinary point is called a /singularity/.
+
+Remarks:
++ Considering M = $\begin{bmatrix} x_{1} & y_{1} & z_{1}\\
+  x_{2} & y_{2} & z_{2}\end{bmatrix}$
+  For $r_{1} \times r_{2} \neq 0$ at an ordinary point, i.e. rank of M is two at that point.
++ If the rank of M is either zero or one, the point on the surface is a singular point.
++ If $r_{1} \times r_{2}\neq0$ or equivalently rank of M is two, then /x,y,z/ uniquely determine the parameters /u,v/ in the neighbourhood of an ordinary point.
++ When only one determinant minor of M is zero, one cannot conclude that the point is a singular point.
++ A /proper/ parametric transformation transforms an ordinary point into an ordinary point.
++ Due to geometrical nature of the surface, some singularities continue to be singularities, regardless of the parametric representations, these are called /essential singularities/.
++ There are other singularities depending on the choice of parametric representation which are called /artificial singularities/.
+*Example:* Consider the circular cone represented by /x = u sin\alpha cosv, y = u sin\alpha sinv, z = u cos\alpha/ where \alpha is the semivertical angle of cone with O as origin and OP = /u/, where P is any point on the cone.
+Computing M, then at /u/ = 0, the determinant of every second order minor is zero, hence it is an essential singularity.
+
+*Example:* Taking any point 0 as origin in the plane, /x = u cosv, y = u sinv, z = 0/, we get $r_{1} \times r_{2} = u\textbf{k}$. Hence it is zero only when /u/ = 0 i.e. it is an artificial singularity /since/ it arises due to the choice of the parametric coordinates and not due to the nature of the surface.
+**** Representation of a Surface
+For our study of surfaces, we consider only ordinary points. And we consider the entire surface as a collection of parts, each part being given a particular parametrisation and the adjacent parts being related by a /proper/ parametric transformation.
+
+*Definition 1:* A representation R of a surface S of class /r/ in $E_{3}$ is a collection of points in $E_{3}$ covered by a system of overlapping parts ${S_{j}}$ where each part $S_{j}$ is given by a parametric equation of class /r/. Each point lying in the common portion of two parts $S_{i}, S_{j}$ is such that the change of parameters from one part to is adjacent is given by a /proper/ parametric transformation of class /r/.
+
+*/Note:/* Since one cannot parameterise the whole surface without introducing artificial singularities, one has to resort to a surface composed of many overlapping parts.
+
+It is possible to have many representations of the same surface by considering different systems of overlapping parts ($S_{j}$), each part is given by a parametric equation of class /r/.
+
+*Definition 2:* For R and R' being two representations of class /r/ of the surface S, they are /equivalent/ if the composite family of parts {$S_{j},S'_{j}$} satisfies the condition that for each point P lying in the place of overlap, the change of parameter from $S_{j}$  to $S'_{j}$ at P is given by a proper parametric transformation of class r.
+
+*Theorem:* The notion of /r/-equivalence of representations of a surface is an equivalence relation.
+
+This equivalence relation introduces a partition into the family of surfaces of class /r/ splitting them into mutually disjoint equivalence classes, each class containing the surface equivalent to one another in the above equivalence relation.
+
+*Definition 3:* A surface S of class /r/ in $E_{3}$ is an /r/-equivalence class of representations.
+
+Thus a surface consists of different overlapping portions related to one another by proper parametric transformations and all other surfaces related to the given one by the equivalence relation of class /r/.
+**** Curves on Surfaces
+For a surface *r* = r(/u,v/), let /u = u(t)/ and /v = v(t)/ be a curve of class /s/ lying in the domain D of the /uv/-plane. Considering *r* = r[u(t), v(t)] which gives the position vector of a point in terms of a single parameter /t/ such that it is a curve lying on a surface with class equal to the smaller of /r/ and /s/. The equation /u = u(t)/ and /v = v(t)/ are called /curvilinear equations/ of the curve on the surface.
+
+*Definition 1:* For *r*, a given surface of class /r/, let /v = c/, then position vector *r* = r(u,c) is a function of a single parameter /t/ and hence *r* = r(u,c) represents a curve lying on the surface *r* = r(u,v). This curve is called the /parametric curve/ v = constant.
+
+By varying the values of /c/, a system of parametric curves /v/ = constant is generated and similarly another system is generated by keeping /u/ constant and varying /v/.
+
+Properties that are a consequence of assuming only ordinary points on the surface:
+1. Through every point of the surface, there passes one and only one parametric curve of each system.
+2. No two curves of the same system intersect.
+3. The curves of the system $u=u_{o}$ and $v=v_{o}$ intersect once but not more than once if $(u_{o},v_{o}) \in D$.
+4. The parametric curves of the system u = $c_{1}$ and v = $c_{2}$ cannot touch each other.
+
+*Definition 2:* Let u = $c_{1}$ and v = $c_{2}$, when the constants vary, the whole surface is covered with a net of parametric curves, two of which pass through each point.
+
+*Definition 3:* Two parametric curves through a point P are /othogonal/ if $\textbf{r}_{1}.\textbf{r}_{2}= 0$ at P.
+**** Tangent Plane and Surface Normal
+Let *r* = r[u(t), v(t)] be a general curve lying on the surface passing through [u(t), v(t)], then the tangent to the curve at any point P on the surface is
+\[
+\frac{dr}{dt} = r_{1}\frac{du}{dt}+r_{2}\frac{dv}{dt}
+\]
+*Definition 1:* Tagnent to any curve drawn on a surface is called a tangent line to the surface. The tangents to different curves through P on a surface lie in a plane containing two independent vectors $r_{1}$ and $r_{2}$ at P called the /tangent plane/ at P.
+
+*Theorem 1:* The equation of a tangent plane at P on a surface with position vector *r* = r(u,v) is either \(R = r+ar_{1}+br_{2}\) or \((R-r).(r_{1}\times r_{2}) = 0\) where a and b are parameters.
+
+*Definition 2:* The normal to the surface P is a line through P and perpendicular to the tangent plane at P.
+
+*Theorem 2:* The equation of the normal *N* at a point P on the surface r = r(u,v) is \(R=r+a(r_{1}\times r_{2})\).
+
+*Theorem 3:* A proper parametric transformation either leaves every normal unchanged or reverses the direction of the normal.
+**** General Surface of Revolution
+*Definiton 1:* A surface generated by the rotation of a plane curve about an axis in its plane is called a /surface of revolution/.
+
+*Theorem 1:* The position vector of any point on the surface of revolution generated by the curve [g(u),o,f(u)] in the XOZ plane is
+\[
+\textbf{r} = [g(u)cosv, g(u)sinv, f(u)]
+\]
+where /v/ is the angle of roatation about the /z/-axis.
