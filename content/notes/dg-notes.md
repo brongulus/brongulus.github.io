@@ -54,7 +54,7 @@ creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 
 ### Principal normal and binormal {#principal-normal-and-binormal}
 
--   **Normal Plane:** \\(\vec{t}(0) \dot (\vec{R}-\vec{r}(0)) = 0\\)
+-   **Normal Plane:** \\(\vec{t}(0).(\vec{R}-\vec{r}(0)) = 0\\)
     It is perpendicular to the tangent line and is spanned by _n,b_
 -   **Principal Normal Vector:** For m &ge; 1, \\(\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}\\)
 -   **Unit Binormal Vector:** \\(\vec{b}=\vec{t}\times\vec{n}\\)

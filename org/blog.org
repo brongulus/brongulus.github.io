@@ -333,7 +333,7 @@ git submodule add <theme_url> themes/<name>
 + *Osculating Plane:* $[\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0$ where $\vec{R}=(X,Y,Z)$ gives the equation of the OP (here $\vec{r''}(0)\neq0$). The product inside the box is /scalar triple product/. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
 + Note that for smallest k \geq 2 such that $\vec{r^{(k)}}=0$, the last term in the box is replaced by $\vec{r'}^{(k)}(0)$
 **** Principal normal and binormal
-+ *Normal Plane:* $\vec{t}(0) \dot (\vec{R}-\vec{r}(0)) = 0$
++ *Normal Plane:* $\vec{t}(0).(\vec{R}-\vec{r}(0)) = 0$
   It is perpendicular to the tangent line and is spanned by /n,b/
 + *Principal Normal Vector:* For m \geq 1, $\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}$
 + *Unit Binormal Vector:* $\vec{b}=\vec{t}\times\vec{n}$
