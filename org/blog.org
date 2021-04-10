@@ -337,6 +337,9 @@ git submodule add <theme_url> themes/<name>
   It is perpendicular to the tangent line and is spanned by /n,b/
 + *Principal Normal Vector:* For m \geq 1, $\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}$
 + *Unit Binormal Vector:* $\vec{b}=\vec{t}\times\vec{n}$
++ OP: b.(R-r)
++ NP: t.(R-r)
++ RP: n.(R-r)
 **** Curvature and Torsion
 + For a /unit speed curve/ or /arc length parametrized/ curve \gamma(t), the curvature \kappa(t) is defined as $||\ddot{\gamma}(t)||$ (1)
 + For a /regular/ curve \gamma(t) *in* $R^{3}$, $\kappa = \frac{||\ddot{\gamma}\times\dot{\gamma}||}{||\dot{\gamma}^{3}||}$

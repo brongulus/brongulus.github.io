@@ -58,6 +58,9 @@ creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
     It is perpendicular to the tangent line and is spanned by _n,b_
 -   **Principal Normal Vector:** For m &ge; 1, \\(\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}\\)
 -   **Unit Binormal Vector:** \\(\vec{b}=\vec{t}\times\vec{n}\\)
+-   OP: b.(R-r)
+-   NP: t.(R-r)
+-   RP: n.(R-r)
 
 
 ### Curvature and Torsion {#curvature-and-torsion}
