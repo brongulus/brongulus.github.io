@@ -301,6 +301,66 @@ git submodule add <theme_url> themes/<name>
 :PROPERTIES:
 :EXPORT_FILE_NAME: dg-notes
 :END:
+*** Theory of Space Curves
+**** Representation of space curves
++ Level Curve: f(x,y,z) = C
++ From level curves to parametrized curves:
+  $y=x^{2} <-----> \gamma(t)=(\gamma_{1}(t),\gamma_{2}(t))$ Taking $\gamma_{1}(t)=t$, we get $\gamma_{2}(t)=t^{2}$ hence the parametrization is $\gamma(t)=(t,t^{2})$
++ *NOTE:* Check if domain of /x/ satisfies domain of /t/ or not. That is, the same parametrisation can be represented as $(t^{2}.t^{4})$ or $(t^{3},t^{6})$ but only the latter is a correct representation.
++ From parametrized curves to level curves:
+  $\gamma(t)=(cos^{3}t,sin^{3}t)$ <------> F(x,y)=C; Using $sin^{2}t+cos^{2}t=1$ we get, $x^{2/3}+y^{2/3}=1$ as the level curve.
+**** Unique Parametric representation
++ Class 'm' \rightarrow /f/ is m-differentiable
++ A curve is /smooth/ if $\frac{d^{n}f}{dt^{n}}$ exists for all n \geq 1 and t \in (\alpha,\beta)
++ A function /f/ is /analytic/ if it is single valued and of class \infty
++ A function is /regular/ if it is differentiable and derivative is non-zero (f dot \neq 0)
++ A /regular f/ of class /m/ can also be called a /*path*/ of class /m/.
++ *NOTE:* A point of a parametrized curve can have multiple tangents.
+**** Arc-length
++ Arc-length of a curve \gamma is given by the function $s(t)=\int_{t_{0}}^{t}|| \dot{\gamma}(u)|| du$
++ Speed: \(|| \dot{\gamma}(t) ||_{t}\) and a curve is unit-speed curve if its magnitude is 1 for all /t/.
++ For \gamma being a unit speed curve, $\ddot{\gamma}$ is zero or perpendicular to $\dot{\gamma}$ i.e. $\ddot{\gamma}.\dot{\gamma}=0$
++ If \gamma is a regular curve, then its arclength S at any point of \gamma is a smooth function of t.
++ Reparametrization: $\overline{\gamma}:(\overline{\alpha},\overline{\beta}) \rightarrow R^{n}$ <=> $\gamma: (\alpha,\beta) \rightarrow R^{n}$  exists iff \exists a smooth function \phi: $(\overline{\alpha},\overline{\beta}) \rightarrow (\alpha,\beta)$ such that its inverse \phi^{-1} is also smooth.
++ A /unit speed reparametrization/ exists for a curve iff it is /regular/.
+**** Tangent and Osculating Plane
++ Assuming \gamma is a class \geq 1 i.e. it has a power series expansion,
+\[ \gamma(u)=\gamma(u_{0}+h)=\gamma(u_{0})+\frac{h}{1!}\dot{\gamma}(u_{0})+\frac{h^{2}}{2!}\ddot{\gamma}(u_{0})+ ... + \frac{h^{n}}{n!}\gamma^{n}(u_{0})+O(h^{n})
+\]
+  where $h = u-u_0$
++ Let \gamma be class m \geq 2 and (P,Q) be points limiting position of a plane that contains tangential line at P and passes through Q as Q \rightarrow P is defined as the /osculating plane/.
++ *Tangent line:* $\vec{R}(t)=\vec{r}(u_{0})+t \vec{r'}(u_{0})$ at $u_{0}$
++ *Osculating Plane:* $[\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0$ where $\vec{R}=(X,Y,Z)$ gives the equation of the OP. The product inside the box is /scalar triple product/. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
++ Note that for smallest k \geq 2 such that $\vec{r^{(k)}}=0$, the last term in the box is replaced by $\vec{r^{(k)}(0)}$
+**** Principal normal and binormal
++ *Normal Plane:* $\vec{t}(0) \dot (\vec{R}-\vec{r}(0)) = 0$
+  It is perpendicular to the tangent line and is spanned by /n,b/
++ *Principal Normal Vector:* For m \geq 1, $\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}$
++ *Unit Binormal Vector:* $\vec{b}=\vec{t}\times\vec{n}$
+**** Curvature and Torsion
++ For a /unit speed curve/ or /arc length parametrized/ curve \gamma(t), the curvature \kappa(t) is defined as $||\ddot{\gamma}(t)||$ (1)
++ For a /regular/ curve \gamma(t) *in* $R^{3}$, $\kappa = \frac{||\ddot{\gamma}\times\dot{\gamma}||}{||\dot{\gamma}^{3}||}$
++ For a unit speed curve \gamma, /unit tangent vector/ $\hat{t}=\dot{\gamma}$ and for \kappa \neq 0, /unit normal vector/ is given by  $\hat{n}(s)=\frac{\dot{\hat{\gamma}}(s)}{\kappa(s)}$ since (1). And /unit binormal vector/ can be given by $\hat{b}=\hat{t}\times\hat{n}$
++ *Orthonormal Basis* of a curve is given by {$\hat{t},\hat{n},\hat{b}$}
++ Now b is given by t \times n , hence $\dot{b}=\dot{t}\times n+t\times\dot{n}$ , since $\dot{b}$ has to be perpendicular to t and b, $\implies \ddot{b}||n$, therefore $\boxed{\dot{b}=-\tau n}$ *iff* \kappa \neq 0.
++ For a regular curve \gamma in $R^{3}$ with \kappa \neq 0, the /torsion/ is given by
+  \[
+  \tau = \frac{(\dot{\gamma}\times\ddot{\gamma}).\dddot{\gamma}}{||\dot{\gamma}\times\ddot{\gamma}||^{2}}
+  \]
++ Also, /radius of curvature/ \rho is inverse of curvature.
++ Finally, tying it all together is the /Serret-Frenet formula/:
+  $\begin{bmatrix} \dot{t} \\
+   \dot{n} \\
+   \dot{b}  \end{bmatrix} = \begin{bmatrix} 0 & \kappa & 0 \\
+    -\kappa & 0 & \tau \\
+    0 & -\tau & 0 \end{bmatrix} \begin{bmatrix} t \\
+    n \\
+    b \end{bmatrix}$
+**** Behaviour of a curve near one of its points
+**** Contact between curves and surface
+**** Osculating circle and osculating sphere
+**** Locus of centres of spherical curvature
+**** Tangent surfaces, involutes and evolutes
 *** First Fundamental Form and Local Intrinsic Properties of a Surface
 **** Introduction
 + The surfaces are defined similar to curves by an equation of the type F(/x,y,z/) = 0 or parametrically by expressing /x,y,z/ in terms of two parameters /u,v/ varying over a domain.

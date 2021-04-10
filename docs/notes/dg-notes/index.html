@@ -59,7 +59,81 @@
 
 		
 
-		<h2 id="first-fundamental-form-and-local-intrinsic-properties-of-a-surface">First Fundamental Form and Local Intrinsic Properties of a Surface</h2>
+		<h2 id="theory-of-space-curves">Theory of Space Curves</h2>
+<h3 id="representation-of-space-curves">Representation of space curves</h3>
+<ul>
+<li>Level Curve: f(x,y,z) = C</li>
+<li>From level curves to parametrized curves:
+\(y=x^{2} &lt;&mdash;&ndash;&gt; \gamma(t)=(\gamma_{1}(t),\gamma_{2}(t))\) Taking \(\gamma_{1}(t)=t\), we get \(\gamma_{2}(t)=t^{2}\) hence the parametrization is \(\gamma(t)=(t,t^{2})\)</li>
+<li><strong>NOTE:</strong> Check if domain of <em>x</em> satisfies domain of <em>t</em> or not. That is, the same parametrisation can be represented as \((t^{2}.t^{4})\) or \((t^{3},t^{6})\) but only the latter is a correct representation.</li>
+<li>From parametrized curves to level curves:
+\(\gamma(t)=(cos^{3}t,sin^{3}t)\) &lt;&mdash;&mdash;&gt; F(x,y)=C; Using \(sin^{2}t+cos^{2}t=1\) we get, \(x^{2/3}+y^{2/3}=1\) as the level curve.</li>
+</ul>
+<h3 id="unique-parametric-representation">Unique Parametric representation</h3>
+<ul>
+<li>Class &rsquo;m' → <em>f</em> is m-differentiable</li>
+<li>A curve is <em>smooth</em> if \(\frac{d^{n}f}{dt^{n}}\) exists for all n ≥ 1 and t ∈ (α,β)</li>
+<li>A function <em>f</em> is <em>analytic</em> if it is single valued and of class ∞</li>
+<li>A function is <em>regular</em> if it is differentiable and derivative is non-zero (f dot ≠ 0)</li>
+<li>A <em>regular f</em> of class <em>m</em> can also be called a <em><strong>path</strong></em> of class <em>m</em>.</li>
+<li><strong>NOTE:</strong> A point of a parametrized curve can have multiple tangents.</li>
+</ul>
+<h3 id="arc-length">Arc-length</h3>
+<ul>
+<li>Arc-length of a curve γ is given by the function \(s(t)=\int_{t_{0}}^{t}|| \dot{\gamma}(u)|| du\)</li>
+<li>Speed: \(|| \dot{\gamma}(t) ||_{t}\) and a curve is unit-speed curve if its magnitude is 1 for all <em>t</em>.</li>
+<li>For γ being a unit speed curve, \(\ddot{\gamma}\) is zero or perpendicular to \(\dot{\gamma}\) i.e. \(\ddot{\gamma}.\dot{\gamma}=0\)</li>
+<li>If γ is a regular curve, then its arclength S at any point of γ is a smooth function of t.</li>
+<li>Reparametrization: \(\overline{\gamma}:(\overline{\alpha},\overline{\beta}) \rightarrow R^{n}\) &lt;=&gt; \(\gamma: (\alpha,\beta) \rightarrow R^{n}\)  exists iff ∃ a smooth function φ: \((\overline{\alpha},\overline{\beta}) \rightarrow (\alpha,\beta)\) such that its inverse φ<sup>-1</sup> is also smooth.</li>
+<li>A <em>unit speed reparametrization</em> exists for a curve iff it is <em>regular</em>.</li>
+</ul>
+<h3 id="tangent-and-osculating-plane">Tangent and Osculating Plane</h3>
+<ul>
+<li>Assuming γ is a class ≥ 1 i.e. it has a power series expansion,</li>
+</ul>
+<p>\[ \gamma(u)=\gamma(u_{0}+h)=\gamma(u_{0})+\frac{h}{1!}\dot{\gamma}(u_{0})+\frac{h^{2}}{2!}\ddot{\gamma}(u_{0})+ &hellip; + \frac{h^{n}}{n!}\gamma^{n}(u_{0})+O(h^{n})
+\]
+where \(h = u-u_0\)</p>
+<ul>
+<li>Let γ be class m ≥ 2 and (P,Q) be points limiting position of a plane that contains tangential line at P and passes through Q as Q → P is defined as the <em>osculating plane</em>.</li>
+<li><strong>Tangent line:</strong> \(\vec{R}(t)=\vec{r}(u_{0})+t \vec{r'}(u_{0})\) at \(u_{0}\)</li>
+<li><strong>Osculating Plane:</strong> \([\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0\) where \(\vec{R}=(X,Y,Z)\) gives the equation of the OP. The product inside the box is <em>scalar triple product</em>. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.</li>
+<li>Note that for smallest k ≥ 2 such that \(\vec{r^{(k)}}=0\), the last term in the box is replaced by \(\vec{r^{(k)}(0)}\)</li>
+</ul>
+<h3 id="principal-normal-and-binormal">Principal normal and binormal</h3>
+<ul>
+<li><strong>Normal Plane:</strong> \(\vec{t}(0) \dot (\vec{R}-\vec{r}(0)) = 0\)
+It is perpendicular to the tangent line and is spanned by <em>n,b</em></li>
+<li><strong>Principal Normal Vector:</strong> For m ≥ 1, \(\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}\)</li>
+<li><strong>Unit Binormal Vector:</strong> \(\vec{b}=\vec{t}\times\vec{n}\)</li>
+</ul>
+<h3 id="curvature-and-torsion">Curvature and Torsion</h3>
+<ul>
+<li>For a <em>unit speed curve</em> or <em>arc length parametrized</em> curve γ(t), the curvature κ(t) is defined as \(||\ddot{\gamma}(t)||\) (1)</li>
+<li>For a <em>regular</em> curve γ(t) <strong>in</strong> \(R^{3}\), \(\kappa = \frac{||\ddot{\gamma}\times\dot{\gamma}||}{||\dot{\gamma}^{3}||}\)</li>
+<li>For a unit speed curve γ, <em>unit tangent vector</em> \(\hat{t}=\dot{\gamma}\) and for κ ≠ 0, <em>unit normal vector</em> is given by  \(\hat{n}(s)=\frac{\dot{\hat{\gamma}}(s)}{\kappa(s)}\) since (1). And <em>unit binormal vector</em> can be given by \(\hat{b}=\hat{t}\times\hat{n}\)</li>
+<li><strong>Orthonormal Basis</strong> of a curve is given by {\(\hat{t},\hat{n},\hat{b}\)}</li>
+<li>Now b is given by t × n , hence \(\dot{b}=\dot{t}\times n+t\times\dot{n}\) , since \(\dot{b}\) has to be perpendicular to t and b, \(\implies \ddot{b}||n\), therefore \(\boxed{\dot{b}=-\tau n}\) <strong>iff</strong> κ ≠ 0.</li>
+<li>For a regular curve γ in \(R^{3}\) with κ ≠ 0, the <em>torsion</em> is given by
+\[
+\tau = \frac{(\dot{\gamma}\times\ddot{\gamma}).\dddot{\gamma}}{||\dot{\gamma}\times\ddot{\gamma}||^{2}}
+\]</li>
+<li>Also, <em>radius of curvature</em> ρ is inverse of curvature.</li>
+<li>Finally, tying it all together is the <em>Serret-Frenet formula</em>:
+\(\begin{bmatrix} \dot{t} \\\<br>
+\dot{n} \\\<br>
+\dot{b}  \end{bmatrix} = \begin{bmatrix} 0 &amp; \kappa &amp; 0 \\\<br>
+-\kappa &amp; 0 &amp; \tau \\\<br>
+0 &amp; -\tau &amp; 0 \end{bmatrix} \begin{bmatrix} t \\\<br>
+n \\\<br>
+b \end{bmatrix}\)</li>
+</ul>
+<h3 id="behaviour-of-a-curve-near-one-of-its-points">Behaviour of a curve near one of its points</h3>
+<h3 id="contact-between-curves-and-surface">Contact between curves and surface</h3>
+<h3 id="osculating-circle-and-osculating-sphere">Osculating circle and osculating sphere</h3>
+<h3 id="locus-of-centres-of-spherical-curvature">Locus of centres of spherical curvature</h3>
+<h3 id="tangent-surfaces-involutes-and-evolutes">Tangent surfaces, involutes and evolutes</h3>
+<h2 id="first-fundamental-form-and-local-intrinsic-properties-of-a-surface">First Fundamental Form and Local Intrinsic Properties of a Surface</h2>
 <h3 id="introduction">Introduction</h3>
 <ul>
 <li>The surfaces are defined similar to curves by an equation of the type F(<em>x,y,z</em>) = 0 or parametrically by expressing <em>x,y,z</em> in terms of two parameters <em>u,v</em> varying over a domain.</li>
@@ -158,7 +232,7 @@ where <em>v</em> is the angle of roatation about the <em>z</em>-axis.</p>
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-04-10 05:16:57.291858491 &#43;0530 IST m=&#43;1.579794329">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-04-10 07:16:15.016159476 &#43;0530 IST m=&#43;0.053516300">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
