@@ -48,8 +48,8 @@ creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 
 -   Let &gamma; be class m &ge; 2 and (P,Q) be points limiting position of a plane that contains tangential line at P and passes through Q as Q &rarr; P is defined as the _osculating plane_.
 -   **Tangent line:** \\(\vec{R}(t)=\vec{r}(u\_{0})+t \vec{r'}(u\_{0})\\) at \\(u\_{0}\\)
--   **Osculating Plane:** \\([\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0\\) where \\(\vec{R}=(X,Y,Z)\\) gives the equation of the OP. The product inside the box is _scalar triple product_. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
--   Note that for smallest k &ge; 2 such that \\(\vec{r^{(k)}}=0\\), the last term in the box is replaced by \\(\vec{r^{(k)}(0)}\\)
+-   **Osculating Plane:** \\([\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0\\) where \\(\vec{R}=(X,Y,Z)\\) gives the equation of the OP (here \\(\vec{r''}(0)\neq0\\)). The product inside the box is _scalar triple product_. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
+-   Note that for smallest k &ge; 2 such that \\(\vec{r^{(k)}}=0\\), the last term in the box is replaced by \\(\vec{r'}^{(k)}(0)\\)
 
 
 ### Principal normal and binormal {#principal-normal-and-binormal}

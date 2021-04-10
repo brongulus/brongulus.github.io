@@ -330,8 +330,8 @@ git submodule add <theme_url> themes/<name>
   where $h = u-u_0$
 + Let \gamma be class m \geq 2 and (P,Q) be points limiting position of a plane that contains tangential line at P and passes through Q as Q \rightarrow P is defined as the /osculating plane/.
 + *Tangent line:* $\vec{R}(t)=\vec{r}(u_{0})+t \vec{r'}(u_{0})$ at $u_{0}$
-+ *Osculating Plane:* $[\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0$ where $\vec{R}=(X,Y,Z)$ gives the equation of the OP. The product inside the box is /scalar triple product/. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
-+ Note that for smallest k \geq 2 such that $\vec{r^{(k)}}=0$, the last term in the box is replaced by $\vec{r^{(k)}(0)}$
++ *Osculating Plane:* $[\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0$ where $\vec{R}=(X,Y,Z)$ gives the equation of the OP (here $\vec{r''}(0)\neq0$). The product inside the box is /scalar triple product/. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
++ Note that for smallest k \geq 2 such that $\vec{r^{(k)}}=0$, the last term in the box is replaced by $\vec{r'}^{(k)}(0)$
 **** Principal normal and binormal
 + *Normal Plane:* $\vec{t}(0) \dot (\vec{R}-\vec{r}(0)) = 0$
   It is perpendicular to the tangent line and is spanned by /n,b/
