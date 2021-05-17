@@ -70,12 +70,13 @@ creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 -   For a unit speed curve &gamma;, _unit tangent vector_ \\(\hat{t}=\dot{\gamma}\\) and for &kappa; &ne; 0, _unit normal vector_ is given by  \\(\hat{n}(s)=\frac{\dot{\hat{\gamma}}(s)}{\kappa(s)}\\) since (1). And _unit binormal vector_ can be given by \\(\hat{b}=\hat{t}\times\hat{n}\\)
 -   **Orthonormal Basis** of a curve is given by {\\(\hat{t},\hat{n},\hat{b}\\)}
 -   Now b is given by t &times; n , hence \\(\dot{b}=\dot{t}\times n+t\times\dot{n}\\) , since \\(\dot{b}\\) has to be perpendicular to t and b, \\(\implies \ddot{b}||n\\), therefore \\(\boxed{\dot{b}=-\tau n}\\) **iff** &kappa; &ne; 0.
+-   Torsion measures the arc rate of turning of osculating plane.
 -   For a regular curve &gamma; in \\(R^{3}\\) with &kappa; &ne; 0, the _torsion_ is given by
     \\[
         \tau = \frac{(\dot{\gamma}\times\ddot{\gamma}).\dddot{\gamma}}{||\dot{\gamma}\times\ddot{\gamma}||^{2}}
         \\]
 -   Also, _radius of curvature_ &rho; is inverse of curvature.
--   Finally, tying it all together is the _Serret-Frenet formula_:
+-   Finally, tying it all together is the _Serret-Frenet formula_ (arc length parameter):
     \\(\begin{bmatrix} \dot{t} \\\\\\
          \dot{n} \\\\\\
          \dot{b}  \end{bmatrix} = \begin{bmatrix} 0 & \kappa & 0 \\\\\\
@@ -87,17 +88,98 @@ creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
 
 ### Behaviour of a curve near one of its points {#behaviour-of-a-curve-near-one-of-its-points}
 
+-   For a regular curve of class m &ge; 2 with nonvanishing curvature, the curve is _planar_ iff &tau;=0 everywhere.
+-   For an analytic curve with arc length parameter, as s &rarr; 0, a new parametrization for small s can be defined as:
+    \\[
+          X = s - \frac{\kappa^{2}s^{3}}{6} - \frac{\kappa\kappa' s^{4}}{8} + o(s^{4})
+        \\]
+    \\[
+          Y = \frac{\kappa s^{2}}{2} + \frac{\kappa' s^{3}}{6} + \frac{\kappa''-\kappa\tau-\kappa^{3}}{24} s^{4} + o(s^{4})
+        \\]
+    \\[
+         Z = \frac{\kappa\tau}{6}s^{3} + \frac{2\kappa'\tau+\kappa\tau'}{24}s^{4} + o(s^{4})
+        \\]
+-   Here the o notation represents that for f = o(g), as s &rarr; 0, \\(lim \frac{f(s)}{g(s)}=0\\)
+-   From previous theorem:
+    1.  \\(\kappa(0) = \lim\_{s \to 0} \frac{2Y}{X^{2}}\\)
+    2.  \\(\tau(0) = \lim\_{s \to 0} \frac{3Z}{XY}\\)
+    3.  For \\(P=\vec{r}(0), Q=\vec{r}(s)\\), the length of chord
+         \\[
+                   PQ = s(1-\frac{\kappa^{2}s^{2}}{24}) + o(s^{3}) \~ s(1-\frac{\kappa^{2}s^{2}}{24})o(s^{3})
+                 \\]
+        If f(t)=g(t)+o(t), then as t &rarr; 0, it can be written as f(t)~g(t)o(t)
+-   The length of common perpendicular between tangents at two nearby points of \\(\vec{r}(s)\\) at arcual distance _s_ is approximately \\(d=\frac{\kappa\tau s^{3}}{12}\\). This is the shortest distance between tangents at nearby points of r(s).
+
 
 ### Contact between curves and surface {#contact-between-curves-and-surface}
 
+-   For a surface S: F(x,y,z)=0 and a parametrized curve C: \\(\vec{r}(u)\\) = (f(u),g(u),h(u)), let P be a point on C. P lies on S iff F(f(P),g(P),h(P))=0.
+-   Let &phi;(u) = F(f(u),g(u),h(u)) for any parameter value u. Then P lies on S iff &phi;(u<sub>0</sub>)=0.
+-   Assuming F and \\(\vec{r}\\) are of class m for sufficiently large m, then &phi;(u) has a taylor expansion where \\(\frac{O(h^{n+1})}{h^{n+1}}\\) is bounded as h &rarr; 0.
+-   Definition: Surface S and a parametrized curve C has an _n-point contact_ (or contact of order n) at P if \\(\phi(u\_{0}) = \phi'(u\_{0}) = ... = \phi^{(n-1)}(u\_{0}) = 0\\) and \\(\phi^{(n)}(u\_{0})\neq 0\\)
+-   If S and C have a contact of order 1 at P then it is called a _simple intersection_ of S and C.
+-   If P is in n-point contact of S and C, then S and C intersect at P in _n_ coincidental points.
+-   Condition for _n-point contact_ at P is invariant under a change of parameter.
+-   Osculating Plane at P of \\(\vec{r}\\) has atleast a 3-point contact with \\(\vec{r}\\) at P.
 
-### Osculating circle and osculating sphere {#osculating-circle-and-osculating-sphere}
+
+### Osculating circle (circle of curvature) {#osculating-circle--circle-of-curvature}
+
+-   For a regular curve \\(\vec{r}(s)\\) of class m &ge; 2, let \\(P=\vec{r}(0)\\) and \\(P\_{i}=\vec{r}(s\_{i}), i=1,2,3\\) be 3 non collinear points near P on the curve. Then there is a unique circle through all \\(P\_{i}\\). The limiting circle, if existent, for all \\(P\_{i} \rightarrow P\\) is called _osculating circle_ of r(s) at P.
+-   Center of OC (c) is called _centre of curvature_ of r(s) at P while its radius &rho;(0) is called radius of curvature. Also, the OC lies in the OP.
+-   Theorem: \\(\rho(0)=\frac{1}{\kappa(0)}\\), \\(\vec{c}(o)= \vec{r}(0)+\rho(0)\vec{n}(0)\\)
+-   OC does not exist at points where curvature vanishes and OC of a circle is the same circle itself.
+
+
+### Osculating Sphere {#osculating-sphere}
+
+-   Definition: For a regular path r(s) of class m &ge; 2, assuming P = r(0) and &kappa;(0)&tau;(0) &ne; 0, a sphere which has atleast a 4-point contact with r(s) at P is called _osculating sphere_ at P on r.
+-   &rho;(s)= \\(\frac{1}{\kappa(s)}\\) is called radius of curvature and &sigma;(s)= \\(\frac{1}{\tau(s)}\\) is called radius of torsion of r(s)
+-   Theorem: OS at P on r is given by \\(|\vec{c}-\vec{R}|^{2} = R^{2}\\) where \\(R = \sqrt{\rho(0)^{2}+\sigma(0)^{2}\rho'(0)^{2}}\\) and \\(\vec{c}=\vec{r}(0)+\rho(0)\vec{n}(0)+\sigma(0)\rho'(0)\vec{b}(0)\\) where c and R are COSC and ROSC to r(s) at r(0)
+-   Centre of OS lies in the normal plane of r(s) as \\(c-r(0)\\) is a linear combination of n(0) and b(0)
+-   If &kappa; is constant then ROC=ROSC and COC=COSC. In particular, if r is a circle, then its its own OC and is a great circle of the OS.
 
 
 ### Locus of centres of spherical curvature {#locus-of-centres-of-spherical-curvature}
 
+-   Since COSC at r(s) is \\(c(s) =r(s)+\rho(s)n(s)+\sigma(s)\rho'(s)b(s)\\), it moves along a path as _s_ varies. For this path, SFF, &kappa;, &tau; can be calculated and will be denoted with subscript c.
+-   Assuming &tau;(s)>0,
+
+    1.  \\(c'(s) = (\frac{\rho(s)}{\sigma(s)}+ \frac{d (\sigma(s)\rho'(s))}{ds})b(s)\\)
+    2.  For a regular c(s), unit tangent vector is \\(t\_{c}(s) = eb(s)\\)
+    3.  \\(\frac{ds\_{c}}{ds}=|\frac{\rho(s)}{\sigma(s)}+\frac{d(\sigma(s)\rho'(s))}{ds}|\\)
+
+    Here e is 1 if ds<sub>c</sub>/ds > 0, -1 ow. Also \\(e = t\_{c}(s).b(s)\\)
+-   Also on differentiating,
+    1.  \\(\kappa\_{c}(s) = \frac{\tau(s)}{\frac{ds\_{c}}{ds}}\\) or &kappa;(s)= \\(-\tau\_{c}(s)e \frac{ds\_{c}}{ds}\\)
+    2.  Which gives \\(\tau(s)\tau\_{c}(s)=\kappa(s)\kappa\_{c}(s)\\)
+-   Theorem: ROC of center of curvatures (i.e. center of OCs) is given by
+    \\[
+        \rho\_{1} = [( \frac{\rho^{2}\sigma}{R^{3}}\frac{d}{ds}(\frac{\sigma\rho'}{\rho})-\frac{1}{R} )^{2} + \frac{\rho'^{2}\sigma^{4}}{\rho^{2}R^{4}}]^{-1/2}
+        \\]
+
 
 ### Tangent surfaces, involutes and evolutes {#tangent-surfaces-involutes-and-evolutes}
+
+-   Definition: Tangent surface to a curve r is union of all tangent lines to r at all its points.
+-   Tangent line to r at r(s) is R(u,s) = r(s)+ur'(s)
+-   For both varying r and u, one gets the tangent surface.
+-   Image of the curve u=u(s) in us-plane gives a curve \\(r\_{1}(s)=r(s)+u(s)r'(s)\\)
+-   Definition: Involute of r is a curve on the tangent surface of r which meets all generating lines orthogonally at corresponding points.
+-   If \\(r\_{1}(s)\\) denotes the pos vector on the involute C\_1 of a curve C corresponding to its points r(s) then r<sub>1</sub>(s)=r(s)+(c-s)t(s) for a constant c.
+-   For an involute c(s) of a regular path r(s) of class m &ge; 2.
+    \\[
+          \kappa\_{c}^2 = \frac{\tau^{2}+\kappa^{2}}{\kappa^{2}(c-s)^{2}}, \tau\_c = \frac{\kappa\tau'-\kappa'\tau}{\kappa(c-s)(\tau^{2}+\kappa^{2})}
+        \\]
+
+-   Definition: If \\(\overline{C}\\) is an involute of C then C is called an evolute of \\(\overline{C}\\).
+-   For a regular curve r(s), evolute is given by \\(r\_{1}(s)=r(s)+\rho(s)n(s)+\rho(s)cot(\psi(s)+c)b(s)\\) where c is a constant and &psi;(s) = \\(\int \tau(s)ds\\)
+-   r(s) has infinitely many evolutes, as c is random constant. For a plane curve, &tau; = 0.
+-   Tangents to two different evolutes corresponding to two constans A and B drawn from the same point of the given curve are inclined to each other at a constant angle A-B.
+    \\[
+          r\_{1} = r+\rho\textbf{n}-\rho tan(\psi+a)\textbf{b}
+        \\]
+    Further \\(\psi = \int \tau ds\\) so that &psi;'=&tau;...
 
 
 ## First Fundamental Form and Local Intrinsic Properties of a Surface {#first-fundamental-form-and-local-intrinsic-properties-of-a-surface}
@@ -163,7 +245,7 @@ Computing M, then at _u_ = 0, the determinant of every second order minor is zer
 
 For our study of surfaces, we consider only ordinary points. And we consider the entire surface as a collection of parts, each part being given a particular parametrisation and the adjacent parts being related by a _proper_ parametric transformation.
 
-**Definition 1:** A representation R of a surface S of class _r_ in \\(E\_{3}\\) is a collection of points in \\(E\_{3}\\) covered by a system of overlapping parts \\({S\_{j}}\\) where each part \\(S\_{j}\\) is given by a parametric equation of class _r_. Each point lying in the common portion of two parts \\(S\_{i}, S\_{j}\\) is such that the change of parameters from one part to is adjacent is given by a _proper_ parametric transformation of class _r_.
+**Definition 1:** A representation R of a surface S of class _r_ in \\(E\_{3}\\) is a collection of points in \\(E\_{3}\\) covered by a system of overlapping parts \\({S\_{j}}\\) where each part {{\\(S\_{j}\\)} is given by a parametric equation of class _r_. Each point lying in the common portion of two parts \\(S\_{i}, S\_{j}\\) is such that the change of parameters from one part to is adjacent is given by a _proper_ parametric transformation of class _r_.
 
 **_Note:_** Since one cannot parameterise the whole surface without introducing artificial singularities, one has to resort to a surface composed of many overlapping parts.
 
@@ -206,7 +288,7 @@ Let **r** = r[u(t), v(t)] be a general curve lying on the surface passing throug
 \\[
 \frac{dr}{dt} = r\_{1}\frac{du}{dt}+r\_{2}\frac{dv}{dt}
 \\]
-**Definition 1:** Tagnent to any curve drawn on a surface is called a tangent line to the surface. The tangents to different curves through P on a surface lie in a plane containing two independent vectors \\(r\_{1}\\) and \\(r\_{2}\\) at P called the _tangent plane_ at P.
+**Definition 1:** Tangent to any curve drawn on a surface is called a tangent line to the surface. The tangents to different curves through P on a surface lie in a plane containing two independent vectors \\(r\_{1}\\) and \\(r\_{2}\\) at P called the _tangent plane_ at P.
 
 **Theorem 1:** The equation of a tangent plane at P on a surface with position vector **r** = r(u,v) is either \\(R = r+ar\_{1}+br\_{2}\\) or \\((R-r).(r\_{1}\times r\_{2}) = 0\\) where a and b are parameters.
 

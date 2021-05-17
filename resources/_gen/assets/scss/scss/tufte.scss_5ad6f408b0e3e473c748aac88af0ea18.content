@@ -1,5 +1,5 @@
 :root {
-  --light-bg: #fbf1c7;
+  --light-bg: #c9c9c9;
   --dark-bg: #2E3440;
   --light-font: #555;
   --dark-font: #e1e1ff;
@@ -26,7 +26,7 @@ html,
   transition: background 0.3s ease; }
 
 html {
-  font-family: "Libre Baskerville", "Times New Roman", Times, serif;
+  font-family: "Freight Sans Pro Light", "Libre Baskerville", "Times New Roman", Times, serif;
   font-size: 15px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
@@ -51,13 +51,13 @@ h2 {
   line-height: 1; }
 
 h3 {
-  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 1.6rem; }
 
 h4,
 h5,
 h6 {
-  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: normal; }
 
 a {
@@ -195,7 +195,7 @@ pre code {
       font-style: italic; }
   .post-title {
     color: #353535;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 4rem;
     margin: 1rem 0;
     text-align: center; }
@@ -214,7 +214,7 @@ pre code {
   .post img + em {
     color: #aaa;
     display: block;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
@@ -527,7 +527,7 @@ footer,
       opacity: 1; }
   .nav a {
     color: #555;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
+    font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
 
 @media (min-width: 600px) {
   .nav-container {
@@ -559,7 +559,7 @@ footer {
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
     color: #555;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
     opacity: .6; }
     .pagination .top:hover {
@@ -596,7 +596,7 @@ footer {
 .catalogue-title {
   color: #353535;
   display: block;
-  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 2rem;
   font-weight: 700;
   margin: .5rem 0; }
