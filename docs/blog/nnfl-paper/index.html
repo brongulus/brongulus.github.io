@@ -140,6 +140,15 @@
 </li>
 <li><strong>Subword-models</strong>: TBD???</li>
 </ol>
+<h2 id="morphology">Morphology</h2>
+<p>It is a section of grammar whose main objects are <strong>words</strong> of languages, their <em>significant parts</em> and <em>morphological signs</em>. Morphology studies:</p>
+<ul>
+<li>Inflection</li>
+<li>Derivation</li>
+<li>POS</li>
+<li>Grammatical values</li>
+</ul>
+<h3 id="grammatical-value">Grammatical Value</h3>
 <h2 id="introduction">Introduction</h2>
 <p>Morphosyntactic tagging accuracy has improved due to using BiLSTMs to create <em>sentence-level context sensitive encodings</em><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> of words which is done by creating an initial context insensitive word representation<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> having three parts:</p>
 <ol>
@@ -161,9 +170,8 @@
 <h2 id="models">Models</h2>
 <h3 id="sentence-based-character-model">Sentence-based Character Model</h3>
 <p>In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.</p>
-<figure>
-    <img src="/ox-hugo/nnfl1a.png"
-         alt="Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes."/> <figcaption>
+<figure><img src="/ox-hugo/nnfl1a.png"
+         alt="Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes."/><figcaption>
             <p>Figure 1: Sentence-based Character Model: The representation for the token <em>shingles</em> is the concatenation of the four shaded boxes.</p>
         </figcaption>
 </figure>
@@ -184,16 +192,14 @@ m_{i}^{chars} = MLP(g_{i})
 A tag can then be predicted with a <em>linear classifier</em> that takes as input \(m_{i}^{chars}\), applies a <em>softmax</em> function and chooses for each word the tag with highest probability.</p>
 <h3 id="word-based-character-model">Word-based Character Model</h3>
 <p>To investigate whether a sentence sensitive character model (<em>Fig.1</em>) is better than a model where the context is restricted to the characters of a word, (<em>Fig.2</em>) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.</p>
-<figure>
-    <img src="/ox-hugo/nnfl1b.png"
-         alt="Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)."/> <figcaption>
+<figure><img src="/ox-hugo/nnfl1b.png"
+         alt="Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)."/><figcaption>
             <p>Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).</p>
         </figcaption>
 </figure>
 
-<figure>
-    <img src="/ox-hugo/nnfl1.png"
-         alt="Figure 3: BiLSTM variant of Character-level word representation"/> <figcaption>
+<figure><img src="/ox-hugo/nnfl1.png"
+         alt="Figure 3: BiLSTM variant of Character-level word representation"/><figcaption>
             <p>Figure 3: BiLSTM variant of Character-level word representation</p>
         </figcaption>
 </figure>
@@ -211,9 +217,8 @@ o_{i}^{word} = concat(f_{w,i}^{l}, b_{w,i}^{l})
 m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.</p>
-<figure>
-    <img src="/ox-hugo/nnfl2a.png"
-         alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/> <figcaption>
+<figure><img src="/ox-hugo/nnfl2a.png"
+         alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/><figcaption>
             <p>Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
         </figcaption>
 </figure>
@@ -229,17 +234,15 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&hellip;,cw_{n}))_{i}
 \[
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]</p>
-<figure>
-    <img src="/ox-hugo/nnfl2b.png"
-         alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/> <figcaption>
+<figure><img src="/ox-hugo/nnfl2b.png"
+         alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/><figcaption>
             <p>Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
         </figcaption>
 </figure>
 
 <h3 id="training-schema">Training Schema</h3>
 <p>Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.</p>
-<figure>
-    <img src="/ox-hugo/nnflAlg.png"/> 
+<figure><img src="/ox-hugo/nnflAlg.png"/>
 </figure>
 
 <p>In terms of model selection, after each epoch, the algorithm evaluates the tagging accuracy of the development set and keeps the parameters of the best model. Accuracy is measured using the meta-BiLSTM tagging layer, which requires a forward pass through all three models. Only the meta-BiLSTM layer is used for model selection and test-time prediction.</p>
@@ -341,38 +344,44 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 <li>BiLSTM: <a href="https://arxiv.org/pdf/1807.00818v1.pdf">Improving POS tagging</a></li>
 <li><a href="https://github.com/google/meta%5Ftagger">Implementation</a> of the paper</li>
 </ol>
+<h2 id="specific-to-paper">Specific to Paper</h2>
+<ol>
+<li><a href="https://universaldependencies.org/guidelines.html">Universal Dependencies</a></li>
+<li><a href="https://lena-voita.github.io/nlp%5Fcourse.html">Great Tutorial for NLP</a></li>
+<li><a href="https://github.com/Sdernal/Morphology/blob/master/README.md">Morphology</a></li>
+</ol>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe">Everything about Embeddings</a> Embedding converts symbolic representations into meaningful numbers <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe">Everything about Embeddings</a> Embedding converts symbolic representations into meaningful&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p>They are the different categorical characteristic of the given data. For example, it could be <em>grammatical</em> classes or some <em>physical</em> features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>They are the different categorical characteristic of the given data. For example, it could be <em>grammatical</em> classes or some <em>physical</em> features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p>A word embedding is a learned representation for text where words that have the same meaning have a similar representation. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>A word embedding is a learned representation for text where words that have the same meaning have a similar representation.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:5" role="doc-endnote">
-<p><a href="https://www.aclweb.org/anthology/K17-3002.pdf">Graph based Neural Dependency Parser</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://www.aclweb.org/anthology/K17-3002.pdf">Graph based Neural Dependency Parser</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:6" role="doc-endnote">
-<p><a href="https://arxiv.org/pdf/1604.05529.pdf">POS Tagging with BiLSTM</a> <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://arxiv.org/pdf/1604.05529.pdf">POS Tagging with BiLSTM</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:7" role="doc-endnote">
-<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&amp;rep=rep1&amp;type=pdf">*Fast POS Tagging: SVM Approach</a> <a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&amp;rep=rep1&amp;type=pdf">*Fast POS Tagging: SVM Approach</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:8" role="doc-endnote">
-<p><a href="http://machinelearning.org/archive/icml2008/papers/391.pdf">Unified architecture for NLP</a> <a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="http://machinelearning.org/archive/icml2008/papers/391.pdf">Unified architecture for NLP</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:9" role="doc-endnote">
-<p><a href="https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf">NLP(almost) from Scratch</a> <a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf">NLP(almost) from Scratch</a>&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:10" role="doc-endnote">
-<p>Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting. <a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -382,6 +391,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 	</div>
 
 	<div class="pagination">
+		<a href="/blog/japanese-guide/" class="left arrow">&#8592;</a>
 		<a href="/notes/microprocessors-notes/" class="right arrow">&#8594;</a>
 
 		<a href="#" class="top">Top</a>
@@ -392,7 +402,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-05-17 06:42:25.791656667 &#43;0530 IST m=&#43;1.712726895">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-06-21 21:46:58.7598482 &#43;0530 IST m=&#43;2.572507236">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">

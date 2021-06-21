@@ -87,6 +87,19 @@ This post contains a complete overview of the titled paper and provides a basic 
 2.  **Subword-models**: TBD???
 
 
+## Morphology {#morphology}
+
+It is a section of grammar whose main objects are **words** of languages, their _significant parts_ and _morphological signs_. Morphology studies:
+
+-   Inflection
+-   Derivation
+-   POS
+-   Grammatical values
+
+
+### Grammatical Value {#grammatical-value}
+
+
 ## Introduction {#introduction}
 
 Morphosyntactic tagging accuracy has improved due to using BiLSTMs to create _sentence-level context sensitive encodings_[^fn:5] of words which is done by creating an initial context insensitive word representation[^fn:6] having three parts:
@@ -261,7 +274,14 @@ TODO Add two remaining tables
 7.  BiLSTM: [Improving POS tagging](https://arxiv.org/pdf/1807.00818v1.pdf)
 8.  [Implementation](https://github.com/google/meta%5Ftagger) of the paper
 
-[^fn:1]: [Everything about Embeddings](https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe) Embedding converts symbolic representations into meaningful numbers
+
+## Specific to Paper {#specific-to-paper}
+
+1.  [Universal Dependencies](https://universaldependencies.org/guidelines.html)
+2.  [Great Tutorial for NLP](https://lena-voita.github.io/nlp%5Fcourse.html)
+3.  [Morphology](https://github.com/Sdernal/Morphology/blob/master/README.md)
+
+[^fn:1]: [Everything about Embeddings](https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe) Embedding converts symbolic representations into meaningful
 [^fn:2]: Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.
 [^fn:3]: They are the different categorical characteristic of the given data. For example, it could be _grammatical_ classes or some _physical_ features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.
 [^fn:4]: A word embedding is a learned representation for text where words that have the same meaning have a similar representation.
