@@ -2,7 +2,7 @@
 title = "Creating a blog using ox-hugo, org mode and github pages"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 +++
 
 I was going to make a post explaining how I made this blog but it was rendered pretty useless by [this.](https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n) So yeah, I might archive this later.

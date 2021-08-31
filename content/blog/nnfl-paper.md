@@ -2,7 +2,7 @@
 title = "Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview"
 author = ["Bernd Bohnet", "et al"]
 draft = false
-creator = "Emacs 28.0.50 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 +++
 
 (Subtitle: _I had shingles, which is a painful disease._)

@@ -1,5 +1,5 @@
 :root {
-  --light-bg: #c9c9c9;
+  --light-bg: #fbf1c7;
   --dark-bg: #2E3440;
   --light-font: #555;
   --dark-font: #e1e1ff;
