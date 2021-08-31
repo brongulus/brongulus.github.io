@@ -1,9 +1,0 @@
-[submodule "themes/tale"]
-	path = themes/tale
-	url = https://github.com/EmielH/tale-hugo.git
-[submodule "themes/tufte"]
-	path = themes/tufte
-	url = https://github.com/shawnohare/hugo-tufte
-[submodule "themes/hugo-tufte"]
-	path = themes/hugo-tufte
-	url = https://github.com/alanorth/hugo-theme-tufte-css
