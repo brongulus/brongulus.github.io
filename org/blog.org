@@ -437,13 +437,6 @@ git submodule add <theme_url> themes/<name>
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
-** Microprocessors and Interfacing
-:PROPERTIES:
-:EXPORT_FILE_NAME: microprocessors-notes
-:END:
-*** Programmer's Model 8086
-
-[[file:assets/8086model.png]]
 ** Differential Geometry
 :PROPERTIES:
 :EXPORT_FILE_NAME: dg-notes
@@ -688,11 +681,10 @@ where /v/ is the angle of roatation about the /z/-axis.
 :PROPERTIES:
 :EXPORT_FILE_NAME: advd-notes
 :END:
-*** 23^{rd} August
-**** Radio Spectrum
+*** Radio Spectrum
 + Used for communication initially
 + Wireless communication
-+ Radio Spectrum is divided into frequency bands which are allocate to certain services.
++ Radio Spectrum is divided into frequency bands which are allocated to certain services.
 + The band is subdivided into channels that are used for particular transmission.
 + The wider the frequency bands and the channel, the more information that can be passed through them.
   | Frequency             | Use                        |
@@ -712,4 +704,7 @@ where /v/ is the angle of roatation about the /z/-axis.
 + Cellular commuication works by transmitting analog voice/data after amplification and conversion to digital bits into the environment and then received by selecting the corresponding frequency (highly selective network), processing the data (noise removal etc) and then converting back to analog audio. This process is know as modulation-demodulation.
 [[file:assets/advd-rf-tran.png]]
 + Elements of a transceiver: /Oscillators, phase-clocked loops, frequency synthesizers, converters, filters, power circuits/ having *high data rate, resolution, less cost and energy per conversion*.
+*** VLSI Design - An Overview
++ *Moore's Law:* Number of components (transistors) in ICs would double every two years. This was possible because of /scaling/.
+[[file:assets/advd-moore-law.png]]
 +
