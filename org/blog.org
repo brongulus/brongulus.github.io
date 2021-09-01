@@ -704,7 +704,29 @@ where /v/ is the angle of roatation about the /z/-axis.
 + Cellular commuication works by transmitting analog voice/data after amplification and conversion to digital bits into the environment and then received by selecting the corresponding frequency (highly selective network), processing the data (noise removal etc) and then converting back to analog audio. This process is know as modulation-demodulation.
 [[file:assets/advd-rf-tran.png]]
 + Elements of a transceiver: /Oscillators, phase-clocked loops, frequency synthesizers, converters, filters, power circuits/ having *high data rate, resolution, less cost and energy per conversion*.
-*** VLSI Design - An Overview
+*** FIXME VLSI Design - An Overview
 + *Moore's Law:* Number of components (transistors) in ICs would double every two years. This was possible because of /scaling/.
 [[file:assets/advd-moore-law.png]]
-+
++ Learn how to convert schematic into a layout and vice-versa.
++ First microprocessor from intel - 4004, 8 bit
++ FPGA: Customizable pre-fabricated design
++ VLSI Design Styles
+
+*** Fabrication
++ Sequence of steps that are followed to get a silicon chip with different patterns
++ Clean room: Class 1 = 1 dust particle in 1 ft^{3}
++ VLSI Design flow:
+  Functional Description (Verilog) \rightarrow Circuit Design \rightarrow Layout \rightarrow Masks (Patterns)
++ Twin-tub process: For p-mos, there's an n-well and vice versa.
++ [Simplified-CMOS-Process.jpg]
++ CVD: Growing Field Oxide and gate oxide
++ Lithography: Process of patterning the silicon
++ Why Si over Ge? Band gap Si>Ge, Ge can't be used in mass production due to lack of raw material also SiO_2 is highly stable whereas GeO is soluble in water.
++ Getting that wafer:
+  Sand \rightarrow SiO_2 \rightarrow Metallurgical Grade Si (99.9% Pure) \rightarrow CZ Chamber (1000^\odot C) \rightarrow Seed Crystal + Molten Si \rightarrow Si crystal ingot \rightarrow Diamond saw \rightarrow Polishing \rightarrow Silican Wafer
++ Dopants are introduced in the CZ chamber via /diffusion/ion implantation/, n-type: B (Pentavalent), p-type: P(Trivalent)
++ Diffusion:
+  Temperature is around 650 C, Carrier made of quartz, Dopant in either crystal or powdered form, preheating temperature slightly lower than furnace, carrier gas carries the dopant vapours onto the silicon wafer by getting into the vacant sites of lattice defects and when they move from interstitional locations to lattice positions, doping is complete.
++ Fick's Law: Determines the amount of dopant required, diffusion temperature and the duration of the diffusion.
++ Ion Implantation:
+  Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed via /annealing/ (heating of wafer post-implantation).

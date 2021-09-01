@@ -121,15 +121,32 @@
 <ul>
 <li>Elements of a transceiver: <em>Oscillators, phase-clocked loops, frequency synthesizers, converters, filters, power circuits</em> having <strong>high data rate, resolution, less cost and energy per conversion</strong>.</li>
 </ul>
-<h2 id="vlsi-design-an-overview">VLSI Design - An Overview</h2>
+<h2 id="fixme-vlsi-design-an-overview">FIXME VLSI Design - An Overview</h2>
 <ul>
-<li>Moore&rsquo;s Law: Number of components (transistors) in ICs would double every two years.</li>
+<li><strong>Moore&rsquo;s Law:</strong> Number of components (transistors) in ICs would double every two years. This was possible because of <em>scaling</em>.</li>
 </ul>
 <figure><img src="/ox-hugo/advd-moore-law.png"/>
 </figure>
 
 <ul>
-<li></li>
+<li>Learn how to convert schematic into a layout and vice-versa.</li>
+<li>First microprocessor from intel - 4004, 8 bit</li>
+<li>FPGA: Customizable pre-fabricated design</li>
+<li>VLSI Design Styles</li>
+</ul>
+<h2 id="fabrication">Fabrication</h2>
+<ul>
+<li>Sequence of steps that are followed to get a silicon chip with different patterns</li>
+<li>Clean room: Class 1 = 1 dust particle in 1 ft<sup>3</sup></li>
+<li>VLSI Design flow:
+Functional Description (Verilog) → Circuit Design → Layout → Masks (Patterns)</li>
+<li>Twin-tub process: For p-mos, there&rsquo;s an n-well and vice versa.</li>
+<li>[Simplified-CMOS-Process.jpg]</li>
+<li>CVD: Growing Field Oxide and gate oxide</li>
+<li>Lithography: Process of patterning the silicon</li>
+<li>Why Si over Ge? Band gap Si&gt;Ge, Ge can&rsquo;t be used in mass production due to lack of raw material also SiO_2 is highly stable whereas GeO is soluble in water.</li>
+<li>Getting that wafer:
+Sand → SiO_2 → Metallurgical Grade Si (99.9% Pure) → CZ Chamber (1000^o C) → Seed Crystal + Molten Si → Si crystal ingot → Diamond saw → Polishing → Silican Wafer</li>
 </ul>
 
 
@@ -148,7 +165,7 @@
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-08-31 11:21:38.7974422 &#43;0530 IST m=&#43;0.533909401">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-09-01 14:38:06.2385759 &#43;0530 IST m=&#43;0.080462701">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">

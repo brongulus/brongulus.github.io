@@ -2,7 +2,7 @@
 title = "My Pathway to learning Japanese"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
 +++
 
 ## JPod101 {#jpod101}
