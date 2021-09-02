@@ -65,6 +65,10 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
 -   Fick's Law: Determines the amount of dopant required, diffusion temperature and the duration of the diffusion.
 -   Ion Implantation:
     Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed via _annealing_ (heating of wafer post-implantation).
+-   Deposition:
+    Used to deposit different materials from SiO\_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.
+-   For metal deposition, generally MCl\_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.
+-   One of the simplest PVD methods called sputtering in which a sputtering target block made out of the metal to be deposited is held and a highly non-reactive Ar^+ ionic sputtering gas is directed onto the target by creating a potential difference, this causes bombardment of the ions onto the target and results in dislodging of parts of target material which are deposited onto the substrate.
 
 
 ## Lithography {#lithography}
