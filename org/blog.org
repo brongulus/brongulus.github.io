@@ -742,4 +742,25 @@ where /v/ is the angle of roatation about the /z/-axis.
 + Diffraction Limit (Fresnel diffraction) limits the minimum feature size that can be achieved by lithography, Rayleigh limit. For smaller wavelength lights, the limit is smaller and vice-versa. (Why are 7nm gate sizes common?)
 + Epitaxy: Growing highly pure Si by using underlying Si crystal as substrate which reduces the large number of defects thereby improving mobility. When the underlying substrate and the material to be grown is the same (matching lattice structure), homoepitaxy is under play and for heteroepitaxy (HBT) the lattice structure aren't same (GeAs etc).
 + Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Oxide CVD).
-+
+  -
+*** Fabrication Rules
++ Micron rules v/s lambda rules
++ Design rules
++ Euler's graph
+** Combinatorial Mathematics
+:PROPERTIES:
+:EXPORT_FILE_NAME: combi-math
+:END:
+*** General Counting Methods for Selection and Arrangement
+1. Addition Principle:
+   If there are $r_1$ different objects in the first set, $r_2$ different objects in the second set, . . . , and $r_m$ different objects in the m^th set, and if the different sets are disjoint, then the number of ways to select an object from one of the m sets is $r_1 +r_2 + · · · +r_m$.
+2. Multiplication Principle:
+   Suppose a procedure can be broken into m successive (ordered) stages, with $r_1$ different outcomes in the first stage, $r_2$ different outcomes in the second stage,. . . ,and $r_m$ different outcomes in the mth stage. If the number of outcomes at each stage is independent of the choices in previous stages and if the composite outcomes are all distinct, then the total procedure has $r_{1} ×r_{2} × · · · ×r_{m}$ different composite outcomes.
+3. Remember that the addition principle requires disjoint sets of objects and the multiplication principle requires that the procedure break into ordered stages and that the composite outcomes be distinct.
+4. A permutation of n distinct objects is an arrangement, or ordering, of the n objects. An r-permutation of n distinct objects is an arrangement using r of the n objects.
+5. An r-combination of n distinct objects is an unordered selection, or subset, of r out of the n objects.
+6. *Theorem 1:* If there are n objects, with $r_1$ of type 1, $r_2$ of type 2, . . . , and $r_m$ of type m, where $r_1 +r_2 + · · · +r_m = n$, then the number of arrangements of these n objects, denoted $P(n; r_{1}, r_{2}, . . . , r_{m})$, is
+   \[
+        P(n;r_{1},r_{2}, . . . ,r_{m}) = \frac{n!}{r_{1}!r_{2}! . . .r_{m}!}
+   \]
+7. *Theorem 2:* The number of selections with repetition of r objects chosen from n types of objects is C(r + n − 1,r).
