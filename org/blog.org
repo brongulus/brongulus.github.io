@@ -730,7 +730,7 @@ where /v/ is the angle of roatation about the /z/-axis.
   Temperature is around 650 C, Carrier made of quartz, Dopant in either crystal or powdered form, preheating temperature slightly lower than furnace, carrier gas carries the dopant vapours onto the silicon wafer by getting into the vacant sites of lattice defects and when they move from interstitional locations to lattice positions, doping is complete.
 + Fick's Law: Determines the amount of dopant required, diffusion temperature and the duration of the diffusion.
 + Ion Implantation:
-  Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed via /annealing/ (heating of wafer post-implantation).
+  Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed and dopant settling is done via /annealing/ (heating of wafer post-implantation).
 + Deposition:
   Used to deposit different materials from SiO_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.
 + For metal deposition, generally MCl_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.
@@ -745,12 +745,21 @@ where /v/ is the angle of roatation about the /z/-axis.
 + Epitaxy: Growing highly pure Si by using underlying Si crystal as substrate which reduces the large number of defects thereby improving mobility. When the underlying substrate and the material to be grown is the same (matching lattice structure), homoepitaxy is under play and for heteroepitaxy (HBT) the lattice structure aren't same (GeAs etc).
 + Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Organic CVD).
 + nMOS fabrication: Pure Si Crystal + (Si+Dopant) Melt \rightarrow Thick $SiO_2$ deposited over surface (FO) \rightarrow Deposit Photoresist (for pattern creation) \rightarrow Photoresist exposed to UV through mask \rightarrow Remove unpolymerised photoresist \rightarrow Etch $SiO_2$ via HF acid, then remove unpolymerised photoresist \rightarrow Add gate oxide then polysilicon via CVD \rightarrow Again coat with resist and and pass UV, then etch out unexposed area \rightarrow Remove resist and polysilicon gate is created \rightarrow Diffusion/Ion-implantation to form source and drain (Self-aligned process) \rightarrow Grow a thick layer of $SiO_{2}$ again for creating metal contact \rightarrow Photoresist  and masking, exposing, etching, photoresist removal \rightarrow Metal deposition \rightarrow Photoresist deposition (Removal of excess metal), mask-4, removal.
-*** nMOS Fabrication
-+ Inverter
-+ Stick Diagram
+*** nMOS Inverter Fabrication
++ Wafer diameter: 200-300mm
++ Inverter:
+  Start with wafer, p-type \rightarrow Grow $SiO_{2}$ via CVD (Thermal Oxidation) \rightarrow Create n-well (Masking, HF Etching, PR Removal via Piranah [$H_{2}O_{2}+H_{2}SO_{4}$], Diffusion/Ion-Implantation, Oxide Removal) \rightarrow Polysilicon Deposition and Gate formation (Self-align mask) \rightarrow Oxide patterning in active area(S, D, PS) \rightarrow  n-diffusion/implantation (also forms n+ region in the well for body contact) \rightarrow Oxide stripping \rightarrow Oxide deposition and patterning (for p-mos) \rightarrow p-diffusion/implantation \rightarrow MOS insulation (oxide deposition) \rightarrow Opening creation (Removal) \rightarrow Metal deposition
++ Shallow trench isolation : Etching and thick oxide deposition to prevent MOS interaction
++ In place of $SiO_2$, high-k dielectrics are being used for their high-epsilon values.
++ Layout Design (VLSI Design Flow): Functionality (VHDL) \rightarrow Transform functional description into circuit \rightarrow Take area and time constraints into account to estimate parasitics \rightarrow Stick Diagram Layout \rightarrow Mask layout Design \rightarrow DRC Check (Design rules) \rightarrow Extract parasitics from circuit \rightarrow Simulation \rightarrow Fabrication
++ Device Parasitics: $C_{DB}$, $C_{GD}$
++ Extrinsic Parasitics: Due to interconnects
++ Design rules: Lambda based for scaling portability. Min. contact: 2\lambda, Contact to active spacing: \lambda, Contact to poly-spacing: 3\lambda, n-well to active n-mos area: 9\lambda, n-well to active overlap: 5\lambda.
++ Stick Diagram: Combination of edges and nodes. Needed for sharing S&D to reduce area via Euler's theorem.
++ Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. $k_{d}=\frac{C_{s}}{C_{l}}$
 *** Fabrication Rules
-+ Micron rules v/s lambda rules
-+ Design rules
++ Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.
++ Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for sharing S&D to reduce area via Euler's theorem.
 + Euler's graph
 ** Combinatorial Mathematics
 :PROPERTIES:

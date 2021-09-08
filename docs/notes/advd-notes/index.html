@@ -152,7 +152,7 @@ Sand → SiO_2 → Metallurgical Grade Si (99.9% Pure) → CZ Chamber (1000^o C)
 Temperature is around 650 C, Carrier made of quartz, Dopant in either crystal or powdered form, preheating temperature slightly lower than furnace, carrier gas carries the dopant vapours onto the silicon wafer by getting into the vacant sites of lattice defects and when they move from interstitional locations to lattice positions, doping is complete.</li>
 <li>Fick&rsquo;s Law: Determines the amount of dopant required, diffusion temperature and the duration of the diffusion.</li>
 <li>Ion Implantation:
-Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed via <em>annealing</em> (heating of wafer post-implantation).</li>
+Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed and dopant settling is done via <em>annealing</em> (heating of wafer post-implantation).</li>
 <li>Deposition:
 Used to deposit different materials from SiO_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.</li>
 <li>For metal deposition, generally MCl_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.</li>
@@ -170,15 +170,24 @@ Used to deposit different materials from SiO_2 to metals, it can be achieved eit
 <li>Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Organic CVD).</li>
 <li>nMOS fabrication: Pure Si Crystal + (Si+Dopant) Melt → Thick \(SiO_2\) deposited over surface (FO) → Deposit Photoresist (for pattern creation) → Photoresist exposed to UV through mask → Remove unpolymerised photoresist → Etch \(SiO_2\) via HF acid, then remove unpolymerised photoresist → Add gate oxide then polysilicon via CVD → Again coat with resist and and pass UV, then etch out unexposed area → Remove resist and polysilicon gate is created → Diffusion/Ion-implantation to form source and drain (Self-aligned process) → Grow a thick layer of \(SiO_{2}\) again for creating metal contact → Photoresist  and masking, exposing, etching, photoresist removal → Metal deposition → Photoresist deposition (Removal of excess metal), mask-4, removal.</li>
 </ul>
-<h2 id="nmos-fabrication">nMOS Fabrication</h2>
+<h2 id="nmos-inverter-fabrication">nMOS Inverter Fabrication</h2>
 <ul>
-<li>Inverter</li>
-<li>Stick Diagram</li>
+<li>Wafer diameter: 200-300mm</li>
+<li>Inverter:
+Start with wafer, p-type → Grow \(SiO_{2}\) via CVD (Thermal Oxidation) → Create n-well (Masking, HF Etching, PR Removal via Piranah [\(H_{2}O_{2}+H_{2}SO_{4}\)], Diffusion/Ion-Implantation, Oxide Removal) → Polysilicon Deposition and Gate formation (Self-align mask) → Oxide patterning in active area(S, D, PS) →  n-diffusion/implantation (also forms n+ region in the well for body contact) → Oxide stripping → Oxide deposition and patterning (for p-mos) → p-diffusion/implantation → MOS insulation (oxide deposition) → Opening creation (Removal) → Metal deposition</li>
+<li>Shallow trench isolation : Etching and thick oxide deposition to prevent MOS interaction</li>
+<li>In place of \(SiO_2\), high-k dielectrics are being used for their high-epsilon values.</li>
+<li>Layout Design (VLSI Design Flow): Functionality (VHDL) → Transform functional description into circuit → Take area and time constraints into account to estimate parasitics → Stick Diagram Layout → Mask layout Design → DRC Check (Design rules) → Extract parasitics from circuit → Simulation → Fabrication</li>
+<li>Device Parasitics: \(C_{DB}\), \(C_{GD}\)</li>
+<li>Extrinsic Parasitics: Due to interconnects</li>
+<li>Design rules: Lambda based for scaling portability. Min. contact: 2λ, Contact to active spacing: λ, Contact to poly-spacing: 3λ, n-well to active n-mos area: 9λ, n-well to active overlap: 5λ.</li>
+<li>Stick Diagram: Combination of edges and nodes. Needed for sharing S&amp;D to reduce area via Euler&rsquo;s theorem.</li>
+<li>Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. \(k_{d}=\frac{C_{s}}{C_{l}}\)</li>
 </ul>
 <h2 id="fabrication-rules">Fabrication Rules</h2>
 <ul>
-<li>Micron rules v/s lambda rules</li>
-<li>Design rules</li>
+<li>Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.</li>
+<li>Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for sharing S&amp;D to reduce area via Euler&rsquo;s theorem.</li>
 <li>Euler&rsquo;s graph</li>
 </ul>
 
@@ -198,7 +207,7 @@ Used to deposit different materials from SiO_2 to metals, it can be achieved eit
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-09-09 04:05:42.2964016 &#43;0530 IST m=&#43;0.365213501">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-09-09 05:03:33.594355 &#43;0530 IST m=&#43;0.080364101">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">

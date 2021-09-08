@@ -64,7 +64,7 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
     Temperature is around 650 C, Carrier made of quartz, Dopant in either crystal or powdered form, preheating temperature slightly lower than furnace, carrier gas carries the dopant vapours onto the silicon wafer by getting into the vacant sites of lattice defects and when they move from interstitional locations to lattice positions, doping is complete.
 -   Fick's Law: Determines the amount of dopant required, diffusion temperature and the duration of the diffusion.
 -   Ion Implantation:
-    Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed via _annealing_ (heating of wafer post-implantation).
+    Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed and dopant settling is done via _annealing_ (heating of wafer post-implantation).
 -   Deposition:
     Used to deposit different materials from SiO\_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.
 -   For metal deposition, generally MCl\_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.
@@ -84,14 +84,23 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
 -   nMOS fabrication: Pure Si Crystal + (Si+Dopant) Melt &rarr; Thick \\(SiO\_2\\) deposited over surface (FO) &rarr; Deposit Photoresist (for pattern creation) &rarr; Photoresist exposed to UV through mask &rarr; Remove unpolymerised photoresist &rarr; Etch \\(SiO\_2\\) via HF acid, then remove unpolymerised photoresist &rarr; Add gate oxide then polysilicon via CVD &rarr; Again coat with resist and and pass UV, then etch out unexposed area &rarr; Remove resist and polysilicon gate is created &rarr; Diffusion/Ion-implantation to form source and drain (Self-aligned process) &rarr; Grow a thick layer of \\(SiO\_{2}\\) again for creating metal contact &rarr; Photoresist  and masking, exposing, etching, photoresist removal &rarr; Metal deposition &rarr; Photoresist deposition (Removal of excess metal), mask-4, removal.
 
 
-## nMOS Fabrication {#nmos-fabrication}
+## nMOS Inverter Fabrication {#nmos-inverter-fabrication}
 
--   Inverter
--   Stick Diagram
+-   Wafer diameter: 200-300mm
+-   Inverter:
+    Start with wafer, p-type &rarr; Grow \\(SiO\_{2}\\) via CVD (Thermal Oxidation) &rarr; Create n-well (Masking, HF Etching, PR Removal via Piranah [\\(H\_{2}O\_{2}+H\_{2}SO\_{4}\\)], Diffusion/Ion-Implantation, Oxide Removal) &rarr; Polysilicon Deposition and Gate formation (Self-align mask) &rarr; Oxide patterning in active area(S, D, PS) &rarr;  n-diffusion/implantation (also forms n+ region in the well for body contact) &rarr; Oxide stripping &rarr; Oxide deposition and patterning (for p-mos) &rarr; p-diffusion/implantation &rarr; MOS insulation (oxide deposition) &rarr; Opening creation (Removal) &rarr; Metal deposition
+-   Shallow trench isolation : Etching and thick oxide deposition to prevent MOS interaction
+-   In place of \\(SiO\_2\\), high-k dielectrics are being used for their high-epsilon values.
+-   Layout Design (VLSI Design Flow): Functionality (VHDL) &rarr; Transform functional description into circuit &rarr; Take area and time constraints into account to estimate parasitics &rarr; Stick Diagram Layout &rarr; Mask layout Design &rarr; DRC Check (Design rules) &rarr; Extract parasitics from circuit &rarr; Simulation &rarr; Fabrication
+-   Device Parasitics: \\(C\_{DB}\\), \\(C\_{GD}\\)
+-   Extrinsic Parasitics: Due to interconnects
+-   Design rules: Lambda based for scaling portability. Min. contact: 2&lambda;, Contact to active spacing: &lambda;, Contact to poly-spacing: 3&lambda;, n-well to active n-mos area: 9&lambda;, n-well to active overlap: 5&lambda;.
+-   Stick Diagram: Combination of edges and nodes. Needed for sharing S&D to reduce area via Euler's theorem.
+-   Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. \\(k\_{d}=\frac{C\_{s}}{C\_{l}}\\)
 
 
 ## Fabrication Rules {#fabrication-rules}
 
--   Micron rules v/s lambda rules
--   Design rules
+-   Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.
+-   Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for sharing S&D to reduce area via Euler's theorem.
 -   Euler's graph
