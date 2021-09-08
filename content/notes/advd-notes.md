@@ -77,7 +77,21 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
 -   The **mask** has opaque and transparent regions which are created by coating it with Chromium. In the transparent regions, the light falls over the Si substrate and interacts with the resist.
 -   **Resist** can be of two kinds, the positive resist softens on interaction with light and the softened material can be removed by a particular solvent and the area unexposed to light stays intact whereas the negative resist hardens on interaction so the uninteracted material can be removed by the solvent.
 -   After the pattern is created on the resist, it can be transferred over to the Si substrate either by additive or subtractive process and acetone removes the posres and all that's left is the deposited material (Al) in case of additive process whereas in the subtractive process a chemical etchent (KOH) is used to etch out the area not protected by the posres and acetone removes the resist.
+-   Negative resist better for etching since hardening makes for stronger withold over removal process.
 -   Diffraction Limit (Fresnel diffraction) limits the minimum feature size that can be achieved by lithography, Rayleigh limit. For smaller wavelength lights, the limit is smaller and vice-versa. (Why are 7nm gate sizes common?)
 -   Epitaxy: Growing highly pure Si by using underlying Si crystal as substrate which reduces the large number of defects thereby improving mobility. When the underlying substrate and the material to be grown is the same (matching lattice structure), homoepitaxy is under play and for heteroepitaxy (HBT) the lattice structure aren't same (GeAs etc).
--   Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Oxide CVD).
--
+-   Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Organic CVD).
+-   nMOS fabrication: Pure Si Crystal + (Si+Dopant) Melt &rarr; Thick \\(SiO\_2\\) deposited over surface (FO) &rarr; Deposit Photoresist (for pattern creation) &rarr; Photoresist exposed to UV through mask &rarr; Remove unpolymerised photoresist &rarr; Etch \\(SiO\_2\\) via HF acid, then remove unpolymerised photoresist &rarr; Add gate oxide then polysilicon via CVD &rarr; Again coat with resist and and pass UV, then etch out unexposed area &rarr; Remove resist and polysilicon gate is created &rarr; Diffusion/Ion-implantation to form source and drain (Self-aligned process) &rarr; Grow a thick layer of \\(SiO\_{2}\\) again for creating metal contact &rarr; Photoresist  and masking, exposing, etching, photoresist removal &rarr; Metal deposition &rarr; Photoresist deposition (Removal of excess metal), mask-4, removal.
+
+
+## nMOS Fabrication {#nmos-fabrication}
+
+-   Inverter
+-   Stick Diagram
+
+
+## Fabrication Rules {#fabrication-rules}
+
+-   Micron rules v/s lambda rules
+-   Design rules
+-   Euler's graph

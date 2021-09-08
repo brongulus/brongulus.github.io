@@ -4,6 +4,7 @@
 #+options: creator:t
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
 #+startup: inlineimages
+#+startup: hidestars
 #+startup: logdone
 #+startup: latexpreview
 :END:
@@ -739,10 +740,14 @@ where /v/ is the angle of roatation about the /z/-axis.
 + The *mask* has opaque and transparent regions which are created by coating it with Chromium. In the transparent regions, the light falls over the Si substrate and interacts with the resist.
 + *Resist* can be of two kinds, the positive resist softens on interaction with light and the softened material can be removed by a particular solvent and the area unexposed to light stays intact whereas the negative resist hardens on interaction so the uninteracted material can be removed by the solvent.
 + After the pattern is created on the resist, it can be transferred over to the Si substrate either by additive or subtractive process and acetone removes the posres and all that's left is the deposited material (Al) in case of additive process whereas in the subtractive process a chemical etchent (KOH) is used to etch out the area not protected by the posres and acetone removes the resist.
++ Negative resist better for etching since hardening makes for stronger withold over removal process.
 + Diffraction Limit (Fresnel diffraction) limits the minimum feature size that can be achieved by lithography, Rayleigh limit. For smaller wavelength lights, the limit is smaller and vice-versa. (Why are 7nm gate sizes common?)
 + Epitaxy: Growing highly pure Si by using underlying Si crystal as substrate which reduces the large number of defects thereby improving mobility. When the underlying substrate and the material to be grown is the same (matching lattice structure), homoepitaxy is under play and for heteroepitaxy (HBT) the lattice structure aren't same (GeAs etc).
-+ Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Oxide CVD).
-  -
++ Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Organic CVD).
++ nMOS fabrication: Pure Si Crystal + (Si+Dopant) Melt \rightarrow Thick $SiO_2$ deposited over surface (FO) \rightarrow Deposit Photoresist (for pattern creation) \rightarrow Photoresist exposed to UV through mask \rightarrow Remove unpolymerised photoresist \rightarrow Etch $SiO_2$ via HF acid, then remove unpolymerised photoresist \rightarrow Add gate oxide then polysilicon via CVD \rightarrow Again coat with resist and and pass UV, then etch out unexposed area \rightarrow Remove resist and polysilicon gate is created \rightarrow Diffusion/Ion-implantation to form source and drain (Self-aligned process) \rightarrow Grow a thick layer of $SiO_{2}$ again for creating metal contact \rightarrow Photoresist  and masking, exposing, etching, photoresist removal \rightarrow Metal deposition \rightarrow Photoresist deposition (Removal of excess metal), mask-4, removal.
+*** nMOS Fabrication
++ Inverter
++ Stick Diagram
 *** Fabrication Rules
 + Micron rules v/s lambda rules
 + Design rules
