@@ -94,7 +94,7 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
 -   Layout Design (VLSI Design Flow): Functionality (VHDL) &rarr; Transform functional description into circuit &rarr; Take area and time constraints into account to estimate parasitics &rarr; Stick Diagram Layout &rarr; Mask layout Design &rarr; DRC Check (Design rules) &rarr; Extract parasitics from circuit &rarr; Simulation &rarr; Fabrication
 -   Device Parasitics: \\(C\_{DB}\\), \\(C\_{GD}\\)
 -   Extrinsic Parasitics: Due to interconnects
--   Design rules: Lambda based for scaling portability. Min. contact: 2&lambda;, Contact to active spacing: &lambda;, Contact to poly-spacing: 3&lambda;, n-well to active n-mos area: 9&lambda;, n-well to active overlap: 5&lambda;.
+-   Design rules: Lambda based for scaling portability. Min. contact: 2&lambda;, Contact to active spacing: &lambda;, Contact to poly-spacing: 2&lambda;, n-well to active n-mos area: 9&lambda;, n-well to active overlap: 5&lambda;.
 -   Stick Diagram: Combination of edges and nodes. Needed for sharing S&D to reduce area via Euler's theorem.
 -   Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. \\(k\_{d}=\frac{C\_{s}}{C\_{l}}\\)
 
@@ -121,9 +121,37 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
     5.  For odd fingers, S/D perimeter capacitance,  \\(C\_{p}=\frac{N+1}{2}(2E+\frac{2W}{N})C\_{jsw}\\) (Side-wall/Fringe Capacitance)
     6.  Matching: Since fabrication is not isotropic, orientation of polysilicon needs to be the same throughout, even interconnects need to be of the same length.
     7.  Gate shadowing effect: Diffusion is not done vertically, there's an tilt of 7 degrees to avoid channeling (dopants penetrating deeper than needed through lattice spacing). This tilt causes asymmetry in source and drain diffusion extensions.
-    8.  Dummy transistors: To avoid neighbour asymmetries but since it causes an increase in area, it's not advised.
+    8.  Dummy transistors: To avoid neighbour asymmetries (coupling) but since it causes an increase in area, it's not advised.
 
 
 ## Layout Techniques {#layout-techniques}
 
+-   Interdigitated: Linear technique, alternate fingers of the two transistors but it still has mismatched envvironments. Useful when a treshold of mismatch is allowed.
+-   Common Centroid: Place transistors such that transistors can either be placed in 1 or 2 directions.
+-   Takes care of processing and surrounding errors.
+-   Parasitics tells us about the speed of the propogating signal.
+-   Device Parasitics: \\(C\_{sb}\\), depletion region; Can be reduced by junction sharing (Euler's graph, S/D Sharing). But as we increase the number of fingers, the overlap capacitance increases.
+
+
+## Parasitics {#parasitics}
+
+-   Major reasons for delay:
+    1.  Internal parasitic
+    2.  Interconnect Parasitic
+    3.  Input capacitance of fan-out gates
+-   Interconnect Capacitance: Model each interconnect as a Resistance and Capacitance combination.
+-   Lumped RC Model: Model as a single RC combination
+-   Distributed RC: Model as a combination of multiple RCs.
+-   Transmission line model: Inductance is also introduced to account for magnetic coupling for long interconnects.
+-   If \\(\tau\_{rise}>t\\), one can use lumped RC although even then distributed is preferred, but for \\(t>\tau\_{rise}\\) transmission model is preferred.
+-   Due to scaling, gate delays are reducing but interconnect delays are increasing (chip size, and shrinking distance, fringing)
+-   Inter module signals: Power (\\(V\_{dd}\\)), ground, clock.
+-   Intra module connections: Since they run over small distances, they can be modeled via lumped or distributed.
+-   Yuan and Trick Interconnect Capacitance Estimation: Accounts for all fringing etc.
+-   Interconnect resistance estimation:
+-   Calculation of Interconnect delay: For simple lumped RC: &tau; = 0.69RC, for distributed systems, we use elmore delay formula
+-   Necessary conditions for elmore delay:
+    1.  One input node
+    2.  No loops
+    3.  All capacitors connected to the ground
 -
