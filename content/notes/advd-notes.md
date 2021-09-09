@@ -99,8 +99,31 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
 -   Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. \\(k\_{d}=\frac{C\_{s}}{C\_{l}}\\)
 
 
-## Fabrication Rules {#fabrication-rules}
+## Fabrication Layout Design {#fabrication-layout-design}
 
 -   Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.
--   Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for sharing S&D to reduce area via Euler's theorem.
--   Euler's graph
+-   Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for orientation by defining sharing of S&D to reduce area and parasitic capacitances via Euler's theorem.
+-   Design Rules:
+    1.  Minimum Width: Lithography, diffraction limit
+    2.  Minimum Spacing: To prevent problems due to misalignment
+    3.  Minimum Enclosure: To prevent problems due to misalignment
+    4.  Minimum Extension: To prevent polysilicon misalignment problems
+-   Euler's graph:
+    1.  Generate p-net and n-net.
+    2.  Find eulerian path, where a node can be traversed atmost twice but an edge only once.
+    3.  Check if the polysilicon path generated can be used on the n-net.
+-   In mos, source and drain are interchangable, which is not possible in bjt, hence mos allows for smaller footprint.
+-   Analog layout techniques: The aim is to minimize offset and have high CMRR, (i.e. mos M\_1 and M\_2 are matched so low noise) which determine the minimum input signal that can be detected.
+    1.  \\(R\_{g}<<\frac{1}{g\_{m}}\\)
+    2.  To reduce this resistance, folder topology was introduced, two poly lines connected together represented a large L even though it wasn't actually large, hence W/L decreases.
+    3.  Sometimes folder topology can result in some skewed layouts, so multi-fingered topology was introduced, where _n_ poly lines are connected together instead of just two.
+    4.  By splitting the poly, it's resistance decreases but the capacitance associated with S/D perimeter increases.
+    5.  For odd fingers, S/D perimeter capacitance,  \\(C\_{p}=\frac{N+1}{2}(2E+\frac{2W}{N})C\_{jsw}\\) (Side-wall/Fringe Capacitance)
+    6.  Matching: Since fabrication is not isotropic, orientation of polysilicon needs to be the same throughout, even interconnects need to be of the same length.
+    7.  Gate shadowing effect: Diffusion is not done vertically, there's an tilt of 7 degrees to avoid channeling (dopants penetrating deeper than needed through lattice spacing). This tilt causes asymmetry in source and drain diffusion extensions.
+    8.  Dummy transistors: To avoid neighbour asymmetries but since it causes an increase in area, it's not advised.
+
+
+## Layout Techniques {#layout-techniques}
+
+-

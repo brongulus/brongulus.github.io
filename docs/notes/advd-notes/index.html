@@ -184,11 +184,42 @@ Start with wafer, p-type → Grow \(SiO_{2}\) via CVD (Thermal Oxidation) → Cr
 <li>Stick Diagram: Combination of edges and nodes. Needed for sharing S&amp;D to reduce area via Euler&rsquo;s theorem.</li>
 <li>Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. \(k_{d}=\frac{C_{s}}{C_{l}}\)</li>
 </ul>
-<h2 id="fabrication-rules">Fabrication Rules</h2>
+<h2 id="fabrication-layout-design">Fabrication Layout Design</h2>
 <ul>
 <li>Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.</li>
-<li>Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for sharing S&amp;D to reduce area via Euler&rsquo;s theorem.</li>
-<li>Euler&rsquo;s graph</li>
+<li>Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for orientation by defining sharing of S&amp;D to reduce area and parasitic capacitances via Euler&rsquo;s theorem.</li>
+<li>Design Rules:
+<ol>
+<li>Minimum Width: Lithography, diffraction limit</li>
+<li>Minimum Spacing: To prevent problems due to misalignment</li>
+<li>Minimum Enclosure: To prevent problems due to misalignment</li>
+<li>Minimum Extension: To prevent polysilicon misalignment problems</li>
+</ol>
+</li>
+<li>Euler&rsquo;s graph:
+<ol>
+<li>Generate p-net and n-net.</li>
+<li>Find eulerian path, where a node can be traversed atmost twice but an edge only once.</li>
+<li>Check if the polysilicon path generated can be used on the n-net.</li>
+</ol>
+</li>
+<li>In mos, source and drain are interchangable, which is not possible in bjt, hence mos allows for smaller footprint.</li>
+<li>Analog layout techniques: The aim is to minimize offset and have high CMRR, (i.e. mos M_1 and M_2 are matched so low noise) which determine the minimum input signal that can be detected.
+<ol>
+<li>\(R_{g}&laquo;\frac{1}{g_{m}}\)</li>
+<li>To reduce this resistance, folder topology was introduced, two poly lines connected together represented a large L even though it wasn&rsquo;t actually large, hence W/L decreases.</li>
+<li>Sometimes folder topology can result in some skewed layouts, so multi-fingered topology was introduced, where <em>n</em> poly lines are connected together instead of just two.</li>
+<li>By splitting the poly, it&rsquo;s resistance decreases but the capacitance associated with S/D perimeter increases.</li>
+<li>For odd fingers, S/D perimeter capacitance,  \(C_{p}=\frac{N+1}{2}(2E+\frac{2W}{N})C_{jsw}\) (Side-wall/Fringe Capacitance)</li>
+<li>Matching: Since fabrication is not isotropic, orientation of polysilicon needs to be the same throughout, even interconnects need to be of the same length.</li>
+<li>Gate shadowing effect: Diffusion is not done vertically, there&rsquo;s an tilt of 7 degrees to avoid channeling (dopants penetrating deeper than needed through lattice spacing). This tilt causes asymmetry in source and drain diffusion extensions.</li>
+<li>Dummy transistors: To avoid neighbour asymmetries but since it causes an increase in area, it&rsquo;s not advised.</li>
+</ol>
+</li>
+</ul>
+<h2 id="layout-techniques">Layout Techniques</h2>
+<ul>
+<li></li>
 </ul>
 
 
@@ -207,7 +238,7 @@ Start with wafer, p-type → Grow \(SiO_{2}\) via CVD (Thermal Oxidation) → Cr
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-09-09 05:03:33.594355 &#43;0530 IST m=&#43;0.080364101">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-09-09 06:03:10.8186996 &#43;0530 IST m=&#43;0.149789001">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
