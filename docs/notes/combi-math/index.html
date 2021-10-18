@@ -130,9 +130,21 @@ g(x) = a_0 + a_1 x + a_2 x^2 + &hellip; + a_r x^r + a_n x^n
 \frac{1}{1-x} = 1+x+x^{2}+&hellip;
 \]</li>
 <li>\[
-(1+x)^n = 1 + {n \choose 1} x + {n \choose 2} x^2 + &hellip; {n \choose r} x^r + &hellip; + {n \choose n} x^n
+(1+x)^n = 1 + {n \choose 1} x + {n \choose 2} x^2 + &hellip; + {n \choose r} x^r + &hellip; + {n \choose n} x^n
 \]</li>
-<li></li>
+<li>\[
+(1-x^{m})^n = 1 - {n \choose 1} x^m + {n \choose 2} x^{2m} + &hellip; + (-1)^k {n \choose k} x^{km} + &hellip; + (-1)^r {n \choose n} x^{nm}
+\]</li>
+<li>\[
+\frac{1}{(1-x)^n} = 1 + {1+n-1 \choose 1} x + {2+n-1 \choose 2} x^2 + &hellip; + {r+n-1 \choose r} x^r + &hellip;
+\]</li>
+<li>If h(x) = f(x)g(x) where $f(x) = a_0 + a_1 x + a_2 x^2 + &hellip;$ and $g(x) = b_0 + b_1 x + b_2 x^2 + &hellip;$ then:
+\[
+h(x) = a_{0}b_{0}+(a_{1}b_{0}+a_{0}b_{1})x + &hellip; + (a_{r}b_{0}+a_{r-1}b_{1}+a_{r-2}b_{2}+ &hellip; +a_{0}b_{r}) x^r + &hellip;
+\]</li>
+<li>Partition</li>
+<li>Exp Gen Fn</li>
+<li>Summation Method</li>
 </ol>
 
 
@@ -151,7 +163,7 @@ g(x) = a_0 + a_1 x + a_2 x^2 + &hellip; + a_r x^r + a_n x^n
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-10-19 04:27:01.7031712 &#43;0530 IST m=&#43;0.987636501">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-10-19 04:39:41.040999 &#43;0530 IST m=&#43;0.561260201">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
