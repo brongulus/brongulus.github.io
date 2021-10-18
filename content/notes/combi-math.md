@@ -2,7 +2,7 @@
 title = "Combinatorial Mathematics"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 +++
 
 ## General Counting Methods for Selection and Arrangement {#general-counting-methods-for-selection-and-arrangement}
@@ -19,3 +19,40 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
                P(n;r\_{1},r\_{2}, . . . ,r\_{m}) = \frac{n!}{r\_{1}!r\_{2}! . . .r\_{m}!}
           \\]
 7.  **Theorem 2:** The number of selections with repetition of r objects chosen from n types of objects is C(r + n − 1,r).
+8.  Distributions of _distinct objects_ are equivalent to **arrangements** and Distributions of _identical objects_ are equivalent to **selections**.
+9.  Ways to arrange, select, distribute _r_ objects from _n_ items or into _n_ boxes:
+
+    | Repition   | Arrangement                                           | Combination |
+    |------------|-------------------------------------------------------|-------------|
+    | No         | P(n,r)                                                | C(n,r)      |
+    | Unlimited  | n^r                                                   | C(n+r-1, r) |
+    | Restricted | P(n; r<sub>1</sub>, r<sub>2</sub>, .., r<sub>m</sub>) | -           |
+10. Equations with integer-valued variables are called _diophantine_ equations.
+11. Equivalent forms of selection with repetition:
+    -   Number of ways to select _r_ objects with repetition from _n_ different types of objects.
+    -   Number of ways to distribute _r_ identical objects into _n_ distinct boxes.
+    -   Number of non-negative integer solutions to \\(x\_1 + x\_2 + ... + x\_n = r\\)
+12. **Binomial Theorem**:
+    \\[
+                (1+x)^n = C(n,0) + C(n,1)x + C(n,2)x^2 + ... + C(n,k)x^k + C(n,n)x^n
+             \\]
+13. Committee Selection Model: Represent C(n,k) committees of _k_ people chosen from a set of _n_ people.
+14. Block Walking Model: Using Pascal's triangle, label each street corner in the network with the pair (n,k) where _n_ is the number of blocks traversed from (0,0) and _k_ is the number of times the person chose the right branch at intersections.
+
+
+## Generating Functions {#generating-functions}
+
+1.  Assuming _a<sub>r</sub>_ denotes the _number of ways to select r objects_ in a certain procedure, g(x) is a generating function for a<sub>r</sub> if g(x) has the polynomial expansion:
+    \\[
+               g(x) = a\_0 + a\_1 x + a\_2 x^2 + ... + a\_r x^r + a\_n x^n
+          \\]
+2.  \\[
+               \frac{1-x^{m+1}}{1-x} = 1+x+x^{2}+...+x^{m}
+          \\]
+3.  \\[
+               \frac{1}{1-x} = 1+x+x^{2}+...
+          \\]
+4.  \\[
+               (1+x)^n = 1 + {n \choose 1} x + {n \choose 2} x^2 + ... {n \choose r} x^r + ... + {n \choose n} x^n
+          \\]
+5.

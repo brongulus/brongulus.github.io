@@ -2,7 +2,7 @@
 title = "Analog and Digital VLSI Design"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 +++
 
 ## Radio Spectrum {#radio-spectrum}
@@ -155,3 +155,11 @@ creator = "Emacs 27.1 (Org mode 9.5 + ox-hugo)"
     2.  No loops
     3.  All capacitors connected to the ground
 -
+
+
+## Scaling and its effects {#scaling-and-its-effects}
+
+-   Process Issues:
+    1.  Shallow Trench: Signal coupling between transistors which can be avoided by increasing distance between them and adding \\(SiO\_2\\) between them. TCE (Temp. Coeff of Expansion) of Si and SiO\_2 is different and on different expansion, due to stress mobility and therefore I-V characteristics changes, Can be avoided by using dummy fingers.
+    2.  Well Proximity: Can be avoided using dummy.
+    3.  Latchup:

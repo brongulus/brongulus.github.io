@@ -73,6 +73,66 @@ Suppose a procedure can be broken into m successive (ordered) stages, with \(r_1
 P(n;r_{1},r_{2}, . . . ,r_{m}) = \frac{n!}{r_{1}!r_{2}! . . .r_{m}!}
 \]</li>
 <li><strong>Theorem 2:</strong> The number of selections with repetition of r objects chosen from n types of objects is C(r + n − 1,r).</li>
+<li>Distributions of <em>distinct objects</em> are equivalent to <strong>arrangements</strong> and Distributions of <em>identical objects</em> are equivalent to <strong>selections</strong>.</li>
+<li>Ways to arrange, select, distribute <em>r</em> objects from <em>n</em> items or into <em>n</em> boxes:
+<table>
+<thead>
+<tr>
+<th>Repition</th>
+<th>Arrangement</th>
+<th>Combination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No</td>
+<td>P(n,r)</td>
+<td>C(n,r)</td>
+</tr>
+<tr>
+<td>Unlimited</td>
+<td>n^r</td>
+<td>C(n+r-1, r)</td>
+</tr>
+<tr>
+<td>Restricted</td>
+<td>P(n; r<sub>1</sub>, r<sub>2</sub>, .., r<sub>m</sub>)</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>Equations with integer-valued variables are called <em>diophantine</em> equations.</li>
+<li>Equivalent forms of selection with repetition:
+<ul>
+<li>Number of ways to select <em>r</em> objects with repetition from <em>n</em> different types of objects.</li>
+<li>Number of ways to distribute <em>r</em> identical objects into <em>n</em> distinct boxes.</li>
+<li>Number of non-negative integer solutions to \(x_1 + x_2 + &hellip; + x_n = r\)</li>
+</ul>
+</li>
+<li><strong>Binomial Theorem</strong>:
+\[
+(1+x)^n = C(n,0) + C(n,1)x + C(n,2)x^2 + &hellip; + C(n,k)x^k + C(n,n)x^n
+\]</li>
+<li>Committee Selection Model: Represent C(n,k) committees of <em>k</em> people chosen from a set of <em>n</em> people.</li>
+<li>Block Walking Model: Using Pascal&rsquo;s triangle, label each street corner in the network with the pair (n,k) where <em>n</em> is the number of blocks traversed from (0,0) and <em>k</em> is the number of times the person chose the right branch at intersections.</li>
+</ol>
+<h2 id="generating-functions">Generating Functions</h2>
+<ol>
+<li>Assuming <em>a<sub>r</sub></em> denotes the <em>number of ways to select r objects</em> in a certain procedure, g(x) is a generating function for a<sub>r</sub> if g(x) has the polynomial expansion:
+\[
+g(x) = a_0 + a_1 x + a_2 x^2 + &hellip; + a_r x^r + a_n x^n
+\]</li>
+<li>\[
+\frac{1-x^{m+1}}{1-x} = 1+x+x^{2}+&hellip;+x^{m}
+\]</li>
+<li>\[
+\frac{1}{1-x} = 1+x+x^{2}+&hellip;
+\]</li>
+<li>\[
+(1+x)^n = 1 + {n \choose 1} x + {n \choose 2} x^2 + &hellip; {n \choose r} x^r + &hellip; + {n \choose n} x^n
+\]</li>
+<li></li>
 </ol>
 
 
@@ -91,7 +151,7 @@ P(n;r_{1},r_{2}, . . . ,r_{m}) = \frac{n!}{r_{1}!r_{2}! . . .r_{m}!}
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-09-09 14:52:22.3259511 &#43;0530 IST m=&#43;0.115694401">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2021-10-19 04:27:01.7031712 &#43;0530 IST m=&#43;0.987636501">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
