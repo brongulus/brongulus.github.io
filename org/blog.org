@@ -868,7 +868,7 @@ where /v/ is the angle of roatation about the /z/-axis.
 6. \[
         \frac{1}{(1-x)^n} = 1 + {1+n-1 \choose 1} x + {2+n-1 \choose 2} x^2 + ... + {r+n-1 \choose r} x^r + ...
    \]
-7. If h(x) = f(x)g(x) where $f(x) = a_0 + a_1 x + a_2 x^2 + ...$ and $g(x) = b_0 + b_1 x + b_2 x^2 + ...$ then:
+7. If h(x) = f(x)g(x) where \(f(x) = a_0 + a_1 x + a_2 x^2 + ...\) and \(g(x) = b_0 + b_1 x + b_2 x^2 + ...\) then:
    \[
         h(x) = a_{0}b_{0}+(a_{1}b_{0}+a_{0}b_{1})x + ... + (a_{r}b_{0}+a_{r-1}b_{1}+a_{r-2}b_{2}+ ... +a_{0}b_{r}) x^r + ...
    \]

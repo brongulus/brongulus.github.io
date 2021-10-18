@@ -61,7 +61,7 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 6.  \\[
                \frac{1}{(1-x)^n} = 1 + {1+n-1 \choose 1} x + {2+n-1 \choose 2} x^2 + ... + {r+n-1 \choose r} x^r + ...
           \\]
-7.  If h(x) = f(x)g(x) where $f(x) = a\_0 + a\_1 x + a\_2 x^2 + ...$ and $g(x) = b\_0 + b\_1 x + b\_2 x^2 + ...$ then:
+7.  If h(x) = f(x)g(x) where \\(f(x) = a\_0 + a\_1 x + a\_2 x^2 + ...\\) and \\(g(x) = b\_0 + b\_1 x + b\_2 x^2 + ...\\) then:
     \\[
                h(x) = a\_{0}b\_{0}+(a\_{1}b\_{0}+a\_{0}b\_{1})x + ... + (a\_{r}b\_{0}+a\_{r-1}b\_{1}+a\_{r-2}b\_{2}+ ... +a\_{0}b\_{r}) x^r + ...
           \\]
