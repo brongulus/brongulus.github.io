@@ -52,6 +52,8 @@ Hi! I'm Prashant.
 + [ ] OOP Lab Task 3
 + [ ] OOP 27 Jan Lecture
 + [ ] SOP 2 Small Papers
++ [ ] Might be Test in AnE, so practice problems
++ [ ] Prepare for IIC Tut too
 ** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
 :PROPERTIES:
 :EXPORT_FILE_NAME: nnfl-paper
