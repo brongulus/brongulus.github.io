@@ -5,6 +5,7 @@
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
 #+startup: inlineimages
 #+startup: hidestars
+#+startup: overview
 #+startup: logdone
 # #+startup: latexpreview
 :END:
@@ -40,7 +41,17 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: blog
 :END:
-
+** Worklog
+:PROPERTIES:
+:EXPORT_FILE_NAME: worklog
+:END:
+*** 31 January 2022
++ [-] Chapter 2 T2 PowE
++ [ ] PowE Missing Lecture
++ [ ] OS Missing Lecture
++ [ ] OOP Lab Task 3
++ [ ] OOP 27 Jan Lecture
++ [ ] SOP 2 Small Papers
 ** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
 :PROPERTIES:
 :EXPORT_FILE_NAME: nnfl-paper
