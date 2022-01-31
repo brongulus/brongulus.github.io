@@ -2,7 +2,7 @@
 title = "Differential Geometry"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 ## Theory of Space Curves {#theory-of-space-curves}
@@ -15,7 +15,7 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
     \\(y=x^{2} <-----> \gamma(t)=(\gamma\_{1}(t),\gamma\_{2}(t))\\) Taking \\(\gamma\_{1}(t)=t\\), we get \\(\gamma\_{2}(t)=t^{2}\\) hence the parametrization is \\(\gamma(t)=(t,t^{2})\\)
 -   **NOTE:** Check if domain of _x_ satisfies domain of _t_ or not. That is, the same parametrisation can be represented as \\((t^{2}.t^{4})\\) or \\((t^{3},t^{6})\\) but only the latter is a correct representation.
 -   From parametrized curves to level curves:
-    \\(\gamma(t)=(cos^{3}t,sin^{3}t)\\) <------> F(x,y)=C; Using \\(sin^{2}t+cos^{2}t=1\\) we get, \\(x^{2/3}+y^{2/3}=1\\) as the level curve.
+    \\(\gamma(t)=(cos^{3}t,sin^{3}t)\\) &lt;------&gt; F(x,y)=C; Using \\(sin^{2}t+cos^{2}t=1\\) we get, \\(x^{2/3}+y^{2/3}=1\\) as the level curve.
 
 
 ### Unique Parametric representation {#unique-parametric-representation}
@@ -34,7 +34,7 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 -   Speed: \\(|| \dot{\gamma}(t) ||\_{t}\\) and a curve is unit-speed curve if its magnitude is 1 for all _t_.
 -   For &gamma; being a unit speed curve, \\(\ddot{\gamma}\\) is zero or perpendicular to \\(\dot{\gamma}\\) i.e. \\(\ddot{\gamma}.\dot{\gamma}=0\\)
 -   If &gamma; is a regular curve, then its arclength S at any point of &gamma; is a smooth function of t.
--   Reparametrization: \\(\overline{\gamma}:(\overline{\alpha},\overline{\beta}) \rightarrow R^{n}\\) <=> \\(\gamma: (\alpha,\beta) \rightarrow R^{n}\\)  exists iff &exist; a smooth function &phi;: \\((\overline{\alpha},\overline{\beta}) \rightarrow (\alpha,\beta)\\) such that its inverse &phi;<sup>-1</sup> is also smooth.
+-   Reparametrization: \\(\overline{\gamma}:(\overline{\alpha},\overline{\beta}) \rightarrow R^{n}\\) &lt;=&gt; \\(\gamma: (\alpha,\beta) \rightarrow R^{n}\\)  exists iff &exist; a smooth function &phi;: \\((\overline{\alpha},\overline{\beta}) \rightarrow (\alpha,\beta)\\) such that its inverse &phi;<sup>-1</sup> is also smooth.
 -   A _unit speed reparametrization_ exists for a curve iff it is _regular_.
 
 
@@ -77,12 +77,12 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
         \\]
 -   Also, _radius of curvature_ &rho; is inverse of curvature.
 -   Finally, tying it all together is the _Serret-Frenet formula_ (arc length parameter):
-    \\(\begin{bmatrix} \dot{t} \\\\\\
-         \dot{n} \\\\\\
-         \dot{b}  \end{bmatrix} = \begin{bmatrix} 0 & \kappa & 0 \\\\\\
-          -\kappa & 0 & \tau \\\\\\
-          0 & -\tau & 0 \end{bmatrix} \begin{bmatrix} t \\\\\\
-          n \\\\\\
+    \\(\begin{bmatrix} \dot{t} \\\\
+         \dot{n} \\\\
+         \dot{b}  \end{bmatrix} = \begin{bmatrix} 0 & \kappa & 0 \\\\
+          -\kappa & 0 & \tau \\\\
+          0 & -\tau & 0 \end{bmatrix} \begin{bmatrix} t \\\\
+          n \\\\
           b \end{bmatrix}\\)
 
 
@@ -105,7 +105,7 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
     2.  \\(\tau(0) = \lim\_{s \to 0} \frac{3Z}{XY}\\)
     3.  For \\(P=\vec{r}(0), Q=\vec{r}(s)\\), the length of chord
          \\[
-                   PQ = s(1-\frac{\kappa^{2}s^{2}}{24}) + o(s^{3}) \~ s(1-\frac{\kappa^{2}s^{2}}{24})o(s^{3})
+                   PQ = s(1-\frac{\kappa^{2}s^{2}}{24}) + o(s^{3}) \\~ s(1-\frac{\kappa^{2}s^{2}}{24})o(s^{3})
                  \\]
         If f(t)=g(t)+o(t), then as t &rarr; 0, it can be written as f(t)~g(t)o(t)
 -   The length of common perpendicular between tangents at two nearby points of \\(\vec{r}(s)\\) at arcual distance _s_ is approximately \\(d=\frac{\kappa\tau s^{3}}{12}\\). This is the shortest distance between tangents at nearby points of r(s).
@@ -143,13 +143,13 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 ### Locus of centres of spherical curvature {#locus-of-centres-of-spherical-curvature}
 
 -   Since COSC at r(s) is \\(c(s) =r(s)+\rho(s)n(s)+\sigma(s)\rho'(s)b(s)\\), it moves along a path as _s_ varies. For this path, SFF, &kappa;, &tau; can be calculated and will be denoted with subscript c.
--   Assuming &tau;(s)>0,
+-   Assuming &tau;(s)&gt;0,
 
     1.  \\(c'(s) = (\frac{\rho(s)}{\sigma(s)}+ \frac{d (\sigma(s)\rho'(s))}{ds})b(s)\\)
     2.  For a regular c(s), unit tangent vector is \\(t\_{c}(s) = eb(s)\\)
     3.  \\(\frac{ds\_{c}}{ds}=|\frac{\rho(s)}{\sigma(s)}+\frac{d(\sigma(s)\rho'(s))}{ds}|\\)
 
-    Here e is 1 if ds<sub>c</sub>/ds > 0, -1 ow. Also \\(e = t\_{c}(s).b(s)\\)
+    Here e is 1 if ds<sub>c</sub>/ds &gt; 0, -1 ow. Also \\(e = t\_{c}(s).b(s)\\)
 -   Also on differentiating,
     1.  \\(\kappa\_{c}(s) = \frac{\tau(s)}{\frac{ds\_{c}}{ds}}\\) or &kappa;(s)= \\(-\tau\_{c}(s)e \frac{ds\_{c}}{ds}\\)
     2.  Which gives \\(\tau(s)\tau\_{c}(s)=\kappa(s)\kappa\_{c}(s)\\)
@@ -166,7 +166,7 @@ creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
 -   For both varying r and u, one gets the tangent surface.
 -   Image of the curve u=u(s) in us-plane gives a curve \\(r\_{1}(s)=r(s)+u(s)r'(s)\\)
 -   Definition: Involute of r is a curve on the tangent surface of r which meets all generating lines orthogonally at corresponding points.
--   If \\(r\_{1}(s)\\) denotes the pos vector on the involute C\_1 of a curve C corresponding to its points r(s) then r<sub>1</sub>(s)=r(s)+(c-s)t(s) for a constant c.
+-   If \\(r\_{1}(s)\\) denotes the pos vector on the involute C_1 of a curve C corresponding to its points r(s) then r<sub>1</sub>(s)=r(s)+(c-s)t(s) for a constant c.
 -   For an involute c(s) of a regular path r(s) of class m &ge; 2.
     \\[
           \kappa\_{c}^2 = \frac{\tau^{2}+\kappa^{2}}{\kappa^{2}(c-s)^{2}}, \tau\_c = \frac{\kappa\tau'-\kappa'\tau}{\kappa(c-s)(\tau^{2}+\kappa^{2})}
@@ -225,7 +225,7 @@ These conditions are necessary and sufficient for existence of inverse in the ne
 
 Remarks:
 
--   Considering M = \\(\begin{bmatrix} x\_{1} & y\_{1} & z\_{1}\\\\\\
+-   Considering M = \\(\begin{bmatrix} x\_{1} & y\_{1} & z\_{1}\\\\
         x\_{2} & y\_{2} & z\_{2}\end{bmatrix}\\)
     For \\(r\_{1} \times r\_{2} \neq 0\\) at an ordinary point, i.e. rank of M is two at that point.
 -   If the rank of M is either zero or one, the point on the surface is a singular point.

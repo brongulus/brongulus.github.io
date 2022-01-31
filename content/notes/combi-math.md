@@ -2,7 +2,7 @@
 title = "Combinatorial Mathematics"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.2 (Org mode 9.5 + ox-hugo)"
+creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 ## General Counting Methods for Selection and Arrangement {#general-counting-methods-for-selection-and-arrangement}

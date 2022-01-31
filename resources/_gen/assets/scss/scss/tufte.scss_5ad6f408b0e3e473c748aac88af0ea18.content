@@ -1,8 +1,8 @@
 :root {
-  --light-bg: #ebe4e1;
-  --dark-bg: #323f46;
+  --light-bg: #c9c9c9;
+  --dark-bg: #2E3440;
   --light-font: #555;
-  --dark-font: #c9cdd7;
+  --dark-font: #e1e1ff;
   --bg: var(--light-bg);
   --txt: var(--light-font);
   --light-link: #458588;
@@ -26,7 +26,7 @@ html,
   transition: background 0.3s ease; }
 
 html {
-  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Freight Sans Pro Light", "Libre Baskerville", "Times New Roman", Times, serif;
   font-size: 15px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
@@ -61,7 +61,6 @@ h6 {
   line-height: normal; }
 
 a {
-  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   color: var(--link);
   text-decoration: none; }
 

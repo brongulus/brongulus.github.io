@@ -172,7 +172,7 @@
 <p>In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.</p>
 <figure><img src="/ox-hugo/nnfl1a.png"
          alt="Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes."/><figcaption>
-            <p>Figure 1: Sentence-based Character Model: The representation for the token <em>shingles</em> is the concatenation of the four shaded boxes.</p>
+            <p><span class="figure-number">Figure 1: </span>Sentence-based Character Model: The representation for the token <em>shingles</em> is the concatenation of the four shaded boxes.</p>
         </figcaption>
 </figure>
 
@@ -194,13 +194,13 @@ A tag can then be predicted with a <em>linear classifier</em> that takes as inpu
 <p>To investigate whether a sentence sensitive character model (<em>Fig.1</em>) is better than a model where the context is restricted to the characters of a word, (<em>Fig.2</em>) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.</p>
 <figure><img src="/ox-hugo/nnfl1b.png"
          alt="Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)."/><figcaption>
-            <p>Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).</p>
+            <p><span class="figure-number">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).</p>
         </figcaption>
 </figure>
 
 <figure><img src="/ox-hugo/nnfl1.png"
          alt="Figure 3: BiLSTM variant of Character-level word representation"/><figcaption>
-            <p>Figure 3: BiLSTM variant of Character-level word representation</p>
+            <p><span class="figure-number">Figure 3: </span>BiLSTM variant of Character-level word representation</p>
         </figcaption>
 </figure>
 
@@ -219,7 +219,7 @@ m_{i}^{word} = MLP(o_{i}^{word})
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.</p>
 <figure><img src="/ox-hugo/nnfl2a.png"
          alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/><figcaption>
-            <p>Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
+            <p><span class="figure-number">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
         </figcaption>
 </figure>
 
@@ -236,7 +236,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]</p>
 <figure><img src="/ox-hugo/nnfl2b.png"
          alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/><figcaption>
-            <p>Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
+            <p><span class="figure-number">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
         </figcaption>
 </figure>
 
@@ -319,7 +319,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 <h2 id="conclusions">Conclusions</h2>
 <h2 id="readings-and-resources">Readings and Resources</h2>
 <ol>
-<li>Pytorch: <a href="https://pytorch.org/tutorials/beginner/nn%5Ftutorial.html">Beginner Guide</a>, <a href="https://deeplizard.com/learn/playlist/PLZbbT5o%5Fs2xrfNyHZsM6ufI0iZENK9xgG">Detailed Guides</a>, <a href="https://www.cs.toronto.edu//~lczhang/360/">Notebook form</a></li>
+<li>Pytorch: <a href="https://pytorch.org/tutorials/beginner/nn_tutorial.html">Beginner Guide</a>, <a href="https://deeplizard.com/learn/playlist/PLZbbT5o_s2xrfNyHZsM6ufI0iZENK9xgG">Detailed Guides</a>, <a href="https://www.cs.toronto.edu//~lczhang/360/">Notebook form</a></li>
 <li>Math: <a href="https://explained.ai/matrix-calculus/index.html">Matrix Calculus</a>, <a href="https://mml-book.com/">Book</a></li>
 <li>Basics:
 <ul>
@@ -342,12 +342,12 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </li>
 <li>NLP: <a href="https://github.com/microsoft/nlp-recipes">Best Practices</a>, <a href="https://nlpoverview.com/">DL Techniques for NLP</a></li>
 <li>BiLSTM: <a href="https://arxiv.org/pdf/1807.00818v1.pdf">Improving POS tagging</a></li>
-<li><a href="https://github.com/google/meta%5Ftagger">Implementation</a> of the paper</li>
+<li><a href="https://github.com/google/meta_tagger">Implementation</a> of the paper</li>
 </ol>
 <h2 id="specific-to-paper">Specific to Paper</h2>
 <ol>
 <li><a href="https://universaldependencies.org/guidelines.html">Universal Dependencies</a></li>
-<li><a href="https://lena-voita.github.io/nlp%5Fcourse.html">Great Tutorial for NLP</a></li>
+<li><a href="https://lena-voita.github.io/nlp_course.html">Great Tutorial for NLP</a></li>
 <li><a href="https://github.com/Sdernal/Morphology/blob/master/README.md">Morphology</a></li>
 </ol>
 <section class="footnotes" role="doc-endnotes">
@@ -402,7 +402,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-10-19 04:44:18.4512302 &#43;0530 IST m=&#43;0.581130901">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-01-31 08:11:48.90973191 &#43;0530 IST m=&#43;0.043184600">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
