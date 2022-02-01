@@ -13,5 +13,5 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 -   [ ] OOP Lab Task 3
 -   [ ] OOP 27 Jan Lecture
 -   [ ] SOP 2 Small Papers
--   [ ] Might be Test in AnE, so practice problems
--   [ ] Prepare for IIC Tut too
+-   [X] Might be Test in AnE, so practice problems
+-   [X] Prepare for IIC Tut too

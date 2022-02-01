@@ -35,5 +35,5 @@ I was going to make a post explaining how I made this blog but it was rendered p
 7.  Config.toml (theme, title, url, publishdir, etc)
 8.  Run server, check localhost.
 9.  Push
-10. Go to GitHub repository Settings &gt; GitHub pages. Select /docs in Source.
+10. Go to GitHub repository Settings > GitHub pages. Select /docs in Source.
 11. Voila!
