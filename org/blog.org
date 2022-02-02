@@ -45,13 +45,15 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_FILE_NAME: worklog
 :END:
-*** 31 January 2022
-+ [-] Chapter 2 T2 PowE
+*** 2 February 2022
++ [ ] AnE Lab Submission (10 AM, 3rd Feb)
++ [ ] SOP 2 Small Papers
 + [ ] PowE Missing Lecture
 + [ ] OS Missing Lecture
 + [ ] OOP Lab Task 3
 + [ ] OOP 27 Jan Lecture
-+ [ ] SOP 2 Small Papers
+*** 31 January 2022
++ [-] Chapter 2 T2 PowE
 + [X] Might be Test in AnE, so practice problems
 + [X] Prepare for IIC Tut too
 ** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
