@@ -52,7 +52,7 @@ This post contains a complete overview of the titled paper and provides a basic 
 
 1.  **Data Collection or Assembly**: Building the corpus
 2.  **Data Preprocessing**: Perform operations on the collected corpus which consists of tokenization, normalization, substitution (noise removal).
-3.  **Data Exploration & Visualization**: Includes visualizing word counts and distributions, generating wordclouds, performing distance measures.
+3.  **Data Exploration &amp; Visualization**: Includes visualizing word counts and distributions, generating wordclouds, performing distance measures.
 4.  **Model Building**: Choosing the language models (FSM, MM), classifiers and sequence models (RNNs, LSTMs).
 5.  **Model Evaluation**
 
@@ -131,7 +131,7 @@ On testing this system on 2017 CoNLL data sets, largest gains were found for mor
 
 In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.
 
-{{< figure src="/ox-hugo/nnfl1a.png" caption="Figure 1: Sentence-based Character Model: The representation for the token _shingles_ is the concatenation of the four shaded boxes." >}}
+{{< figure src="/ox-hugo/nnfl1a.png" caption="<span class=\"figure-number\">Figure 1: </span>Sentence-based Character Model: The representation for the token _shingles_ is the concatenation of the four shaded boxes." >}}
 
 For an _n_-character sentence, for each character embedding \\((e\_{1}^{char},...,e\_{n}^{char})\\), a BiLSTM is applied:
 \\[
@@ -155,9 +155,9 @@ A tag can then be predicted with a _linear classifier_ that takes as input \\(m\
 
 To investigate whether a sentence sensitive character model (_Fig.1_) is better than a model where the context is restricted to the characters of a word, (_Fig.2_) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.
 
-{{< figure src="/ox-hugo/nnfl1b.png" caption="Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)." >}}
+{{< figure src="/ox-hugo/nnfl1b.png" caption="<span class=\"figure-number\">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)." >}}
 
-{{< figure src="/ox-hugo/nnfl1.png" caption="Figure 3: BiLSTM variant of Character-level word representation" >}}
+{{< figure src="/ox-hugo/nnfl1.png" caption="<span class=\"figure-number\">Figure 3: </span>BiLSTM variant of Character-level word representation" >}}
 
 
 ### Sentence-based Word Model {#sentence-based-word-model}
@@ -175,7 +175,7 @@ m\_{i}^{word} = MLP(o\_{i}^{word})
 \\]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
 
-{{< figure src="/ox-hugo/nnfl2a.png" caption="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model" >}}
+{{< figure src="/ox-hugo/nnfl2a.png" caption="<span class=\"figure-number\">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model" >}}
 
 
 ### Meta-BiLSTM: Model Combination {#meta-bilstm-model-combination}
@@ -191,7 +191,7 @@ f\_{m,i}^{l}, b\_{m,i}^{l} = BiLSTM(r\_{0},(cw\_{0},...,cw\_{n}))\_{i}
 m\_{i}^{comb} = MLP(concat(f\_{m,i}^{l}, b\_{m,i}^{l}))
 \\]
 
-{{< figure src="/ox-hugo/nnfl2b.png" caption="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows." >}}
+{{< figure src="/ox-hugo/nnfl2b.png" caption="<span class=\"figure-number\">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows." >}}
 
 
 ### Training Schema {#training-schema}
@@ -255,7 +255,7 @@ TODO Add two remaining tables
 
 ## Readings and Resources {#readings-and-resources}
 
-1.  Pytorch: [Beginner Guide](https://pytorch.org/tutorials/beginner/nn%5Ftutorial.html), [Detailed Guides](https://deeplizard.com/learn/playlist/PLZbbT5o%5Fs2xrfNyHZsM6ufI0iZENK9xgG), [Notebook form](https://www.cs.toronto.edu//~lczhang/360/)
+1.  Pytorch: [Beginner Guide](https://pytorch.org/tutorials/beginner/nn_tutorial.html), [Detailed Guides](https://deeplizard.com/learn/playlist/PLZbbT5o_s2xrfNyHZsM6ufI0iZENK9xgG), [Notebook form](https://www.cs.toronto.edu//~lczhang/360/)
 2.  Math: [Matrix Calculus](https://explained.ai/matrix-calculus/index.html), [Book](https://mml-book.com/)
 3.  Basics:
     -   [Python](https://www.kaggle.com/learn/python)
@@ -269,16 +269,16 @@ TODO Add two remaining tables
 5.  Rougier's Bits
     -   [Matplotlib Tutorial](https://github.com/rougier/matplotlib-tutorial), [Matplotlib Cheatsheets](https://github.com/matplotlib/cheatsheets)
     -   [Numpy Tutorial](https://github.com/rougier/numpy-tutorial), [From Python to Numpy](https://www.labri.fr/perso/nrougier/from-python-to-numpy/), [100 Numpy Exercises](https://github.com/rougier/numpy-100)
-    -   [Python & OpenGL for Scientific Visualization](https://www.labri.fr/perso/nrougier/python-opengl/), [Scientific Visualization](https://github.com/rougier/scientific-visualization-book)
+    -   [Python &amp; OpenGL for Scientific Visualization](https://www.labri.fr/perso/nrougier/python-opengl/), [Scientific Visualization](https://github.com/rougier/scientific-visualization-book)
 6.  NLP: [Best Practices](https://github.com/microsoft/nlp-recipes), [DL Techniques for NLP](https://nlpoverview.com/)
 7.  BiLSTM: [Improving POS tagging](https://arxiv.org/pdf/1807.00818v1.pdf)
-8.  [Implementation](https://github.com/google/meta%5Ftagger) of the paper
+8.  [Implementation](https://github.com/google/meta_tagger) of the paper
 
 
 ## Specific to Paper {#specific-to-paper}
 
 1.  [Universal Dependencies](https://universaldependencies.org/guidelines.html)
-2.  [Great Tutorial for NLP](https://lena-voita.github.io/nlp%5Fcourse.html)
+2.  [Great Tutorial for NLP](https://lena-voita.github.io/nlp_course.html)
 3.  [Morphology](https://github.com/Sdernal/Morphology/blob/master/README.md)
 
 [^fn:1]: [Everything about Embeddings](https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe) Embedding converts symbolic representations into meaningful

@@ -56,9 +56,9 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 -   [Simplified-CMOS-Process.jpg]
 -   CVD: Growing Field Oxide and gate oxide
 -   Lithography: Process of patterning the silicon
--   Why Si over Ge? Band gap Si>Ge, Ge can't be used in mass production due to lack of raw material also SiO\_2 is highly stable whereas GeO is soluble in water.
+-   Why Si over Ge? Band gap Si&gt;Ge, Ge can't be used in mass production due to lack of raw material also SiO_2 is highly stable whereas GeO is soluble in water.
 -   Getting that wafer:
-    Sand &rarr; SiO\_2 &rarr; Metallurgical Grade Si (99.9% Pure) &rarr; CZ Chamber (1000^o C) &rarr; Seed Crystal + Molten Si &rarr; Si crystal ingot &rarr; Diamond saw &rarr; Polishing &rarr; Silican Wafer
+    Sand &rarr; SiO_2 &rarr; Metallurgical Grade Si (99.9% Pure) &rarr; CZ Chamber (1000^o C) &rarr; Seed Crystal + Molten Si &rarr; Si crystal ingot &rarr; Diamond saw &rarr; Polishing &rarr; Silican Wafer
 -   Dopants are introduced in the CZ chamber via _diffusion/ion implantation_, n-type: B (Pentavalent), p-type: P(Trivalent)
 -   Diffusion:
     Temperature is around 650 C, Carrier made of quartz, Dopant in either crystal or powdered form, preheating temperature slightly lower than furnace, carrier gas carries the dopant vapours onto the silicon wafer by getting into the vacant sites of lattice defects and when they move from interstitional locations to lattice positions, doping is complete.
@@ -66,8 +66,8 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 -   Ion Implantation:
     Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed and dopant settling is done via _annealing_ (heating of wafer post-implantation).
 -   Deposition:
-    Used to deposit different materials from SiO\_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.
--   For metal deposition, generally MCl\_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.
+    Used to deposit different materials from SiO_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.
+-   For metal deposition, generally MCl_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.
 -   One of the simplest PVD methods called sputtering in which a sputtering target block made out of the metal to be deposited is held and a highly non-reactive Ar^+ ionic sputtering gas is directed onto the target by creating a potential difference, this causes bombardment of the ions onto the target and results in dislodging of parts of target material which are deposited onto the substrate.
 
 
@@ -95,14 +95,14 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 -   Device Parasitics: \\(C\_{DB}\\), \\(C\_{GD}\\)
 -   Extrinsic Parasitics: Due to interconnects
 -   Design rules: Lambda based for scaling portability. Min. contact: 2&lambda;, Contact to active spacing: &lambda;, Contact to poly-spacing: 2&lambda;, n-well to active n-mos area: 9&lambda;, n-well to active overlap: 5&lambda;.
--   Stick Diagram: Combination of edges and nodes. Needed for sharing S&D to reduce area via Euler's theorem.
+-   Stick Diagram: Combination of edges and nodes. Needed for sharing S&amp;D to reduce area via Euler's theorem.
 -   Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. \\(k\_{d}=\frac{C\_{s}}{C\_{l}}\\)
 
 
 ## Fabrication Layout Design {#fabrication-layout-design}
 
 -   Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.
--   Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for orientation by defining sharing of S&D to reduce area and parasitic capacitances via Euler's theorem.
+-   Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for orientation by defining sharing of S&amp;D to reduce area and parasitic capacitances via Euler's theorem.
 -   Design Rules:
     1.  Minimum Width: Lithography, diffraction limit
     2.  Minimum Spacing: To prevent problems due to misalignment
@@ -113,7 +113,7 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
     2.  Find eulerian path, where a node can be traversed atmost twice but an edge only once.
     3.  Check if the polysilicon path generated can be used on the n-net.
 -   In mos, source and drain are interchangable, which is not possible in bjt, hence mos allows for smaller footprint.
--   Analog layout techniques: The aim is to minimize offset and have high CMRR, (i.e. mos M\_1 and M\_2 are matched so low noise) which determine the minimum input signal that can be detected.
+-   Analog layout techniques: The aim is to minimize offset and have high CMRR, (i.e. mos M_1 and M_2 are matched so low noise) which determine the minimum input signal that can be detected.
     1.  \\(R\_{g}<<\frac{1}{g\_{m}}\\)
     2.  To reduce this resistance, folder topology was introduced, two poly lines connected together represented a large L even though it wasn't actually large, hence W/L decreases.
     3.  Sometimes folder topology can result in some skewed layouts, so multi-fingered topology was introduced, where _n_ poly lines are connected together instead of just two.
@@ -160,6 +160,6 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 ## Scaling and its effects {#scaling-and-its-effects}
 
 -   Process Issues:
-    1.  Shallow Trench: Signal coupling between transistors which can be avoided by increasing distance between them and adding \\(SiO\_2\\) between them. TCE (Temp. Coeff of Expansion) of Si and SiO\_2 is different and on different expansion, due to stress mobility and therefore I-V characteristics changes, Can be avoided by using dummy fingers.
+    1.  Shallow Trench: Signal coupling between transistors which can be avoided by increasing distance between them and adding \\(SiO\_2\\) between them. TCE (Temp. Coeff of Expansion) of Si and SiO_2 is different and on different expansion, due to stress mobility and therefore I-V characteristics changes, Can be avoided by using dummy fingers.
     2.  Well Proximity: Can be avoided using dummy.
     3.  Latchup:
