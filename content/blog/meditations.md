@@ -69,3 +69,69 @@ No one can prevent that.
 To make your mind your guide to what seems best: even people who deny the gods do that. Even people who betray their country. Even people who do sex behind closed doors.
 If all rest is common coin, then what is unique to the good man?
 To welcome with affection what is sent by fate. Not to stain or disturb the spirit within him with a mess of false beliefs.
+
+
+## Book 4 {#book-4}
+
+People try to get away from it all- to the country, to the beach, to the mountains. You always wish that you could too. Which is idiotic: you can get away from it anytime you like.
+By going within.
+
+An instant's recollection and there it is: complete tranquility. And by tranquility I mean a kind of harmony.
+
+The things that have no hold on the soul. They stand there unmoving, outside it. Disturbance comes only from within- from our own perceptions.
+That everything you see will soon alter and cease to exist. Think of how many changes you've already seen.
+"The world is nothing but change. Our life is only perception."
+
+If thought is something we share, then so is reason- what makes us reasoning beings.
+If so, then the reason that tells us what to do and what not to do is also shared.
+And if so, we share a common law.
+And thus, are fellow citizens.
+And fellow citizens of something.
+And in that case, our state must be the world. What other entity could all of humanity belong to? And from it- from this state that we share- come thought and reason and law.
+
+Choose not to be harmed, and you won't feel harmed. Don't feel harmed- and you haven't been.
+
+It can ruin your life only if it ruins your character[^fn:1]. Otherwise it cannot harm you- inside or not.
+
+Two kinds of readiness are constantly needed:
+
+1.  to do only what the **logos** of authority and law directs, with the good of human beings in mind;
+2.  to reconsider your position, when someone can set you straight or convert you to his. But your conversion should always rest on a conviction that it's right, or benefits others- nothing else. Not because it's more appealing or more popular.
+
+You have a mind?
+-Yes.
+Well, why not use it? Isn't that all you want- for it to do its job?
+
+Not to live as if you had endless years ahead of you. Death overshadows you. While you're alive and able- be good.
+
+The tranquility that comes when you stop caring what they say. Or think, or do. Only what **you** do. (Is this fair? Is this the right thing to do?)
+
+But suppose those who remembered you were immortal and your memory undying. What good would it do you? And I don't just mean when you're dead, but in your own lifetime. What use is praise, except to make your lifestyle a little more comfortable?
+"You're out of step- neglecting the gifts of nature to hand on someone's words in the future."
+
+Beautiful things of any kind are beautiful in themselves and sufficient to themselves. Praise is extraneous. The object of praise remains what it was- no better and no worse. This applies, I think, even to "beautiful" things in ordinary life- physical objects, artworks.
+
+Because most of what we say and do is not essential. If you can eliminate it, you'll have more time, and more tranquility. Ask yourself at any moment, "Is this necessary?"
+
+Love the discipline you know, and let it support you. Entrust everything willingly to the gods, and then make your way through life- no one's master and no one's slave.
+
+A key point to bear in mind: The value of attentiveness varies in propotion to its object. You're better off not giving the small things more time than they deserve.
+
+Then what should we work for?
+Only this: proper understanding; unselfish action; truthful speech. A resolve to accept whatever happens as necessary and familiar, flowing like water from that same source and spring.
+
+On the verge of dying and still weighed down, still turbulent, still convinced external things can harm you, still rude to other people, still not acknowledging the truth: that wisdom is justice.
+
+"A little wisp of soul carrying a corpse." - Epictetus.
+
+What follows coheres with what went before. Not like a random catalogue whose order is imposed upon it arbitrarily, but logically connected. And just as what exists is ordered and harmonious. what comes into being betrays an order too. Not a mere sequence, but an astonishing concordance.
+
+"Our words and actions should not be like those of sleepers" (for we act and speak in dreams as well) "or of children copying their parents" -doing and saying only what we have been told.
+
+Suppose that a god announced that you were going to die tomorrow "or the day after". Unless you were a complete coward you wouldn't kick up a fuss about which day it was- what difference could it make? Now recognize that the difference between years from now and tomorrow is just as small.
+
+Our lifetime is so brief. And to live it out in these cirumstances, among these people, in this body? Nothing to get excited about. Consider the abyss of time past, the infinite future. Three days of life or three generations: what's the difference?
+
+Take the shortest route, the one that nature planned- to speak and act in the healthiest way. Do that, and be free of pain and stress, free of all calculation and pretension.
+
+[^fn:1]: Character, as in the upholding of your innate morals, not as what is percieved by others.
