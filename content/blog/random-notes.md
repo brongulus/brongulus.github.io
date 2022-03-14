@@ -56,3 +56,12 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 10. Your house, containing everything you own, catches fire. After saving your loved ones and pets, you have time to safely make a final dash to save any one item. What would it be? Why?
 11. Of all the people in your family, whose death would you find most disturbing? Why?
 12. Share a personal problem and ask your partner’s advice on how he or she might handle it. Also, ask your partner to reflect back to you how you seem to be feeling about the problem you have chosen.
+
+
+## Meditations {#meditations}
+
+> The human soul degrades itself.
+
+<!--quoteend-->
+
+> Above all, when it does its best to become an abscess, a kind of detached growth on the world.

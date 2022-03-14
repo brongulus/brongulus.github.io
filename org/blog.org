@@ -86,6 +86,14 @@ Hi! I'm Prashant.
 34. Your house, containing everything you own, catches fire. After saving your loved ones and pets, you have time to safely make a final dash to save any one item. What would it be? Why?
 35. Of all the people in your family, whose death would you find most disturbing? Why?
 36. Share a personal problem and ask your partner’s advice on how he or she might handle it. Also, ask your partner to reflect back to you how you seem to be feeling about the problem you have chosen.
+*** Meditations
+#+begin_quote
+The human soul degrades itself.
+#+end_quote
+
+#+begin_quote
+Above all, when it does its best to become an abscess, a kind of detached growth on the world.
+#+end_quote
 ** Worklog
 :PROPERTIES:
 :EXPORT_FILE_NAME: worklog
@@ -93,11 +101,11 @@ Hi! I'm Prashant.
 *** 9 February 2022
 + [ ] Prioritised S-Aloha Implementation
 + [X] AnE Lab
-+ [ ] PowE Test (Ch2,5)
++ [X] PowE Test (Ch2,5)
 + [-] DSA Catchup
-+ [-] DSA Lab
-+ [ ] OS Missing Lecture
-+ [ ] OOP Lab Task 3, 4
++ [X] DSA Lab
++ [X] OS Missing Lecture
++ [ ] OOP Lab Task 3, 4, 5
 + [ ] OOP 27 Jan Lecture
 
 *** 3 February 2022

@@ -9,11 +9,11 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 
 -   [ ] Prioritised S-Aloha Implementation
 -   [X] AnE Lab
--   [ ] PowE Test (Ch2,5)
+-   [X] PowE Test (Ch2,5)
 -   [-] DSA Catchup
--   [-] DSA Lab
--   [ ] OS Missing Lecture
--   [ ] OOP Lab Task 3, 4
+-   [X] DSA Lab
+-   [X] OS Missing Lecture
+-   [ ] OOP Lab Task 3, 4, 5
 -   [ ] OOP 27 Jan Lecture
 
 

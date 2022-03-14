@@ -71,7 +71,7 @@
 </ul>
 <h3 id="unique-parametric-representation">Unique Parametric representation</h3>
 <ul>
-<li>Class &rsquo;m' → <em>f</em> is m-differentiable</li>
+<li>Class &rsquo;m&rsquo; → <em>f</em> is m-differentiable</li>
 <li>A curve is <em>smooth</em> if \(\frac{d^{n}f}{dt^{n}}\) exists for all n ≥ 1 and t ∈ (α,β)</li>
 <li>A function <em>f</em> is <em>analytic</em> if it is single valued and of class ∞</li>
 <li>A function is <em>regular</em> if it is differentiable and derivative is non-zero (f dot ≠ 0)</li>
@@ -96,15 +96,15 @@
 where \(h = u-u_0\)</p>
 <ul>
 <li>Let γ be class m ≥ 2 and (P,Q) be points limiting position of a plane that contains tangential line at P and passes through Q as Q → P is defined as the <em>osculating plane</em>.</li>
-<li><strong>Tangent line:</strong> \(\vec{R}(t)=\vec{r}(u_{0})+t \vec{r'}(u_{0})\) at \(u_{0}\)</li>
-<li><strong>Osculating Plane:</strong> \([\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0\) where \(\vec{R}=(X,Y,Z)\) gives the equation of the OP (here \(\vec{r''}(0)\neq0\)). The product inside the box is <em>scalar triple product</em>. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.</li>
-<li>Note that for smallest k ≥ 2 such that \(\vec{r^{(k)}}=0\), the last term in the box is replaced by \(\vec{r'}^{(k)}(0)\)</li>
+<li><strong>Tangent line:</strong> \(\vec{R}(t)=\vec{r}(u_{0})+t \vec{r&rsquo;}(u_{0})\) at \(u_{0}\)</li>
+<li><strong>Osculating Plane:</strong> \([\vec{R}-\vec{r(0)}, \vec{r&rsquo;(0)}, \vec{r&rsquo;&rsquo;(0)}]=0\) where \(\vec{R}=(X,Y,Z)\) gives the equation of the OP (here \(\vec{r&rsquo;&rsquo;}(0)\neq0\)). The product inside the box is <em>scalar triple product</em>. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.</li>
+<li>Note that for smallest k ≥ 2 such that \(\vec{r^{(k)}}=0\), the last term in the box is replaced by \(\vec{r&rsquo;}^{(k)}(0)\)</li>
 </ul>
 <h3 id="principal-normal-and-binormal">Principal normal and binormal</h3>
 <ul>
 <li><strong>Normal Plane:</strong> \(\vec{t}(0).(\vec{R}-\vec{r}(0)) = 0\)
 It is perpendicular to the tangent line and is spanned by <em>n,b</em></li>
-<li><strong>Principal Normal Vector:</strong> For m ≥ 1, \(\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}\)</li>
+<li><strong>Principal Normal Vector:</strong> For m ≥ 1, \(\vec{n}=\frac{\vec{r&rsquo;&rsquo;}(0)}{||\vec{r&rsquo;&rsquo;}(0)||}\)</li>
 <li><strong>Unit Binormal Vector:</strong> \(\vec{b}=\vec{t}\times\vec{n}\)</li>
 <li>OP: b.(R-r)</li>
 <li>NP: t.(R-r)</li>
@@ -137,13 +137,13 @@ b \end{bmatrix}\)</li>
 <li>For a regular curve of class m ≥ 2 with nonvanishing curvature, the curve is <em>planar</em> iff τ=0 everywhere.</li>
 <li>For an analytic curve with arc length parameter, as s → 0, a new parametrization for small s can be defined as:
 \[
-X = s - \frac{\kappa^{2}s^{3}}{6} - \frac{\kappa\kappa' s^{4}}{8} + o(s^{4})
+X = s - \frac{\kappa^{2}s^{3}}{6} - \frac{\kappa\kappa&rsquo; s^{4}}{8} + o(s^{4})
 \]
 \[
-Y = \frac{\kappa s^{2}}{2} + \frac{\kappa' s^{3}}{6} + \frac{\kappa''-\kappa\tau-\kappa^{3}}{24} s^{4} + o(s^{4})
+Y = \frac{\kappa s^{2}}{2} + \frac{\kappa&rsquo; s^{3}}{6} + \frac{\kappa&rsquo;&rsquo;-\kappa\tau-\kappa^{3}}{24} s^{4} + o(s^{4})
 \]
 \[
-Z = \frac{\kappa\tau}{6}s^{3} + \frac{2\kappa'\tau+\kappa\tau'}{24}s^{4} + o(s^{4})
+Z = \frac{\kappa\tau}{6}s^{3} + \frac{2\kappa&rsquo;\tau+\kappa\tau&rsquo;}{24}s^{4} + o(s^{4})
 \]</li>
 <li>Here the o notation represents that for f = o(g), as s → 0, \(lim \frac{f(s)}{g(s)}=0\)</li>
 <li>From previous theorem:
@@ -164,7 +164,7 @@ If f(t)=g(t)+o(t), then as t → 0, it can be written as f(t)~g(t)o(t)</li>
 <li>For a surface S: F(x,y,z)=0 and a parametrized curve C: \(\vec{r}(u)\) = (f(u),g(u),h(u)), let P be a point on C. P lies on S iff F(f(P),g(P),h(P))=0.</li>
 <li>Let φ(u) = F(f(u),g(u),h(u)) for any parameter value u. Then P lies on S iff φ(u<sub>0</sub>)=0.</li>
 <li>Assuming F and \(\vec{r}\) are of class m for sufficiently large m, then φ(u) has a taylor expansion where \(\frac{O(h^{n+1})}{h^{n+1}}\) is bounded as h → 0.</li>
-<li>Definition: Surface S and a parametrized curve C has an <em>n-point contact</em> (or contact of order n) at P if \(\phi(u_{0}) = \phi'(u_{0}) = &hellip; = \phi^{(n-1)}(u_{0}) = 0\) and \(\phi^{(n)}(u_{0})\neq 0\)</li>
+<li>Definition: Surface S and a parametrized curve C has an <em>n-point contact</em> (or contact of order n) at P if \(\phi(u_{0}) = \phi&rsquo;(u_{0}) = &hellip; = \phi^{(n-1)}(u_{0}) = 0\) and \(\phi^{(n)}(u_{0})\neq 0\)</li>
 <li>If S and C have a contact of order 1 at P then it is called a <em>simple intersection</em> of S and C.</li>
 <li>If P is in n-point contact of S and C, then S and C intersect at P in <em>n</em> coincidental points.</li>
 <li>Condition for <em>n-point contact</em> at P is invariant under a change of parameter.</li>
@@ -181,21 +181,21 @@ If f(t)=g(t)+o(t), then as t → 0, it can be written as f(t)~g(t)o(t)</li>
 <ul>
 <li>Definition: For a regular path r(s) of class m ≥ 2, assuming P = r(0) and κ(0)τ(0) ≠ 0, a sphere which has atleast a 4-point contact with r(s) at P is called <em>osculating sphere</em> at P on r.</li>
 <li>ρ(s)= \(\frac{1}{\kappa(s)}\) is called radius of curvature and σ(s)= \(\frac{1}{\tau(s)}\) is called radius of torsion of r(s)</li>
-<li>Theorem: OS at P on r is given by \(|\vec{c}-\vec{R}|^{2} = R^{2}\) where \(R = \sqrt{\rho(0)^{2}+\sigma(0)^{2}\rho'(0)^{2}}\) and \(\vec{c}=\vec{r}(0)+\rho(0)\vec{n}(0)+\sigma(0)\rho'(0)\vec{b}(0)\) where c and R are COSC and ROSC to r(s) at r(0)</li>
+<li>Theorem: OS at P on r is given by \(|\vec{c}-\vec{R}|^{2} = R^{2}\) where \(R = \sqrt{\rho(0)^{2}+\sigma(0)^{2}\rho&rsquo;(0)^{2}}\) and \(\vec{c}=\vec{r}(0)+\rho(0)\vec{n}(0)+\sigma(0)\rho&rsquo;(0)\vec{b}(0)\) where c and R are COSC and ROSC to r(s) at r(0)</li>
 <li>Centre of OS lies in the normal plane of r(s) as \(c-r(0)\) is a linear combination of n(0) and b(0)</li>
 <li>If κ is constant then ROC=ROSC and COC=COSC. In particular, if r is a circle, then its its own OC and is a great circle of the OS.</li>
 </ul>
 <h3 id="locus-of-centres-of-spherical-curvature">Locus of centres of spherical curvature</h3>
 <ul>
 <li>
-<p>Since COSC at r(s) is \(c(s) =r(s)+\rho(s)n(s)+\sigma(s)\rho'(s)b(s)\), it moves along a path as <em>s</em> varies. For this path, SFF, κ, τ can be calculated and will be denoted with subscript c.</p>
+<p>Since COSC at r(s) is \(c(s) =r(s)+\rho(s)n(s)+\sigma(s)\rho&rsquo;(s)b(s)\), it moves along a path as <em>s</em> varies. For this path, SFF, κ, τ can be calculated and will be denoted with subscript c.</p>
 </li>
 <li>
 <p>Assuming τ(s)&gt;0,</p>
 <ol>
-<li>\(c'(s) = (\frac{\rho(s)}{\sigma(s)}+ \frac{d (\sigma(s)\rho'(s))}{ds})b(s)\)</li>
+<li>\(c&rsquo;(s) = (\frac{\rho(s)}{\sigma(s)}+ \frac{d (\sigma(s)\rho&rsquo;(s))}{ds})b(s)\)</li>
 <li>For a regular c(s), unit tangent vector is \(t_{c}(s) = eb(s)\)</li>
-<li>\(\frac{ds_{c}}{ds}=|\frac{\rho(s)}{\sigma(s)}+\frac{d(\sigma(s)\rho'(s))}{ds}|\)</li>
+<li>\(\frac{ds_{c}}{ds}=|\frac{\rho(s)}{\sigma(s)}+\frac{d(\sigma(s)\rho&rsquo;(s))}{ds}|\)</li>
 </ol>
 <p>Here e is 1 if ds<sub>c</sub>/ds &gt; 0, -1 ow. Also \(e = t_{c}(s).b(s)\)</p>
 </li>
@@ -209,7 +209,7 @@ If f(t)=g(t)+o(t), then as t → 0, it can be written as f(t)~g(t)o(t)</li>
 <li>
 <p>Theorem: ROC of center of curvatures (i.e. center of OCs) is given by
 \[
-\rho_{1} = [( \frac{\rho^{2}\sigma}{R^{3}}\frac{d}{ds}(\frac{\sigma\rho'}{\rho})-\frac{1}{R} )^{2} + \frac{\rho'^{2}\sigma^{4}}{\rho^{2}R^{4}}]^{-1/2}
+\rho_{1} = [( \frac{\rho^{2}\sigma}{R^{3}}\frac{d}{ds}(\frac{\sigma\rho&rsquo;}{\rho})-\frac{1}{R} )^{2} + \frac{\rho&rsquo;^{2}\sigma^{4}}{\rho^{2}R^{4}}]^{-1/2}
 \]</p>
 </li>
 </ul>
@@ -219,13 +219,13 @@ If f(t)=g(t)+o(t), then as t → 0, it can be written as f(t)~g(t)o(t)</li>
 <p>Definition: Tangent surface to a curve r is union of all tangent lines to r at all its points.</p>
 </li>
 <li>
-<p>Tangent line to r at r(s) is R(u,s) = r(s)+ur'(s)</p>
+<p>Tangent line to r at r(s) is R(u,s) = r(s)+ur&rsquo;(s)</p>
 </li>
 <li>
 <p>For both varying r and u, one gets the tangent surface.</p>
 </li>
 <li>
-<p>Image of the curve u=u(s) in us-plane gives a curve \(r_{1}(s)=r(s)+u(s)r'(s)\)</p>
+<p>Image of the curve u=u(s) in us-plane gives a curve \(r_{1}(s)=r(s)+u(s)r&rsquo;(s)\)</p>
 </li>
 <li>
 <p>Definition: Involute of r is a curve on the tangent surface of r which meets all generating lines orthogonally at corresponding points.</p>
@@ -236,7 +236,7 @@ If f(t)=g(t)+o(t), then as t → 0, it can be written as f(t)~g(t)o(t)</li>
 <li>
 <p>For an involute c(s) of a regular path r(s) of class m ≥ 2.
 \[
-\kappa_{c}^2 = \frac{\tau^{2}+\kappa^{2}}{\kappa^{2}(c-s)^{2}}, \tau_c = \frac{\kappa\tau'-\kappa'\tau}{\kappa(c-s)(\tau^{2}+\kappa^{2})}
+\kappa_{c}^2 = \frac{\tau^{2}+\kappa^{2}}{\kappa^{2}(c-s)^{2}}, \tau_c = \frac{\kappa\tau&rsquo;-\kappa&rsquo;\tau}{\kappa(c-s)(\tau^{2}+\kappa^{2})}
 \]</p>
 </li>
 <li>
@@ -253,7 +253,7 @@ If f(t)=g(t)+o(t), then as t → 0, it can be written as f(t)~g(t)o(t)</li>
 \[
 r_{1} = r+\rho\textbf{n}-\rho tan(\psi+a)\textbf{b}
 \]
-Further \(\psi = \int \tau ds\) so that ψ'=τ&hellip;</p>
+Further \(\psi = \int \tau ds\) so that ψ&rsquo;=τ&hellip;</p>
 </li>
 </ul>
 <h2 id="first-fundamental-form-and-local-intrinsic-properties-of-a-surface">First Fundamental Form and Local Intrinsic Properties of a Surface</h2>
@@ -273,13 +273,13 @@ x = f(u,v), y = g(u,v), z = h(u,v)
 \]
 where <em>f, g</em> and <em>h</em> are single valued continuous functions possessing continuous derivatives of <em>r</em>-th order. Such surfaces are called surfaces of class <em>r</em>.</p>
 <p>Parametric representation is useful for local study of surfaces i.e. in the neighbourhood of a point which is a small region <strong>but</strong> it is not unique for a surface. Also, the parameters <em>u</em> and <em>v</em> are called <em>curvilinear coordinates</em>.</p>
-<p><strong>Definition 3:</strong> For two parametric representations <em>u, v</em> and <em>u', v'</em> of the same surface, any transformation of the form \(u'=\phi(u,v)\) and \(v'=\psi(u,v)\) relating the two representations is called a <em>parametric transformation</em>.</p>
+<p><strong>Definition 3:</strong> For two parametric representations <em>u, v</em> and <em>u&rsquo;, v&rsquo;</em> of the same surface, any transformation of the form \(u&rsquo;=\phi(u,v)\) and \(v&rsquo;=\psi(u,v)\) relating the two representations is called a <em>parametric transformation</em>.</p>
 <p><strong>Definition 4:</strong> A parametric transformation is <em>proper</em> if:</p>
 <ol>
 <li>φ and ψ are single valued functions.</li>
 <li>The Jacobian \(\frac{\delta (\phi,\psi)}{\delta (u,v)}\neq0\) in some domain D.</li>
 </ol>
-<p>These conditions are necessary and sufficient for existence of inverse in the neighbourhood of any point in D' which is the domain of <em>u', v'</em> corresponding to the domain D of the <em>u, v</em> plane.</p>
+<p>These conditions are necessary and sufficient for existence of inverse in the neighbourhood of any point in D&rsquo; which is the domain of <em>u&rsquo;, v&rsquo;</em> corresponding to the domain D of the <em>u, v</em> plane.</p>
 <h3 id="nature-of-points-on-a-surface">Nature of Points on a Surface</h3>
 <p><strong>Notation:</strong> For <strong>r</strong> being the position vector of a point on the surface, <strong>r</strong> = (x,y,z), we can take r = r(u,v) as the parametric form of the surface and use \(r_1 = \frac{\delta r}{\delta u} = (x_{1},y_{1},z_{1})\) and \(r_2 = \frac{\delta r}{\delta v} = (x_{2},y_{2},z_{2})\), similarly we can denote second order derivatives using \(r_{11}, r_{21}\) etc.</p>
 <p><strong>Definition 1:</strong> If \(r_{1}\times r_{2}\neq0\) at a point on a surface, then the point is called an <em>ordinary</em> point. A point which is not an ordinary point is called a <em>singularity</em>.</p>
@@ -303,7 +303,7 @@ Computing M, then at <em>u</em> = 0, the determinant of every second order minor
 <p><strong>Definition 1:</strong> A representation R of a surface S of class <em>r</em> in \(E_{3}\) is a collection of points in \(E_{3}\) covered by a system of overlapping parts \({S_{j}}\) where each part {{\(S_{j}\)} is given by a parametric equation of class <em>r</em>. Each point lying in the common portion of two parts \(S_{i}, S_{j}\) is such that the change of parameters from one part to is adjacent is given by a <em>proper</em> parametric transformation of class <em>r</em>.</p>
 <p><strong><em>Note:</em></strong> Since one cannot parameterise the whole surface without introducing artificial singularities, one has to resort to a surface composed of many overlapping parts.</p>
 <p>It is possible to have many representations of the same surface by considering different systems of overlapping parts (\(S_{j}\)), each part is given by a parametric equation of class <em>r</em>.</p>
-<p><strong>Definition 2:</strong> For R and R' being two representations of class <em>r</em> of the surface S, they are <em>equivalent</em> if the composite family of parts {\(S_{j},S'_{j}\)} satisfies the condition that for each point P lying in the place of overlap, the change of parameter from \(S_{j}\)  to \(S'_{j}\) at P is given by a proper parametric transformation of class r.</p>
+<p><strong>Definition 2:</strong> For R and R&rsquo; being two representations of class <em>r</em> of the surface S, they are <em>equivalent</em> if the composite family of parts {\(S_{j},S&rsquo;_{j}\)} satisfies the condition that for each point P lying in the place of overlap, the change of parameter from \(S_{j}\)  to \(S&rsquo;_{j}\) at P is given by a proper parametric transformation of class r.</p>
 <p><strong>Theorem:</strong> The notion of <em>r</em>-equivalence of representations of a surface is an equivalence relation.</p>
 <p>This equivalence relation introduces a partition into the family of surfaces of class <em>r</em> splitting them into mutually disjoint equivalence classes, each class containing the surface equivalent to one another in the above equivalence relation.</p>
 <p><strong>Definition 3:</strong> A surface S of class <em>r</em> in \(E_{3}\) is an <em>r</em>-equivalence class of representations.</p>
@@ -353,7 +353,7 @@ where <em>v</em> is the angle of roatation about the <em>z</em>-axis.</p>
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-02-17 09:21:08.965347405 &#43;0530 IST m=&#43;0.610283593">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-03-14 22:03:34.085112175 &#43;0530 IST m=&#43;1.029216282">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
