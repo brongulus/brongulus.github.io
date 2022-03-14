@@ -134,4 +134,28 @@ Our lifetime is so brief. And to live it out in these cirumstances, among these 
 
 Take the shortest route, the one that nature planned- to speak and act in the healthiest way. Do that, and be free of pain and stress, free of all calculation and pretension.
 
+
+## Book 5 {#book-5}
+
+At dawn, when you have trouble getting out of bed, tell yourself: "I have to go to work- as a human being. What do I have to complain of, if I'm going to do what I was born for- the things I was brought into the world to do? Or is **this** what I was created for? To huddle under the blankets and stay warm?"
+-But it's nicer here...
+So you were born to feel "nice"? Instead of doing things and experiencing them? Don't you see the plants, the birds, the ants and spiders and bees going about their individual tasks, putting the world in order, as best as they can? And you're not willing to do your job as a human being? Why aren't you running to do what your nature demands?
+
+But nature set a limit on that- as it did on eating and drinking. And you're over the limit. You've had more than enough of that. But not of working. There you're still below your quota.
+
+Is helping others less valuable to you? Not worth your effort?
+
+If an action or utterance is appropriate, then it's appropriate for you. Don't be put off by other people's comments and criticism. If it's right to say or do it, then it's the right thing for you to do or say.
+
+Practice the virtues you **can** show: honesty, gravity, endurance, austerity, resignation, abstinence, patience, sincerity, moderation, seriousness, high-mindedness. Don't you see how much you have to offer- beyond excuses like "can't"? And yet you still settle for less.
+
+Prayer for the Athenians:
+_Zeus, rain down, rain down
+On the lands and fields of Athens._
+Either no prayers at all- or one as straightforward as that.
+
+Look at the accomplishment of nature's plans in that light- the way you look at your own health- and accept what happens (even if it seems hard to accept). Accept it because of what it leads to: the good health of the world, and the well-being and prosperity of Zeus himself, who would not have brought this on anyone unless it brought benefit to the world as a whole. No nature would do that- bring something about that wasn't beneficial to what it governed.
+
+[To be continued...]
+
 [^fn:1]: Character, as in the upholding of your innate morals, not as what is percieved by others.
