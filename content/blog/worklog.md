@@ -7,7 +7,7 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 
 ## 9 February 2022 {#9-february-2022}
 
--   [ ] Prioritised S-Aloha Implementation
+-   [-] Prioritised S-Aloha Implementation
 -   [X] AnE Lab
 -   [X] PowE Test (Ch2,5)
 -   [-] DSA Catchup

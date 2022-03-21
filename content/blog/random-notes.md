@@ -5,6 +5,15 @@ draft = false
 creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 +++
 
+## Words to live by {#words-to-live-by}
+
+> we do these little things I guess to
+> fill our time and you set little goals
+> and I guess that's what makes life
+> exciting
+> -Nathan fielder
+
+
 ## [36 Questions that lead to love](https://www.nytimes.com/2015/01/09/style/no-37-big-wedding-or-small.html) {#36-questions-that-lead-to-love}
 
 -   Idea is that mutual vulnerability fosters closeness.
