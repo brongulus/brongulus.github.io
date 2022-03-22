@@ -55,6 +55,9 @@ Hi! I'm Prashant.
 Added first chirp and performed first squash while b8kd.
 #+end_quote
 
+#+begin_quote
+[[../../../../../Data/Downloads/Media/channie/myNFT.jpg]]
+#+end_quote
 
 *** Words to live by
 #+begin_quote

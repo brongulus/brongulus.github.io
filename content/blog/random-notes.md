@@ -13,6 +13,10 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 
 > Added first chirp and performed first squash while b8kd.
 
+<!--quoteend-->
+
+> {{< figure src="/ox-hugo/myNFT.jpg" >}}
+
 
 ## Words to live by {#words-to-live-by}
 
