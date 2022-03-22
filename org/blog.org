@@ -45,6 +45,12 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_FILE_NAME: random-notes
 :END:
+*** Twitter Wall
+
+#+begin_quote
+"What seems to be the officer, problem?" :tf:
+#+end_quote
+
 *** Words to live by
 #+begin_quote
 we do these little things I guess to

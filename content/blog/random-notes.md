@@ -5,6 +5,11 @@ draft = false
 creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 +++
 
+## Twitter Wall {#twitter-wall}
+
+> "What seems to be the officer, problem?" :tf:
+
+
 ## Words to live by {#words-to-live-by}
 
 > we do these little things I guess to
