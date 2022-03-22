@@ -5,7 +5,7 @@ draft = false
 creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 +++
 
-## Twitter Wall {#twitter-wall}
+## Chirping Bird Wall {#chirping-bird-wall}
 
 > "What seems to be the officer, problem?" :tf:
 

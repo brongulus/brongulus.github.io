@@ -45,7 +45,7 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_FILE_NAME: random-notes
 :END:
-*** Twitter Wall
+*** Chirping Bird Wall
 
 #+begin_quote
 "What seems to be the officer, problem?" :tf:
