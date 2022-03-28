@@ -27,6 +27,10 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 >
 > if you can't manage to start any of this shit, either seek professional help or go do a serious dose of mushrooms in a comfortable environment. you need to forcefully light a fire under your ass and force yourself into action, either chemically or through extreme psychedelic self-analysis and introspection. if you've got serious problems it's not going to solve any of it. but it will be made very clear what needs to be cleaned up in your life for you to return to normal. you can't get wasted time back, but you cannot live in shame or guilt for wasting it, you will kill yourself.
 
+<!--quoteend-->
+
+> Relationships are like a control system, no matter the disturbances or change in affection, the output must remain consistent.
+
 
 ## Words to live by {#words-to-live-by}
 

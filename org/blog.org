@@ -69,6 +69,9 @@ step 3: start and finish things. go do it, yeah, that thing you've been putting 
 if you can't manage to start any of this shit, either seek professional help or go do a serious dose of mushrooms in a comfortable environment. you need to forcefully light a fire under your ass and force yourself into action, either chemically or through extreme psychedelic self-analysis and introspection. if you've got serious problems it's not going to solve any of it. but it will be made very clear what needs to be cleaned up in your life for you to return to normal. you can't get wasted time back, but you cannot live in shame or guilt for wasting it, you will kill yourself.
 #+end_quote
 
+#+begin_quote
+Relationships are like a control system, no matter the disturbances or change in affection, the output must remain consistent.
+#+end_quote
 
 *** Words to live by
 #+begin_quote
@@ -273,11 +276,8 @@ Look at the accomplishment of nature's plans in that light- the way you look at 
 *** 9 February 2022
 + [-] Prioritised S-Aloha Implementation
 + [X] AnE Lab
-+ [X] PowE Test (Ch2,5)
 + [-] DSA Catchup
 + [X] DSA Lab
-+ [X] OS Missing Lecture
-+ [ ] OOP Lab Task 3, 4, 5
 + [ ] OOP 27 Jan Lecture
 
 *** 3 February 2022
