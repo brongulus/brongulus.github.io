@@ -161,11 +161,11 @@
 <p>On testing this system on 2017 CoNLL data sets, largest gains were found for morphologically rich languages, such as in the Slavic family group. It was also benchmarked on English PTB(?) data, where it performed extremely well compared to the previous best system.</p>
 <h2 id="related-work">Related Work</h2>
 <ol>
-<li>An excellent example of an accurate linear model that uses both word and sub-word features.<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup> It uses context sensitive n-gram affix features.</li>
+<li>An excellent example of an accurate linear model that uses both word and sub-word features.<sup id="fnref1:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup> It uses context sensitive n-gram affix features.</li>
 <li>First Modern NN for tagging which initially used only word embeddings<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup>, was later extended to include suffix embeddings.<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup></li>
 <li>TBD TBD</li>
-<li>This is the jumping point for current architectures for tagging models with RNNs.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></li>
-<li>Then <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> showed that subword/word combination representation leads to state-of-the-art morphosyntactic tagging accuracy.</li>
+<li>This is the jumping point for current architectures for tagging models with RNNs.<sup id="fnref1:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></li>
+<li>Then <sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> showed that subword/word combination representation leads to state-of-the-art morphosyntactic tagging accuracy.</li>
 </ol>
 <h2 id="models">Models</h2>
 <h3 id="sentence-based-character-model">Sentence-based Character Model</h3>
@@ -350,41 +350,41 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 <li><a href="https://lena-voita.github.io/nlp_course.html">Great Tutorial for NLP</a></li>
 <li><a href="https://github.com/Sdernal/Morphology/blob/master/README.md">Morphology</a></li>
 </ol>
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
+<li id="fn:1">
 <p><a href="https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe">Everything about Embeddings</a> Embedding converts symbolic representations into meaningful&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
+<li id="fn:2">
 <p>Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:3" role="doc-endnote">
+<li id="fn:3">
 <p>They are the different categorical characteristic of the given data. For example, it could be <em>grammatical</em> classes or some <em>physical</em> features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:4" role="doc-endnote">
+<li id="fn:4">
 <p>A word embedding is a learned representation for text where words that have the same meaning have a similar representation.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:5" role="doc-endnote">
-<p><a href="https://www.aclweb.org/anthology/K17-3002.pdf">Graph based Neural Dependency Parser</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:5">
+<p><a href="https://www.aclweb.org/anthology/K17-3002.pdf">Graph based Neural Dependency Parser</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:6" role="doc-endnote">
-<p><a href="https://arxiv.org/pdf/1604.05529.pdf">POS Tagging with BiLSTM</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:6">
+<p><a href="https://arxiv.org/pdf/1604.05529.pdf">POS Tagging with BiLSTM</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:7" role="doc-endnote">
-<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&amp;rep=rep1&amp;type=pdf">*Fast POS Tagging: SVM Approach</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:7">
+<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&amp;rep=rep1&amp;type=pdf">*Fast POS Tagging: SVM Approach</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:8" role="doc-endnote">
+<li id="fn:8">
 <p><a href="http://machinelearning.org/archive/icml2008/papers/391.pdf">Unified architecture for NLP</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:9" role="doc-endnote">
+<li id="fn:9">
 <p><a href="https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf">NLP(almost) from Scratch</a>&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:10" role="doc-endnote">
+<li id="fn:10">
 <p>Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
 
 
 		
@@ -402,7 +402,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
             		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-03-28 18:13:36.8359089 &#43;0530 IST m=&#43;0.760866287">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-02 16:59:05.234661422 &#43;0530 IST m=&#43;0.666303670">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">

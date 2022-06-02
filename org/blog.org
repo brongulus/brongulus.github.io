@@ -273,12 +273,17 @@ Look at the accomplishment of nature's plans in that light- the way you look at 
 :PROPERTIES:
 :EXPORT_FILE_NAME: worklog
 :END:
+*** 1 June 2022
++ [-] Leave Everything, Learn Python
++ [ ] IUASCO
++ [ ] Programming Perl
++ [ ] DAS - From Scratch
 *** 9 February 2022
-+ [-] Prioritised S-Aloha Implementation
 + [X] AnE Lab
-+ [-] DSA Catchup
++ [X] IIC Assignment
++ [X] DSA Catchup
 + [X] DSA Lab
-+ [ ] OOP 27 Jan Lecture
++ [X] OOP 27 Jan Lecture
 
 *** 3 February 2022
 + [X] Problem Formulation
@@ -287,7 +292,7 @@ Look at the accomplishment of nature's plans in that light- the way you look at 
 + [X] SOP 2 Small Papers
 + [X] PowE Lab
 *** 31 January 2022
-+ [ ] Chapter 2 T2 PowE
++ [X] Chapter 2 T2 PowE
 + [X] Might be Test in AnE, so practice problems
 + [X] Prepare for IIC Tut too
 ** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
@@ -512,18 +517,114 @@ TODO Add two remaining tables
 [fn:8] [[https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf][NLP(almost) from Scratch]]
 [fn:9] Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.
 [fn:10] [[https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe][Everything about Embeddings]] Embedding converts symbolic representations into meaningful
-** An introduction to the nix package manager :noexport:
+** Another nix post in the wall :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: nix-intro
 :END:
+*** Starting
+Are you using Nixos? This is not for you.
+Do you want multi-user installation? This is not for you.
+This is only useful if you want to use both flakes and home-manager.
+
++ Single-user installation (no sudo needed, easier to remove, good for testing purposes)
+  #+begin_src sh
+  sh <(curl -L https://nixos.org/nix/install) --no-daemon
+  #+end_src
++ Source the new profile or login.
+    =. ~/.nix-profile/etc/profile.d/nix.sh=
++ Since most of the nix "guides" are outdated, check what your current version supports =nix --help=, at the time of writing this, there's no need to enable experimental features for flakes :)
++ Upgrading nix:
+  #+begin_src sh
+  nix-channel --update; nix-env -iA nixpkgs.nix nixpkgs.cacert
+  #+end_src
++ Check if =nixpkgs-unstable= channel (package sources basically) is installed or not by =nix-channel --list=
++ You can look at user-installed packages by =nix-env --query=
+*** Home manager:
+Allows declarative configuration of user-specific (non global) packages and dotfiles.
+****** Installation
+  #+begin_src sh
+  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  nix-channel --update
+  #+end_src
+
+    In =.bash_profile=. (might not be needed for single-user systems, check back later)
+  #+begin_src sh
+  export NIX_PATH=${NIX_PATH:+:$NIX_PATH}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
+  #+end_src
+
+    In your =.bash_profile=, add below and source the profile for your current session.
+  #+begin_src sh
+  source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+  #+end_src
+****** Configuration
+Now check =~/.config/nixpkgs/home.nix=, if it exists then for the most part you've successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run =home-manager build= to successfully verify. Also periodically check =home-manager news= for updates regarding new changes to packages that are referred in your config. After [[https://nix-community.github.io/home-manager/index.html#sec-install-standalone][adding some packages]] (section 2.1), run =home-manger switch=.
+*** Fleyks
+Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly, ugh.
+
+#+begin_src sh
+nix-env -iA nixpkgs.nixFlakes
+#+end_src
+
+This replaces nix 2.9.0 with 2.8.1? WTF is happening. Sigh, for now we enable experimental features.
+
+#+begin_src sh
+mkdir -p ~/.config/nix
+echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
+#+end_src
+
+God, the documentation is so stinky for flakes, like there are /n/ variants sayings /n^2/ different things, so for now I'm just winging it. Comment out the stateVersion from =home.nix= and in the same directory create a =flake.nix=. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your =home-manager=.
+
+#+begin_src nix
+{
+  description = "Home Manager configuration of Jane Doe";
+
+  inputs = {
+    # Specify the source of Home Manager and Nixpkgs
+    home-manager.url = "github:nix-community/home-manager";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = { home-manager, ... }:
+    let
+      system = "x86_64-linux";
+      username = "jdoe";
+    in {
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
+        # Specify the path to your home configuration here
+        configuration = import ./home.nix;
+
+        inherit system username;
+        homeDirectory = "/home/${username}";
+        # Update the state version as needed.
+        # See the changelog here:
+        # https://nix-community.github.io/home-manager/release-notes.html#sec-release-21.05
+        stateVersion = "22.05"; # TODO add current unstable home-manager version
+
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+      };
+    };
+}
+#+end_src
+
+Now it's time to flake-ify your =hm=. Here <flake-uri> would be =path:.config/nixpkgs= assuming your pwd is =~=.
+
+#+begin_src sh
+home-manager switch --flake '<flake-uri>#jdoe'
+#+end_src
+
+The flake inputs are not upgraded automatically when switching. The analogy to the command =home-manager --update= ... is =nix flake update=. If updating more than one input is undesirable, the command =nix flake lock --update-input <input-name>= can be used.
+
+** Old Headings
 *** Why?
 *** Benefits
+*** Home-manager
 *** Flakes
 *** Overlays
 *** Profiles
 *** Multi User
 *** Nix Shell
-*** Home-manager
 ** Japanese Resources :noexport:
    :PROPERTIES:
    :EXPORT_FILE_NAME: japanese-guide
@@ -729,6 +830,32 @@ Go break a leg! :)
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
+** Computation
+:PROPERTIES:
+:EXPORT_FILE_NAME: computation-das
+:END:
+*** Simplicity
+**** Turing Machine
+
+- Infinite Tape: For memory purposes
+  =....................BBBBBBBBBBBBBB................=
+  =..........................^.......................=
+
+#+begin_src python
+user.save()
+user.email = "alice@example.com"
+#+end_src
+
+**** Lambda Calculus
+*** Limits - The Halting Problem
+*** Structure
+**** Turing Equivalence
+**** Finite State Machines
+**** Chomsky Hierarchy
+1. Regex
+2. Recognize Python
+3. Recognize C++, JS etc
+4. Turing-equivalent
 ** Differential Geometry
 :PROPERTIES:
 :EXPORT_FILE_NAME: dg-notes

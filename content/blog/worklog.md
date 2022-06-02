@@ -2,16 +2,24 @@
 title = "Worklog"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
+
+## 1 June 2022 {#1-june-2022}
+
+-   [-] Leave Everything, Learn Python
+-   [ ] IUASCO
+-   [ ] Programming Perl
+-   [ ] DAS - From Scratch
+
 
 ## 9 February 2022 {#9-february-2022}
 
--   [-] Prioritised S-Aloha Implementation
 -   [X] AnE Lab
--   [-] DSA Catchup
+-   [X] IIC Assignment
+-   [X] DSA Catchup
 -   [X] DSA Lab
--   [ ] OOP 27 Jan Lecture
+-   [X] OOP 27 Jan Lecture
 
 
 ## 3 February 2022 {#3-february-2022}
@@ -28,6 +36,6 @@ creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
 
 ## 31 January 2022 {#31-january-2022}
 
--   [ ] Chapter 2 T2 PowE
+-   [X] Chapter 2 T2 PowE
 -   [X] Might be Test in AnE, so practice problems
 -   [X] Prepare for IIC Tut too

@@ -34,6 +34,15 @@
     </item>
     
     <item>
+      <title>Computation</title>
+      <link>https://brongulus.github.io/notes/computation-das/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/computation-das/</guid>
+      <description>Simplicity Turing Machine  Infinite Tape: For memory purposes ....................BBBBBBBBBBBBBB................ ..........................^.......................   user.save() user.email = &amp;#34;alice@example.com&amp;#34; Lambda Calculus Limits - The Halting Problem Structure Turing Equivalence Finite State Machines Chomsky Hierarchy  Regex Recognize Python Recognize C++, JS etc Turing-equivalent  </description>
+    </item>
+    
+    <item>
       <title>Creating a blog using ox-hugo, org mode and github pages</title>
       <link>https://brongulus.github.io/blog/blog-creation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -112,7 +121,7 @@ Coming to the S.M.A.R.T. (Specific, Measurable, Attainable, Realistic, and Time 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://brongulus.github.io/blog/worklog/</guid>
-      <description>9 February 2022  [-] Prioritised S-Aloha Implementation AnE Lab [-] DSA Catchup DSA Lab OOP 27 Jan Lecture  3 February 2022  Problem Formulation  2 February 2022  AnE Lab Submission (10 AM, 3rd Feb) SOP 2 Small Papers PowE Lab  31 January 2022  Chapter 2 T2 PowE Might be Test in AnE, so practice problems Prepare for IIC Tut too  </description>
+      <description>1 June 2022  [-] Leave Everything, Learn Python IUASCO Programming Perl DAS - From Scratch  9 February 2022  AnE Lab IIC Assignment DSA Catchup DSA Lab OOP 27 Jan Lecture  3 February 2022  Problem Formulation  2 February 2022  AnE Lab Submission (10 AM, 3rd Feb) SOP 2 Small Papers PowE Lab  31 January 2022  Chapter 2 T2 PowE Might be Test in AnE, so practice problems Prepare for IIC Tut too  </description>
     </item>
     
   </channel>

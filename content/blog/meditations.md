@@ -2,7 +2,7 @@
 title = "Meditations"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
 
 ## Book 2: On the River Gran, Among the Quadi {#book-2-on-the-river-gran-among-the-quadi}

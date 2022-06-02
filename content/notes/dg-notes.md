@@ -2,7 +2,7 @@
 title = "Differential Geometry"
 author = ["Prashant Tak"]
 draft = false
-creator = "Emacs 27.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
 
 ## Theory of Space Curves {#theory-of-space-curves}
