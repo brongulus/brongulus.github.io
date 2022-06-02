@@ -1,10 +1,13 @@
 :root {
-  --light-bg: #c9c9c9;
-  --dark-bg: #2E3440;
+  --light-bg: #fbf1c7;
+  --dark-bg: #323f46;
   --light-font: #555;
-  --dark-font: #e1e1ff;
+  --dark-font: #c9cdd7;
+  --light-scroll: #555;
+  --dark-scroll: #000;
   --bg: var(--light-bg);
   --txt: var(--light-font);
+  --scroll: var(--light-scroll);
   --light-link: #458588;
   --dark-link: #88C0D0;
   --link: var(--light-link); }
@@ -22,11 +25,10 @@ html,
   background-color: var(--bg);
   margin-left: auto;
   margin-right: auto;
-  max-width: 1400px;
   transition: background 0.3s ease; }
 
 html {
-  font-family: "Freight Sans Pro Light", "Libre Baskerville", "Times New Roman", Times, serif;
+  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 15px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
@@ -61,6 +63,7 @@ h6 {
   line-height: normal; }
 
 a {
+  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   color: var(--link);
   text-decoration: none; }
 
@@ -90,7 +93,7 @@ td {
   background-color: transparent; }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #d5c4a1;
+  background-color: var(--scroll);
   border-radius: 20px;
   border: 6px solid transparent;
   background-clip: content-box; }
@@ -102,15 +105,16 @@ td {
   display: none; }
 
 .label {
-  display: flex;
+  display: inline-block;
   align-items: right;
   justify-content: space-between;
   position: relative;
   background: var(--txt);
   border-radius: 5rem;
   padding: 0.5rem;
-  height: 2.5rem;
-  width: 5rem;
+  margin: 1rem 0 0 8rem;
+  height: 2rem;
+  width: 4rem;
   font-size: 1.5rem;
   transition: background 0.5s ease;
   cursor: pointer;
@@ -122,13 +126,14 @@ td {
   border-radius: 50%;
   top: 0.25rem;
   left: 0.25rem;
-  height: 2rem;
-  width: 2rem;
+  height: 1.5rem;
+  width: 1.5rem;
   transform: translateX(0);
   transition: transform 0.3s ease, background-color 0.5s ease; }
 
 .checkbox:checked + .content .label .ball {
-  transform: translateX(2.5rem); }
+  display: inline-block;
+  transform: translateX(2rem); }
 
 .checkbox:checked + .content {
   --bg: var(--dark-bg);
@@ -151,7 +156,7 @@ code {
   font-family: Menlo, Monaco, monospace; }
 
 code {
-  background-color: #fbf1c7;
+  background-color: var(--bg);
   border-radius: 0px;
   color: #bf616a;
   font-size: 85%;
@@ -168,8 +173,8 @@ pre code {
   padding: 0; }
 
 .highlight {
-  background-color: #fbf1c7;
-  border-radius: 0px;
+  background-color: #272822;
+  border-radius: .5rem;
   line-height: 1.4;
   margin: 0 0 1rem;
   padding: 1rem; }
@@ -194,13 +199,13 @@ pre code {
     .post-info span {
       font-style: italic; }
   .post-title {
-    color: #353535;
+    color: var(--txt);
     font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 4rem;
     margin: 1rem 0;
     text-align: center; }
   .post-line {
-    border-top: 0.4rem solid #353535;
+    border-top: 0.4rem solid var(--txt);
     display: block;
     margin: 0 auto 3rem;
     width: 4rem; }
@@ -502,7 +507,7 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #555;
+    color: var(--txt);
     display: inline-block;
     margin: 0;
     padding-right: .2rem; }
@@ -542,7 +547,7 @@ footer {
   padding: 2rem 0;
   text-align: center; }
   footer span {
-    color: #555;
+    color: var(--txt);
     font-size: .8rem; }
 
 .pagination {
@@ -558,7 +563,7 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #555;
+    color: var(--txt);
     font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
     opacity: .6; }
@@ -568,7 +573,7 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #555;
+    color: var(--txt);
     position: absolute; }
     .pagination .arrow:hover, .pagination .arrow:focus {
       opacity: .6;
@@ -580,7 +585,7 @@ footer {
 
 .catalogue-item {
   border-bottom: 1px solid #e5e5e5;
-  color: #555;
+  color: var(--txt);
   display: block;
   padding: 2rem 0; }
   .catalogue-item:hover .catalogue-line, .catalogue-item:focus .catalogue-line {
@@ -594,7 +599,7 @@ footer {
   letter-spacing: .5px; }
 
 .catalogue-title {
-  color: #353535;
+  color: var(--txt);
   display: block;
   font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 2rem;
