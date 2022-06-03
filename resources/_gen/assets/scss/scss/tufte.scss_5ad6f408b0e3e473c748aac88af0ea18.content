@@ -1,16 +1,25 @@
 :root {
-  --light-bg: #fbf1c7;
+  --light-bg: #e1e1ff;
   --dark-bg: #323f46;
   --light-font: #555;
   --dark-font: #c9cdd7;
   --light-scroll: #555;
-  --dark-scroll: #000;
+  --dark-scroll: #fff;
   --bg: var(--light-bg);
   --txt: var(--light-font);
   --scroll: var(--light-scroll);
   --light-link: #458588;
-  --dark-link: #88C0D0;
-  --link: var(--light-link); }
+  --dark-link: #88c0d0;
+  --link: var(--light-link);
+  --dark-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
+  --light-gradient: linear-gradient(-120deg, #9a97f3 0%, #202945 100%);
+  --gradient: var(--light-gradient);
+  --light-blend: darken;
+  --dark-blend: overlay;
+  --blend: var(--light-blend);
+  --light-filter: invert(0%);
+  --dark-filter: invert(100%);
+  --filter: var(--light-filter); }
 
 * {
   -webkit-box-sizing: border-box;
@@ -21,20 +30,24 @@
 
 html,
 .content {
+  display: block;
   color: var(--txt);
   background-color: var(--bg);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
+  height: 100%;
   transition: background 0.3s ease; }
 
 html {
+  color: var(--bg);
   font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 15px;
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  margin: 0; }
   @media (min-width: 600px) {
     html {
       font-size: 16px; } }
 body {
+  margin: 0;
   -webkit-text-size-adjust: 100%; }
 
 h1 {
@@ -70,8 +83,8 @@ a {
 blockquote {
   border-left: 0.25rem solid #e5e5e5;
   color: #979797;
-  margin: .8rem 0;
-  padding: .5rem 1rem; }
+  margin: 0.8rem 0;
+  padding: 0.5rem 1rem; }
   blockquote p:last-child {
     margin-bottom: 0; }
   @media (min-width: 600px) {
@@ -80,17 +93,19 @@ blockquote {
 img {
   display: block;
   margin: 0 0 1rem;
-  max-width: 100%;
-  filter: invert(7%) sepia(22%) saturate(405%) hue-rotate(340deg) brightness(102%) contrast(97%); }
+  filter: var(--filter);
+  mix-blend-mode: var(--blend);
+  max-width: 100%; }
 
 td {
   vertical-align: top; }
 
 ::-webkit-scrollbar {
+  background-color: transparent;
   width: 20px; }
 
 ::-webkit-scrollbar-track {
-  background-color: transparent; }
+  background-color: var(--bg); }
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--scroll);
@@ -112,7 +127,7 @@ td {
   background: var(--txt);
   border-radius: 5rem;
   padding: 0.5rem;
-  margin: 1rem 0 0 8rem;
+  margin: 1rem 0 0 1rem;
   height: 2rem;
   width: 4rem;
   font-size: 1.5rem;
@@ -137,13 +152,12 @@ td {
 
 .checkbox:checked + .content {
   --bg: var(--dark-bg);
-  --txt: var(--dark-font); }
-
-.checkbox:checked + a {
-  --link: var(--dark-link); }
-
-.checkbox:checked + h1 h2 {
-  --txt: var(--dark-font); }
+  --txt: var(--dark-font);
+  --link: var(--dark-link);
+  --scroll: var(--light-scroll);
+  --gradient: var(--dark-gradient);
+  --blend: var(--dark-blend);
+  --filter: var(--dark-filter); }
 
 .fa-galactic-republic {
   color: var(--dark-font); }
@@ -161,7 +175,8 @@ code {
   color: #bf616a;
   font-size: 85%;
   padding: .25em .5em;
-  white-space: pre-wrap; }
+  white-space: pre-wrap;
+  overflow-x: auto; }
 
 pre {
   margin: 0 0 1rem; }
@@ -507,12 +522,14 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: var(--txt);
     display: inline-block;
     margin: 0;
-    padding-right: .2rem; }
+    padding-right: 0.2rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; }
     .nav-title:hover, .nav-title:focus {
-      opacity: .6; }
+      opacity: 0.6; }
   .nav ul {
     list-style-type: none;
     margin: 1rem 0 0;
@@ -524,7 +541,7 @@ footer,
     transition: all 0.2s ease-out;
     color: #555;
     display: inline-block;
-    opacity: .6;
+    opacity: 0.6;
     padding: 0 2rem 0 0; }
     .nav li:last-child {
       padding-right: 0; }
@@ -548,7 +565,7 @@ footer {
   text-align: center; }
   footer span {
     color: var(--txt);
-    font-size: .8rem; }
+    font-size: 0.8rem; }
 
 .pagination {
   border-top: 0.5px solid #e5e5e5;
@@ -610,7 +627,7 @@ footer {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  border-top: 0.2rem solid #353535;
+  border-top: 0.2rem solid var(--txt);
   display: block;
   width: 2rem; }
 
