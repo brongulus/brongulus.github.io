@@ -509,12 +509,6 @@ pre code {
 .css .nt + .nt {
   color: #999; }
 
-.container {
-  background: var(--bg);
-  margin: 0 auto;
-  max-width: 800px;
-  width: 80%; }
-
 main,
 footer,
 .nav-container {
