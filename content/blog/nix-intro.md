@@ -18,7 +18,7 @@ This is only useful if you want to use both flakes and home-manager.
     ```
 -   Source the new profile or login.
     `. ~/.nix-profile/etc/profile.d/nix.sh`
--   Since most of the nix "guides" are outdated, check what your current version supports `nix --help`, at the time of writing this, there's no need to enable experimental features for flakes :)
+-   Since most of the nix "guides" are outdated, check what your current version supports `nix --help`, ~~at the time of writing this, there's no need to enable experimental features for flakes :)~~ spoke too soon.
 -   Upgrading nix:
 
     ```sh

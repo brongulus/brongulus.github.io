@@ -1,12 +1,12 @@
 :root {
   --light-bg: #e1e1ff;
   --dark-bg: #323f46;
+  --bg: var(--light-bg);
   --light-font: #555;
   --dark-font: #c9cdd7;
+  --txt: var(--light-font);
   --light-scroll: #555;
   --dark-scroll: #fff;
-  --bg: var(--light-bg);
-  --txt: var(--light-font);
   --scroll: var(--light-scroll);
   --light-link: #458588;
   --dark-link: #88c0d0;
@@ -48,7 +48,14 @@ html {
       font-size: 16px; } }
 body {
   margin: 0;
+  overflow: hidden;
   -webkit-text-size-adjust: 100%; }
+
+.container {
+  margin: 0 auto;
+  max-width: 800px;
+  width: 80%;
+  transition: background 0.3s ease; }
 
 h1 {
   color: var(--txt);
@@ -58,8 +65,8 @@ h1 {
   line-height: 1; }
 
 h2 {
+  font-style: bold;
   color: var(--txt);
-  font-weight: 400;
   margin-top: 2.1rem;
   margin-bottom: 1.4rem;
   font-size: 2.2rem;
@@ -81,8 +88,8 @@ a {
   text-decoration: none; }
 
 blockquote {
-  border-left: 0.25rem solid #e5e5e5;
-  color: #979797;
+  border-left: 0.25rem solid var(--txt);
+  color: var(--txt);
   margin: 0.8rem 0;
   padding: 0.5rem 1rem; }
   blockquote p:last-child {
@@ -99,20 +106,25 @@ img {
 td {
   vertical-align: top; }
 
-::-webkit-scrollbar {
+.custom-scrollbar {
+  display: block;
+  overflow: auto;
+  height: 100vh; }
+
+.custom-scrollbar::-webkit-scrollbar {
   background-color: transparent;
   width: 20px; }
 
-::-webkit-scrollbar-track {
-  background-color: var(--bg); }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent; }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--scroll);
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--scroll);
   border-radius: 20px;
   border: 6px solid transparent;
   background-clip: content-box; }
 
-::-webkit-scrollbar-thumb:hover {
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf; }
 
 .checkbox {
@@ -128,7 +140,7 @@ td {
   padding: 0.5rem;
   margin: 1rem 0 0 1rem;
   height: 2rem;
-  width: 4rem;
+  width: 2rem;
   font-size: 1.5rem;
   transition: background 0.5s ease;
   cursor: pointer;
@@ -141,19 +153,19 @@ td {
   top: 0.25rem;
   left: 0.25rem;
   height: 1.5rem;
-  width: 1.5rem;
-  transform: translateX(0);
-  transition: transform 0.3s ease, background-color 0.5s ease; }
+  width: 0.75rem;
+  border-radius: 0.75rem 0 0 0.75rem;
+  transition: transform 0.4s ease, background-color 0.5s ease; }
 
 .checkbox:checked + .content .label .ball {
   display: inline-block;
-  transform: translateX(2rem); }
+  transform: translateX(0.75rem) rotate(180deg); }
 
 .checkbox:checked + .content {
   --bg: var(--dark-bg);
   --txt: var(--dark-font);
   --link: var(--dark-link);
-  --scroll: var(--light-scroll);
+  --scroll: var(--dark-scroll);
   --gradient: var(--dark-gradient);
   --blend: var(--dark-blend);
   --filter: var(--dark-filter); }
@@ -498,6 +510,7 @@ pre code {
   color: #999; }
 
 .container {
+  background: var(--bg);
   margin: 0 auto;
   max-width: 800px;
   width: 80%; }
