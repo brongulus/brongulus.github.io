@@ -129,8 +129,10 @@ td {
   display: inline-block;
   align-items: right;
   position: fixed;
+  left: auto;
+  bottom: auto;
+  right: 3vw;
   top: 1.5rem;
-  right: 3rem;
   background: var(--font);
   border-radius: 5rem;
   padding: 0.5rem;
