@@ -2,7 +2,7 @@
 title = "Another nix post in the wall"
 author = ["Prashant Tak"]
 date = 2022-06-02T00:00:00+05:30
-lastmod = 2022-06-05T11:52:27+05:30
+lastmod = 2022-06-05T11:59:47+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -30,39 +30,37 @@ This is only useful if you want to use both flakes and home-manager.
 -   You can look at user-installed packages by `nix-env --query`
 
 
-## Home manager: {#home-manager}
+## Home manager {#home-manager}
 
 Allows declarative configuration of user-specific (non global) packages and dotfiles.
 
-<!--list-separator-->
 
--  Installation
+### Installation {#installation}
 
-    ```sh
-      nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-      nix-channel --update
-    ```
+```sh
+  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  nix-channel --update
+```
 
-    In `.bash_profile`. (might not be needed for single-user systems, check back later)
+In `.bash_profile`. (might not be needed for single-user systems, check back later)
 
-    ```sh
-      export NIX_PATH=${NIX_PATH:+:$NIX_PATH}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
-    ```
+```sh
+  export NIX_PATH=${NIX_PATH:+:$NIX_PATH}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
+```
 
-    In your `.bash_profile`, add below and source the profile for your current session.
+In your `.bash_profile`, add below and source the profile for your current session.
 
-    ```sh
-      source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-    ```
-
-<!--list-separator-->
-
--  Configuration
-
-    Now check `~/.config/nixpkgs/home.nix`, if it exists then for the most part you've successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run `home-manager build` to successfully verify. Also periodically check `home-manager news` for updates regarding new changes to packages that are referred in your config. After [adding some packages](https://nix-community.github.io/home-manager/index.html#sec-install-standalone) (section 2.1), run `home-manger switch`.
+```sh
+  source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+```
 
 
-## Fleyks {#fleyks}
+### Configuration {#configuration}
+
+Now check `~/.config/nixpkgs/home.nix`, if it exists then for the most part you've successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run `home-manager build` to successfully verify. Also periodically check `home-manager news` for updates regarding new changes to packages that are referred in your config. After [adding some packages](https://nix-community.github.io/home-manager/index.html#sec-install-standalone) (section 2.1), run `home-manger switch`.
+
+
+## Fleyks (_sorry_) {#fleyks--sorry}
 
 Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly, ugh.
 
