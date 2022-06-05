@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <body>
-        <input type="checkbox" class="checkbox" id="check"/>
+        <input type="checkbox" class="checkbox" id="check" onclick="toggleTheme()"/>
         <div class="content">
             <div class="custom-scrollbar">
                 <div class = "container">
@@ -152,6 +152,20 @@
 </a>
 
 		
+			<a href="https://brongulus.github.io/notes/iusaco-notes/" class="catalogue-item">
+    <div>
+        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" class="catalogue-time">January 1, 0001</time>
+        <h1 class="catalogue-title">IUSACO</h1>
+        <div class="catalogue-line"></div>
+
+        
+        
+        
+        
+    </div>
+</a>
+
+		
 			<a href="https://brongulus.github.io/blog/meditations/" class="catalogue-item">
     <div>
         <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" class="catalogue-time">January 1, 0001</time>
@@ -180,20 +194,6 @@
 </a>
 
 		
-			<a href="https://brongulus.github.io/blog/japanese-guide/" class="catalogue-item">
-    <div>
-        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" class="catalogue-time">January 1, 0001</time>
-        <h1 class="catalogue-title">My Pathway to learning Japanese</h1>
-        <div class="catalogue-line"></div>
-
-        
-        
-        
-        
-    </div>
-</a>
-
-		
 	</div>
 
 	<div class="pagination">
@@ -210,7 +210,7 @@
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-04 09:32:28.511410774 &#43;0530 IST m=&#43;0.069972583">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-05 07:15:55.908908592 &#43;0530 IST m=&#43;0.402468461">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
@@ -220,5 +220,30 @@
                 </div>
             </div>
         </div>
+    <script>
+        
+        function setTheme(themeName) {
+            localStorage.setItem('theme', themeName);
+            document.documentElement.className = themeName;
+        }
+
+        
+        function toggleTheme() {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-light');
+            } else {
+                setTheme('theme-dark');
+            }
+        }
+
+        
+        (function () {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-dark');
+            } else {
+                setTheme('theme-light');
+            }
+        })();
+    </script>
     </body>
 </html>

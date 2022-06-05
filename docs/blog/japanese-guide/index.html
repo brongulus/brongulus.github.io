@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <body>
-        <input type="checkbox" class="checkbox" id="check"/>
+        <input type="checkbox" class="checkbox" id="check" onclick="toggleTheme()"/>
         <div class="content">
             <div class="custom-scrollbar">
                 <div class = "container">
@@ -329,7 +329,7 @@
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-04 09:32:28.50244898 &#43;0530 IST m=&#43;0.061010787">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-05 07:15:55.741414351 &#43;0530 IST m=&#43;0.234974193">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
@@ -339,5 +339,30 @@
                 </div>
             </div>
         </div>
+    <script>
+        
+        function setTheme(themeName) {
+            localStorage.setItem('theme', themeName);
+            document.documentElement.className = themeName;
+        }
+
+        
+        function toggleTheme() {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-light');
+            } else {
+                setTheme('theme-dark');
+            }
+        }
+
+        
+        (function () {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-dark');
+            } else {
+                setTheme('theme-light');
+            }
+        })();
+    </script>
     </body>
 </html>

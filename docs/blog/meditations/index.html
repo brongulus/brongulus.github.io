@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <body>
-        <input type="checkbox" class="checkbox" id="check"/>
+        <input type="checkbox" class="checkbox" id="check" onclick="toggleTheme()"/>
         <div class="content">
             <div class="custom-scrollbar">
                 <div class = "container">
@@ -166,7 +166,7 @@ Either no prayers at all- or one as straightforward as that.</p>
 
 	<div class="pagination">
 		<a href="/blog/nnfl-paper/" class="left arrow">&#8592;</a>
-		<a href="/notes/dg-notes/" class="right arrow">&#8594;</a>
+		<a href="/notes/iusaco-notes/" class="right arrow">&#8594;</a>
 
 		
 		<a href="#" class="top">Top</a>
@@ -177,7 +177,7 @@ Either no prayers at all- or one as straightforward as that.</p>
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-04 09:32:28.49954339 &#43;0530 IST m=&#43;0.058105197">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-05 07:15:55.742013387 &#43;0530 IST m=&#43;0.235573229">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
@@ -187,5 +187,30 @@ Either no prayers at all- or one as straightforward as that.</p>
                 </div>
             </div>
         </div>
+    <script>
+        
+        function setTheme(themeName) {
+            localStorage.setItem('theme', themeName);
+            document.documentElement.className = themeName;
+        }
+
+        
+        function toggleTheme() {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-light');
+            } else {
+                setTheme('theme-dark');
+            }
+        }
+
+        
+        (function () {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-dark');
+            } else {
+                setTheme('theme-light');
+            }
+        })();
+    </script>
     </body>
 </html>

@@ -830,6 +830,23 @@ Go break a leg! :)
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
+** IUSACO
+:PROPERTIES:
+:EXPORT_FILE_NAME: iusaco-notes
+:END:
+*** Elementary techniques - Input and Output
+#+begin_src c++
+#include <cstdio>
+using namespace std;
+int main() {
+    freopen("template.in", "r", stdin);
+    freopen("template.out", "w", stdout);
+}
+#+end_src
++ When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.
++ 32bit int: $\pm 2\times10^{9}$ v/s 64bit int: $\pm 9\times10^{18}$
+*** Complexity and algorithm analysis
+
 ** Computation
 :PROPERTIES:
 :EXPORT_FILE_NAME: computation-das
