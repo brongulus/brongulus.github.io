@@ -1,12 +1,9 @@
 * Design Changes
-- Main Scroll bar colours
+- Fix blog title scroll issue
+  (dynamic resizing or title and theme toggle in margins)
 - Code horizontal scroll
 - Night mode Image filter
-# - Color Inversion (Minimal border not changing)
-- Persistance in color
-
 
 * Functinal Changes
-- How to remove posts
+- How to remove posts (clean content dir, add noexport)
 - Add post categories
-- Date Stamps!

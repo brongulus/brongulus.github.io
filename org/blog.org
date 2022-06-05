@@ -3,6 +3,7 @@
 #+seq_todo: TODO DRAFT DONE
 #+options: creator:t
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
+#+hugo_auto_set_lastmod: t
 #+startup: inlineimages
 #+startup: hidestars
 #+startup: overview
@@ -17,12 +18,11 @@
 1. Fix Time
 2. Add Sections
 3. Link to RSS feed
-4. Add dark mode toggle
-5. +Look into whether latex can be used and generated properly for displaying notes+ Improve mathjax performance
-6. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
-7. +Replace with material scroll bar+
-8. Open external links in new tab by default, unless it's meta-links.
-9. Improve Image filter sigh
+4. +Look into whether latex can be used and generated properly for displaying notes+ Improve mathjax performance
+5. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
+6. +Replace with material scroll bar+
+7. Open external links in new tab by default, unless it's meta-links.
+8. Improve Image filter sigh
 * Doubts
 1. What is r?
 2. dev-corpus refers to?
@@ -30,6 +30,7 @@
 4. xpos?
 
 * About
+CLOSED: [2021-03-21 Mon 01:00]
 :PROPERTIES:
   :EXPORT_FILE_NAME: about
 :EXPORT_HUGO_SECTION: about
@@ -41,7 +42,7 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: blog
 :END:
-** Random Notes
+** Random Notes :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: random-notes
 :END:
@@ -123,6 +124,7 @@ exciting
 35. Of all the people in your family, whose death would you find most disturbing? Why?
 36. Share a personal problem and ask your partner’s advice on how he or she might handle it. Also, ask your partner to reflect back to you how you seem to be feeling about the problem you have chosen.
 ** Meditations
+CLOSED: [2022-03-14 Mon]
 :PROPERTIES:
 :EXPORT_FILE_NAME: meditations
 :END:
@@ -269,7 +271,7 @@ Either no prayers at all- or one as straightforward as that.
 Look at the accomplishment of nature's plans in that light- the way you look at your own health- and accept what happens (even if it seems hard to accept). Accept it because of what it leads to: the good health of the world, and the well-being and prosperity of Zeus himself, who would not have brought this on anyone unless it brought benefit to the world as a whole. No nature would do that- bring something about that wasn't beneficial to what it governed.
 
 [To be continued...]
-** Worklog
+** Worklog :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: worklog
 :END:
@@ -296,6 +298,7 @@ Look at the accomplishment of nature's plans in that light- the way you look at 
 + [X] Might be Test in AnE, so practice problems
 + [X] Prepare for IIC Tut too
 ** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
+CLOSED: [2021-03-21 Mon 03:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: nnfl-paper
 :EXPORT_AUTHOR: Bernd Bohnet, et al
@@ -518,6 +521,7 @@ TODO Add two remaining tables
 [fn:9] Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.
 [fn:10] [[https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe][Everything about Embeddings]] Embedding converts symbolic representations into meaningful
 ** Another nix post in the wall
+CLOSED: [2022-06-02 Thu]
 :PROPERTIES:
 :EXPORT_FILE_NAME: nix-intro
 :END:
@@ -749,6 +753,7 @@ The flake inputs are not upgraded automatically when switching. The analogy to t
 5. Grammar Deck: Jo Mako
 6. Vocabulary: Tango decks + JP1K + Kanji in context
 ** Creating a blog using ox-hugo, org mode and github pages
+CLOSED: [2021-03-21 Mon 02:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: blog-creation
 :END:
@@ -782,7 +787,7 @@ git submodule add <theme_url> themes/<name>
 9. Push
 10. Go to GitHub repository Settings > GitHub pages. Select /docs in Source.
 11. Voila!
-** Updates & A letter to self
+** Updates & A letter to self :noexport:
 :PROPERTIES:
 :export_file_name: january-update
 :END:
@@ -831,6 +836,7 @@ Go break a leg! :)
 :EXPORT_HUGO_SECTION: notes
 :END:
 ** IUSACO
+CLOSED: [2022-06-05 Sun]
 :PROPERTIES:
 :EXPORT_FILE_NAME: iusaco-notes
 :END:
@@ -844,10 +850,11 @@ int main() {
 }
 #+end_src
 + When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.
-+ 32bit int: $\pm 2\times10^{9}$ v/s 64bit int: $\pm 9\times10^{18}$
++ 32bit int: $\pm 2\times10^{9}$ v/s 64bit int: $\pm 9\times 10^{18}$
 *** Complexity and algorithm analysis
 
 ** Computation
+CLOSED: [2022-06-02 Thu]
 :PROPERTIES:
 :EXPORT_FILE_NAME: computation-das
 :END:

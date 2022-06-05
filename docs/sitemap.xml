@@ -2,44 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://brongulus.github.io/about/about/</loc>
+    <loc>https://brongulus.github.io/</loc>
+    <lastmod>2022-06-05T11:52:29+05:30</lastmod>
   </url><url>
-    <loc>https://brongulus.github.io/about/</loc>
+    <loc>https://brongulus.github.io/notes/iusaco-notes/</loc>
+    <lastmod>2022-06-05T11:52:28+05:30</lastmod>
   </url><url>
-    <loc>https://brongulus.github.io/notes/advd-notes/</loc>
+    <loc>https://brongulus.github.io/notes/</loc>
+    <lastmod>2022-06-05T11:52:29+05:30</lastmod>
   </url><url>
     <loc>https://brongulus.github.io/blog/nix-intro/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/</loc>
+    <lastmod>2022-06-05T11:52:27+05:30</lastmod>
   </url><url>
     <loc>https://brongulus.github.io/blog/</loc>
+    <lastmod>2022-06-05T11:52:28+05:30</lastmod>
+  </url><url>
+    <loc>https://brongulus.github.io/notes/computation-das/</loc>
+    <lastmod>2022-06-05T11:52:29+05:30</lastmod>
+  </url><url>
+    <loc>https://brongulus.github.io/blog/meditations/</loc>
+    <lastmod>2022-06-05T11:52:26+05:30</lastmod>
+  </url><url>
+    <loc>https://brongulus.github.io/blog/nnfl-paper/</loc>
+    <lastmod>2022-06-05T11:52:26+05:30</lastmod>
+  </url><url>
+    <loc>https://brongulus.github.io/blog/blog-creation/</loc>
+    <lastmod>2022-06-05T11:52:28+05:30</lastmod>
+  </url><url>
+    <loc>https://brongulus.github.io/about/about/</loc>
+    <lastmod>2022-06-05T11:52:25+05:30</lastmod>
+  </url><url>
+    <loc>https://brongulus.github.io/about/</loc>
+    <lastmod>2022-06-05T11:52:25+05:30</lastmod>
   </url><url>
     <loc>https://brongulus.github.io/categories/</loc>
   </url><url>
-    <loc>https://brongulus.github.io/notes/combi-math/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/notes/computation-das/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/blog-creation/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/notes/dg-notes/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/notes/iusaco-notes/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/meditations/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/nnfl-paper/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/japanese-guide/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/notes/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/random-notes/</loc>
-  </url><url>
     <loc>https://brongulus.github.io/tags/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/january-update/</loc>
-  </url><url>
-    <loc>https://brongulus.github.io/blog/worklog/</loc>
   </url>
 </urlset>
