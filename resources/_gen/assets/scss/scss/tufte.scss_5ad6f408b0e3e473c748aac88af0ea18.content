@@ -101,6 +101,15 @@ img {
 td {
   vertical-align: top; }
 
+::-moz-selection {
+  /* Code for Firefox */
+  color: var(--bg);
+  background: var(--font); }
+
+::selection {
+  color: var(--bg);
+  background: var(--font); }
+
 .custom-scrollbar {
   display: block;
   overflow: auto;
