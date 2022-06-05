@@ -128,8 +128,9 @@ td {
 .label {
   display: inline-block;
   align-items: right;
-  justify-content: space-between;
-  position: relative;
+  position: fixed;
+  top: 1.5rem;
+  right: 3rem;
   background: var(--font);
   border-radius: 5rem;
   padding: 0.5rem;
