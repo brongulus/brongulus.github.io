@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <body>
-        <input type="checkbox" class="checkbox" id="check" onclick="toggleTheme()"/>
+<head>
+  <script>
+  
+  if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+  </script>
+</head>
+<body>
+    <div id ="dark-mode-button">
+    <input type="checkbox" class="checkbox" id="check"/>
+    </div>
         <div class="content">
             <div class="custom-scrollbar">
                 <div class = "container">
@@ -164,7 +172,7 @@ h(x) = a_{0}b_{0}+(a_{1}b_{0}+a_{0}b_{1})x + &hellip; + (a_{r}b_{0}+a_{r-1}b_{1}
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-05 07:15:55.818138695 &#43;0530 IST m=&#43;0.311698566">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-05 11:01:43.643861359 &#43;0530 IST m=&#43;0.493427645">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
@@ -174,30 +182,20 @@ h(x) = a_{0}b_{0}+(a_{1}b_{0}+a_{0}b_{1})x + &hellip; + (a_{r}b_{0}+a_{r-1}b_{1}
                 </div>
             </div>
         </div>
+    
     <script>
-        
-        function setTheme(themeName) {
-            localStorage.setItem('theme', themeName);
-            document.documentElement.className = themeName;
+        const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+        if (localStorage.theme) {
+            toggleSwitch.checked = localStorage.theme === "dark";
         }
 
-        
-        function toggleTheme() {
-            if (localStorage.getItem('theme') === 'theme-dark') {
-                setTheme('theme-light');
-            } else {
-                setTheme('theme-dark');
-            }
+        function switchTheme(e) {
+        const theme = e.target.checked ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.theme = theme;
         }
 
-        
-        (function () {
-            if (localStorage.getItem('theme') === 'theme-dark') {
-                setTheme('theme-dark');
-            } else {
-                setTheme('theme-light');
-            }
-        })();
+        toggleSwitch.addEventListener("change", switchTheme);
     </script>
-    </body>
+</body>
 </html>

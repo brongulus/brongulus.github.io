@@ -1,4 +1,4 @@
-.theme-light {
+:root {
   --filter: invert(0%);
   --blend: darken;
   --gradient: linear-gradient(-120deg, #9a97f3 0%, #202945 100%);
@@ -7,7 +7,7 @@
   --font: #555;
   --bg: #e1e1ff; }
 
-.theme-dark {
+[data-theme="dark"] {
   --bg: #323f46;
   --link: #88c0d0;
   --font: #c9cdd7;
