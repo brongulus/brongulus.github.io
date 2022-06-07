@@ -68,7 +68,7 @@ html,
 
 html {
   color: var(--bg);
-  font-family: "Inter", "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 18px;
   overflow-y: scroll;
   margin: 0; }
@@ -110,7 +110,7 @@ h3 {
 h4,
 h5,
 h6 {
-  font-family: "Inter", "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: normal; }
 
 a {
@@ -294,7 +294,7 @@ pre code {
   .post img + em {
     color: #aaa;
     display: block;
-    font-family: "Inter", "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
@@ -608,7 +608,7 @@ footer,
       opacity: 1; }
   .nav a {
     color: #555;
-    font-family: "Inter", "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
+    font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
 
 @media (min-width: 600px) {
   .nav-container {
@@ -640,7 +640,7 @@ footer {
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
     color: var(--font);
-    font-family: "Inter", "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
     opacity: 0.6; }
     .pagination .home:hover {
@@ -677,7 +677,7 @@ footer {
 .catalogue-title {
   color: var(--font);
   display: block;
-  font-family: "Inter", "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 2rem;
   font-weight: 700;
   margin: .5rem 0; }
