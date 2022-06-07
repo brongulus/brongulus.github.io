@@ -1,6 +1,4 @@
 * Design Changes
-- Fix blog title scroll issue
-  (dynamic resizing or title and theme toggle in margins)
 - Light Theme Code blocks
 
 * Functional Changes

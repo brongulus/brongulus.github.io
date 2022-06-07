@@ -194,7 +194,9 @@ td {
   transition: background 0.5s ease;
   cursor: pointer;
   z-index: 1; }
-
+  @media only screen and (max-width: 600px) {
+    .label {
+      transform: scale(0.8); } }
 .label .ball {
   position: absolute;
   background: var(--bg);
@@ -205,7 +207,9 @@ td {
   width: 0.75rem;
   border-radius: 0.75rem 0 0 0.75rem;
   transition: transform 0.4s ease, background-color 0.5s ease; }
-
+  @media only screen and (max-width: 600px) {
+    .label .ball {
+      transform: scale(0.8); } }
 .checkbox:checked + .content .label .ball {
   display: inline-block;
   transform: translateX(0.75rem) rotate(180deg); }
@@ -568,7 +572,7 @@ footer,
   .nav-container {
     margin: 1rem auto;
     position: relative;
-    text-align: center; }
+    text-align: left; }
   .nav-title {
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
@@ -580,6 +584,9 @@ footer,
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; }
+    @media only screen and (max-width: 600px) {
+      .nav-title {
+        font-size: 2.2rem; } }
     .nav-title:hover, .nav-title:focus {
       opacity: 0.6; }
   .nav ul {

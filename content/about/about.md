@@ -2,7 +2,7 @@
 title = "About"
 author = ["Prashant Tak"]
 date = 2021-03-21T01:00:00+05:30
-lastmod = 2022-06-07T16:20:05+05:30
+lastmod = 2022-06-07T19:23:53+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++

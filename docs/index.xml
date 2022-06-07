@@ -29,15 +29,6 @@
     </item>
     
     <item>
-      <title>Computation</title>
-      <link>https://brongulus.github.io/notes/computation-das/</link>
-      <pubDate>Thu, 02 Jun 2022 00:00:00 +0530</pubDate>
-      
-      <guid>https://brongulus.github.io/notes/computation-das/</guid>
-      <description>Simplicity Turing Machine  Infinite Tape: For memory purposes ....................BBBBBBBBBBBBBB................ ..........................^.......................   user.save() user.email = &amp;#34;alice@example.com&amp;#34; Lambda Calculus Limits - The Halting Problem Structure Turing Equivalence Finite State Machines Chomsky Hierarchy  Regex Recognize Python Recognize C++, JS etc Turing-equivalent  </description>
-    </item>
-    
-    <item>
       <title>Meditations</title>
       <link>https://brongulus.github.io/blog/meditations/</link>
       <pubDate>Mon, 14 Mar 2022 00:00:00 +0530</pubDate>
