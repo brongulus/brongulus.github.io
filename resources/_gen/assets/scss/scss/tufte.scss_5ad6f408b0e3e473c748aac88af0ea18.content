@@ -9,7 +9,7 @@
   --link: #458588;
   --scroll: #555;
   --font: #555;
-  --bg: #ebe4e1;
+  --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
   --bg-sel: #ebe4e1; }
 
 [data-theme="dark"] {
@@ -69,10 +69,10 @@ html,
 html {
   color: var(--bg);
   font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 22px;
   overflow-y: scroll;
   margin: 0; }
-  @media (min-width: 600px) {
+  @media (max-width: 600px) {
     html {
       font-size: 18px; } }
 body {
@@ -238,7 +238,7 @@ pre {
   padding: 0.1rem; }
 
 pre code {
-  color: inherit;
+  color: var(--font);
   font-size: 100%;
   padding: 0.1rem; }
 

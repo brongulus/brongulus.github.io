@@ -1,5 +1,5 @@
 * Design Changes
-- Light Theme Code blocks
+- Syntax highlighting
 
 * Functional Changes
 - How to remove posts (clean content dir, add noexport)
