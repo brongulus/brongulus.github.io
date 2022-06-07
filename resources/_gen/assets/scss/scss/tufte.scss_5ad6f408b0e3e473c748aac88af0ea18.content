@@ -1,19 +1,30 @@
 :root {
   --filter: invert(0%);
   --blend: darken;
-  --gradient: linear-gradient(-120deg, #9a97f3 0%, #202945 100%);
+  --gradient: radial-gradient(
+    ellipse at right,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 70%
+  );
   --link: #458588;
   --scroll: #555;
   --font: #555;
-  --bg: #e1e1ff; }
+  --bg: radial-gradient(
+      ellipse at bottom left,
+      rgba(242, 206, 222, 0.57) 0%,
+      #ebe4e1 35%
+    ),
+    radial-gradient(ellipse at top left, #f2cede, transparent 30%);
+  --bg-sel: #ebe4e1; }
 
 [data-theme="dark"] {
-  --bg: #323f46;
+  --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
+  --bg-sel: #0e001c;
   --link: #88c0d0;
   --font: #c9cdd7;
   --scroll: #fff;
   --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
-  --blend: overlay;
+  --blend: lighten;
   --filter: invert(100%); }
 
 * {
@@ -23,11 +34,29 @@
   line-height: 1.5;
   box-sizing: border-box; }
 
+@font-face {
+  font-family: "FreightSansPro";
+  src: url(https://github.com/brongulus/tufte/tree/master/static/fonts/FreightSansProLight-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Cormorant";
+  font-weight: 300;
+  font-style: italic;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Josefin Sans";
+  font-weight: 200;
+  font-display: fallback; }
+
 html,
 .content {
   display: block;
   color: var(--font);
-  background-color: var(--bg);
+  background: var(--bg);
   margin: 0;
   height: 100%;
   transition: background 0.3s ease; }
@@ -35,12 +64,12 @@ html,
 html {
   color: var(--bg);
   font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   overflow-y: scroll;
   margin: 0; }
   @media (min-width: 600px) {
     html {
-      font-size: 16px; } }
+      font-size: 18px; } }
 body {
   margin: 0;
   overflow: hidden;
@@ -48,27 +77,29 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 800px;
-  width: 80%;
+  max-width: 1000px;
+  width: 90%;
   transition: background 0.3s ease; }
 
 h1 {
   color: var(--font);
+  font-weight: normal;
   margin-top: 4rem;
   margin-bottom: 1.5rem;
   font-size: 3.2rem;
   line-height: 1; }
 
 h2 {
-  font-style: bold;
+  font-family: "Josefin Sans", sans-serif;
   color: var(--font);
   margin-top: 2.1rem;
   margin-bottom: 1.4rem;
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   line-height: 1; }
 
 h3 {
-  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 1.6rem; }
 
 h4,
@@ -78,7 +109,6 @@ h6 {
   line-height: normal; }
 
 a {
-  font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   color: var(--link);
   text-decoration: none; }
 
@@ -95,19 +125,26 @@ blockquote {
 img {
   display: block;
   margin: 0 0 1rem;
+  filter: var(--filter);
   mix-blend-mode: var(--blend);
   max-width: 100%; }
+  img:hover, img:focus {
+    opacity: 0.6; }
+
+figcaption {
+  font-style: italic;
+  color: #aaa; }
 
 td {
   vertical-align: top; }
 
 ::-moz-selection {
   /* Code for Firefox */
-  color: var(--bg);
+  color: var(--bg-sel);
   background: var(--font); }
 
 ::selection {
-  color: var(--bg);
+  color: var(--bg-sel);
   background: var(--font); }
 
 .custom-scrollbar {
@@ -155,7 +192,7 @@ td {
 
 .label .ball {
   position: absolute;
-  background-color: var(--bg);
+  background: var(--bg);
   border-radius: 50%;
   top: 0.25rem;
   left: 0.25rem;
@@ -224,8 +261,9 @@ pre code {
       font-style: italic; }
   .post-title {
     color: var(--font);
-    font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 4rem;
+    font-family: "Cormorant", serif;
+    font-style: italic;
+    font-size: 4.5rem;
     margin: 1rem 0;
     text-align: center; }
   .post-line {
@@ -234,6 +272,7 @@ pre code {
     margin: 0 auto 3rem;
     width: 4rem; }
   .post p {
+    font-family: "FreightSansPro", sans;
     margin: 0 0 1rem;
     text-align: justify; }
   .post a:hover {
@@ -512,8 +551,8 @@ footer,
 .nav-container {
   display: block;
   margin: 0 auto;
-  max-width: 800px;
-  width: 80%; }
+  max-width: 1000px;
+  width: 90%; }
 
 .nav {
   box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
@@ -580,7 +619,7 @@ footer {
   .pagination span {
     color: var(--font);
     font-size: 1.1rem; }
-  .pagination .top {
+  .pagination .home {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
@@ -588,7 +627,7 @@ footer {
     font-family: "Freight Sans Pro Light", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
     opacity: 0.6; }
-    .pagination .top:hover {
+    .pagination .home:hover {
       opacity: 1; }
   .pagination .arrow {
     -webkit-transition: all 0.3s ease-out;
