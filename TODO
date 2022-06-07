@@ -1,8 +1,7 @@
 * Design Changes
 - Fix blog title scroll issue
   (dynamic resizing or title and theme toggle in margins)
-- Code horizontal scroll
-- Night mode Image filter
+- Light Theme Code blocks
 
 * Functional Changes
 - How to remove posts (clean content dir, add noexport)
