@@ -2,7 +2,7 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-06-05T11:59:48+05:30
+lastmod = 2022-06-07T16:20:08+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
