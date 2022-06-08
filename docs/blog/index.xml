@@ -15,7 +15,7 @@
       <guid>https://brongulus.github.io/blog/nix-intro/</guid>
       <description>Starting Are you using Nixos? This is not for you. Do you want multi-user installation? This is not for you. This is only useful if you want to use both flakes and home-manager.
   Single-user installation (no sudo needed, easier to remove, good for testing purposes)
- sh &amp;lt;(curl -L https://nixos.org/nix/install) --no-daemon   Source the new profile or login. . ~/.nix-profile/etc/profile.d/nix.sh
+sh &amp;lt;(curl -L https://nixos.org/nix/install) --no-daemon   Source the new profile or login. . ~/.nix-profile/etc/profile.d/nix.sh
   Since most of the nix &amp;ldquo;guides&amp;rdquo; are outdated, check what your current version supports nix --help, at the time of writing this, there&amp;rsquo;s no need to enable experimental features for flakes :) spoke too soon.</description>
     </item>
     
@@ -47,8 +47,9 @@ Abstract  RNN leads to advances in speech tagging accuracy Zeman et al Common th
       <description>I was going to make a post explaining how I made this blog but it was rendered pretty useless by this. So yeah, I might archive this later.
   Install hugo from your package manager.
   Create a new site:
- hugo new site blog   Add a theme:
- cd blog  git init  git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name&amp;gt;   Install ox-hugo in emacs</description>
+hugo new site blog   Add a theme:
+cd blog git init git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name&amp;gt;   Install ox-hugo in emacs
+;; goes in packages.el (package!</description>
     </item>
     
   </channel>

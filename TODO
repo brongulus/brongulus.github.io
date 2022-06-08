@@ -1,5 +1,7 @@
 * Design Changes
 - Syntax highlighting
+- Fix blank bar next to scroll bar
+- Style tables
 
 * Functional Changes
 - How to remove posts (clean content dir, add noexport)
