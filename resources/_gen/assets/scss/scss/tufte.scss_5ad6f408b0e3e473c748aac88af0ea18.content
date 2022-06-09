@@ -81,7 +81,7 @@ html {
   font-size: 22px;
   overflow-y: scroll;
   margin: 0; }
-  @media (max-width: 600px) {
+  @media (max-width: 625px) {
     html {
       font-size: 18px; } }
 body {
@@ -207,7 +207,7 @@ td {
     .label {
       transform: scale(0.92);
       top: 0.5rem; } }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 625px) {
     .label {
       transform: scale(0.85);
       top: 0.1rem; } }
@@ -834,7 +834,7 @@ footer,
     @media only screen and (max-width: 850px) {
       .nav-title {
         font-size: 2rem; } }
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 625px) {
       .nav-title {
         font-size: 1.6rem; } }
     .nav-title:hover, .nav-title:focus {
