@@ -563,20 +563,20 @@ Allows declarative configuration of user-specific (non global) packages and dotf
 **** Configuration
 Now check =~/.config/nixpkgs/home.nix=, if it exists then for the most part you've successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run =home-manager build= to successfully verify. Also periodically check =home-manager news= for updates regarding new changes to packages that are referred in your config. After [[https://nix-community.github.io/home-manager/index.html#sec-install-standalone][adding some packages]] (section 2.1), run =home-manger switch=.
 *** Fleyks (/sorry/)
-Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly, ugh.
+Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly.
 
   #+begin_src sh
   nix-env -iA nixpkgs.nixFlakes
   #+end_src
 
-This replaces nix 2.9.0 with 2.8.1? WTF is happening. Sigh, for now we enable experimental features.
+This replaces nix 2.9.0 with 2.8.1? Look into why that's happening. For now we enable experimental features.
 
   #+begin_src sh
   mkdir -p ~/.config/nix
   echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
   #+end_src
 
-God, the documentation is so stinky for flakes, like there are /n/ variants sayings /n^2/ different things, so for now I'm just winging it. Comment out the stateVersion from =home.nix= and in the same directory create a =flake.nix=. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your =home-manager=.
+The documentation is so stinky for flakes, like there are /n/ variants sayings $n^2$ different things, so for now I'm just winging it. Comment out the stateVersion from =home.nix= and in the same directory create a =flake.nix=. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your =home-manager=.
 
   #+begin_src nix
   {

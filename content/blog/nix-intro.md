@@ -2,7 +2,7 @@
 title = "Another nix post in the wall"
 author = ["Prashant Tak"]
 date = 2022-06-02T00:00:00+05:30
-lastmod = 2022-06-07T19:23:57+05:30
+lastmod = 2022-06-09T13:52:17+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -62,20 +62,20 @@ Now check `~/.config/nixpkgs/home.nix`, if it exists then for the most part you'
 
 ## Fleyks (_sorry_) {#fleyks--sorry}
 
-Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly, ugh.
+Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly.
 
 ```sh
   nix-env -iA nixpkgs.nixFlakes
 ```
 
-This replaces nix 2.9.0 with 2.8.1? WTF is happening. Sigh, for now we enable experimental features.
+This replaces nix 2.9.0 with 2.8.1? Look into why that's happening. For now we enable experimental features.
 
 ```sh
   mkdir -p ~/.config/nix
   echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
 ```
 
-God, the documentation is so stinky for flakes, like there are _n_ variants sayings _n^2_ different things, so for now I'm just winging it. Comment out the stateVersion from `home.nix` and in the same directory create a `flake.nix`. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your `home-manager`.
+The documentation is so stinky for flakes, like there are _n_ variants sayings \\(n^2\\) different things, so for now I'm just winging it. Comment out the stateVersion from `home.nix` and in the same directory create a `flake.nix`. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your `home-manager`.
 
 ```nix
   {

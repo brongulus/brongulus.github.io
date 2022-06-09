@@ -1,16 +1,22 @@
 :root {
   --filter: invert(0%);
   --blend: darken;
-  --gradient: radial-gradient(
-    ellipse at right,
-    rgba(238, 174, 202, 1) 0%,
-    rgba(148, 187, 233, 1) 70%
-  );
+  --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
   --link: #458588;
   --scroll: #555;
   --font: #555;
   --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
   --bg-sel: #ebe4e1; }
+
+@media (prefers-color-scheme: dark) {
+  --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
+  --bg-sel: #0e001c;
+  --link: #88c0d0;
+  --font: #c9cdd7;
+  --scroll: #fff;
+  --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
+  --blend: lighten;
+  --filter: invert(100%); }
 
 [data-theme="dark"] {
   --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
@@ -28,13 +34,6 @@
   box-sizing: border-box;
   line-height: 1.5;
   box-sizing: border-box; }
-
-@font-face {
-  font-family: "FreightSansPro";
-  src: url(https://github.com/brongulus/tufte/tree/master/static/fonts/FreightSansProLight-Regular.woff2) format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: fallback; }
 
 @font-face {
   font-family: "Cormorant";
@@ -55,6 +54,16 @@
 @font-face {
   font-family: "Inter";
   font-weight: 300;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Source Serif Pro";
+  font-weight: 900;
   font-display: fallback; }
 
 html,
@@ -182,8 +191,8 @@ td {
   position: fixed;
   left: auto;
   bottom: auto;
-  right: 3vw;
-  top: 1.5rem;
+  right: 2.5vw;
+  top: 1.2rem;
   background: var(--font);
   border-radius: 5rem;
   padding: 0.5rem;
@@ -194,9 +203,14 @@ td {
   transition: background 0.5s ease;
   cursor: pointer;
   z-index: 1; }
+  @media only screen and (max-width: 850px) {
+    .label {
+      transform: scale(0.92);
+      top: 0.5rem; } }
   @media only screen and (max-width: 600px) {
     .label {
-      transform: scale(0.8); } }
+      transform: scale(0.85);
+      top: 0.1rem; } }
 .label .ball {
   position: absolute;
   background: var(--bg);
@@ -207,9 +221,7 @@ td {
   width: 0.75rem;
   border-radius: 0.75rem 0 0 0.75rem;
   transition: transform 0.4s ease, background-color 0.5s ease; }
-  @media only screen and (max-width: 600px) {
-    .label .ball {
-      transform: scale(0.8); } }
+
 .checkbox:checked + .content .label .ball {
   display: inline-block;
   transform: translateX(0.75rem) rotate(180deg); }
@@ -227,25 +239,22 @@ code {
 code {
   border-radius: 0px;
   color: #bf616a;
-  font-size: 85%;
-  padding: 0.25em 0.5em 0.15rem;
+  font-size: 100%;
   overflow-x: auto; }
 
 pre {
   background: var(--bg);
   border-radius: 0.5rem;
-  margin: 0 0 1rem;
-  padding: 0.1rem; }
+  margin: 0 0 1rem; }
 
 pre code {
   color: var(--font);
   font-size: 100%;
-  padding: 0.1rem; }
+  padding: 0.01rem; }
 
 .highlight {
   background: var(--gradient);
   border-radius: 0.6rem;
-  line-height: 1.4;
   margin: 0 0 1rem;
   padding: 0.1rem; }
   .highlight pre {
@@ -814,15 +823,20 @@ footer,
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
     display: inline-block;
-    font-style: bold;
+    font-style: "Inter", sans serif;
+    font-weight: 600;
     margin: 0;
     padding-right: 0.2rem;
+    font-size: 2.8rem;
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; }
+    @media only screen and (max-width: 850px) {
+      .nav-title {
+        font-size: 2rem; } }
     @media only screen and (max-width: 600px) {
       .nav-title {
-        font-size: 2.2rem; } }
+        font-size: 1.6rem; } }
     .nav-title:hover, .nav-title:focus {
       opacity: 0.6; }
   .nav ul {

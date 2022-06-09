@@ -4,7 +4,8 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;600&family=Source+Serif+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
     <script>
         
         if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
@@ -111,12 +112,12 @@ This is only useful if you want to use both flakes and home-manager.</p>
 </span></span></code></pre></div><h3 id="configuration">Configuration</h3>
 <p>Now check <code>~/.config/nixpkgs/home.nix</code>, if it exists then for the most part you&rsquo;ve successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run <code>home-manager build</code> to successfully verify. Also periodically check <code>home-manager news</code> for updates regarding new changes to packages that are referred in your config. After <a href="https://nix-community.github.io/home-manager/index.html#sec-install-standalone">adding some packages</a> (section 2.1), run <code>home-manger switch</code>.</p>
 <h2 id="fleyks--sorry">Fleyks (<em>sorry</em>)</h2>
-<p>Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly, ugh.</p>
+<p>Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  nix-env -iA nixpkgs.nixFlakes
-</span></span></code></pre></div><p>This replaces nix 2.9.0 with 2.8.1? WTF is happening. Sigh, for now we enable experimental features.</p>
+</span></span></code></pre></div><p>This replaces nix 2.9.0 with 2.8.1? Look into why that&rsquo;s happening. For now we enable experimental features.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  mkdir -p ~/.config/nix
 </span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s1">&#39;experimental-features = nix-command flakes&#39;</span> &gt;&gt; ~/.config/nix/nix.conf
-</span></span></code></pre></div><p>God, the documentation is so stinky for flakes, like there are <em>n</em> variants sayings <em>n^2</em> different things, so for now I&rsquo;m just winging it. Comment out the stateVersion from <code>home.nix</code> and in the same directory create a <code>flake.nix</code>. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your <code>home-manager</code>.</p>
+</span></span></code></pre></div><p>The documentation is so stinky for flakes, like there are <em>n</em> variants sayings \(n^2\) different things, so for now I&rsquo;m just winging it. Comment out the stateVersion from <code>home.nix</code> and in the same directory create a <code>flake.nix</code>. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your <code>home-manager</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl">  <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">description</span> <span class="o">=</span> <span class="s2">&#34;Home Manager configuration of Jane Doe&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -169,7 +170,7 @@ This is only useful if you want to use both flakes and home-manager.</p>
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-08 10:32:17.656571264 &#43;0530 IST m=&#43;0.042392690">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-09 13:52:26.698412576 &#43;0530 IST m=&#43;0.271459790">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
             <script async type="text/javascript" 
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
