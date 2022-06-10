@@ -1,3 +1,13 @@
+@media (prefers-color-scheme: light) {
+  --filter: invert(0%);
+  --blend: darken;
+  --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
+  --link: #458588;
+  --scroll: #555;
+  --font: #555;
+  --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
+  --bg-sel: #ebe4e1; }
+
 :root {
   --filter: invert(0%);
   --blend: darken;
@@ -149,9 +159,6 @@ figcaption {
   font-style: italic;
   color: #aaa; }
 
-td {
-  vertical-align: top; }
-
 ::-moz-selection {
   /* Code for Firefox */
   color: var(--bg-sel);
@@ -160,6 +167,46 @@ td {
 ::selection {
   color: var(--bg-sel);
   background: var(--font); }
+
+thead {
+  background-color: var(--font);
+  color: var(--bg-sel);
+  font-size: 1.15rem;
+  letter-spacing: 2%; }
+  thead ::-moz-selection {
+    /* Code for Firefox */
+    color: var(--font);
+    background: var(--bg-sel); }
+  thead ::selection {
+    color: var(--font);
+    background: var(--bg-sel); }
+
+td {
+  vertical-align: top;
+  text-align: center;
+  padding: 0 10px; }
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-spacing: 0;
+  padding-bottom: 20px; }
+
+th,
+td {
+  border: 1px solid var(--font); }
+
+th:first-of-type {
+  border-top-left-radius: 10px; }
+
+th:last-of-type {
+  border-top-right-radius: 10px; }
+
+tr:last-of-type td:first-of-type {
+  border-bottom-left-radius: 10px; }
+
+tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: 10px; }
 
 .custom-scrollbar {
   display: block;
@@ -300,13 +347,15 @@ pre code {
     text-decoration: underline; }
   .post img {
     margin: 0 auto 0.5rem; }
-  .post img + em {
+  .post img {
     color: #aaa;
     display: block;
     font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
+  .post em {
+    font-style: italic; }
   .post img.emoji {
     display: inline-block;
     left: 0;

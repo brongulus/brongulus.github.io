@@ -4,7 +4,7 @@
 #+options: creator:t
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
 #+hugo_auto_set_lastmod: t
-#+startup: inlineimages
+# #+startup: inlineimages
 #+startup: hidestars
 #+startup: overview
 #+startup: logdone
@@ -835,6 +835,56 @@ Go break a leg! :)
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
+** Elements of computing systems :draft:
+:PROPERTIES:
+:export_file_name: elements-of-computing-systems
+:END:
+# vhdl source blocks for HDL
+*** Introduction
+These are the notes which I took while studying computer architecture from the textbook "/The Elements of Computing Systems/ by /Noam Nisan & Shimon Schocken/ ". They're very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.
+[[./assets/ecs-1.png]]
+The text program is parsed, its semantics are uncovered, it's represented in some low-level language that the computer can understand. This process is called /compilation/. Its result is another text file, containing machine-level code.
+
+To make this abstract machine code concrete, it has to be realized by some /hardware architecture/ which is implemented by a /chipset/ - registers, memory, ALU, etc. These devices are made of logic gates which consist of /switching devices/ that are implemented by transistors.
+
+/Church-Turing conjecture/: At their core, all computers are essentially equivalent.
+
+[[./assets/ecs02.png]]
+
+*** Boolean Logic
+[[./assets/ecs-03.png]]
+
+Any boolean function can be realised by just the /nand/ gate. Let that sink in. A gate is a physical device that implements a simple boolean function. They are implemented as transistors etched in silicon, packaged as chips. The boolean function chip is designed and tested by using a /Hardware Description Language/ (HDL). This simulated realisation is then tested for corectness and other parameters such as speed of computation, energy consumption and cost are quantified. To illustrate the same proces, HDL implementation of a XOR function is shown below.
+
+[[./assets/ecs-04.png]]
+
+Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.
+
+Chips are specified using the API style, for nand gate: \\
+=Chip name: Nand= \\
+=Input: a,b= \\
+=Output: out= \\
+=Function: if ((a==1) and (b==1)) then out = 0, else out = 1= \\
+
+*Multiplexer*: Has two input(data) bits /a,b/ and one selection bit /sel/ which decides which input bit would be the output.
+
+[[./assets/ecs-05.png]]
+
+*Demultiplexer*: Takes in a single input and routes it to one of the possible outputs depeding on the selector bit.
+
+[[./assets/ecs-06.png]]
+
+HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being $0^{th}$ bit) to access individual bits. For example, a /m/-way /n/-bit mux would select one of its /m n/-bit inputs and output it to its /n/-bit output, where there would be /$k=log_{2}m$/ selection bits. A 4-way 16-bit mux API would look like: \\
+=Chip name: Mux4Way16= \\
+=Input: a[16],b[16],c[16],d[16],sel[2]= \\
+=Output: out[16]= \\
+=Function: if(sel==00,01,10, or 11) then out = a,b,c, or d= \\
+=Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"= \\
+
+*** Boolean Arithmetic
+/Word size/ is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent.
+
+
 ** IUSACO
 CLOSED: [2022-06-05 Sun]
 :PROPERTIES:
@@ -860,16 +910,6 @@ CLOSED: [2022-06-02 Thu]
 :END:
 *** Simplicity
 **** Turing Machine
-
-- Infinite Tape: For memory purposes
-  =....................BBBBBBBBBBBBBB................=
-  =..........................^.......................=
-
-#+begin_src python
-user.save()
-user.email = "alice@example.com"
-#+end_src
-
 **** Lambda Calculus
 *** Limits - The Halting Problem
 *** Structure

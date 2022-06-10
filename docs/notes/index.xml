@@ -6,7 +6,16 @@
     <description>Recent content in Notes on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jun 2022 01:21:12 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Elements of computing systems</title>
+      <link>https://brongulus.github.io/notes/elements-of-computing-systems/</link>
+      <pubDate>Sat, 11 Jun 2022 01:21:12 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/elements-of-computing-systems/</guid>
+      <description>Introduction These are the notes which I took while studying computer architecture from the textbook &amp;ldquo;The Elements of Computing Systems by Noam Nisan &amp;amp; Shimon Schocken &amp;ldquo;. They&amp;rsquo;re very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes. The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represented in some low-level language that the computer can understand.</description>
+    </item>
+    
     <item>
       <title>IUSACO</title>
       <link>https://brongulus.github.io/notes/iusaco-notes/</link>
