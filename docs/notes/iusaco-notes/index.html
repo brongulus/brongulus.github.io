@@ -4,8 +4,21 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;600&family=Source+Serif+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    <script>
+        function setTheme() {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                return;
+            }
+            else {
+                document.documentElement.setAttribute("data-theme", "light");
+                return;
+            }
+      }
+    </script>
     <script>
         
         if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
@@ -40,7 +53,7 @@
 
 		
 		<link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
-	</head>
+</head>
 
                 		<nav class="nav">
 			<div class="nav-container">
@@ -49,10 +62,20 @@
 						<h1 class="nav-title"><b>bacchanalian madness</b></h1>
 					</div>
 				</a>
+				<li>
+            <a href="/notes/">Notes</a>
+				</li>
+				<li>
+            <a href="/blog/">Blog</a>
+				</li>
+				<li>
+            <a href="/about/about">About</a>
+				</li>
 				<ul>
     
     
 </ul>
+
 			</div>
 		</nav>
 
@@ -74,12 +97,12 @@
 		
 
 		<h2 id="elementary-techniques-input-and-output">Elementary techniques - Input and Output</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">freopen</span><span class="p">(</span><span class="s">&#34;template.in&#34;</span><span class="p">,</span> <span class="s">&#34;r&#34;</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">freopen</span><span class="p">(</span><span class="s">&#34;template.out&#34;</span><span class="p">,</span> <span class="s">&#34;w&#34;</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">  <span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>  <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">freopen</span><span class="p">(</span><span class="s">&#34;template.in&#34;</span><span class="p">,</span> <span class="s">&#34;r&#34;</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">freopen</span><span class="p">(</span><span class="s">&#34;template.out&#34;</span><span class="p">,</span> <span class="s">&#34;w&#34;</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span></code></pre></div><ul>
 <li>When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.</li>
 <li>32bit int: \(\pm 2\times10^{9}\) v/s 64bit int: \(\pm 9\times 10^{18}\)</li>
@@ -103,9 +126,22 @@
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-11 01:21:16.513280979 &#43;0530 IST m=&#43;0.066800358">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-13 00:00:38.970476092 &#43;0530 IST m=&#43;0.056461868">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-            <script async type="text/javascript" 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+const images = Array.from(document.querySelectorAll(".post-content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null  
+  });
+});
+</script>
+            <script async type="text/javascript"
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
             </script>
 		</footer>
@@ -119,7 +155,6 @@
         if (localStorage.theme) {
             toggleSwitch.checked = localStorage.theme === "dark";
         }
-
         function switchTheme(e) {
         const theme = e.target.checked ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", theme);
@@ -128,5 +163,5 @@
 
         toggleSwitch.addEventListener("change", switchTheme);
     </script>
-</body>
+    </body>
 </html>

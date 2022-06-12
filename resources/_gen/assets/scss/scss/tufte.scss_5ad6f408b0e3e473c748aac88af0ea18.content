@@ -1,13 +1,3 @@
-@media (prefers-color-scheme: light) {
-  --filter: invert(0%);
-  --blend: darken;
-  --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
-  --link: #458588;
-  --scroll: #555;
-  --font: #555;
-  --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
-  --bg-sel: #ebe4e1; }
-
 :root {
   --filter: invert(0%);
   --blend: darken;
@@ -18,15 +8,27 @@
   --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
   --bg-sel: #ebe4e1; }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --filter: invert(0%);
+    --blend: darken;
+    --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
+    --link: #458588;
+    --scroll: #555;
+    --font: #555;
+    --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
+    --bg-sel: #ebe4e1; } }
+
 @media (prefers-color-scheme: dark) {
-  --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
-  --bg-sel: #0e001c;
-  --link: #88c0d0;
-  --font: #c9cdd7;
-  --scroll: #fff;
-  --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
-  --blend: lighten;
-  --filter: invert(100%); }
+  :root {
+    --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
+    --bg-sel: #0e001c;
+    --link: #88c0d0;
+    --font: #c9cdd7;
+    --scroll: #fff;
+    --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
+    --blend: lighten;
+    --filter: invert(100%); } }
 
 [data-theme="dark"] {
   --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
@@ -37,6 +39,16 @@
   --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
   --blend: lighten;
   --filter: invert(100%); }
+
+[data-theme="light"] {
+  --filter: invert(0%);
+  --blend: darken;
+  --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
+  --link: #458588;
+  --scroll: #555;
+  --font: #555;
+  --bg: linear-gradient(90deg, #ebe4e1 0%, #ebe4e1 100%);
+  --bg-sel: #ebe4e1; }
 
 * {
   -webkit-box-sizing: border-box;
@@ -153,7 +165,7 @@ img {
   mix-blend-mode: var(--blend);
   max-width: 100%; }
   img:hover, img:focus {
-    opacity: 0.6; }
+    opacity: 0.8; }
 
 figcaption {
   font-style: italic;
@@ -897,10 +909,14 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #555;
     display: inline-block;
     opacity: 0.6;
-    padding: 0 2rem 0 0; }
+    padding: 0 1.5rem 0 0;
+    font-style: "Inter", sans serif;
+    font-weight: 400;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; }
     .nav li:last-child {
       padding-right: 0; }
     .nav li:hover, .nav li:focus {

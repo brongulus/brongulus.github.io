@@ -2,7 +2,7 @@
 title = "Creating a blog using ox-hugo, org mode and github pages"
 author = ["Prashant Tak"]
 date = 2021-03-21T02:00:00+05:30
-lastmod = 2022-06-11T01:21:11+05:30
+lastmod = 2022-06-12T23:58:08+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++

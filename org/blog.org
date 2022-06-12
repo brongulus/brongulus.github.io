@@ -23,6 +23,12 @@
 6. +Replace with material scroll bar+
 7. Open external links in new tab by default, unless it's meta-links.
 8. Improve Image filter sigh
+* People I Idolize
++ Robert Endre Tarjan
++ Lars Ingebrigtsen
++ Gennady Korotkevich
++ Srinivasa Ramanujun
++ Etho!
 * Doubts
 1. What is r?
 2. dev-corpus refers to?
@@ -32,7 +38,7 @@
 * About
 CLOSED: [2021-03-21 Mon 01:00]
 :PROPERTIES:
-  :EXPORT_FILE_NAME: about
+:EXPORT_FILE_NAME: about
 :EXPORT_HUGO_SECTION: about
 :END:
 
@@ -123,154 +129,6 @@ exciting
 34. Your house, containing everything you own, catches fire. After saving your loved ones and pets, you have time to safely make a final dash to save any one item. What would it be? Why?
 35. Of all the people in your family, whose death would you find most disturbing? Why?
 36. Share a personal problem and ask your partner’s advice on how he or she might handle it. Also, ask your partner to reflect back to you how you seem to be feeling about the problem you have chosen.
-** Meditations
-CLOSED: [2022-03-14 Mon]
-:PROPERTIES:
-:EXPORT_FILE_NAME: meditations
-:END:
-*** Book 2: On the River Gran, Among the Quadi
-And so none of them can hurt me. No one can implicate me in ugliness. Nor can I feel angry at my relative, or hate him. We were born to work together like feet, hands, and eyes, like the two rows of teeth, upper and lower. To obstruct each other is unnatural. To feel anger at someone, to turn your back on him: these are obstructions.
-
-Concentrate every minute like a Roman- like a man- on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions. Yes, you can- if you do everything as if it were the last thing you were doing in your life, and stop being aimless, stop letting emotions override what your mind tells you, stop being hypocritical, self-centered and irritable.
-
-Do external things distract you? Then make time for yourself to learn something worthwhile; stop letting yourself be pulled in all directions. But make sure you guard against the other kind of confusion. People who labor all their lives but have no purpose to direct every thought and impulse toward are wasting their time- even when hard at work.
-
-You could leave life right now. Let that determine what you do and say and think.
-
-Nothing is more pathetic than people who run around in circles, "delving into things that lie beneath" and conducting investigations into the souls of the people around them, never realizing that all you have to do is to be attentive to the power inside you and worship it sincerely.
-
-What is divine deserves our respect because it is good; what is human deserves our affection because it is like us. And our pity too, sometimes, for its inability to tell good from bad- as terrible a blindness as the kind that can't tell white from black.
-
-The present is all that they can give up, since that is all you have, and what you do not have, you cannot lose.
-
-The human soul degrades itself.
-
-Above all, when it does its best to become an abscess, a kind of detached growth on the world.
-
-When it allows its action and impulse to be without a purpose, to be random and disconnected: even the smallest things ought to be directed toward a goal.
-
-The body and its parts are a river, the soul a dream and mist, life is warfare and a journey far from home, lasting reputation is oblivion.
-Then what can guide us?
-Only philosophy.
-
-And nothing natural is evil.
-*** Book 3: In Carnuntum
-But getting the most out of ourselves, calculating where our duty lies, analyzing what we hear and see, deciding whether it's time to call it quits- all the things you need a healthy mind for... all those are gone.
-So we need to hurry.
-Not just because we move daily closer to death but also because our understanding- our grasp of the world- may be gone before we get there.
-
-We should remember that even Nature's inadvertence has its own charm, its own attractiveness.
-
-You boarded, you set sail, you've made the passage. Time to disembark. If it's for another life, well, there's nowhere without gods on that side either. If to nothingness, then you no longer have to put up with pain or pleasure, or go on dancing attendance on this battered crate, your body- so much inferior to that which serves it.
-One is mind and spirit, the other earth and garbage.
-
-Don't waste your the rest of your time here worrying about other people- unless it affects the common good. It will keep you from doing anything useful. You'll be too preoccupied with what so-and-so is doing, and why, and what they're saying, and what they're thinking, and what they're up to, and all the other things that throw you off and keep you from focusing on your own mind.
-You need to avoid certain things in your train of thought: everything random, everything irrelevant. And certainly everything self-important or malicious.
-
-He does only what is his to do, and considers constantly what the world has in store for him- doing his best, and trusting that all is *for* the best. For we carry our fate with us- and it carries us.
-
-And he cares nothing for their praise- men who can't even meet their own standards.
-
-... then don't make room for anything but it- for anything that might lead you astray, tempt you off the road, and leave you unable to devote yourself completely to achieving the goodness that is uniquely yours.
-
-Choose what's best.
--Best is what benefits *me*.
-As a rational being? Then follow through. Or just as an animal? Then say so and stand your ground without making a show of it.
-
-Never regard something as doing you good if it makes you betray a trust, or lose your sense of shame, or makes you show hatred, suspicion, ill will, or hypocrisy, or a desire for things best done behind closed doors.
-
-Your ability to control your thoughts- treat it with respect. It's all that protects your mind from false perceptions- false to your nature, and that of all rational beings. It's what makes thoughtfulness possible, and affection for other people, and submission to the divine.
-
-It you do the job in a principled way, with diligence, energy and patience, if you keep yourself free of distractions, and keep the spirit inside you undamaged, as if you might have to give it back at any moment-
-If you can embrace this without fear or expectation- can find fulfillment in what you're doing now, as Nature intended, and in superhuman truthfulness (every word, every utterance)- then your life will be happy.
-No one can prevent that.
-
-To make your mind your guide to what seems best: even people who deny the gods do that. Even people who betray their country. Even people who do sex behind closed doors.
-If all rest is common coin, then what is unique to the good man?
-To welcome with affection what is sent by fate. Not to stain or disturb the spirit within him with a mess of false beliefs.
-*** Book 4
-People try to get away from it all- to the country, to the beach, to the mountains. You always wish that you could too. Which is idiotic: you can get away from it anytime you like.
-By going within.
-
-An instant's recollection and there it is: complete tranquility. And by tranquility I mean a kind of harmony.
-
-The things that have no hold on the soul. They stand there unmoving, outside it. Disturbance comes only from within- from our own perceptions.
-That everything you see will soon alter and cease to exist. Think of how many changes you've already seen.
-"The world is nothing but change. Our life is only perception."
-
-If thought is something we share, then so is reason- what makes us reasoning beings.
-If so, then the reason that tells us what to do and what not to do is also shared.
-And if so, we share a common law.
-And thus, are fellow citizens.
-And fellow citizens of something.
-And in that case, our state must be the world. What other entity could all of humanity belong to? And from it- from this state that we share- come thought and reason and law.
-
-Choose not to be harmed, and you won't feel harmed. Don't feel harmed- and you haven't been.
-
-It can ruin your life only if it ruins your character[fn:1]. Otherwise it cannot harm you- inside or not.
-
-Two kinds of readiness are constantly needed:
-1. to do only what the *logos* of authority and law directs, with the good of human beings in mind;
-2. to reconsider your position, when someone can set you straight or convert you to his. But your conversion should always rest on a conviction that it's right, or benefits others- nothing else. Not because it's more appealing or more popular.
-
-You have a mind?
--Yes.
-Well, why not use it? Isn't that all you want- for it to do its job?
-
-Not to live as if you had endless years ahead of you. Death overshadows you. While you're alive and able- be good.
-
-The tranquility that comes when you stop caring what they say. Or think, or do. Only what *you* do. (Is this fair? Is this the right thing to do?)
-
-But suppose those who remembered you were immortal and your memory undying. What good would it do you? And I don't just mean when you're dead, but in your own lifetime. What use is praise, except to make your lifestyle a little more comfortable?
-"You're out of step- neglecting the gifts of nature to hand on someone's words in the future."
-
-Beautiful things of any kind are beautiful in themselves and sufficient to themselves. Praise is extraneous. The object of praise remains what it was- no better and no worse. This applies, I think, even to "beautiful" things in ordinary life- physical objects, artworks.
-
-Because most of what we say and do is not essential. If you can eliminate it, you'll have more time, and more tranquility. Ask yourself at any moment, "Is this necessary?"
-
-Love the discipline you know, and let it support you. Entrust everything willingly to the gods, and then make your way through life- no one's master and no one's slave.
-
-A key point to bear in mind: The value of attentiveness varies in propotion to its object. You're better off not giving the small things more time than they deserve.
-
-Then what should we work for?
-Only this: proper understanding; unselfish action; truthful speech. A resolve to accept whatever happens as necessary and familiar, flowing like water from that same source and spring.
-
-On the verge of dying and still weighed down, still turbulent, still convinced external things can harm you, still rude to other people, still not acknowledging the truth: that wisdom is justice.
-
-"A little wisp of soul carrying a corpse." - Epictetus.
-
-What follows coheres with what went before. Not like a random catalogue whose order is imposed upon it arbitrarily, but logically connected. And just as what exists is ordered and harmonious. what comes into being betrays an order too. Not a mere sequence, but an astonishing concordance.
-
-"Our words and actions should not be like those of sleepers" (for we act and speak in dreams as well) "or of children copying their parents" -doing and saying only what we have been told.
-
-Suppose that a god announced that you were going to die tomorrow "or the day after". Unless you were a complete coward you wouldn't kick up a fuss about which day it was- what difference could it make? Now recognize that the difference between years from now and tomorrow is just as small.
-
-Our lifetime is so brief. And to live it out in these cirumstances, among these people, in this body? Nothing to get excited about. Consider the abyss of time past, the infinite future. Three days of life or three generations: what's the difference?
-
-Take the shortest route, the one that nature planned- to speak and act in the healthiest way. Do that, and be free of pain and stress, free of all calculation and pretension.
-
-[fn:1] Character, as in the upholding of your innate morals, not as what is percieved by others.
-*** Book 5
-At dawn, when you have trouble getting out of bed, tell yourself: "I have to go to work- as a human being. What do I have to complain of, if I'm going to do what I was born for- the things I was brought into the world to do? Or is *this* what I was created for? To huddle under the blankets and stay warm?"
--But it's nicer here...
-So you were born to feel "nice"? Instead of doing things and experiencing them? Don't you see the plants, the birds, the ants and spiders and bees going about their individual tasks, putting the world in order, as best as they can? And you're not willing to do your job as a human being? Why aren't you running to do what your nature demands?
-
-But nature set a limit on that- as it did on eating and drinking. And you're over the limit. You've had more than enough of that. But not of working. There you're still below your quota.
-
-Is helping others less valuable to you? Not worth your effort?
-
-If an action or utterance is appropriate, then it's appropriate for you. Don't be put off by other people's comments and criticism. If it's right to say or do it, then it's the right thing for you to do or say.
-
-Practice the virtues you *can* show: honesty, gravity, endurance, austerity, resignation, abstinence, patience, sincerity, moderation, seriousness, high-mindedness. Don't you see how much you have to offer- beyond excuses like "can't"? And yet you still settle for less.
-
-Prayer for the Athenians:
-/Zeus, rain down, rain down
-On the lands and fields of Athens./
-Either no prayers at all- or one as straightforward as that.
-
-Look at the accomplishment of nature's plans in that light- the way you look at your own health- and accept what happens (even if it seems hard to accept). Accept it because of what it leads to: the good health of the world, and the well-being and prosperity of Zeus himself, who would not have brought this on anyone unless it brought benefit to the world as a whole. No nature would do that- bring something about that wasn't beneficial to what it governed.
-
-[To be continued...]
 ** Worklog :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: worklog
@@ -304,7 +162,7 @@ CLOSED: [2021-03-21 Mon 03:00]
 :EXPORT_AUTHOR: Bernd Bohnet, et al
 :END:
 (Subtitle: /I had shingles, which is a painful disease./)
-[[file:assets/machine_learning.png]]
+[[./assets/machine_learning.png][file:./assets/machine_learning.png]]
 
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
 
@@ -391,7 +249,7 @@ On testing this system on 2017 CoNLL data sets, largest gains were found for mor
 In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.
 
 #+CAPTION: Sentence-based Character Model: The representation for the token /shingles/ is the concatenation of the four shaded boxes.
-[[file:assets/nnfl1a.png]]
+[[./assets/nnfl1a.png][file:./assets/nnfl1a.png]]
 
 For an /n/-character sentence, for each character embedding \((e_{1}^{char},...,e_{n}^{char})\), a BiLSTM is applied:
 \[
@@ -413,10 +271,10 @@ A tag can then be predicted with a /linear classifier/ that takes as input \(m_{
 To investigate whether a sentence sensitive character model (/Fig.1/) is better than a model where the context is restricted to the characters of a word, (/Fig.2/) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.
 
 #+CAPTION: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).
-[[file:assets/nnfl1b.png]]
+[[./assets/nnfl1b.png][file:./assets/nnfl1b.png]]
 
 #+CAPTION: BiLSTM variant of Character-level word representation
-[[file:assets/nnfl1.png]]
+[[./assets/nnfl1.png][file:./assets/nnfl1.png]]
 
 **** Sentence-based Word Model
 The inputs are the words of the sentence and for each of the words, we use pre-trained word embeddings \((p_{1}^{word},...,p_{n}^{word})\) summed with a dynamically learned word embedding for each word in the corpus \((e_{1}^{word},...,e_{n}^{word})\):
@@ -433,7 +291,7 @@ m_{i}^{word} = MLP(o_{i}^{word})
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
 
 #+CAPTION: Tagging Architecture of Word-based Character Model and Sentence-based Word Model
-[[file:assets/nnfl2a.png]]
+[[./assets/nnfl2a.png][file:./assets/nnfl2a.png]]
 
 **** Meta-BiLSTM: Model Combination
 If each of the character or word-based encodings are trained with their own loss and are combined using an additional meta-BiLSTM model, optimal performance is obtained. The meta-biLSTM model concatenates the output of context sensitive character and word-based encoding for each word and puts this through another BiLSTM to create an /additional/ combined context sensitive encoding. This is followed by a final MLP whose output is passed to a linear layer for tag prediction.
@@ -448,11 +306,11 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]
 
 #+CAPTION: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.
-[[file:assets/nnfl2b.png]]
+[[./assets/nnfl2b.png][file:./assets/nnfl2b.png]]
 **** Training Schema
 Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.
 
-[[file:assets/nnflAlg.png]]
+[[./assets/nnflAlg.png][file:./assets/nnflAlg.png]]
 
 In terms of model selection, after each epoch, the algorithm evaluates the tagging accuracy of the development set and keeps the parameters of the best model. Accuracy is measured using the meta-BiLSTM tagging layer, which requires a forward pass through all three models. Only the meta-BiLSTM layer is used for model selection and test-time prediction.
 
@@ -835,28 +693,29 @@ Go break a leg! :)
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
-** Elements of computing systems :draft:
+** Elements of computing systems
+CLOSED: [2022-06-10 Fri]
 :PROPERTIES:
 :export_file_name: elements-of-computing-systems
 :END:
 # vhdl source blocks for HDL
 *** Introduction
 These are the notes which I took while studying computer architecture from the textbook "/The Elements of Computing Systems/ by /Noam Nisan & Shimon Schocken/ ". They're very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.
-[[./assets/ecs-1.png]]
+[[./assets/ecs-1.png][file:./assets/ecs-1.png]]
 The text program is parsed, its semantics are uncovered, it's represented in some low-level language that the computer can understand. This process is called /compilation/. Its result is another text file, containing machine-level code.
 
 To make this abstract machine code concrete, it has to be realized by some /hardware architecture/ which is implemented by a /chipset/ - registers, memory, ALU, etc. These devices are made of logic gates which consist of /switching devices/ that are implemented by transistors.
 
 /Church-Turing conjecture/: At their core, all computers are essentially equivalent.
 
-[[./assets/ecs02.png]]
+[[./assets/ecs02.png][file:./assets/ecs02.png]]
 
 *** Boolean Logic
-[[./assets/ecs-03.png]]
+[[./assets/ecs-03.png][file:./assets/ecs-03.png]]
 
 Any boolean function can be realised by just the /nand/ gate. Let that sink in. A gate is a physical device that implements a simple boolean function. They are implemented as transistors etched in silicon, packaged as chips. The boolean function chip is designed and tested by using a /Hardware Description Language/ (HDL). This simulated realisation is then tested for corectness and other parameters such as speed of computation, energy consumption and cost are quantified. To illustrate the same proces, HDL implementation of a XOR function is shown below.
 
-[[./assets/ecs-04.png]]
+[[./assets/ecs-04.png][file:./assets/ecs-04.png]]
 
 Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.
 
@@ -868,13 +727,13 @@ Chips are specified using the API style, for nand gate: \\
 
 *Multiplexer*: Has two input(data) bits /a,b/ and one selection bit /sel/ which decides which input bit would be the output.
 
-[[./assets/ecs-05.png]]
+[[./assets/ecs-05.png][file:./assets/ecs-05.png]]
 
 *Demultiplexer*: Takes in a single input and routes it to one of the possible outputs depeding on the selector bit.
 
-[[./assets/ecs-06.png]]
+[[./assets/ecs-06.png][file:./assets/ecs-06.png]]
 
-HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being $0^{th}$ bit) to access individual bits. For example, a /m/-way /n/-bit mux would select one of its /m n/-bit inputs and output it to its /n/-bit output, where there would be /$k=log_{2}m$/ selection bits. A 4-way 16-bit mux API would look like: \\
+HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0$^{th}$ bit) to access individual bits. For example, a /m/-way /n/-bit mux would select one of its /m n/-bit inputs and output it to its /n/-bit output, where there would be /$k=log_{2}m$/ selection bits. A 4-way 16-bit mux API would look like: \\
 =Chip name: Mux4Way16= \\
 =Input: a[16],b[16],c[16],d[16],sel[2]= \\
 =Output: out[16]= \\
@@ -882,27 +741,183 @@ HDL programs treat multi-bit values like single-bit values but they are indexed(
 =Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"= \\
 
 *** Boolean Arithmetic
-/Word size/ is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent.
+/Word size/ is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using /n/ bits, one can represent values from 0 to 2$^{n}$ - 1.
+**** Addition
+[[./assets/ecs-07.png][file:./assets/ecs-07.png]]
 
-
+If the most significant bitwise addition generates a carry of 1, /overflow/ occurs, by ignoring it one achieves /n/ correct bits for adding two /n/-bit numbers.
+**** Signed Numbers
+The coding scheme was chosen so that hardware implementation of arithmetic operations would be as simple as possible, its result being /two's complement/ binary code that represents negative x as binary code that represents 2$^{n}$ - x. For example, in a 4-bit binary system =-5= would be represented as binary of =(16-5)= or =1011=. This leads us to the following properties:
++ For an n-bit system, 2$^{n}$ signed numbers are generated, from -(2$^{n-1}$) to 2$^{n-1}$ - 1. 
++ Code for positive numbers begins with 0 while for negatives with 1.
++ To get code of -x from x, flip all bits of x and add 1.
+**** Adders
 ** IUSACO
 CLOSED: [2022-06-05 Sun]
 :PROPERTIES:
 :EXPORT_FILE_NAME: iusaco-notes
 :END:
 *** Elementary techniques - Input and Output
-#+begin_src c++
-#include <cstdio>
-using namespace std;
-int main() {
-    freopen("template.in", "r", stdin);
-    freopen("template.out", "w", stdout);
-}
-#+end_src
+  #+begin_src c++
+  #include <cstdio>
+  using namespace std;
+  int main() {
+      freopen("template.in", "r", stdin);
+      freopen("template.out", "w", stdout);
+  }
+  #+end_src
 + When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.
 + 32bit int: $\pm 2\times10^{9}$ v/s 64bit int: $\pm 9\times 10^{18}$
 *** Complexity and algorithm analysis
 
+** Meditations
+CLOSED: [2022-03-14 Mon]
+:PROPERTIES:
+:EXPORT_FILE_NAME: meditations
+:END:
+*** Book 2: On the River Gran, Among the Quadi
+And so none of them can hurt me. No one can implicate me in ugliness. Nor can I feel angry at my relative, or hate him. We were born to work together like feet, hands, and eyes, like the two rows of teeth, upper and lower. To obstruct each other is unnatural. To feel anger at someone, to turn your back on him: these are obstructions.
+
+Concentrate every minute like a Roman- like a man- on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions. Yes, you can- if you do everything as if it were the last thing you were doing in your life, and stop being aimless, stop letting emotions override what your mind tells you, stop being hypocritical, self-centered and irritable.
+
+Do external things distract you? Then make time for yourself to learn something worthwhile; stop letting yourself be pulled in all directions. But make sure you guard against the other kind of confusion. People who labor all their lives but have no purpose to direct every thought and impulse toward are wasting their time- even when hard at work.
+
+You could leave life right now. Let that determine what you do and say and think.
+
+Nothing is more pathetic than people who run around in circles, "delving into things that lie beneath" and conducting investigations into the souls of the people around them, never realizing that all you have to do is to be attentive to the power inside you and worship it sincerely.
+
+What is divine deserves our respect because it is good; what is human deserves our affection because it is like us. And our pity too, sometimes, for its inability to tell good from bad- as terrible a blindness as the kind that can't tell white from black.
+
+The present is all that they can give up, since that is all you have, and what you do not have, you cannot lose.
+
+The human soul degrades itself.
+
+Above all, when it does its best to become an abscess, a kind of detached growth on the world.
+
+When it allows its action and impulse to be without a purpose, to be random and disconnected: even the smallest things ought to be directed toward a goal.
+
+The body and its parts are a river, the soul a dream and mist, life is warfare and a journey far from home, lasting reputation is oblivion.
+Then what can guide us?
+Only philosophy.
+
+And nothing natural is evil.
+*** Book 3: In Carnuntum
+But getting the most out of ourselves, calculating where our duty lies, analyzing what we hear and see, deciding whether it's time to call it quits- all the things you need a healthy mind for... all those are gone.
+So we need to hurry.
+Not just because we move daily closer to death but also because our understanding- our grasp of the world- may be gone before we get there.
+
+We should remember that even Nature's inadvertence has its own charm, its own attractiveness.
+
+You boarded, you set sail, you've made the passage. Time to disembark. If it's for another life, well, there's nowhere without gods on that side either. If to nothingness, then you no longer have to put up with pain or pleasure, or go on dancing attendance on this battered crate, your body- so much inferior to that which serves it.
+One is mind and spirit, the other earth and garbage.
+
+Don't waste your the rest of your time here worrying about other people- unless it affects the common good. It will keep you from doing anything useful. You'll be too preoccupied with what so-and-so is doing, and why, and what they're saying, and what they're thinking, and what they're up to, and all the other things that throw you off and keep you from focusing on your own mind.
+You need to avoid certain things in your train of thought: everything random, everything irrelevant. And certainly everything self-important or malicious.
+
+He does only what is his to do, and considers constantly what the world has in store for him- doing his best, and trusting that all is *for* the best. For we carry our fate with us- and it carries us.
+
+And he cares nothing for their praise- men who can't even meet their own standards.
+
+... then don't make room for anything but it- for anything that might lead you astray, tempt you off the road, and leave you unable to devote yourself completely to achieving the goodness that is uniquely yours.
+
+Choose what's best.
+-Best is what benefits *me*.
+As a rational being? Then follow through. Or just as an animal? Then say so and stand your ground without making a show of it.
+
+Never regard something as doing you good if it makes you betray a trust, or lose your sense of shame, or makes you show hatred, suspicion, ill will, or hypocrisy, or a desire for things best done behind closed doors.
+
+Your ability to control your thoughts- treat it with respect. It's all that protects your mind from false perceptions- false to your nature, and that of all rational beings. It's what makes thoughtfulness possible, and affection for other people, and submission to the divine.
+
+It you do the job in a principled way, with diligence, energy and patience, if you keep yourself free of distractions, and keep the spirit inside you undamaged, as if you might have to give it back at any moment-
+If you can embrace this without fear or expectation- can find fulfillment in what you're doing now, as Nature intended, and in superhuman truthfulness (every word, every utterance)- then your life will be happy.
+No one can prevent that.
+
+To make your mind your guide to what seems best: even people who deny the gods do that. Even people who betray their country. Even people who do sex behind closed doors.
+If all rest is common coin, then what is unique to the good man?
+To welcome with affection what is sent by fate. Not to stain or disturb the spirit within him with a mess of false beliefs.
+*** Book 4
+People try to get away from it all- to the country, to the beach, to the mountains. You always wish that you could too. Which is idiotic: you can get away from it anytime you like.
+By going within.
+
+An instant's recollection and there it is: complete tranquility. And by tranquility I mean a kind of harmony.
+
+The things that have no hold on the soul. They stand there unmoving, outside it. Disturbance comes only from within- from our own perceptions.
+That everything you see will soon alter and cease to exist. Think of how many changes you've already seen.
+"The world is nothing but change. Our life is only perception."
+
+If thought is something we share, then so is reason- what makes us reasoning beings.
+If so, then the reason that tells us what to do and what not to do is also shared.
+And if so, we share a common law.
+And thus, are fellow citizens.
+And fellow citizens of something.
+And in that case, our state must be the world. What other entity could all of humanity belong to? And from it- from this state that we share- come thought and reason and law.
+
+Choose not to be harmed, and you won't feel harmed. Don't feel harmed- and you haven't been.
+
+It can ruin your life only if it ruins your character[fn:1]. Otherwise it cannot harm you- inside or not.
+
+Two kinds of readiness are constantly needed:
+1. to do only what the *logos* of authority and law directs, with the good of human beings in mind;
+2. to reconsider your position, when someone can set you straight or convert you to his. But your conversion should always rest on a conviction that it's right, or benefits others- nothing else. Not because it's more appealing or more popular.
+
+You have a mind?
+-Yes.
+Well, why not use it? Isn't that all you want- for it to do its job?
+
+Not to live as if you had endless years ahead of you. Death overshadows you. While you're alive and able- be good.
+
+The tranquility that comes when you stop caring what they say. Or think, or do. Only what *you* do. (Is this fair? Is this the right thing to do?)
+
+But suppose those who remembered you were immortal and your memory undying. What good would it do you? And I don't just mean when you're dead, but in your own lifetime. What use is praise, except to make your lifestyle a little more comfortable?
+"You're out of step- neglecting the gifts of nature to hand on someone's words in the future."
+
+Beautiful things of any kind are beautiful in themselves and sufficient to themselves. Praise is extraneous. The object of praise remains what it was- no better and no worse. This applies, I think, even to "beautiful" things in ordinary life- physical objects, artworks.
+
+Because most of what we say and do is not essential. If you can eliminate it, you'll have more time, and more tranquility. Ask yourself at any moment, "Is this necessary?"
+
+Love the discipline you know, and let it support you. Entrust everything willingly to the gods, and then make your way through life- no one's master and no one's slave.
+
+A key point to bear in mind: The value of attentiveness varies in propotion to its object. You're better off not giving the small things more time than they deserve.
+
+Then what should we work for?
+Only this: proper understanding; unselfish action; truthful speech. A resolve to accept whatever happens as necessary and familiar, flowing like water from that same source and spring.
+
+On the verge of dying and still weighed down, still turbulent, still convinced external things can harm you, still rude to other people, still not acknowledging the truth: that wisdom is justice.
+
+"A little wisp of soul carrying a corpse." - Epictetus.
+
+What follows coheres with what went before. Not like a random catalogue whose order is imposed upon it arbitrarily, but logically connected. And just as what exists is ordered and harmonious. what comes into being betrays an order too. Not a mere sequence, but an astonishing concordance.
+
+"Our words and actions should not be like those of sleepers" (for we act and speak in dreams as well) "or of children copying their parents" -doing and saying only what we have been told.
+
+Suppose that a god announced that you were going to die tomorrow "or the day after". Unless you were a complete coward you wouldn't kick up a fuss about which day it was- what difference could it make? Now recognize that the difference between years from now and tomorrow is just as small.
+
+Our lifetime is so brief. And to live it out in these cirumstances, among these people, in this body? Nothing to get excited about. Consider the abyss of time past, the infinite future. Three days of life or three generations: what's the difference?
+
+Take the shortest route, the one that nature planned- to speak and act in the healthiest way. Do that, and be free of pain and stress, free of all calculation and pretension.
+
+[fn:1] Character, as in the upholding of your innate morals, not as what is percieved by others.
+*** Book 5
+At dawn, when you have trouble getting out of bed, tell yourself: "I have to go to work- as a human being. What do I have to complain of, if I'm going to do what I was born for- the things I was brought into the world to do? Or is *this* what I was created for? To huddle under the blankets and stay warm?"
+-But it's nicer here...
+So you were born to feel "nice"? Instead of doing things and experiencing them? Don't you see the plants, the birds, the ants and spiders and bees going about their individual tasks, putting the world in order, as best as they can? And you're not willing to do your job as a human being? Why aren't you running to do what your nature demands?
+
+But nature set a limit on that- as it did on eating and drinking. And you're over the limit. You've had more than enough of that. But not of working. There you're still below your quota.
+
+Is helping others less valuable to you? Not worth your effort?
+
+If an action or utterance is appropriate, then it's appropriate for you. Don't be put off by other people's comments and criticism. If it's right to say or do it, then it's the right thing for you to do or say.
+
+Practice the virtues you *can* show: honesty, gravity, endurance, austerity, resignation, abstinence, patience, sincerity, moderation, seriousness, high-mindedness. Don't you see how much you have to offer- beyond excuses like "can't"? And yet you still settle for less.
+
+Prayer for the Athenians:
+/Zeus, rain down, rain down
+On the lands and fields of Athens./
+Either no prayers at all- or one as straightforward as that.
+
+Look at the accomplishment of nature's plans in that light- the way you look at your own health- and accept what happens (even if it seems hard to accept). Accept it because of what it leads to: the good health of the world, and the well-being and prosperity of Zeus himself, who would not have brought this on anyone unless it brought benefit to the world as a whole. No nature would do that- bring something about that wasn't beneficial to what it governed.
+
+[To be continued...]
 ** Computation :noexport:
 CLOSED: [2022-06-02 Thu]
 :PROPERTIES:
@@ -1182,11 +1197,11 @@ where /v/ is the angle of roatation about the /z/-axis.
 + Cell phones are multi-band device, when one's closer to a radio tower/station, it uses HF bands, but at poor reception they fall back to LF bands (GSM: 900-1800 MHz).
 + Wireless networks cover large amounts of area via a number of low-power radio stations laid out in hexagonal, cell-like grids.
 + Cellular commuication works by transmitting analog voice/data after amplification and conversion to digital bits into the environment and then received by selecting the corresponding frequency (highly selective network), processing the data (noise removal etc) and then converting back to analog audio. This process is know as modulation-demodulation.
-[[file:assets/advd-rf-tran.png]]
+[[./assets/advd-rf-tran.png][file:./assets/advd-rf-tran.png]]
 + Elements of a transceiver: /Oscillators, phase-clocked loops, frequency synthesizers, converters, filters, power circuits/ having *high data rate, resolution, less cost and energy per conversion*.
 *** FIXME VLSI Design - An Overview
 + *Moore's Law:* Number of components (transistors) in ICs would double every two years. This was possible because of /scaling/.
-[[file:assets/advd-moore-law.png]]
+[[./assets/advd-moore-law.png][file:./assets/advd-moore-law.png]]
 + Learn how to convert schematic into a layout and vice-versa.
 + First microprocessor from intel - 4004, 8 bit
 + FPGA: Customizable pre-fabricated design

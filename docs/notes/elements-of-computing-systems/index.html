@@ -4,8 +4,21 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;600&family=Source+Serif+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    <script>
+        function setTheme() {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                return;
+            }
+            else {
+                document.documentElement.setAttribute("data-theme", "light");
+                return;
+            }
+      }
+    </script>
     <script>
         
         if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
@@ -40,7 +53,7 @@
 
 		
 		<link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
-	</head>
+</head>
 
                 		<nav class="nav">
 			<div class="nav-container">
@@ -49,10 +62,20 @@
 						<h1 class="nav-title"><b>bacchanalian madness</b></h1>
 					</div>
 				</a>
+				<li>
+            <a href="/notes/">Notes</a>
+				</li>
+				<li>
+            <a href="/blog/">Blog</a>
+				</li>
+				<li>
+            <a href="/about/about">About</a>
+				</li>
 				<ul>
     
     
 </ul>
+
 			</div>
 		</nav>
 
@@ -65,6 +88,8 @@
 		<div class="post-info">
     <span>Written by</span>
         [Prashant Tak]
+        <br>
+        <span>on&nbsp;</span><time datetime="2022-06-10 00:00:00 &#43;0530 IST">June 10, 2022</time>
 </div>
 
 		<br><div class="post-line"></div>
@@ -73,19 +98,19 @@
 
 		<h2 id="introduction">Introduction</h2>
 <p>These are the notes which I took while studying computer architecture from the textbook &ldquo;<em>The Elements of Computing Systems</em> by <em>Noam Nisan &amp; Shimon Schocken</em> &ldquo;. They&rsquo;re very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.
-<img src="/ox-hugo/ecs-1.png" alt="">
+<a href="/ox-hugo/ecs-1.png"><img src="/ox-hugo/ecs-1.png" alt=""></a>
 The text program is parsed, its semantics are uncovered, it&rsquo;s represented in some low-level language that the computer can understand. This process is called <em>compilation</em>. Its result is another text file, containing machine-level code.</p>
 <p>To make this abstract machine code concrete, it has to be realized by some <em>hardware architecture</em> which is implemented by a <em>chipset</em> - registers, memory, ALU, etc. These devices are made of logic gates which consist of <em>switching devices</em> that are implemented by transistors.</p>
 <p><em>Church-Turing conjecture</em>: At their core, all computers are essentially equivalent.</p>
-<figure><img src="/ox-hugo/ecs02.png"/>
+<figure><a href="/ox-hugo/ecs02.png"><img src="/ox-hugo/ecs02.png"/></a>
 </figure>
 
 <h2 id="boolean-logic">Boolean Logic</h2>
-<figure><img src="/ox-hugo/ecs-03.png"/>
+<figure><a href="/ox-hugo/ecs-03.png"><img src="/ox-hugo/ecs-03.png"/></a>
 </figure>
 
 <p>Any boolean function can be realised by just the <em>nand</em> gate. Let that sink in. A gate is a physical device that implements a simple boolean function. They are implemented as transistors etched in silicon, packaged as chips. The boolean function chip is designed and tested by using a <em>Hardware Description Language</em> (HDL). This simulated realisation is then tested for corectness and other parameters such as speed of computation, energy consumption and cost are quantified. To illustrate the same proces, HDL implementation of a XOR function is shown below.</p>
-<figure><img src="/ox-hugo/ecs-04.png"/>
+<figure><a href="/ox-hugo/ecs-04.png"><img src="/ox-hugo/ecs-04.png"/></a>
 </figure>
 
 <p>Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.</p>
@@ -95,21 +120,34 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <code>Output: out</code> <br />
 <code>Function: if ((a==1) and (b==1)) then out = 0, else out = 1</code> <br /></p>
 <p><strong>Multiplexer</strong>: Has two input(data) bits <em>a,b</em> and one selection bit <em>sel</em> which decides which input bit would be the output.</p>
-<figure><img src="/ox-hugo/ecs-05.png"/>
+<figure><a href="/ox-hugo/ecs-05.png"><img src="/ox-hugo/ecs-05.png"/></a>
 </figure>
 
 <p><strong>Demultiplexer</strong>: Takes in a single input and routes it to one of the possible outputs depeding on the selector bit.</p>
-<figure><img src="/ox-hugo/ecs-06.png"/>
+<figure><a href="/ox-hugo/ecs-06.png"><img src="/ox-hugo/ecs-06.png"/></a>
 </figure>
 
-<p>HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being \(0^{th}\) bit) to access individual bits. For example, a <em>m</em>-way <em>n</em>-bit mux would select one of its <em>m n</em>-bit inputs and output it to its <em>n</em>-bit output, where there would be <em>\(k=log_{2}m\)</em> selection bits. A 4-way 16-bit mux API would look like: <br />
+<p>HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a <em>m</em>-way <em>n</em>-bit mux would select one of its <em>m n</em>-bit inputs and output it to its <em>n</em>-bit output, where there would be <em>\(k=log_{2}m\)</em> selection bits. A 4-way 16-bit mux API would look like: <br />
 <code>Chip name: Mux4Way16</code> <br />
 <code>Input: a[16],b[16],c[16],d[16],sel[2]</code> <br />
 <code>Output: out[16]</code> <br />
 <code>Function: if(sel==00,01,10, or 11) then out = a,b,c, or d</code> <br />
 <code>Comment: The assignment is a 16-bit operation. For example, &quot;out = a&quot; means &quot;for i = 0..15 out[i] = a[i]&quot;</code> <br /></p>
 <h2 id="boolean-arithmetic">Boolean Arithmetic</h2>
-<p><em>Word size</em> is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent.</p>
+<p><em>Word size</em> is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using <em>n</em> bits, one can represent values from 0 to 2\(^{n}\) - 1.</p>
+<h3 id="addition">Addition</h3>
+<figure><a href="/ox-hugo/ecs-07.png"><img src="/ox-hugo/ecs-07.png"/></a>
+</figure>
+
+<p>If the most significant bitwise addition generates a carry of 1, <em>overflow</em> occurs, by ignoring it one achieves <em>n</em> correct bits for adding two <em>n</em>-bit numbers.</p>
+<h3 id="signed-numbers">Signed Numbers</h3>
+<p>The coding scheme was chosen so that hardware implementation of arithmetic operations would be as simple as possible, its result being <em>two&rsquo;s complement</em> binary code that represents negative x as binary code that represents 2\(^{n}\) - x. For example, in a 4-bit binary system <code>-5</code> would be represented as binary of <code>(16-5)</code> or <code>1011</code>. This leads us to the following properties:</p>
+<ul>
+<li>For an n-bit system, 2\(^{n}\) signed numbers are generated, from -(2\(^{n-1}\)) to 2\(^{n-1}\) - 1.</li>
+<li>Code for positive numbers begins with 0 while for negatives with 1.</li>
+<li>To get code of -x from x, flip all bits of x and add 1.</li>
+</ul>
+<h3 id="adders">Adders</h3>
 
 
 		
@@ -127,9 +165,22 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-11 01:21:16.512233015 &#43;0530 IST m=&#43;0.065752405">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-13 00:00:38.97078944 &#43;0530 IST m=&#43;0.056775212">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-            <script async type="text/javascript" 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+const images = Array.from(document.querySelectorAll(".post-content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null  
+  });
+});
+</script>
+            <script async type="text/javascript"
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
             </script>
 		</footer>
@@ -143,7 +194,6 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
         if (localStorage.theme) {
             toggleSwitch.checked = localStorage.theme === "dark";
         }
-
         function switchTheme(e) {
         const theme = e.target.checked ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", theme);
@@ -152,5 +202,5 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 
         toggleSwitch.addEventListener("change", switchTheme);
     </script>
-</body>
+    </body>
 </html>

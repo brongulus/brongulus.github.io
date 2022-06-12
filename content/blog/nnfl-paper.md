@@ -2,13 +2,13 @@
 title = "Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview"
 author = ["Bernd Bohnet", "et al"]
 date = 2021-03-21T03:00:00+05:30
-lastmod = 2022-06-11T01:21:10+05:30
+lastmod = 2022-06-12T23:58:06+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
 
 (Subtitle: _I had shingles, which is a painful disease._)
-![](/ox-hugo/machine_learning.png)
+[![](/ox-hugo/machine_learning.png)](/ox-hugo/machine_learning.png)
 
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
 
@@ -133,7 +133,7 @@ On testing this system on 2017 CoNLL data sets, largest gains were found for mor
 
 In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.
 
-{{< figure src="/ox-hugo/nnfl1a.png" caption="<span class=\"figure-number\">Figure 1: </span>Sentence-based Character Model: The representation for the token _shingles_ is the concatenation of the four shaded boxes." >}}
+{{< figure src="/ox-hugo/nnfl1a.png" caption="<span class=\"figure-number\">Figure 1: </span>Sentence-based Character Model: The representation for the token _shingles_ is the concatenation of the four shaded boxes." link="/ox-hugo/nnfl1a.png" >}}
 
 For an _n_-character sentence, for each character embedding \\((e\_{1}^{char},...,e\_{n}^{char})\\), a BiLSTM is applied:
 \\[
@@ -157,9 +157,9 @@ A tag can then be predicted with a _linear classifier_ that takes as input \\(m\
 
 To investigate whether a sentence sensitive character model (_Fig.1_) is better than a model where the context is restricted to the characters of a word, (_Fig.2_) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.
 
-{{< figure src="/ox-hugo/nnfl1b.png" caption="<span class=\"figure-number\">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)." >}}
+{{< figure src="/ox-hugo/nnfl1b.png" caption="<span class=\"figure-number\">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)." link="/ox-hugo/nnfl1b.png" >}}
 
-{{< figure src="/ox-hugo/nnfl1.png" caption="<span class=\"figure-number\">Figure 3: </span>BiLSTM variant of Character-level word representation" >}}
+{{< figure src="/ox-hugo/nnfl1.png" caption="<span class=\"figure-number\">Figure 3: </span>BiLSTM variant of Character-level word representation" link="/ox-hugo/nnfl1.png" >}}
 
 
 ### Sentence-based Word Model {#sentence-based-word-model}
@@ -177,7 +177,7 @@ m\_{i}^{word} = MLP(o\_{i}^{word})
 \\]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
 
-{{< figure src="/ox-hugo/nnfl2a.png" caption="<span class=\"figure-number\">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model" >}}
+{{< figure src="/ox-hugo/nnfl2a.png" caption="<span class=\"figure-number\">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model" link="/ox-hugo/nnfl2a.png" >}}
 
 
 ### Meta-BiLSTM: Model Combination {#meta-bilstm-model-combination}
@@ -193,14 +193,14 @@ f\_{m,i}^{l}, b\_{m,i}^{l} = BiLSTM(r\_{0},(cw\_{0},...,cw\_{n}))\_{i}
 m\_{i}^{comb} = MLP(concat(f\_{m,i}^{l}, b\_{m,i}^{l}))
 \\]
 
-{{< figure src="/ox-hugo/nnfl2b.png" caption="<span class=\"figure-number\">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows." >}}
+{{< figure src="/ox-hugo/nnfl2b.png" caption="<span class=\"figure-number\">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows." link="/ox-hugo/nnfl2b.png" >}}
 
 
 ### Training Schema {#training-schema}
 
 Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.
 
-{{< figure src="/ox-hugo/nnflAlg.png" >}}
+{{< figure src="/ox-hugo/nnflAlg.png" link="/ox-hugo/nnflAlg.png" >}}
 
 In terms of model selection, after each epoch, the algorithm evaluates the tagging accuracy of the development set and keeps the parameters of the best model. Accuracy is measured using the meta-BiLSTM tagging layer, which requires a forward pass through all three models. Only the meta-BiLSTM layer is used for model selection and test-time prediction.
 
