@@ -101,7 +101,9 @@ html {
   color: var(--bg);
   font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 22px;
-  overflow-y: scroll;
+  overflow: scroll;
+  overflow-y: hidden;
+  overflow-x: hidden;
   margin: 0; }
   @media (max-width: 625px) {
     html {
