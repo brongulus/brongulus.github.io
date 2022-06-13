@@ -148,6 +148,56 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <li>To get code of -x from x, flip all bits of x and add 1.</li>
 </ul>
 <h3 id="adders">Adders</h3>
+<p><strong>Half adder</strong>: Adds two numbers/bits and outputs in for of <code>sum</code> and <code>carry</code> which are LSB and MSB of the addition of the input bits.</p>
+<p><strong>Full adder</strong>: Adds three bits and outputs the result in form of <code>sum</code> and <code>carry</code> bits.</p>
+<p><strong>Adder</strong>: Adds two <em>n</em>-bit numbers and outputs as <code>out</code>, which is also <em>n</em>-bit. Here the overflow bit is ignored.</p>
+<p><strong>Incrementer</strong>: Adds 1 to a given number, enables fetching next instruction from memory after executing the current.</p>
+<p>Note that this adder implementation is inefficient because of delays incurred by propogation of carry bits which can be acclerated by <em>carry lookahead</em> heuristics.</p>
+<h3 id="alu">ALU</h3>
+<p>Designed to compute a set of arithmetic and logic operations, exactly <em>which</em> ones is a design decision derived from cost-effectiveness considerations. Shown below is the Hack ALU which computes 18 functions which are controlled by six 1-bit <em>control bits</em>. In addition to those there are <code>zr</code> and <code>ng</code> bits which flag whether the output is zero or negative. Note that the output overflow bit is ignored.</p>
+<figure><a href="/ox-hugo/ecs-08.png"><img src="/ox-hugo/ecs-08.png"/></a>
+</figure>
+
+<figure><a href="/ox-hugo/ecs-09.png"><img src="/ox-hugo/ecs-09.png"/></a>
+</figure>
+
+<p>To illustrate the ALU logic, if one wishes to compute <code>x-1 for x=27</code>, then control bits would be <code>001110</code>. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; next, we compute either + or &amp; on the preprocessed values; and finally, we either negate the resulting value, or not. The first two <code>00</code> show that we neither zero nor negate x, then <code>11</code> shows that we zero y and then negate it, leading to 16-bit value <code>1111111111111111</code> which is -1 in two&rsquo;s complement. The next control bit <code>1</code> dictates addition operation and the last <code>0</code> bit shows that output shouldn&rsquo;t be negated hence we get the desired function <code>x-1</code>.</p>
+<h2 id="memory">Memory</h2>
+<p>All the chips considered so far are time independent, they&rsquo;re called <em>combinational chips</em>. Now <em>sequential chips</em> are introduced whose output depends not only on current time inputs but past inputs and outputs too. The notion of time is introduced by a <em>clock</em> that generates a <em>cycle</em> of binary singals that are called a <em>tick</em> and a <em>tock</em>.</p>
+<p>By viewing the time in the form of cycles instead of a continuous progression, the changes in the system are made atomic i.e. they&rsquo;ll only be reflected during cycle transitions and within a cycle, no change would be shown. This discrete view helps in neutralizing randomness associated with time delays and can be used for synchronizing the operations of different chips. For that, the cycle should be long enough to contain the possible time delay but short enough so that the resulting system&rsquo;s fast because the changes would only be shown during transitions.</p>
+<p>Also, to ensure output validity duration of the clock cycle has to be slightly longer than the time it takes a bit to travel the longest distance from one chip to another, plus the time it takes to complete the most time-consuming within-chip calculation.</p>
+<figure><a href="/ox-hugo/ecs-11.png"><img src="/ox-hugo/ecs-11.png"/></a>
+</figure>
+
+<h3 id="flip-flops">Flip Flops</h3>
+<p>A Data flip-flip (DFF) is a memory chip which has a single-bit data input and output and an addition clock input(marked by small triangle on gate icon) that feeds from master clock&rsquo;s signal. It models the behavior <code>out(t)=in(t-1)</code> that is, in every subsequent time unit, DFF outputs input from previous time unit. At all other times, DFFs are <em>latched</em>, meaning that changes in their inputs have no immediate effect on the output.</p>
+<figure><a href="/ox-hugo/ecs-10.png"><img src="/ox-hugo/ecs-10.png"/></a>
+</figure>
+
+<p>Note that the concept of feedback loops doesn&rsquo;t make sense in combinational chips, but there is no difficulty in feeding outputs back into inputs if they&rsquo;re passed through a DFF gate so that the output at time t does not depend on itself but rather on the output at time t-1.</p>
+<p>FFs are generally constructed from nand gates connected in feedback loops. The standard construction begins by building a non-clocked flip-flop which is bi-stable, that is, can be set to be in one of two states (storing 0, and storing 1). Then a clocked flip-flop is obtained by cascading two such non-clocked flip-flops, the first
+being set when the clock ticks and the second when the clock tocks.</p>
+<h3 id="registers">Registers</h3>
+<p>A register is a DFF with a <em>load</em> input. It stores and outputs its current value until <em>load</em> instructs it to update to a new value.</p>
+<figure><a href="/ox-hugo/ecs-14.png"><img src="/ox-hugo/ecs-14.png"/></a>
+</figure>
+
+<figure><a href="/ox-hugo/ecs-12.png"><img src="/ox-hugo/ecs-12.png"/></a>
+</figure>
+
+<p>A 16-bit register behaves the same as a <em>bit</em> chip, just that it deals with 16-bit values. A register fulfils the classical function of a memory device, remember and emit the last written value, until its <em>set</em> to another.</p>
+<h3 id="ram">RAM</h3>
+<p>A RAM chip consists of <em>n</em> 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is insantaneous.</p>
+<figure><a href="/ox-hugo/ecs-13.png"><img src="/ox-hugo/ecs-13.png"/></a>
+</figure>
+
+<p>RAM implementations can be modular, for example one could implement RAM64 i.e. having 64 registers by using eight RAM8 chips, to select a particular register one uses a 6-bit address <em>xxxyyy</em> where <em>xxx</em> bits can be used to select one of the RAM8 chips and <em>yyy</em> bits can be used to select the register within the RAM8 chip.</p>
+<h3 id="counter">Counter</h3>
+<p>A chip that&rsquo;s implementation of an incrementer used to keep track of program instructions (PC: Program Counter). It has three functional inputs alongwith <code>in</code>, namely <code>inc</code>, which increases counter state every cycle(PC++) and <code>reset</code> which sets it to 0 and <code>load</code> sets its value to whatever values is fed by <code>in</code>.</p>
+<figure><a href="/ox-hugo/ecs-15.png"><img src="/ox-hugo/ecs-15.png"/></a>
+</figure>
+
+<h2 id="machine-language">Machine Language</h2>
 
 
 		
@@ -164,7 +214,7 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-13 00:57:20.202445202 &#43;0530 IST m=&#43;0.049021615">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-13 05:30:27.718054255 &#43;0530 IST m=&#43;0.131564345">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
