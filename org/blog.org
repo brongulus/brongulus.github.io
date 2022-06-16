@@ -80,6 +80,12 @@ if you can't manage to start any of this shit, either seek professional help or 
 Relationships are like a control system, no matter the disturbances or change in affection, the output must remain consistent.
 #+end_quote
 
+Source: [[https://signalvnoise.com/posts/3124-give-it-five-minutes][Give it five minutes]]
+#+begin_quote
+Pushing back means you already think you know. Asking questions means you want to know. Ask more questions.
+#+end_quote
+
+
 *** Words to live by
 #+begin_quote
 we do these little things I guess to
@@ -161,7 +167,11 @@ CLOSED: [2021-03-21 Mon 03:00]
 :EXPORT_FILE_NAME: nnfl-paper
 :EXPORT_AUTHOR: Bernd Bohnet, et al
 :END:
-(Subtitle: /I had shingles, which is a painful disease./)
+
+#+begin_quote
+"I had shingles, which is a painful disease."
+#+end_quote
+
 [[./assets/machine_learning.png][file:./assets/machine_learning.png]]
 
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
@@ -745,7 +755,7 @@ HDL programs treat multi-bit values like single-bit values but they are indexed(
 **** Addition
 [[./assets/ecs-07.png][file:./assets/ecs-07.png]]
 
-If the most significant bitwise addition generates a carry of 1, /overflow/ occurs, by ignoring it one achieves /n/ correct bits for adding two /n/-bit numbers.
+If the most significant bitwise addition generates a carry of 1, /overflow/ occurs, if that is ignored, one achieves /n/ correct bits for adding two /n/-bit numbers.
 **** Signed Numbers
 The coding scheme was chosen so that hardware implementation of arithmetic operations would be as simple as possible, its result being /two's complement/ binary code that represents negative x as binary code that represents 2$^{n}$ - x. For example, in a 4-bit binary system =-5= would be represented as binary of =(16-5)= or =1011=. This leads us to the following properties:
 + For an n-bit system, 2$^{n}$ signed numbers are generated, from -(2$^{n-1}$) to 2$^{n-1}$ - 1. 
@@ -768,7 +778,7 @@ Designed to compute a set of arithmetic and logic operations, exactly /which/ on
 
 [[./assets/ecs-09.png][file:./assets/ecs-09.png]]
 
-To illustrate the ALU logic, if one wishes to compute =x-1 for x=27=, then control bits would be =001110=. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; next, we compute either + or & on the preprocessed values; and finally, we either negate the resulting value, or not. The first two =00= show that we neither zero nor negate x, then =11= shows that we zero y and then negate it, leading to 16-bit value =1111111111111111= which is -1 in two's complement. The next control bit =1= dictates addition operation and the last =0= bit shows that output shouldn't be negated hence we get the desired function =x-1=.
+To illustrate the ALU logic, if one wishes to compute =x-1 for x=27=, then control bits would be =001110=. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; then we compute either =+= or =&= on the preprocessed values; and finally, we either negate the resulting value, or not. The first two =00= show that we neither zero nor negate x, then =11= shows that we zero y and then negate it, leading to 16-bit value =1111111111111111= which is -1 in two's complement. The next control bit =1= dictates addition operation and the last =0= bit shows that output shouldn't be negated hence we get the desired function =x-1=.
 *** Memory
 All the chips considered so far are time independent, they're called /combinational chips/. Now /sequential chips/ are introduced whose output depends not only on current time inputs but past inputs and outputs too. The notion of time is introduced by a /clock/ that generates a /cycle/ of binary singals that are called a /tick/ and a /tock/.
 
@@ -796,7 +806,7 @@ A register is a DFF with a /load/ input. It stores and outputs its current value
 
 A 16-bit register behaves the same as a /bit/ chip, just that it deals with 16-bit values. A register fulfils the classical function of a memory device, remember and emit the last written value, until its /set/ to another.
 **** RAM
-A RAM chip consists of /n/ 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is insantaneous.
+A RAM chip consists of /n/ 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is instantaneous.
 
 [[./assets/ecs-13.png][file:./assets/ecs-13.png]]
 
@@ -805,8 +815,38 @@ RAM implementations can be modular, for example one could implement RAM64 i.e. h
 A chip that's implementation of an incrementer used to keep track of program instructions (PC: Program Counter). It has three functional inputs alongwith =in=, namely =inc=, which increases counter state every cycle(PC++) and =reset= which sets it to 0 and =load= sets its value to whatever values is fed by =in=.
 
 [[./assets/ecs-15.png][file:./assets/ecs-15.png]]
-*** Machine Language
 
+[[./assets/ecs-16.png][file:./assets/ecs-16.png]]
+
+*** Machine Language
+#+begin_quote
+"Form follows function."
+#+end_quote
+A machine language can be viewed as an agreed-upon formalism designed to manipulate a /memory/ using a /processor/ and a set of /registers/. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in, and control of, a specific hardware platform. For this project, Hack machine language is used.
+
+Machine language programs can be written in either /binary/ or /symbolic/ instructions. Programs writtern in symbolic(/assembly/) languages are translated into executable binary code by a translator program called /assembler/.
+**** Hardware
+*Memory*: Functionally speaking, a memory is a continuous sequence of cells, also referred to as locations or memory registers, each having a unique address.
+
+*Processor*: A device capable of performing a fixed set of primitve operations which include arithmetic, logical, memory access and control/branching operations.
+
+*Registers*: Inside the processor's chip, they serve as high-speed local memory, allowing it to manipulate data and instructions without having to be dependent on slow memory chips. They're categorized into /data/ and /address/ registers.
+**** Instructions
+*Arithmetic and logical operations*: Assuming that the processor has a set of registers denoted =R0, R1, R2,...=. Basic operations like addition, subtraction, and(bitwise), or, not. \\
+=load R1,true= \\
+=load R2,false= \\
+=and R1,R2,R2= (R1 \leftarrow R1 And R2) \\
+
+*Memory access*: Using address register =A=, let us set memory location 17 to value 1. \\
+=load A,17= \\
+=load M,1= \\
+Here by convention, M stands for memory register selected by A.
+
+*Flow control*: For facilitating branching actions, labelled /goto/ statements exist.
+
+[[./assets/ecs-17.png][file:./assets/ecs-17.png]]
+
+*Symbols*: Make it easier to not rely on rigid physical addresses which makes the code /relocatable/.
 ** IUSACO
 CLOSED: [2022-06-05 Sun]
 :PROPERTIES:

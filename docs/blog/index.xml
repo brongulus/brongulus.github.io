@@ -14,9 +14,9 @@
       
       <guid>https://brongulus.github.io/blog/nix-intro/</guid>
       <description>Starting Are you using Nixos? This is not for you. Do you want multi-user installation? This is not for you. This is only useful if you want to use both flakes and home-manager.
-  Single-user installation (no sudo needed, easier to remove, good for testing purposes)
-sh &amp;lt;(curl -L https://nixos.org/nix/install) --no-daemon   Source the new profile or login. . ~/.nix-profile/etc/profile.d/nix.sh
-  Since most of the nix &amp;ldquo;guides&amp;rdquo; are outdated, check what your current version supports nix --help, at the time of writing this, there&amp;rsquo;s no need to enable experimental features for flakes :) spoke too soon.</description>
+Single-user installation (no sudo needed, easier to remove, good for testing purposes)
+sh &amp;lt;(curl -L https://nixos.org/nix/install) --no-daemon Source the new profile or login. . ~/.nix-profile/etc/profile.d/nix.sh
+Since most of the nix &amp;ldquo;guides&amp;rdquo; are outdated, check what your current version supports nix --help, at the time of writing this, there&amp;rsquo;s no need to enable experimental features for flakes :) spoke too soon.</description>
     </item>
     
     <item>
@@ -25,9 +25,9 @@ sh &amp;lt;(curl -L https://nixos.org/nix/install) --no-daemon   Source the new 
       <pubDate>Sun, 21 Mar 2021 03:00:00 +0530</pubDate>
       
       <guid>https://brongulus.github.io/blog/nnfl-paper/</guid>
-      <description>(Subtitle: I had shingles, which is a painful disease.) 
+      <description>&amp;ldquo;I had shingles, which is a painful disease.&amp;rdquo;
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
-Abstract  RNN leads to advances in speech tagging accuracy Zeman et al Common thing among models, rich initial word encodings. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings1.</description>
+Abstract RNN leads to advances in speech tagging accuracy Zeman et al Common thing among models, rich initial word encodings. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings1.</description>
     </item>
     
     <item>
@@ -37,11 +37,11 @@ Abstract  RNN leads to advances in speech tagging accuracy Zeman et al Common th
       
       <guid>https://brongulus.github.io/blog/blog-creation/</guid>
       <description>I was going to make a post explaining how I made this blog but it was rendered pretty useless by this. So yeah, I might archive this later.
-  Install hugo from your package manager.
-  Create a new site:
-hugo new site blog   Add a theme:
-cd blog git init git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name&amp;gt;   Install ox-hugo in emacs
-;; goes in packages.el (package!</description>
+Install hugo from your package manager.
+Create a new site:
+hugo new site blog Add a theme:
+cd blog git init git submodule add &amp;lt;theme_url&amp;gt; themes/&amp;lt;name&amp;gt; Install ox-hugo in emacs
+;; goes in packages.el (package! ox-hugo) ;; goes in config.el (use-package ox-hugo :after ox) TODO Explain the process of content and properties, tags etc.</description>
     </item>
     
   </channel>

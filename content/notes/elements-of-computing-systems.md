@@ -2,7 +2,7 @@
 title = "Elements of computing systems"
 author = ["Prashant Tak"]
 date = 2022-06-10T00:00:00+05:30
-lastmod = 2022-06-13T05:28:35+05:30
+lastmod = 2022-06-16T12:46:14+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -61,7 +61,7 @@ _Word size_ is a term used for specifying the number of bits that computers use 
 
 {{< figure src="/ox-hugo/ecs-07.png" link="/ox-hugo/ecs-07.png" >}}
 
-If the most significant bitwise addition generates a carry of 1, _overflow_ occurs, by ignoring it one achieves _n_ correct bits for adding two _n_-bit numbers.
+If the most significant bitwise addition generates a carry of 1, _overflow_ occurs, if that is ignored, one achieves _n_ correct bits for adding two _n_-bit numbers.
 
 
 ### Signed Numbers {#signed-numbers}
@@ -94,7 +94,7 @@ Designed to compute a set of arithmetic and logic operations, exactly _which_ on
 
 {{< figure src="/ox-hugo/ecs-09.png" link="/ox-hugo/ecs-09.png" >}}
 
-To illustrate the ALU logic, if one wishes to compute `x-1 for x=27`, then control bits would be `001110`. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; next, we compute either + or &amp; on the preprocessed values; and finally, we either negate the resulting value, or not. The first two `00` show that we neither zero nor negate x, then `11` shows that we zero y and then negate it, leading to 16-bit value `1111111111111111` which is -1 in two's complement. The next control bit `1` dictates addition operation and the last `0` bit shows that output shouldn't be negated hence we get the desired function `x-1`.
+To illustrate the ALU logic, if one wishes to compute `x-1 for x=27`, then control bits would be `001110`. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; then we compute either `+` or `&` on the preprocessed values; and finally, we either negate the resulting value, or not. The first two `00` show that we neither zero nor negate x, then `11` shows that we zero y and then negate it, leading to 16-bit value `1111111111111111` which is -1 in two's complement. The next control bit `1` dictates addition operation and the last `0` bit shows that output shouldn't be negated hence we get the desired function `x-1`.
 
 
 ## Memory {#memory}
@@ -133,7 +133,7 @@ A 16-bit register behaves the same as a _bit_ chip, just that it deals with 16-b
 
 ### RAM {#ram}
 
-A RAM chip consists of _n_ 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is insantaneous.
+A RAM chip consists of _n_ 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is instantaneous.
 
 {{< figure src="/ox-hugo/ecs-13.png" link="/ox-hugo/ecs-13.png" >}}
 
@@ -146,5 +146,41 @@ A chip that's implementation of an incrementer used to keep track of program ins
 
 {{< figure src="/ox-hugo/ecs-15.png" link="/ox-hugo/ecs-15.png" >}}
 
+{{< figure src="/ox-hugo/ecs-16.png" link="/ox-hugo/ecs-16.png" >}}
+
 
 ## Machine Language {#machine-language}
+
+> "Form follows function."
+
+A machine language can be viewed as an agreed-upon formalism designed to manipulate a _memory_ using a _processor_ and a set of _registers_. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in, and control of, a specific hardware platform. For this project, Hack machine language is used.
+
+Machine language programs can be written in either _binary_ or _symbolic_ instructions. Programs writtern in symbolic(_assembly_) languages are translated into executable binary code by a translator program called _assembler_.
+
+
+### Hardware {#hardware}
+
+**Memory**: Functionally speaking, a memory is a continuous sequence of cells, also referred to as locations or memory registers, each having a unique address.
+
+**Processor**: A device capable of performing a fixed set of primitve operations which include arithmetic, logical, memory access and control/branching operations.
+
+**Registers**: Inside the processor's chip, they serve as high-speed local memory, allowing it to manipulate data and instructions without having to be dependent on slow memory chips. They're categorized into _data_ and _address_ registers.
+
+
+### Instructions {#instructions}
+
+**Arithmetic and logical operations**: Assuming that the processor has a set of registers denoted `R0, R1, R2,...`. Basic operations like addition, subtraction, and(bitwise), or, not. <br />
+`load R1,true` <br />
+`load R2,false` <br />
+`and R1,R2,R2` (R1 &larr; R1 And R2) <br />
+
+**Memory access**: Using address register `A`, let us set memory location 17 to value 1. <br />
+`load A,17` <br />
+`load M,1` <br />
+Here by convention, M stands for memory register selected by A.
+
+**Flow control**: For facilitating branching actions, labelled _goto_ statements exist.
+
+{{< figure src="/ox-hugo/ecs-17.png" link="/ox-hugo/ecs-17.png" >}}
+
+**Symbols**: Make it easier to not rely on rigid physical addresses which makes the code _relocatable_.

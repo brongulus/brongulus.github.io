@@ -2,13 +2,14 @@
 title = "Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview"
 author = ["Bernd Bohnet", "et al"]
 date = 2021-03-21T03:00:00+05:30
-lastmod = 2022-06-12T23:58:06+05:30
+lastmod = 2022-06-16T12:46:12+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
 
-(Subtitle: _I had shingles, which is a painful disease._)
-[![](/ox-hugo/machine_learning.png)](/ox-hugo/machine_learning.png)
+> "I had shingles, which is a painful disease."
+
+{{< figure src="/ox-hugo/machine_learning.png" link="/ox-hugo/machine_learning.png" >}}
 
 This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
 

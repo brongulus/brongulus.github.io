@@ -1,6 +1,7 @@
 :root {
   --filter: invert(0%);
   --blend: darken;
+  --inv-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
   --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
   --link: #458588;
   --scroll: #555;
@@ -13,6 +14,7 @@
     --filter: invert(0%);
     --blend: darken;
     --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
+    --inv-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
     --link: #458588;
     --scroll: #555;
     --font: #555;
@@ -22,11 +24,12 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
+    --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
+    --inv-gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
     --bg-sel: #0e001c;
     --link: #88c0d0;
     --font: #c9cdd7;
     --scroll: #fff;
-    --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
     --blend: lighten;
     --filter: invert(100%); } }
 
@@ -37,6 +40,7 @@
   --font: #c9cdd7;
   --scroll: #fff;
   --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
+  --inv-gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
   --blend: lighten;
   --filter: invert(100%); }
 
@@ -44,6 +48,7 @@
   --filter: invert(0%);
   --blend: darken;
   --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
+  --inv-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
   --link: #458588;
   --scroll: #555;
   --font: #555;
@@ -85,8 +90,19 @@
 
 @font-face {
   font-family: "Source Serif Pro";
-  font-weight: 900;
+  font-weight: 200;
+  font-style: italic;
   font-display: fallback; }
+
+@font-face {
+  font-family: kepler-std-semicondensed-dis, serif;
+  font-weight: 700;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Bodoni Moda", serif;
+  font-style: italic;
+  font-weight: 500; }
 
 html,
 .content {
@@ -101,7 +117,6 @@ html {
   color: var(--bg);
   font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 22px;
-  overflow: scroll;
   overflow-y: hidden;
   overflow-x: hidden;
   margin: 0; }
@@ -115,6 +130,7 @@ body {
 
 .container {
   margin: 0 auto;
+  overflow: scroll;
   max-width: 1000px;
   width: 90%;
   transition: background 0.3s ease; }
@@ -151,15 +167,14 @@ a {
   text-decoration: none; }
 
 blockquote {
-  border-left: 0.25rem solid var(--font);
-  color: var(--font);
-  margin: 0.8rem 0;
-  padding: 0.5rem 1rem; }
-  blockquote p:last-child {
-    margin-bottom: 0; }
-  @media (min-width: 600px) {
-    blockquote {
-      padding: 0 5rem 0 1.25rem; } }
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 4rem;
+  margin-inline-end: 4rem;
+  border-bottom: 3px double var(--font);
+  border-top: 3px double var(--font); }
+
 img {
   display: block;
   margin: 0 0 1rem;
@@ -243,7 +258,7 @@ tr:last-of-type td:last-of-type {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf; }
 
-.checkbox {
+.toggle {
   display: none; }
 
 .label {
@@ -272,6 +287,15 @@ tr:last-of-type td:last-of-type {
     .label {
       transform: scale(0.85);
       top: 0.1rem; } }
+.themebox {
+  color: var(--font); }
+
+.themebox::after {
+  content: "Night"; }
+
+.toggle:checked ~ .themebox::after {
+  content: "Day"; }
+
 .label .ball {
   position: absolute;
   background: var(--bg);
@@ -283,15 +307,9 @@ tr:last-of-type td:last-of-type {
   border-radius: 0.75rem 0 0 0.75rem;
   transition: transform 0.4s ease, background-color 0.5s ease; }
 
-.checkbox:checked + .content .label .ball {
+.toggle:checked + .content .label .ball {
   display: inline-block;
   transform: translateX(0.75rem) rotate(180deg); }
-
-.fa-galactic-republic {
-  color: var(--dark-font); }
-
-.fa-rebel {
-  color: var(--light-font); }
 
 pre,
 code {
@@ -341,6 +359,16 @@ pre code {
     text-align: center; }
     .post-info span {
       font-style: italic; }
+  .post blockquote p {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.4em;
+    line-height: 1.35em;
+    margin: 0.4em auto;
+    padding: 0.25em 0;
+    text-align: center;
+    quotes: none; }
   .post-title {
     color: var(--font);
     font-family: "Cormorant", serif;

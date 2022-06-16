@@ -2,7 +2,7 @@
 title = "Meditations"
 author = ["Prashant Tak"]
 date = 2022-03-14T00:00:00+05:30
-lastmod = 2022-06-12T23:58:10+05:30
+lastmod = 2022-06-16T12:46:15+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
