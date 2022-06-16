@@ -1,7 +1,6 @@
 :root {
   --filter: invert(0%);
   --blend: darken;
-  --inv-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
   --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
   --link: #458588;
   --scroll: #555;
@@ -14,7 +13,6 @@
     --filter: invert(0%);
     --blend: darken;
     --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
-    --inv-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
     --link: #458588;
     --scroll: #555;
     --font: #555;
@@ -25,7 +23,6 @@
   :root {
     --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
     --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
-    --inv-gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
     --bg-sel: #0e001c;
     --link: #88c0d0;
     --font: #c9cdd7;
@@ -40,7 +37,6 @@
   --font: #c9cdd7;
   --scroll: #fff;
   --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
-  --inv-gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
   --blend: lighten;
   --filter: invert(100%); }
 
@@ -48,7 +44,6 @@
   --filter: invert(0%);
   --blend: darken;
   --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
-  --inv-gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
   --link: #458588;
   --scroll: #555;
   --font: #555;
@@ -60,7 +55,8 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   line-height: 1.5;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased; }
 
 @font-face {
   font-family: "Cormorant";
@@ -117,6 +113,7 @@ html {
   color: var(--bg);
   font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 22px;
+  overflow: scroll;
   overflow-y: hidden;
   overflow-x: hidden;
   margin: 0; }
@@ -130,7 +127,6 @@ body {
 
 .container {
   margin: 0 auto;
-  overflow: scroll;
   max-width: 1000px;
   width: 90%;
   transition: background 0.3s ease; }
@@ -928,6 +924,9 @@ footer,
     @media only screen and (max-width: 625px) {
       .nav-title {
         font-size: 1.6rem; } }
+    @media only screen and (max-width: 398px) {
+      .nav-title {
+        font-size: 1.3rem; } }
     .nav-title:hover, .nav-title:focus {
       opacity: 0.6; }
   .nav ul {
@@ -941,12 +940,15 @@ footer,
     transition: all 0.2s ease-out;
     display: inline-block;
     opacity: 0.6;
-    padding: 0 1.5rem 0 0;
+    padding: 0 1.2rem 0 0;
     font-style: "Inter", sans serif;
     font-weight: 400;
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; }
+    @media only screen and (max-width: 425px) {
+      .nav li {
+        padding: 0 0.9rem 0 0; } }
     .nav li:last-child {
       padding-right: 0; }
     .nav li:hover, .nav li:focus {
@@ -970,6 +972,45 @@ footer {
   footer span {
     color: var(--font);
     font-size: 0.8rem; }
+
+.toc + #TableOfContents {
+  display: block;
+  background: transparent;
+  padding-bottom: 0.8em;
+  font-size: 1.6rem; }
+  @media (min-width: 1450px) {
+    .toc + #TableOfContents {
+      position: fixed;
+      left: auto;
+      bottom: auto;
+      right: 3.5vw;
+      top: 6.5rem;
+      font-size: 1.2rem; } }
+  .toc + #TableOfContents ol {
+    display: list-item;
+    padding-left: 0; }
+    .toc + #TableOfContents ol:not(:first-child) {
+      display: list-item;
+      font-style: italic;
+      padding-left: 1.4rem;
+      font-size: 90%; }
+  .toc + #TableOfContents ul {
+    display: list-item;
+    padding-left: 0; }
+    .toc + #TableOfContents ul:not(:first-child) {
+      display: list-item;
+      font-style: italic;
+      padding-left: 1.4rem;
+      font-size: 90%; }
+  .toc + #TableOfContents li {
+    display: inherit;
+    color: var(--font); }
+    .toc + #TableOfContents li a {
+      color: inherit;
+      text-align: left;
+      padding: 0; }
+      .toc + #TableOfContents li a:hover {
+        background-color: transparent; }
 
 .pagination {
   border-top: 0.5px solid #e5e5e5;
