@@ -3,6 +3,11 @@
 
 * TODO?
   - ~~For now, rest.~~ NT
+  ** Emacs changes
+     - Webkit Insert mode
+     - Webkit scroll support for blog
+     - Convenient shortcuts for export heading / doc
+
   ** Theme changes
      - Fix hardcoded menu categories
 
@@ -11,4 +16,6 @@
      - TOC? Hmm.
      - RSS Feed
      - Comments?
+     - Subcategories in menu. For eg: notes -> CS / Math etc.
+
   ** Design Changes

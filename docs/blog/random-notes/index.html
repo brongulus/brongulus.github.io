@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <script>
-  
-  if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
-  </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    <script>
+        function setTheme() {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                return;
+            }
+            else {
+                document.documentElement.setAttribute("data-theme", "light");
+                return;
+            }
+      }
+    </script>
+    <script>
+        
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+    </script>
 </head>
 <body>
-    <div id ="dark-mode-button">
-    <input type="checkbox" class="checkbox" id="check"/>
-    </div>
+    
+    
         <div class="content">
+    
+	
+	
+    
             <div class="custom-scrollbar">
                 <div class = "container">
                 <head>
@@ -23,7 +44,6 @@
 
 		
   		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/fonts.css">
 		
 		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
@@ -31,24 +51,39 @@
 
 		
 		<link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
-	</head>
+</head>
 
                 		<nav class="nav">
 			<div class="nav-container">
 				<a href="/">
 					<div class="title" style="white-space: nowrap;">
 						<h1 class="nav-title"><b>bacchanalian madness</b></h1>
-						<label class="label" for="check">
-							<i class="fab fa-galactic-republic"></i>
-							<i class="fab fa-rebel"></i>
-							<div class="ball"></div>
-						</label>
 					</div>
 				</a>
+				<li>
+            <a href="/notes/">Notes</a>
+				</li>
+				<li>
+            <a href="/blog/">Blog</a>
+				</li>
+				<li>
+            <a href="/about/about">About</a>
+				</li>
+				
+				
+				
+				<li>
+					<div id="dark-mode-button">
+						<input type="checkbox" class="toggle" id="check"/>
+						<label for="check" class="themebox">
+						</label>
+					</div>
+				</li>
 				<ul>
     
     
 </ul>
+
 			</div>
 		</nav>
 
@@ -56,14 +91,16 @@
 
 <main>
 	<div class="post">
+		<h1 class="post-title">Random Notes</h1>
+
 		<div class="post-info">
     <span>Written by</span>
         [Prashant Tak]
 </div>
 
-		<h1 class="post-title">Random Notes</h1>
-<div class="post-line"></div>
+		<br><div class="post-line"></div>
 
+		
 
 		
 
@@ -91,6 +128,21 @@
 <!--quoteend-->
 <blockquote>
 <p>Relationships are like a control system, no matter the disturbances or change in affection, the output must remain consistent.</p>
+</blockquote>
+<p>Source: <a href="https://signalvnoise.com/posts/3124-give-it-five-minutes">Give it five minutes</a></p>
+<blockquote>
+<p>Pushing back means you already think you know. Asking questions means you want to know. Ask more questions.</p>
+</blockquote>
+<p>Source: <a href="https://ava.substack.com/p/be-an-asker?s=w">Be an asker</a></p>
+<blockquote>
+<p>You penalize yourself: that’s why you don’t ask. But if you’re able to stop punishing yourself for asserting your needs, something very important changes. You become capable of advocating for yourself.</p>
+<p>Never get upset at someone for saying no. You don’t “deserve” an answer. The truth is, people who don’t know you don’t owe anything to you, and even people who know you really well are free to prioritize themselves (though you may want to rethink the relationship if they don’t seem to care about you, obviously).</p>
+<p>Effective to ask lots rather than ask one person lots of times.</p>
+<p>Best cure for rejection sensitivity is to get rejected a lot. Getting a yes eventually helps you learn how to get a yes and helps correct your mistaken self-narratives.</p>
+<p>Don&rsquo;t be needy while asking and be fine with hearing a no, make people feel like it&rsquo;s safe to say no to you.</p>
+<p>Asking is good, it saves you time and relationships.</p>
+<p>Asking makes you better at answering.</p>
+<p>Directness is a gateway to emotional honesty.</p>
 </blockquote>
 <h2 id="words-to-live-by">Words to live by</h2>
 <blockquote>
@@ -155,11 +207,9 @@ exciting
 	</div>
 
 	<div class="pagination">
-		<a href="/blog/january-update/" class="left arrow">&#8592;</a>
-		<a href="/blog/japanese-guide/" class="right arrow">&#8594;</a>
+		<a href="/notes/elements-of-computing-systems/" class="left arrow">&#8592;</a>
 
-		
-		<a href="#" class="top">Top</a>
+		<a href="/" class="home">Home</a>
 	</div>
 </main>
 
@@ -167,9 +217,22 @@ exciting
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-05 11:01:43.63123514 &#43;0530 IST m=&#43;0.480801391">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-17 06:03:56.809516202 &#43;0530 IST m=&#43;0.040094242">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-            <script async type="text/javascript" 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+const images = Array.from(document.querySelectorAll(".post-content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null  
+  });
+});
+</script>
+            <script async type="text/javascript"
          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
             </script>
 		</footer>
@@ -183,7 +246,6 @@ exciting
         if (localStorage.theme) {
             toggleSwitch.checked = localStorage.theme === "dark";
         }
-
         function switchTheme(e) {
         const theme = e.target.checked ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", theme);
@@ -192,5 +254,5 @@ exciting
 
         toggleSwitch.addEventListener("change", switchTheme);
     </script>
-</body>
+    </body>
 </html>

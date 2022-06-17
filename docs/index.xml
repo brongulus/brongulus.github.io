@@ -6,7 +6,18 @@
     <description>Recent content on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Jun 2022 06:03:16 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Random Notes</title>
+      <link>https://brongulus.github.io/blog/random-notes/</link>
+      <pubDate>Fri, 17 Jun 2022 06:03:16 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/blog/random-notes/</guid>
+      <description>Chirping Bird Wall &amp;ldquo;What seems to be the officer, problem?&amp;rdquo; :tf:
+Added first chirp and performed first squash while b8kd.
+step 1: eat and sleep better go outside and get sunlight. stand in the sidewalk outside of your shitty apartment, nobody will give a fuck. do not overcomplicate this, you and your mood are a product of the chemical compounds that you have chosen to fuel your body with. you&amp;rsquo;ve had 20-30 yrs to learn what does and doesnt agree with your body, stop worrying about lofty super-athlete shredded body goals, start worrying about eating what makes you feel fucking normal or better today and go from there.</description>
+    </item>
+    
     <item>
       <title>Elements of computing systems</title>
       <link>https://brongulus.github.io/notes/elements-of-computing-systems/</link>
@@ -22,7 +33,7 @@
       <pubDate>Sun, 05 Jun 2022 00:00:00 +0530</pubDate>
       
       <guid>https://brongulus.github.io/notes/iusaco-notes/</guid>
-      <description>Elementary techniques - Input and Output #include &amp;lt;cstdio&amp;gt; using namespace std; int main() { freopen(&amp;#34;template.in&amp;#34;, &amp;#34;r&amp;#34;, stdin); freopen(&amp;#34;template.out&amp;#34;, &amp;#34;w&amp;#34;, stdout); } When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values. 32bit int: \(\pm 2\times10^{9}\) v/s 64bit int: \(\pm 9\times 10^{18}\) Complexity and algorithm analysis </description>
+      <description>Input and Output #include &amp;lt;cstdio&amp;gt; using namespace std; int main() { freopen(&amp;#34;template.in&amp;#34;, &amp;#34;r&amp;#34;, stdin); freopen(&amp;#34;template.out&amp;#34;, &amp;#34;w&amp;#34;, stdout); } When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values. 32bit int: \(\pm 2\times10^{9}\) v/s 64bit int: \(\pm 9\times 10^{18}\) Complexity and algorithm analysis Elementary mathematical calculation: O(1) Unordered set/map: O(1) per operation Binary Search: O(log n) Ordered set/map or Priority Queue: O(log n) per operation Prime factorization or primality check for int: \(O(\sqrt{n})\) Reading n inputs: O(n) Iterating through n element array: O(n) Sorting: Usually O(n log n) for std::sort() Iterating through all subsets of size k of input elements: O(\(n^{k}\) ), for triplets O(\(n^{3}\)) Iterating through all subsets: O(\(2^{n}\)) Iterating through all permutations: O(n!</description>
     </item>
     
     <item>

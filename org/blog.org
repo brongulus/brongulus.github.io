@@ -15,14 +15,9 @@
 #+author: Prashant Tak
 
 * TODO
-1. Fix Time
-2. Add Sections
-3. Link to RSS feed
-4. +Look into whether latex can be used and generated properly for displaying notes+ Improve mathjax performance
-5. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
-6. +Replace with material scroll bar+
-7. Open external links in new tab by default, unless it's meta-links.
-8. Improve Image filter sigh
+1. Link to RSS feed
+2. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
+3. Open external links in new tab by default, unless it's meta-links.
 * People I Idolize
 + Robert Endre Tarjan
 + Lars Ingebrigtsen
@@ -35,6 +30,8 @@
 3. F1 score? Measure of accuracy
 4. xpos?
 
+* Readings
+* Resources
 * About
 CLOSED: [2021-03-21 Mon 01:00]
 :PROPERTIES:
@@ -48,7 +45,7 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: blog
 :END:
-** Random Notes :noexport:
+** Random Notes :draft:
 :PROPERTIES:
 :EXPORT_FILE_NAME: random-notes
 :END:
@@ -63,7 +60,7 @@ Added first chirp and performed first squash while b8kd.
 #+end_quote
 
 #+begin_quote
-[[../../../../../Data/Downloads/Media/channie/myNFT.jpg]]
+[[/mnt/Data/Downloads/Media/channie/myNFT.jpg]]
 #+end_quote
 
 #+begin_quote
@@ -83,6 +80,25 @@ Relationships are like a control system, no matter the disturbances or change in
 Source: [[https://signalvnoise.com/posts/3124-give-it-five-minutes][Give it five minutes]]
 #+begin_quote
 Pushing back means you already think you know. Asking questions means you want to know. Ask more questions.
+#+end_quote
+
+Source: [[https://ava.substack.com/p/be-an-asker?s=w][Be an asker]]
+#+begin_quote
+You penalize yourself: that’s why you don’t ask. But if you’re able to stop punishing yourself for asserting your needs, something very important changes. You become capable of advocating for yourself.
+
+Never get upset at someone for saying no. You don’t “deserve” an answer. The truth is, people who don’t know you don’t owe anything to you, and even people who know you really well are free to prioritize themselves (though you may want to rethink the relationship if they don’t seem to care about you, obviously).
+
+Effective to ask lots rather than ask one person lots of times.
+
+Best cure for rejection sensitivity is to get rejected a lot. Getting a yes eventually helps you learn how to get a yes and helps correct your mistaken self-narratives.
+
+Don't be needy while asking and be fine with hearing a no, make people feel like it's safe to say no to you.
+
+Asking is good, it saves you time and relationships.
+
+Asking makes you better at answering.
+
+Directness is a gateway to emotional honesty.
 #+end_quote
 
 
@@ -139,9 +155,10 @@ exciting
 :PROPERTIES:
 :EXPORT_FILE_NAME: worklog
 :END:
-*** 1 June 2022
-+ [-] Leave Everything, Learn Python
-+ [ ] IUASCO
+*** 17 June 2022
++ [ ] Leave Everything, Learn Python
++ [-] Read Crafting Interpreters
++ [-] IUSACO
 + [ ] Programming Perl
 + [ ] DAS - From Scratch
 *** 9 February 2022
@@ -697,8 +714,6 @@ This is all I could think of for now, and since your OOP lab's starting in any m
 You're responsible for your own success.
 
 Go break a leg! :)
-* Readings
-* Resources
 * Notes
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
@@ -847,12 +862,25 @@ Here by convention, M stands for memory register selected by A.
 [[./assets/ecs-17.png][file:./assets/ecs-17.png]]
 
 *Symbols*: Make it easier to not rely on rigid physical addresses which makes the code /relocatable/.
+**** Hack
+*Memory*: Hack uses two distinct memory units, /data/ and /instruction/ memory. Both
+memories are 16-bit wide, and each has a 15-bit address space, hence maximum addressable size of each memory unit is 2$^{15}$ or 32K 16-bit words.
+
+[[./assets/ecs-18.png][file:./assets/ecs-18.png]]
+
+Data memory's =address= input always contains some value so there's always one selected register called M. Instruction memory's =address= input also always contains some value that is, there's always one selected instruction memory register whose value is referred to as /current instruction/.
+
+*Registers*: Hack Instructions work on three 16-bit registers, /data/ (D: stores value), /address/ (A: both address and data) and selected /data memory/ register M. To store a constant in A register, instruction is =@17=, to set D register to a value, two instructions are needed: =@17= then =D=A=.
+
+*Addressing*: The =@xxx= instruction does two things, first it makes the RAM register whose address is =xxx= the selected memory register(M) and then it makes the value of the ROM register whose address is =xxx= the selected instruction. For example, to set value of =RAM[100]= to =17=, instructions are =@17, D=A, @100, M=D=. Initially A acts as a data register then as an address register. To set value of RAM[100] to value of =RAM[200]=, do =@200, D=M, @100, M-D=.
+
+*Branching*:
 ** IUSACO
 CLOSED: [2022-06-05 Sun]
 :PROPERTIES:
 :EXPORT_FILE_NAME: iusaco-notes
 :END:
-*** Elementary techniques - Input and Output
+*** Input and Output
   #+begin_src c++
   #include <cstdio>
   using namespace std;
@@ -864,6 +892,82 @@ CLOSED: [2022-06-05 Sun]
 + When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.
 + 32bit int: $\pm 2\times10^{9}$ v/s 64bit int: $\pm 9\times 10^{18}$
 *** Complexity and algorithm analysis
++ Elementary mathematical calculation: O(1)
++ Unordered set/map: O(1) per operation
++ Binary Search: O(log n)
++ Ordered set/map or Priority Queue: O(log n) per operation
++ Prime factorization or primality check for int: $O(\sqrt{n})$
++ Reading n inputs: O(n)
++ Iterating through n element array: O(n)
++ Sorting: Usually O(n log n) for =std::sort()=
++ Iterating through all subsets of size k of input elements: O($n^{k}$ ), for triplets O($n^{3}$)
++ Iterating through all subsets: O($2^{n}$)
++ Iterating through all permutations: O(n!)
+*** Built-in Data Structures
+Data Structure determines how data is stored, each supports some operations efficiently. In following discussion, desired data type is put between =<>=. Most std structures support =size()= and =empty()= methods.
+**** Iterators
+Allows for traversal of a container with the help of a pointer.
+#+begin_src c++
+  for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {
+    cout << *it; //prints the values in the vector using the pointer
+  }
+#+end_src
+
+Alternate way to achieve the same with a for-each loop and =auto=.
+#+begin_src c++
+  for(auto element : v){
+    cout << element; // prints values in vector
+  }
+#+end_src
+
+**** Dynamic Arrays
+Addition and deletion at the end in O(1) time and in the middle in O(n) time.
+#+begin_src c++
+  vector<int> v;
+  for(int i = 1; i <= 10; i++){
+    v.push_back(i); // stores 1 to 10 in a dynamic array
+  }
+#+end_src
+
+Vectors can be made static sized by initializing it with a size, =vector<int> v(30);=. They also support an =v.erase()= operation. A dynamic array can be sorted (default ascending) by =sort(v.begin(), v.end())=.
+**** Stacks and Queues
+*Stacks*: LIFO with operations =push= (add at end), =pop= (remove at end) and =top= (show end) all of which are O(1). Declared as =stack<int> s=.
+
+*Queues*: FIFO with operations =push= (add in front), =pop= (remove at end) and =front= (show end) in O(1).
+
+*Deques*: Combination of a stack and a queue supporting insertion and deletion from both front and end. Operations are aptly named as =push_back=, =push_font=, =pop_back= and =pop_front=.
+
+*Priority Queues*: Supports insertion of elements and deletion and retrieval of element /with highest priority/ in O(log n) where priority is based on a comparator function (highest element in front). Has =push= (add at end), =pop= (remove at end) and =top= (show end) operations and is declared as =priority_queue<int> pq;=.
+**** Sets
+A /set/ is a collection of objects having no duplicates.
+
+*Unordered Sets*: Work by hashing that is, assigning a unique code to every object allowing for =insert=, =erase= and =count= (set contains element then 1 else 0) in O(1). Traversal is pointless. Declared as =unordered_set<int> s=.
+
+#+begin_src c++
+  for(int element : s){
+    cout << element << " "; // iterating through a set, arbitrary order
+  }
+#+end_src
+
+*Ordered Sets*: Insertion, deletion and search needs O(log n) time. Has additional operations =begin()= (iterator to lowest element), =end()=, =lower_bound()= (iterator to least element \geq some k) and =upper_bound()=.
+
+*Multisets*: A sorted set allowing multiple copies of same element, whose =count= operation returns the number of times an element is present in set. Time complexity of this operation is O(log n + f) where /log n/ factor searches for element and /f/ factor iterates through sorted set to get count. Declared as =multiset<int> ms=.
+**** Maps
+A /map/ is a set of /ordered pairs/ called key and value where keys must be unique but values can be repeated. Supported operations are addition and removal of key-value pair and /retrieval/ of values for a given key. Unordered maps perform aforementioned methods in O(1) whereas for ordered maps it's O(log n), sorted in order of key.
+
+*Unordered Maps*: In map =m=, =m[key] = value= operator assigns value to a key and places the pair on the map, =m[key]= returns value associated with the key, =count(key)= checks for existence of key in the map and =erase(it)= removes pair associated with a key or iterator. Declared as =unordered_map<int, int> m=.
+
+*Ordered Maps*: Supports additional operations =lower_bound= and =upper_bound= which return iterators pointing to lowest entry not less than/ strictly greater than a specified key.
+
+#+begin_src c++
+  map<int, int> m; // [(3,5); (11,4)]
+  m[10] = 491; // [(3,5); (10,491); (11,4)]
+  cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << "\n";
+  // 10 491
+  cout << m.upper_bound(10)->first << " " << m.upper_bound(10)->second << "\n";
+  // 11 4
+  m.erase(11); // [(3,5); (10,491)]
+#+end_src
 
 ** Meditations
 CLOSED: [2022-03-14 Mon]

@@ -234,6 +234,16 @@ Here by convention, M stands for memory register selected by A.</p>
 </figure>
 
 <p><strong>Symbols</strong>: Make it easier to not rely on rigid physical addresses which makes the code <em>relocatable</em>.</p>
+<h3 id="hack">Hack</h3>
+<p><strong>Memory</strong>: Hack uses two distinct memory units, <em>data</em> and <em>instruction</em> memory. Both
+memories are 16-bit wide, and each has a 15-bit address space, hence maximum addressable size of each memory unit is 2\(^{15}\) or 32K 16-bit words.</p>
+<figure><a href="/ox-hugo/ecs-18.png"><img src="/ox-hugo/ecs-18.png"/></a>
+</figure>
+
+<p>Data memory&rsquo;s <code>address</code> input always contains some value so there&rsquo;s always one selected register called M. Instruction memory&rsquo;s <code>address</code> input also always contains some value that is, there&rsquo;s always one selected instruction memory register whose value is referred to as <em>current instruction</em>.</p>
+<p><strong>Registers</strong>: Hack Instructions work on three 16-bit registers, <em>data</em> (D: stores value), <em>address</em> (A: both address and data) and selected <em>data memory</em> register M. To store a constant in A register, instruction is <code>@17</code>, to set D register to a value, two instructions are needed: <code>@17</code> then <code>D=A</code>.</p>
+<p><strong>Addressing</strong>: The <code>@xxx</code> instruction does two things, first it makes the RAM register whose address is <code>xxx</code> the selected memory register(M) and then it makes the value of the ROM register whose address is <code>xxx</code> the selected instruction. For example, to set value of <code>RAM[100]</code> to <code>17</code>, instructions are <code>@17, D=A, @100, M=D</code>. Initially A acts as a data register then as an address register. To set value of RAM[100] to value of <code>RAM[200]</code>, do <code>@200, D=M, @100, M-D</code>.</p>
+<p><strong>Branching</strong>:</p>
 
 
 		
@@ -241,6 +251,7 @@ Here by convention, M stands for memory register selected by A.</p>
 
 	<div class="pagination">
 		<a href="/notes/iusaco-notes/" class="left arrow">&#8592;</a>
+		<a href="/blog/random-notes/" class="right arrow">&#8594;</a>
 
 		<a href="/" class="home">Home</a>
 	</div>
@@ -250,7 +261,7 @@ Here by convention, M stands for memory register selected by A.</p>
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-16 14:54:54.362561618 &#43;0530 IST m=&#43;0.045261473">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-17 06:03:56.812514679 &#43;0530 IST m=&#43;0.043092722">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
