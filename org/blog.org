@@ -45,7 +45,7 @@ Hi! I'm Prashant.
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: blog
 :END:
-** Random Notes :draft:
+** Random Notes :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: random-notes
 :END:
@@ -968,6 +968,7 @@ A /map/ is a set of /ordered pairs/ called key and value where keys must be uniq
   // 11 4
   m.erase(11); // [(3,5); (10,491)]
 #+end_src
+*** Simulation
 
 ** Meditations
 CLOSED: [2022-03-14 Mon]
