@@ -2,10 +2,11 @@
 <html lang="en-us">
 <head>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
+    
+    
     
     <script>
         function setTheme() {
@@ -79,6 +80,10 @@
 						</label>
 					</div>
 				</li>
+				<li>
+							
+							
+				</li>
 				<ul>
     
     
@@ -96,7 +101,7 @@
 		<div class="post-info">
     <span>Written by</span>
         [Bernd Bohnet et al]
-        <br>
+        
         <span>on&nbsp;</span><time datetime="2021-03-21 03:00:00 &#43;0530 IST">March 21, 2021</time>
 </div>
 
@@ -104,6 +109,51 @@
 
 		
 
+		
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#terms">Terms</a></li>
+    <li><a href="#basics-of-nlp-pre-requisites"><a href="https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html">Basics of NLP</a> / Pre-requisites</a>
+      <ul>
+        <li><a href="#key-terms">Key Terms</a></li>
+        <li><a href="#a-framework-for-nlp">A framework for NLP</a></li>
+        <li><a href="#data-representation">Data Representation</a></li>
+        <li><a href="#word-representation"><a href="http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf">Word Representation</a></a></li>
+        <li><a href="#subword-models-20is-pairs-20into-20a-20new-20byte-dot-and-text-bpe-20is-20a-20word-20segmentation--unicode--20characters-20in-20data-dot"><a href="https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&amp;text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&amp;text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.">Subword models</a></a></li>
+      </ul>
+    </li>
+    <li><a href="#morphology">Morphology</a>
+      <ul>
+        <li><a href="#grammatical-value">Grammatical Value</a></li>
+      </ul>
+    </li>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#related-work">Related Work</a></li>
+    <li><a href="#models">Models</a>
+      <ul>
+        <li><a href="#sentence-based-character-model">Sentence-based Character Model</a></li>
+        <li><a href="#word-based-character-model">Word-based Character Model</a></li>
+        <li><a href="#sentence-based-word-model">Sentence-based Word Model</a></li>
+        <li><a href="#meta-bilstm-model-combination">Meta-BiLSTM: Model Combination</a></li>
+        <li><a href="#training-schema">Training Schema</a></li>
+      </ul>
+    </li>
+    <li><a href="#experiments-and-results">Experiments and Results</a>
+      <ul>
+        <li><a href="#experimental-setup">Experimental Setup</a></li>
+        <li><a href="#data-sets">Data Sets</a></li>
+        <li><a href="#pos-tagging-results">POS Tagging Results</a></li>
+        <li><a href="#pos-tagging-on-wsj">POS Tagging on WSJ</a></li>
+        <li><a href="#morphological-tagging-results">Morphological Tagging Results</a></li>
+      </ul>
+    </li>
+    <li><a href="#ablation-study--takeaways">Ablation Study (Takeaways)</a></li>
+    <li><a href="#conclusions">Conclusions</a></li>
+    <li><a href="#readings-and-resources">Readings and Resources</a></li>
+    <li><a href="#specific-to-paper">Specific to Paper</a></li>
+  </ul>
+</nav>
 		
 
 		<blockquote>
@@ -447,30 +497,19 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 
 		<a href="/" class="home">Home</a>
 	</div>
+	
+  <script async type="text/javascript"
+					src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
 </main>
 
 
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-17 06:08:46.549380615 &#43;0530 IST m=&#43;0.047291736">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-19 22:27:39.915291897 &#43;0530 IST m=&#43;0.066170837">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-const images = Array.from(document.querySelectorAll(".post-content img"));
-images.forEach(img => {
-  mediumZoom(img, {
-    margin: 0,  
-    scrollOffset: 40,  
-    container: null,  
-    template: null  
-  });
-});
-</script>
-            <script async type="text/javascript"
-         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-            </script>
 		</footer>
 
                 </div>

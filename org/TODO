@@ -10,10 +10,11 @@
 
   ** Theme changes
      - Fix hardcoded menu categories
+     - Add language name in code block
+     - Change params author format
 
   ** Functional Changes
      - Save page progress
-     - TOC? Hmm.
      - RSS Feed
      - Comments?
      - Subcategories in menu. For eg: notes -> CS / Math etc.

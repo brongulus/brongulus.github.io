@@ -2,7 +2,7 @@
 title = "Elements of computing systems"
 author = ["Prashant Tak"]
 date = 2022-06-10T00:00:00+05:30
-lastmod = 2022-06-17T06:03:19+05:30
+lastmod = 2022-06-19T22:14:51+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -153,7 +153,7 @@ A chip that's implementation of an incrementer used to keep track of program ins
 
 > "Form follows function."
 
-A machine language can be viewed as an agreed-upon formalism designed to manipulate a _memory_ using a _processor_ and a set of _registers_. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in, and control of, a specific hardware platform. For this project, Hack machine language is used.
+A machine language can be viewed as an agreed-upon formalism designed to manipulate a _memory_ using a _processor_ and a set of _registers_. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in a specific hardware platform and its control. For this project, Hack machine language is used.
 
 Machine language programs can be written in either _binary_ or _symbolic_ instructions. Programs writtern in symbolic(_assembly_) languages are translated into executable binary code by a translator program called _assembler_.
 

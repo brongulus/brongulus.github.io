@@ -2,10 +2,11 @@
 <html lang="en-us">
 <head>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
+    
+    
     
     <script>
         function setTheme() {
@@ -79,6 +80,10 @@
 						</label>
 					</div>
 				</li>
+				<li>
+							
+							
+				</li>
 				<ul>
     
     
@@ -96,7 +101,7 @@
 		<div class="post-info">
     <span>Written by</span>
         [Prashant Tak]
-        <br>
+        
         <span>on&nbsp;</span><time datetime="2021-03-21 02:00:00 &#43;0530 IST">March 21, 2021</time>
 </div>
 
@@ -108,21 +113,16 @@
 
 		<p>I was going to make a post explaining how I made this blog but it was rendered pretty useless by <a href="https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n">this.</a> So yeah, I might archive this later.</p>
 <ol>
-<li>
-<p>Install hugo from your package manager.</p>
-</li>
-<li>
-<p>Create a new site:</p>
+<li>Install hugo from your package manager.</li>
+<li>Create a new site:
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">   hugo new site blog
 </span></span></code></pre></div></li>
-<li>
-<p>Add a theme:</p>
+<li>Add a theme:
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">   <span class="nb">cd</span> blog
 </span></span><span class="line"><span class="cl">   git init
 </span></span><span class="line"><span class="cl">   git submodule add &lt;theme_url&gt; themes/&lt;name&gt;
 </span></span></code></pre></div></li>
-<li>
-<p>Install ox-hugo in emacs</p>
+<li>Install ox-hugo in emacs
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="line"><span class="cl">   <span class="c1">;; goes in packages.el</span>
 </span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="nv">package!</span> <span class="nv">ox-hugo</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
@@ -130,27 +130,13 @@
 </span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="nb">use-package</span> <span class="nv">ox-hugo</span>
 </span></span><span class="line"><span class="cl">     <span class="nb">:after</span> <span class="nv">ox</span><span class="p">)</span>
 </span></span></code></pre></div></li>
-<li>
-<p>TODO Explain the process of content and properties, tags etc.</p>
-</li>
-<li>
-<p>Export</p>
-</li>
-<li>
-<p>Config.toml (theme, title, url, publishdir, etc)</p>
-</li>
-<li>
-<p>Run server, check localhost.</p>
-</li>
-<li>
-<p>Push</p>
-</li>
-<li>
-<p>Go to GitHub repository Settings &gt; GitHub pages. Select /docs in Source.</p>
-</li>
-<li>
-<p>Voila!</p>
-</li>
+<li>TODO Explain the process of content and properties, tags etc.</li>
+<li>Export</li>
+<li>Config.toml (theme, title, url, publishdir, etc)</li>
+<li>Run server, check localhost.</li>
+<li>Push</li>
+<li>Go to GitHub repository Settings &gt; GitHub pages. Select /docs in Source.</li>
+<li>Voila!</li>
 </ol>
 
 
@@ -163,30 +149,19 @@
 
 		<a href="/" class="home">Home</a>
 	</div>
+	
+  <script async type="text/javascript"
+					src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
 </main>
 
 
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-17 06:08:46.54869413 &#43;0530 IST m=&#43;0.046605257">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-19 22:27:39.90935408 &#43;0530 IST m=&#43;0.060233011">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-const images = Array.from(document.querySelectorAll(".post-content img"));
-images.forEach(img => {
-  mediumZoom(img, {
-    margin: 0,  
-    scrollOffset: 40,  
-    container: null,  
-    template: null  
-  });
-});
-</script>
-            <script async type="text/javascript"
-         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-            </script>
 		</footer>
 
                 </div>

@@ -2,10 +2,11 @@
 <html lang="en-us">
 <head>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
+    
+    
     
     <script>
         function setTheme() {
@@ -79,6 +80,10 @@
 						</label>
 					</div>
 				</li>
+				<li>
+							
+							
+				</li>
 				<ul>
     
     
@@ -96,7 +101,7 @@
 		<div class="post-info">
     <span>Written by</span>
         [Prashant Tak]
-        <br>
+        
         <span>on&nbsp;</span><time datetime="2022-06-10 00:00:00 &#43;0530 IST">June 10, 2022</time>
 </div>
 
@@ -104,6 +109,36 @@
 
 		
 
+		
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#boolean-logic">Boolean Logic</a></li>
+    <li><a href="#boolean-arithmetic">Boolean Arithmetic</a>
+      <ul>
+        <li><a href="#addition">Addition</a></li>
+        <li><a href="#signed-numbers">Signed Numbers</a></li>
+        <li><a href="#adders">Adders</a></li>
+        <li><a href="#alu">ALU</a></li>
+      </ul>
+    </li>
+    <li><a href="#memory">Memory</a>
+      <ul>
+        <li><a href="#flip-flops">Flip Flops</a></li>
+        <li><a href="#registers">Registers</a></li>
+        <li><a href="#ram">RAM</a></li>
+        <li><a href="#counter">Counter</a></li>
+      </ul>
+    </li>
+    <li><a href="#machine-language">Machine Language</a>
+      <ul>
+        <li><a href="#hardware">Hardware</a></li>
+        <li><a href="#instructions">Instructions</a></li>
+        <li><a href="#hack">Hack</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 		
 
 		<h2 id="introduction">Introduction</h2>
@@ -214,7 +249,7 @@ being set when the clock ticks and the second when the clock tocks.</p>
 <blockquote>
 <p>&ldquo;Form follows function.&rdquo;</p>
 </blockquote>
-<p>A machine language can be viewed as an agreed-upon formalism designed to manipulate a <em>memory</em> using a <em>processor</em> and a set of <em>registers</em>. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in, and control of, a specific hardware platform. For this project, Hack machine language is used.</p>
+<p>A machine language can be viewed as an agreed-upon formalism designed to manipulate a <em>memory</em> using a <em>processor</em> and a set of <em>registers</em>. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in a specific hardware platform and its control. For this project, Hack machine language is used.</p>
 <p>Machine language programs can be written in either <em>binary</em> or <em>symbolic</em> instructions. Programs writtern in symbolic(<em>assembly</em>) languages are translated into executable binary code by a translator program called <em>assembler</em>.</p>
 <h3 id="hardware">Hardware</h3>
 <p><strong>Memory</strong>: Functionally speaking, a memory is a continuous sequence of cells, also referred to as locations or memory registers, each having a unique address.</p>
@@ -254,30 +289,19 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
 
 		<a href="/" class="home">Home</a>
 	</div>
+	
+  <script async type="text/javascript"
+					src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
 </main>
 
 
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-17 06:08:46.549538512 &#43;0530 IST m=&#43;0.047449638">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-19 22:27:39.912732604 &#43;0530 IST m=&#43;0.063611538">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-const images = Array.from(document.querySelectorAll(".post-content img"));
-images.forEach(img => {
-  mediumZoom(img, {
-    margin: 0,  
-    scrollOffset: 40,  
-    container: null,  
-    template: null  
-  });
-});
-</script>
-            <script async type="text/javascript"
-         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-            </script>
 		</footer>
 
                 </div>

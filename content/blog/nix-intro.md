@@ -2,7 +2,7 @@
 title = "Another nix post in the wall"
 author = ["Prashant Tak"]
 date = 2022-06-02T00:00:00+05:30
-lastmod = 2022-06-17T06:03:18+05:30
+lastmod = 2022-06-19T22:14:50+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -14,7 +14,6 @@ Do you want multi-user installation? This is not for you.
 This is only useful if you want to use both flakes and home-manager.
 
 -   Single-user installation (no sudo needed, easier to remove, good for testing purposes)
-
     ```sh
         sh <(curl -L https://nixos.org/nix/install) --no-daemon
     ```
@@ -22,7 +21,6 @@ This is only useful if you want to use both flakes and home-manager.
     `. ~/.nix-profile/etc/profile.d/nix.sh`
 -   Since most of the nix "guides" are outdated, check what your current version supports `nix --help`, ~~at the time of writing this, there's no need to enable experimental features for flakes :)~~ spoke too soon.
 -   Upgrading nix:
-
     ```sh
         nix-channel --update; nix-env -iA nixpkgs.nix nixpkgs.cacert
     ```

@@ -2,10 +2,11 @@
 <html lang="en-us">
 <head>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/xqy2tkj.css">
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200&family=Roboto+Mono:wght@300&family=Inter:wght@300;400;600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@1,200&display=swap" rel="stylesheet">
+    
+    
     
     <script>
         function setTheme() {
@@ -79,6 +80,10 @@
 						</label>
 					</div>
 				</li>
+				<li>
+							
+							
+				</li>
 				<ul>
     
     
@@ -96,7 +101,7 @@
 		<div class="post-info">
     <span>Written by</span>
         [Prashant Tak]
-        <br>
+        
         <span>on&nbsp;</span><time datetime="2022-06-02 00:00:00 &#43;0530 IST">June 2, 2022</time>
 </div>
 
@@ -111,27 +116,17 @@
 Do you want multi-user installation? This is not for you.
 This is only useful if you want to use both flakes and home-manager.</p>
 <ul>
-<li>
-<p>Single-user installation (no sudo needed, easier to remove, good for testing purposes)</p>
+<li>Single-user installation (no sudo needed, easier to remove, good for testing purposes)
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">    sh &lt;<span class="o">(</span>curl -L https://nixos.org/nix/install<span class="o">)</span> --no-daemon
 </span></span></code></pre></div></li>
-<li>
-<p>Source the new profile or login.
-<code>. ~/.nix-profile/etc/profile.d/nix.sh</code></p>
-</li>
-<li>
-<p>Since most of the nix &ldquo;guides&rdquo; are outdated, check what your current version supports <code>nix --help</code>, <del>at the time of writing this, there&rsquo;s no need to enable experimental features for flakes :)</del> spoke too soon.</p>
-</li>
-<li>
-<p>Upgrading nix:</p>
+<li>Source the new profile or login.
+<code>. ~/.nix-profile/etc/profile.d/nix.sh</code></li>
+<li>Since most of the nix &ldquo;guides&rdquo; are outdated, check what your current version supports <code>nix --help</code>, <del>at the time of writing this, there&rsquo;s no need to enable experimental features for flakes :)</del> spoke too soon.</li>
+<li>Upgrading nix:
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">    nix-channel --update<span class="p">;</span> nix-env -iA nixpkgs.nix nixpkgs.cacert
 </span></span></code></pre></div></li>
-<li>
-<p>Check if <code>nixpkgs-unstable</code> channel (package sources basically) is installed or not by <code>nix-channel --list</code></p>
-</li>
-<li>
-<p>You can look at user-installed packages by <code>nix-env --query</code></p>
-</li>
+<li>Check if <code>nixpkgs-unstable</code> channel (package sources basically) is installed or not by <code>nix-channel --list</code></li>
+<li>You can look at user-installed packages by <code>nix-env --query</code></li>
 </ul>
 <h2 id="home-manager">Home manager</h2>
 <p>Allows declarative configuration of user-specific (non global) packages and dotfiles.</p>
@@ -196,30 +191,19 @@ This is only useful if you want to use both flakes and home-manager.</p>
 
 		<a href="/" class="home">Home</a>
 	</div>
+	
+  <script async type="text/javascript"
+					src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
 </main>
 
 
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-17 06:08:46.550471844 &#43;0530 IST m=&#43;0.048382965">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-19 22:27:39.915865109 &#43;0530 IST m=&#43;0.066744052">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-const images = Array.from(document.querySelectorAll(".post-content img"));
-images.forEach(img => {
-  mediumZoom(img, {
-    margin: 0,  
-    scrollOffset: 40,  
-    container: null,  
-    template: null  
-  });
-});
-</script>
-            <script async type="text/javascript"
-         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-            </script>
 		</footer>
 
                 </div>

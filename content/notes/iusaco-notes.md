@@ -2,7 +2,7 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-06-17T06:03:19+05:30
+lastmod = 2022-06-19T22:14:51+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -120,3 +120,6 @@ A _map_ is a set of _ordered pairs_ called key and value where keys must be uniq
   // 11 4
   m.erase(11); // [(3,5); (10,491)]
 ```
+
+
+## Simulation {#simulation}

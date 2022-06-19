@@ -24,4 +24,4 @@ publishDir = "docs"
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 5
-    ordered = true
+    ordered = false
