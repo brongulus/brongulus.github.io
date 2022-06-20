@@ -4,10 +4,10 @@
 #+options: creator:t
 #+macro: updatetime {{{time(%B %e\, %Y)}}}
 #+hugo_auto_set_lastmod: t
-# #+startup: inlineimages
 #+startup: hidestars
 #+startup: overview
 #+startup: logdone
+# #+startup: inlineimages
 # #+startup: latexpreview
 :END:
 
@@ -15,9 +15,8 @@
 #+author: Prashant Tak
 
 * TODO
-1. Link to RSS feed
-2. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
-3. Open external links in new tab by default, unless it's meta-links.
+1. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
+2. Open external links in new tab by default, unless it's meta-links.
 * People I Idolize
 + Robert Endre Tarjan
 + Lars Ingebrigtsen
@@ -35,8 +34,8 @@
 * About
 CLOSED: [2021-03-21 Mon 01:00]
 :PROPERTIES:
-:EXPORT_FILE_NAME: about
 :EXPORT_HUGO_SECTION: about
+:EXPORT_FILE_NAME: about
 :END:
 
 Hi! I'm Prashant.
@@ -178,7 +177,7 @@ exciting
 + [X] Chapter 2 T2 PowE
 + [X] Might be Test in AnE, so practice problems
 + [X] Prepare for IIC Tut too
-** Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview
+** Morphosyntactic Tagging with BiLSTM Model
 CLOSED: [2021-03-21 Mon 03:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: nnfl-paper
@@ -637,7 +636,7 @@ The flake inputs are not upgraded automatically when switching. The analogy to t
 4. Kanji Deck: Either RTK order Allinone or WaniKani? or Kanji deck by [[https://sites.google.com/view/jo-mako/home][Jo Mako]]
 5. Grammar Deck: Jo Mako
 6. Vocabulary: Tango decks + JP1K + Kanji in context
-** Creating a blog using ox-hugo, org mode and github pages
+** Creating a blog using ox-hugo
 CLOSED: [2021-03-21 Mon 02:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: blog-creation

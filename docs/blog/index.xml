@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on bacchanalian madness</title>
+    <title>Blog on bacchanalian madness</title>
     <link>https://brongulus.github.io/blog/</link>
-    <description>Recent content in Blogs on bacchanalian madness</description>
+    <description>Recent content in Blog on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,7 @@ Single-user installation (no sudo needed, easier to remove, good for testing pur
     </item>
     
     <item>
-      <title>Morphosyntactic Tagging with a Meta-BiLSTM Model - An Overview</title>
+      <title>Morphosyntactic Tagging with BiLSTM Model</title>
       <link>https://brongulus.github.io/blog/nnfl-paper/</link>
       <pubDate>Sun, 21 Mar 2021 03:00:00 +0530</pubDate>
       
@@ -29,7 +29,7 @@ Abstract RNN leads to advances in speech tagging accuracy Zeman et al Common thi
     </item>
     
     <item>
-      <title>Creating a blog using ox-hugo, org mode and github pages</title>
+      <title>Creating a blog using ox-hugo</title>
       <link>https://brongulus.github.io/blog/blog-creation/</link>
       <pubDate>Sun, 21 Mar 2021 02:00:00 +0530</pubDate>
       

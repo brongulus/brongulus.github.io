@@ -3,6 +3,8 @@ languageCode = "en-us"
 title = "bacchanalian madness"
 theme = "tufte"
 publishDir = "docs"
+sectionPagesMenu = "main"
+pluralizelisttitles = false
 
 [markup.goldmark.renderer]
   unsafe = true
@@ -25,3 +27,9 @@ publishDir = "docs"
     startLevel = 2
     endLevel = 5
     ordered = false
+
+[menu]
+[[menu.main]]
+  identifier = 'about'
+  name = 'About'
+  url = '/about/about/'

@@ -137,7 +137,7 @@ body {
   transition: background 0.3s ease; }
   @media (min-width: 1000px) {
     .container {
-      padding-right: 12.5%;
+      padding-right: 20%;
       width: 87.5%;
       max-width: 1250px; } }
 h1 {
@@ -261,6 +261,9 @@ tr:last-of-type td:last-of-type {
   background-clip: content-box; }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     opacity: 0.6; }
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: var(--bg); }
 
 .toggle {
   display: none; }
@@ -388,15 +391,18 @@ pre code {
   color: var(--font);
   font-family: "Cormorant", serif;
   font-style: italic;
-  font-size: 3.6rem;
-  margin: 1rem 0;
-  text-align: center; }
-
+  font-size: 4.5rem;
+  margin: 1.5rem 0;
+  text-align: left; }
+  @media (max-width: 1250px) {
+    .post-title {
+      font-size: 3.6rem; } }
 .post-line {
-  border-top: 0.4rem solid var(--font);
+  border-top: 0.2rem solid var(--font);
   display: block;
-  margin: 0 auto 1.5rem;
-  width: 4rem; }
+  opacity: 0.6;
+  margin: 0 4.5rem 1.5rem 0;
+  width: 7.5rem; }
 
 .post p {
   font-family: "Inter", sans-serif;
@@ -926,10 +932,10 @@ footer,
 
 .nav {
   box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
+  background: var(--bg);
   overflow: auto; }
   .nav-container {
     margin: 1rem auto;
-    position: sticky;
     text-align: left; }
   .nav-title {
     -webkit-transition: all 0.2s ease-out;
@@ -959,14 +965,7 @@ footer,
     list-style-type: none;
     margin: 1rem 0 0;
     padding: 0;
-    text-align: center;
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px; }
+    text-align: left; }
   .nav li {
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
@@ -990,14 +989,6 @@ footer,
     color: #555;
     font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
 
-@media (min-width: 600px) {
-  .nav-container {
-    text-align: left; }
-  .nav ul {
-    bottom: 0;
-    position: absolute;
-    right: 0; } }
-
 footer {
   font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
   padding: 2rem 0;
@@ -1016,10 +1007,11 @@ footer {
     #TableOfContents {
       float: right;
       clear: right;
-      margin-right: -60%;
-      width: 50%;
+      margin-right: -50%;
+      width: 40%;
       margin-top: 0.3rem;
       margin-bottom: 0;
+      padding-bottom: 0.1rem;
       line-height: 1.3;
       vertical-align: baseline;
       position: sticky;
