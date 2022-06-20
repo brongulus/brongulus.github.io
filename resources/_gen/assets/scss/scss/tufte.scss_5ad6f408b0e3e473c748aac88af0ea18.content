@@ -344,6 +344,19 @@ pre {
   border-radius: 0.5rem;
   margin: 0 0 1rem; }
 
+pre code:before {
+  position: relative;
+  top: -2px;
+  left: -2px;
+  display: inline-flex;
+  padding: 0.25em 0.5em;
+  background: var(--gradient);
+  border-bottom-right-radius: 0.6rem;
+  border: 0;
+  color: var(--bg-sel);
+  font-size: 80%;
+  font-weight: 600; }
+
 pre code {
   color: var(--font);
   font-size: 100%;
@@ -367,6 +380,96 @@ pre code {
   border-radius: 20px;
   border: 6px solid transparent;
   background-clip: content-box; }
+
+code.language-c:before {
+  content: "c"; }
+
+code.language-cpp:before {
+  content: "C++"; }
+
+code.language-clojure:before {
+  content: "clojure"; }
+
+code.language-css:before {
+  content: "css"; }
+
+code.language-elixir:before {
+  content: "elixir"; }
+
+code.language-emacs-lisp:before {
+  content: "elisp"; }
+
+code.language-erlang:before {
+  content: "erlang"; }
+
+code.language-go:before {
+  content: "go"; }
+
+code.language-haskell:before {
+  content: "haskell"; }
+
+code.language-html:before {
+  content: "html"; }
+
+code.language-idris:before {
+  content: "idris"; }
+
+code.language-json:before {
+  content: "json"; }
+
+code.language-java:before {
+  content: "java"; }
+
+code.language-javascript:before {
+  content: "js"; }
+
+code.language-julia:before {
+  content: "julia"; }
+
+code.language-kotlin:before {
+  content: "kotlin"; }
+
+code.language-latex:before {
+  content: "latex"; }
+
+code.language-lua:before {
+  content: "lua"; }
+
+code.language-markdown:before {
+  content: "md"; }
+
+code.language-nix:before {
+  content: "nix"; }
+
+code.language-org:before {
+  content: "org"; }
+
+code.language-perl:before {
+  content: "perl"; }
+
+code.language-php:before {
+  content: "php"; }
+
+code.language-python:before {
+  content: "python"; }
+
+code.language-racket:before {
+  content: "racket"; }
+
+code.language-ruby:before {
+  content: "ruby"; }
+
+code.language-rust:before {
+  content: "rust"; }
+
+code.language-scheme:before {
+  content: "scheme"; }
+
+code.language-sh:before {
+  content: "sh"; }
+
+code.language-zig:before {
+  content: "zig"; }
 
 .post-info {
   color: #aaa;
@@ -932,7 +1035,6 @@ footer,
 
 .nav {
   box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
-  background: var(--bg);
   overflow: auto; }
   .nav-container {
     margin: 1rem auto;

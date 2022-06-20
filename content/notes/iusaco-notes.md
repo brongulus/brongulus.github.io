@@ -2,14 +2,14 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-06-20T07:19:01+05:30
+lastmod = 2022-06-20T09:19:11+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
 
 ## Input and Output {#input-and-output}
 
-```c++
+```cpp
   #include <cstdio>
   using namespace std;
   int main() {
@@ -46,7 +46,7 @@ Data Structure determines how data is stored, each supports some operations effi
 
 Allows for traversal of a container with the help of a pointer.
 
-```c++
+```cpp
   for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {
     cout << *it; //prints the values in the vector using the pointer
   }
@@ -54,7 +54,7 @@ Allows for traversal of a container with the help of a pointer.
 
 Alternate way to achieve the same with a for-each loop and `auto`.
 
-```c++
+```cpp
   for(auto element : v){
     cout << element; // prints values in vector
   }
@@ -65,7 +65,7 @@ Alternate way to achieve the same with a for-each loop and `auto`.
 
 Addition and deletion at the end in O(1) time and in the middle in O(n) time.
 
-```c++
+```cpp
   vector<int> v;
   for(int i = 1; i <= 10; i++){
     v.push_back(i); // stores 1 to 10 in a dynamic array
@@ -92,7 +92,7 @@ A _set_ is a collection of objects having no duplicates.
 
 **Unordered Sets**: Work by hashing that is, assigning a unique code to every object allowing for `insert`, `erase` and `count` (set contains element then 1 else 0) in O(1). Traversal is pointless. Declared as `unordered_set<int> s`.
 
-```c++
+```cpp
   for(int element : s){
     cout << element << " "; // iterating through a set, arbitrary order
   }
@@ -111,7 +111,7 @@ A _map_ is a set of _ordered pairs_ called key and value where keys must be uniq
 
 **Ordered Maps**: Supports additional operations `lower_bound` and `upper_bound` which return iterators pointing to lowest entry not less than/ strictly greater than a specified key.
 
-```c++
+```cpp
   map<int, int> m; // [(3,5); (11,4)]
   m[10] = 491; // [(3,5); (10,491); (11,4)]
   cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << "\n";

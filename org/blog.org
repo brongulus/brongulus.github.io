@@ -880,7 +880,7 @@ CLOSED: [2022-06-05 Sun]
 :EXPORT_FILE_NAME: iusaco-notes
 :END:
 *** Input and Output
-  #+begin_src c++
+  #+begin_src cpp
   #include <cstdio>
   using namespace std;
   int main() {
@@ -906,14 +906,14 @@ CLOSED: [2022-06-05 Sun]
 Data Structure determines how data is stored, each supports some operations efficiently. In following discussion, desired data type is put between =<>=. Most std structures support =size()= and =empty()= methods.
 **** Iterators
 Allows for traversal of a container with the help of a pointer.
-#+begin_src c++
+#+begin_src cpp
   for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {
     cout << *it; //prints the values in the vector using the pointer
   }
 #+end_src
 
 Alternate way to achieve the same with a for-each loop and =auto=.
-#+begin_src c++
+#+begin_src cpp
   for(auto element : v){
     cout << element; // prints values in vector
   }
@@ -921,7 +921,7 @@ Alternate way to achieve the same with a for-each loop and =auto=.
 
 **** Dynamic Arrays
 Addition and deletion at the end in O(1) time and in the middle in O(n) time.
-#+begin_src c++
+#+begin_src cpp
   vector<int> v;
   for(int i = 1; i <= 10; i++){
     v.push_back(i); // stores 1 to 10 in a dynamic array
@@ -942,7 +942,7 @@ A /set/ is a collection of objects having no duplicates.
 
 *Unordered Sets*: Work by hashing that is, assigning a unique code to every object allowing for =insert=, =erase= and =count= (set contains element then 1 else 0) in O(1). Traversal is pointless. Declared as =unordered_set<int> s=.
 
-#+begin_src c++
+#+begin_src cpp
   for(int element : s){
     cout << element << " "; // iterating through a set, arbitrary order
   }
@@ -958,7 +958,7 @@ A /map/ is a set of /ordered pairs/ called key and value where keys must be uniq
 
 *Ordered Maps*: Supports additional operations =lower_bound= and =upper_bound= which return iterators pointing to lowest entry not less than/ strictly greater than a specified key.
 
-#+begin_src c++
+#+begin_src cpp
   map<int, int> m; // [(3,5); (11,4)]
   m[10] = 491; // [(3,5); (10,491); (11,4)]
   cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << "\n";
