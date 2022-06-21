@@ -14,6 +14,9 @@
 #+title: Blog Source File
 #+author: Prashant Tak
 
+* IDEAS
+1. [[https://ncase.me/remember/][Inspiration]] - Create a reminder bot based on SRS algorithm for quick notes...
+2. Why RSS: https://ncase.me/rss/
 * TODO
 1. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
 2. Open external links in new tab by default, unless it's meta-links.
@@ -38,7 +41,31 @@ CLOSED: [2021-03-21 Mon 01:00]
 :EXPORT_FILE_NAME: about
 :END:
 
-Hi! I'm Prashant.
+#+begin_epigraph
+Why should a man climb Everest?
+Because it is there.
+#+begin_epicite
+-Meredith Edwards, The conquest of Everest
+#+end_epicite
+#+end_epigraph
+
+Hi! I'm Prashant. This is something experimental for me, the entire /"blog"/ experience. I've never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that's something which will be decided in the future.
+
+Some stuff that I came across recently which I enjoyed, presented here in case someone's interested.
+
+#+begin_epigraph
+"Spend the years of learning squandering
+Courage for the years of wandering
+Through a world politely turning
+From the loutishness of learning."
+#+begin_epicite
+                  -Samuel Beckett
+#+end_epicite
+#+end_epigraph
+
++ [[https://ncase.me/mental-health/][Mental Health]], don't fight your fear, accept it.
++ [[https://www.gwern.net/Design][Gwern - Design]], considerations to keep in mind while designing for the web.
++ [[https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton][PSB - Live at Brixton]], a surreal experience. Tracks that I enjoyed: /Sputnik, Theme from PSB, Night Mail, Go!, Everest/.
 
 * Blog
 :PROPERTIES:
@@ -150,33 +177,12 @@ exciting
 34. Your house, containing everything you own, catches fire. After saving your loved ones and pets, you have time to safely make a final dash to save any one item. What would it be? Why?
 35. Of all the people in your family, whose death would you find most disturbing? Why?
 36. Share a personal problem and ask your partner’s advice on how he or she might handle it. Also, ask your partner to reflect back to you how you seem to be feeling about the problem you have chosen.
-** Worklog :noexport:
+** Web log :noexport:
 :PROPERTIES:
-:EXPORT_FILE_NAME: worklog
+:EXPORT_FILE_NAME: weblog
 :END:
-*** 17 June 2022
-+ [ ] Leave Everything, Learn Python
-+ [-] Read Crafting Interpreters
-+ [-] IUSACO
-+ [ ] Programming Perl
-+ [ ] DAS - From Scratch
-*** 9 February 2022
-+ [X] AnE Lab
-+ [X] IIC Assignment
-+ [X] DSA Catchup
-+ [X] DSA Lab
-+ [X] OOP 27 Jan Lecture
+***
 
-*** 3 February 2022
-+ [X] Problem Formulation
-*** 2 February 2022
-+ [X] AnE Lab Submission (10 AM, 3rd Feb)
-+ [X] SOP 2 Small Papers
-+ [X] PowE Lab
-*** 31 January 2022
-+ [X] Chapter 2 T2 PowE
-+ [X] Might be Test in AnE, so practice problems
-+ [X] Prepare for IIC Tut too
 ** Morphosyntactic Tagging with BiLSTM Model
 CLOSED: [2021-03-21 Mon 03:00]
 :PROPERTIES:
@@ -717,6 +723,16 @@ Go break a leg! :)
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
+** Quick Notes
+Collection of notes from various sources, rather than keeping it in a separate org file, this makes it handy for global lookups.
+*** Compiler Design
+Source: [[http://aosabook.org/en/llvm.html][AOSA - LLVM]]
+Three phase static compiler design:
+1. FrontEnd
+   Parses the source code, checks for errors and builds language specific AST to represent input code.
+2. Optimizer
+   Performs a variety of operations that improve code's run time, usually independent of the language and target.
+3. Backend
 ** Elements of computing systems
 CLOSED: [2022-06-10 Fri]
 :PROPERTIES:

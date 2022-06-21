@@ -15,7 +15,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
+    --bg: radial-gradient(circle, #000 0%, #08000d 100%);
     --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
     --bg-sel: #0e001c;
     --link: #88c0d0;
@@ -27,7 +27,7 @@
     --icon-filter: var(--icon-sun-filter); } }
 
 [data-theme="dark"] {
-  --bg: radial-gradient(circle, #17002e 0%, #08000d 100%);
+  --bg: radial-gradient(circle, #000 0%, #08000d 100%);
   --bg-sel: #0e001c;
   --link: #88c0d0;
   --font: #c9cdd7;
@@ -82,6 +82,12 @@
 @font-face {
   font-family: "Inter";
   font-weight: 700;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Source Serif Pro";
+  font-weight: 200;
+  font-style: normal;
   font-display: fallback; }
 
 @font-face {
@@ -173,9 +179,6 @@ a {
 
 blockquote {
   display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 4rem;
   margin-inline-end: 4rem;
   border-bottom: 3px double var(--font);
   border-top: 3px double var(--font); }
@@ -335,7 +338,8 @@ code {
 
 code {
   border-radius: 0px;
-  color: #bf616a;
+  color: var(--font);
+  font-style: italic;
   font-size: 100%;
   overflow-x: auto; }
 
@@ -360,6 +364,7 @@ pre code:before {
 pre code {
   color: var(--font);
   font-size: 100%;
+  font-style: normal;
   padding: 0.01rem; }
 
 .highlight {
@@ -480,15 +485,41 @@ code.language-zig:before {
     font-style: italic; }
 
 .post blockquote p {
+  white-space: pre;
   font-family: "Source Serif Pro", serif;
   font-style: italic;
   font-weight: 300;
   font-size: 1.4em;
   line-height: 1.35em;
-  margin: 0.4em auto;
-  padding: 0.25em 0;
+  margin-bottom: 0;
+  padding: 0.5rem;
   text-align: center;
   quotes: none; }
+  @media (max-width: 700px) {
+    .post blockquote p {
+      font-size: 1rem; } }
+.post .epigraph p {
+  display: block;
+  white-space: pre;
+  border-top: 3px double var(--font);
+  font-style: italic;
+  font-size: 1.2em;
+  font-family: "Source Serif Pro", serif;
+  padding: 0.5em 2rem;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
+  margin-inline-end: 2rem;
+  margin-inline-start: 2rem;
+  margin: 0;
+  text-align: left; }
+
+.post .epigraph .epicite p {
+  border-top: none;
+  border-bottom: 3px double var(--font);
+  text-align: right;
+  font-size: 1.1rem;
+  font-style: normal;
+  margin-bottom: 1rem; }
 
 .post-title {
   color: var(--font);

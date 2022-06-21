@@ -2,7 +2,7 @@
 title = "Elements of computing systems"
 author = ["Prashant Tak"]
 date = 2022-06-10T00:00:00+05:30
-lastmod = 2022-06-20T09:19:11+05:30
+lastmod = 2022-06-21T14:07:57+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
