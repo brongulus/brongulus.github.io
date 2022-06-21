@@ -13,6 +13,8 @@
 
   ** Functional Changes
      - Save page progress
+     - Modal Image onClick
+     - Collapse TOC when length > 95%vw
      - Comments?
      - Subcategories in menu. For eg: notes -> CS / Math etc.
 
