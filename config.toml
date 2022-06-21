@@ -33,3 +33,6 @@ pluralizelisttitles = false
   identifier = 'about'
   name = 'About'
   url = '/about/about/'
+
+[params]
+  favicon = "/images/favicon.ico"
