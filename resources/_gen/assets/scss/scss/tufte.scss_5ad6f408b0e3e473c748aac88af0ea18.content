@@ -86,13 +86,13 @@
 
 @font-face {
   font-family: "Source Serif Pro";
-  font-weight: 200;
+  font-weight: 300;
   font-style: normal;
   font-display: fallback; }
 
 @font-face {
   font-family: "Source Serif Pro";
-  font-weight: 200;
+  font-weight: 300;
   font-style: italic;
   font-display: fallback; }
 
@@ -117,8 +117,7 @@ html,
   color: var(--font);
   background: var(--bg);
   margin: 0;
-  height: 100%;
-  transition: background 0.3s ease; }
+  height: 100%; }
 
 html {
   color: var(--bg);
@@ -133,14 +132,17 @@ html {
       font-size: 18px; } }
 body {
   margin: 0;
+  color: var(--font);
+  transition: background 0.5s ease-in-out, color 0.3s ease;
+  background: var(--bg);
   overflow: hidden;
   -webkit-text-size-adjust: 100%; }
 
 .container {
   margin: 0 auto;
   max-width: 1000px;
-  width: 90%;
-  transition: background 0.3s ease; }
+  width: 95%;
+  transition: background 0.5s ease-in-out, color 0.3s ease; }
   @media (min-width: 1100px) {
     .container {
       padding-right: 20%;
@@ -190,7 +192,9 @@ img {
   mix-blend-mode: var(--blend);
   max-width: 100%; }
   img:hover, img:focus {
-    opacity: 0.8; }
+    transition-duration: 0.5s;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
 
 figcaption {
   font-style: italic;
@@ -298,7 +302,8 @@ tr:last-of-type td:last-of-type {
       transform: scale(0.85);
       top: 0.1rem; } }
 .themebox {
-  color: var(--font); }
+  color: var(--font);
+  transition: background 0.5s ease; }
 
 .themebox::after {
   content: "Night"; }
@@ -1212,7 +1217,12 @@ footer {
   text-align: right;
   text-transform: uppercase;
   color: var(--link); }
-
+  @media (max-width: 1350px) {
+    #TableOfContents ul li:before {
+      content: ""; } }
+  @media (max-width: 700px) {
+    #TableOfContents ul li:before {
+      content: counters(list, ".") "."; } }
 #TableOfContents ul li ul,
 #TableOfContents ul li ul li {
   display: static;
