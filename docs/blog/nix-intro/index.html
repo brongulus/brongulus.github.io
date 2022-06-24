@@ -145,13 +145,13 @@ Do you want multi-user installation? This is not for you.
 This is only useful if you want to use both flakes and home-manager.</p>
 <ul>
 <li>Single-user installation (no sudo needed, easier to remove, good for testing purposes)
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">    sh &lt;<span class="o">(</span>curl -L https://nixos.org/nix/install<span class="o">)</span> --no-daemon
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  sh &lt;<span class="o">(</span>curl -L https://nixos.org/nix/install<span class="o">)</span> --no-daemon
 </span></span></code></pre></div></li>
 <li>Source the new profile or login.
 <code>. ~/.nix-profile/etc/profile.d/nix.sh</code></li>
 <li>Since most of the nix &ldquo;guides&rdquo; are outdated, check what your current version supports <code>nix --help</code>, <del>at the time of writing this, there&rsquo;s no need to enable experimental features for flakes :)</del> spoke too soon.</li>
 <li>Upgrading nix:
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">    nix-channel --update<span class="p">;</span> nix-env -iA nixpkgs.nix nixpkgs.cacert
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  nix-channel --update<span class="p">;</span> nix-env -iA nixpkgs.nix nixpkgs.cacert
 </span></span></code></pre></div></li>
 <li>Check if <code>nixpkgs-unstable</code> channel (package sources basically) is installed or not by <code>nix-channel --list</code></li>
 <li>You can look at user-installed packages by <code>nix-env --query</code></li>
@@ -159,52 +159,52 @@ This is only useful if you want to use both flakes and home-manager.</p>
 <h2 id="home-manager">Home manager</h2>
 <p>Allows declarative configuration of user-specific (non global) packages and dotfiles.</p>
 <h3 id="installation">Installation</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-</span></span><span class="line"><span class="cl">  nix-channel --update
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+</span></span><span class="line"><span class="cl">nix-channel --update
 </span></span></code></pre></div><p>In <code>.bash_profile</code>. (might not be needed for single-user systems, check back later)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  <span class="nb">export</span> <span class="nv">NIX_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">NIX_PATH</span><span class="p">:+:</span><span class="nv">$NIX_PATH</span><span class="si">}</span><span class="nv">$HOME</span>/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">NIX_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">NIX_PATH</span><span class="p">:+:</span><span class="nv">$NIX_PATH</span><span class="si">}</span><span class="nv">$HOME</span>/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
 </span></span></code></pre></div><p>In your <code>.bash_profile</code>, add below and source the profile for your current session.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  <span class="nb">source</span> <span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.nix-profile/etc/profile.d/hm-session-vars.sh&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">source</span> <span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.nix-profile/etc/profile.d/hm-session-vars.sh&#34;</span>
 </span></span></code></pre></div><h3 id="configuration">Configuration</h3>
 <p>Now check <code>~/.config/nixpkgs/home.nix</code>, if it exists then for the most part you&rsquo;ve successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run <code>home-manager build</code> to successfully verify. Also periodically check <code>home-manager news</code> for updates regarding new changes to packages that are referred in your config. After <a href="https://nix-community.github.io/home-manager/index.html#sec-install-standalone">adding some packages</a> (section 2.1), run <code>home-manger switch</code>.</p>
 <h2 id="fleyks--sorry">Fleyks (<em>sorry</em>)</h2>
 <p>Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  nix-env -iA nixpkgs.nixFlakes
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nix-env -iA nixpkgs.nixFlakes
 </span></span></code></pre></div><p>This replaces nix 2.9.0 with 2.8.1? Look into why that&rsquo;s happening. For now we enable experimental features.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  mkdir -p ~/.config/nix
-</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s1">&#39;experimental-features = nix-command flakes&#39;</span> &gt;&gt; ~/.config/nix/nix.conf
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p ~/.config/nix
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;experimental-features = nix-command flakes&#39;</span> &gt;&gt; ~/.config/nix/nix.conf
 </span></span></code></pre></div><p>The documentation is so stinky for flakes, like there are <em>n</em> variants sayings \(n^2\) different things, so for now I&rsquo;m just winging it. Comment out the stateVersion from <code>home.nix</code> and in the same directory create a <code>flake.nix</code>. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your <code>home-manager</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl">  <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">description</span> <span class="o">=</span> <span class="s2">&#34;Home Manager configuration of Jane Doe&#34;</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">description</span> <span class="o">=</span> <span class="s2">&#34;Home Manager configuration of Jane Doe&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="c1"># Specify the source of Home Manager and Nixpkgs</span>
-</span></span><span class="line"><span class="cl">      <span class="n">home-manager</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;github:nix-community/home-manager&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="n">nixpkgs</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;github:nixos/nixpkgs/nixos-unstable&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="n">home-manager</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nixpkgs</span><span class="o">.</span><span class="n">follows</span> <span class="o">=</span> <span class="s2">&#34;nixpkgs&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Specify the source of Home Manager and Nixpkgs</span>
+</span></span><span class="line"><span class="cl">    <span class="n">home-manager</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;github:nix-community/home-manager&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nixpkgs</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;github:nixos/nixpkgs/nixos-unstable&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">home-manager</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nixpkgs</span><span class="o">.</span><span class="n">follows</span> <span class="o">=</span> <span class="s2">&#34;nixpkgs&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span> <span class="n">home-manager</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span>
-</span></span><span class="line"><span class="cl">      <span class="k">let</span>
-</span></span><span class="line"><span class="cl">        <span class="n">system</span> <span class="o">=</span> <span class="s2">&#34;x86_64-linux&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;jdoe&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="k">in</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">homeConfigurations</span><span class="o">.</span><span class="si">${</span><span class="n">username</span><span class="si">}</span> <span class="o">=</span> <span class="n">home-manager</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">homeManagerConfiguration</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="c1"># Specify the path to your home configuration here</span>
-</span></span><span class="line"><span class="cl">          <span class="n">configuration</span> <span class="o">=</span> <span class="kn">import</span> <span class="sr">./home.nix</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span> <span class="n">home-manager</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span>
+</span></span><span class="line"><span class="cl">      <span class="n">system</span> <span class="o">=</span> <span class="s2">&#34;x86_64-linux&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;jdoe&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">in</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">homeConfigurations</span><span class="o">.</span><span class="si">${</span><span class="n">username</span><span class="si">}</span> <span class="o">=</span> <span class="n">home-manager</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">homeManagerConfiguration</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Specify the path to your home configuration here</span>
+</span></span><span class="line"><span class="cl">        <span class="n">configuration</span> <span class="o">=</span> <span class="kn">import</span> <span class="sr">./home.nix</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">          <span class="k">inherit</span> <span class="n">system</span> <span class="n">username</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">          <span class="n">homeDirectory</span> <span class="o">=</span> <span class="s2">&#34;/home/</span><span class="si">${</span><span class="n">username</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">          <span class="c1"># Update the state version as needed.</span>
-</span></span><span class="line"><span class="cl">          <span class="c1"># See the changelog here:</span>
-</span></span><span class="line"><span class="cl">          <span class="c1"># https://nix-community.github.io/home-manager/release-notes.html#sec-release-21.05</span>
-</span></span><span class="line"><span class="cl">          <span class="n">stateVersion</span> <span class="o">=</span> <span class="s2">&#34;22.05&#34;</span><span class="p">;</span> <span class="c1"># TODO add current unstable home-manager version</span>
+</span></span><span class="line"><span class="cl">        <span class="k">inherit</span> <span class="n">system</span> <span class="n">username</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">homeDirectory</span> <span class="o">=</span> <span class="s2">&#34;/home/</span><span class="si">${</span><span class="n">username</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Update the state version as needed.</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># See the changelog here:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># https://nix-community.github.io/home-manager/release-notes.html#sec-release-21.05</span>
+</span></span><span class="line"><span class="cl">        <span class="n">stateVersion</span> <span class="o">=</span> <span class="s2">&#34;22.05&#34;</span><span class="p">;</span> <span class="c1"># TODO add current unstable home-manager version</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">          <span class="c1"># Optionally use extraSpecialArgs</span>
-</span></span><span class="line"><span class="cl">          <span class="c1"># to pass through arguments to home.nix</span>
-</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Optionally use extraSpecialArgs</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># to pass through arguments to home.nix</span>
 </span></span><span class="line"><span class="cl">      <span class="p">};</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Now it&rsquo;s time to flake-ify your <code>hm</code>. Here &lt;flake-uri&gt; would be <code>path:.config/nixpkgs</code> assuming your pwd is <code>~</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">  home-manager switch --flake <span class="s1">&#39;&lt;flake-uri&gt;#jdoe&#39;</span>
 </span></span></code></pre></div><p>The flake inputs are not upgraded automatically when switching. The analogy to the command <code>home-manager --update</code> &hellip; is <code>nix flake update</code>. If updating more than one input is undesirable, the command <code>nix flake lock --update-input &lt;input-name&gt;</code> can be used.</p>
@@ -249,7 +249,7 @@ This is only useful if you want to use both flakes and home-manager.</p>
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-06-23 09:37:40.83626674 &#43;0530 IST m=&#43;0.048661302">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-06-24 11:09:05.668291462 &#43;0530 IST m=&#43;0.103872463">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 
