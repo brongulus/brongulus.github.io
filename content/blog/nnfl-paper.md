@@ -2,7 +2,7 @@
 title = "Morphosyntactic Tagging with BiLSTM Model"
 author = ["Bernd Bohnet", "et al"]
 date = 2021-03-21T03:00:00+05:30
-lastmod = 2022-06-21T20:22:37+05:30
+lastmod = 2022-06-28T11:54:55+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -33,7 +33,7 @@ This post contains a complete overview of the titled paper and provides a basic 
 4.  BiLSTM: It is a sequence processing model that consists of two LSTMs. They effectively increase the amount of information available to the network, improving the context available to the algorithm (e.g. knowing what words immediately follow and precede a word in a sentence).
 
 
-## [Basics of NLP](https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html) / Pre-requisites {#basics-of-nlp-pre-requisites}
+## [Basics of NLP](https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html) {#basics-of-nlp}
 
 
 ### Key Terms {#key-terms}

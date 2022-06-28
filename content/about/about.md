@@ -2,7 +2,7 @@
 title = "About"
 author = ["Prashant Tak"]
 date = 2021-03-21T01:00:00+05:30
-lastmod = 2022-06-24T03:29:27+05:30
+lastmod = 2022-06-28T11:54:54+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -42,4 +42,6 @@ From the loutishness of learning."
 -   [Mental Health](https://ncase.me/mental-health/), don't fight your fear, accept it.
 -   [Gwern - Design](https://www.gwern.net/Design), considerations to keep in mind while designing for the web.
 -   [Efficient BFS](https://observablehq.com/@yurivish/efficient-graph-search)
+-   [Cool but Obscure unix tools](https://kkovacs.eu/cool-but-obscure-unix-tools/)
+-   [Explain XKCD: Occam](https://www.explainxkcd.com/wiki/index.php/2541:_Occam)
 -   [PSB - Live at Brixton](https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton), a surreal experience. Tracks that I enjoyed: _Sputnik, Theme from PSB, Night Mail, Go!, Everest_.

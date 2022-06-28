@@ -6,7 +6,17 @@
     <description>Recent content in Blog on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I R SSI</title>
+      <link>https://brongulus.github.io/blog/irc/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/blog/irc/</guid>
+      <description>Umm. Guilty, though I&amp;rsquo;ve only been using it for two days, but I&amp;rsquo;ve been having a blast! So let&amp;rsquo;s get into it.
+This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don&amp;rsquo;t discuss all the aspects such as chat etiquette and other security related stuff for which I&amp;rsquo;d direct the readers to resources at the bottom.</description>
+    </item>
+    
     <item>
       <title>Another nix post in the wall</title>
       <link>https://brongulus.github.io/blog/nix-intro/</link>

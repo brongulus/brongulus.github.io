@@ -6,7 +6,95 @@
     <description>Recent content on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I R SSI</title>
+      <link>https://brongulus.github.io/blog/irc/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/blog/irc/</guid>
+      <description>&lt;figure&gt;&lt;a href=&#34;https://xkcd.com/1782&#34;&gt;&lt;img src=&#34;https://imgs.xkcd.com/comics/team_chat.png&#34;/&gt;&lt;/a&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Umm. Guilty, though I&amp;rsquo;ve only been using it for two days, but I&amp;rsquo;ve been having a blast! So let&amp;rsquo;s get into it.&lt;/p&gt;
+&lt;div class=&#34;note&#34;&gt;
+&lt;p&gt;This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don&amp;rsquo;t discuss all the aspects such as chat etiquette and other security related stuff for which I&amp;rsquo;d direct the readers to resources at the bottom.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;why-irc&#34;&gt;Why IRC?&lt;/h2&gt;
+&lt;p&gt;In this modern age of numerous chat clients and networks with all their shiny bells and whistles and fancy embeds and numerous intergrations with various services, why should one use IRC?&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s a reason why IRC is called the social network for neckbeards, it&amp;rsquo;s the premier destination of folks who are actually technically-literate about the stuff that they&amp;rsquo;re using and not just flaunting their latest &lt;em&gt;rice&lt;/em&gt; or worrying about their choice of distribution. This is not to say that the new platforms don&amp;rsquo;t have adept helpers rather that on IRC channels you can get support for very specific things. Another thing that I recently came across in my journey to various technical channels is that the people there are very willing and understanding when someone seeks help which was in stark contrast to communities on other platforms where people are actively called out for their lack of knowledge, there&amp;rsquo;s a very &lt;a href=&#34;https://blog.aurynn.com/2015/12/16-contempt-culture&#34;&gt;prevalant culture&lt;/a&gt; of superiority complex in modern technical communities which has been absent in IRC from my limited exposure and experience.&lt;/p&gt;
+&lt;p&gt;Another big pull towards IRC for me has been the exclusive number of niche communities where it&amp;rsquo;s the sole medium of communication for them, this allows you to get exposed to new factions of people! It&amp;rsquo;s a great way to have conversations in plaintext without having to worry about people knowing who you really are, which is kinda neat and unique in its own way.&lt;/p&gt;
+&lt;h2 id=&#34;getting-into-it&#34;&gt;Getting into it&lt;/h2&gt;
+&lt;p&gt;If you&amp;rsquo;ve used a modern chat platform like Slack or Discord, IRC&amp;rsquo;s structured in a similar way (rather it was most likely the inspiration for these programs). Basically there are various &lt;strong&gt;servers&lt;/strong&gt; that you can connect to, which have multiple &lt;strong&gt;channels&lt;/strong&gt; that you can join. Unlike discord though where upon joining a server you automatically have access to all its channels, in IRC servers it&amp;rsquo;s opt-in which makes sense considering some large servers have thousands of chatrooms.&lt;/p&gt;
+&lt;p&gt;When you open an IRSSI for the first time, you&amp;rsquo;re greeted with a barren window with an unfamiliar layout, don&amp;rsquo;t worry later we&amp;rsquo;ll see how to configure it to make it more convenient to use and similar to a new platform like discord. For now let&amp;rsquo;s connect to our first server.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/set nick &amp;lt;nick&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/server connect irc.libera.chat
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the &lt;code&gt;/list&lt;/code&gt; command but for large channels such as &lt;code&gt;libera&lt;/code&gt; or &lt;code&gt;rizon&lt;/code&gt; that&amp;rsquo;s not really a good idea. So for discovering channels, one can either &lt;a href=&#34;https://libera.chat/guides/findingchannels%20&#34;&gt;filter&lt;/a&gt; through the various list options or go to &lt;a href=&#34;https://netsplit.de/channels/&#34;&gt;netsplit&lt;/a&gt;. After choosing a channel for a server you&amp;rsquo;re connected to, you can join it and chat. Also, chat can be scrolled via &lt;code&gt;fn+arrow&lt;/code&gt; keys.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/join gentoo
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But there&amp;rsquo;s a catch, once you close irssi, you&amp;rsquo;ll realize that you&amp;rsquo;ll have to go through the entire process again so to autoconnect to various servers and channels you can either edit your &lt;code&gt;~/.irssi/config&lt;/code&gt; file or do it right from the client. There&amp;rsquo;s also another annoyance, there are automated messages for whenever people join or leave channels so ignoring these provides for a cleaner chat experience.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/server add -auto -network Libera irc.libera.chat &lt;span class=&#34;m&#34;&gt;6697&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/channel add -auto &lt;span class=&#34;c1&#34;&gt;#gentoo Libera&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/ignore &lt;span class=&#34;c1&#34;&gt;#gentoo JOINS PARTS QUITS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A particular window can be be closed by &lt;code&gt;/wc&lt;/code&gt;. I always forget the right commands so I created aliases for those in my IRSSI config.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cfg&#34; data-lang=&#34;cfg&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;ADDSERV&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;SERVER ADD -AUTO -NETWORK&amp;#34;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# can be used as /ADDSERV irc.libera.chat 6697&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;ADD&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;CHANNEL ADD -AUTO&amp;#34;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# /ADD #gentoo Libera&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;IGNCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;IGNORE $0 JOINS PARTS QUITS&amp;#34;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# /IGNCH #gentoo&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;layout-statusbar&#34;&gt;Layout/Statusbar&lt;/h2&gt;
+&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/irssi.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/irssi.png&#34;
+         alt=&#34;Figure 1: IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)&lt;/p&gt;
+        &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;There&amp;rsquo;s a statusbar at the bottom which shows the current &lt;code&gt;nick/server/channel/active_channels&lt;/code&gt;. There&amp;rsquo;s a window on the left which shows all the joined servers and channels (courtesy of  &lt;code&gt;adv_windowlist&lt;/code&gt;) and a window on the right which has list of all users (via &lt;code&gt;tmux-nicklist-portable&lt;/code&gt;). To get this style of statusbar and colorscheme, I&amp;rsquo;m currently using a theme derived from the popular &lt;a href=&#34;https://github.com/ronilaukkarinen/weed&#34;&gt;weed&lt;/a&gt; theme where I did minor modifications on statusbar and messagelist.&lt;/p&gt;
+&lt;h2 id=&#34;scripts&#34;&gt;Scripts&lt;/h2&gt;
+&lt;p&gt;If you&amp;rsquo;ve ever used emacs, you&amp;rsquo;ll know how it being an elisp interpreter lends to it powers of on-the-fly changes and extensibility beyond any measure. IRSSI is similar in that manner, it allows for modifications via perl scripts. There&amp;rsquo;s a central &lt;a href=&#34;https://scripts.irssi.org/&#34;&gt;scripts repository&lt;/a&gt; but one can create their own scripts akin to emacs packages!&lt;/p&gt;
+&lt;div class=&#34;note&#34;&gt;
+&lt;p&gt;In later iterations of this post, I&amp;rsquo;ll add customization options for mentioned scripts.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Here I&amp;rsquo;d like to mention some popular scripts which can easily improve both visual and functional experience while using irssi. These are&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;adv_windowlist&lt;/code&gt; which provides a list of all connected servers and channel akin to discord&amp;rsquo;s sidebar&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tmux-nicklist-portable&lt;/code&gt; which adds a userlist for each channel on the right&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mouse&lt;/code&gt; for adding mouse scroll support&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;savecmdhist&lt;/code&gt; which allows for a persistant history of commands&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;trackbar&lt;/code&gt; adds a visual indicator underneath the message since last channel access&lt;/li&gt;
+&lt;li&gt;Still not working: desktop-notify : needs, cpan Glib::Object::Introspection for that we do &lt;code&gt;yay -S perl-glib-object-introspection&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;xdcc&#34;&gt;XDCC&lt;/h2&gt;
+&lt;p&gt;Some IRC channels also offer a way to share files via XDCC. It works by sending bots PMs with requests for a particular pack number which is a reference to the desired file.&lt;/p&gt;
+&lt;div class=&#34;warning&#34;&gt;
+&lt;p&gt;⚠ A word of caution, enabling automatic DCC is a very bad idea in general since it runs the risk of exposing your IP if the network doesn&amp;rsquo;t have masking enabled so be wary of accepting files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;After knowing the pack number and the related bot, one sends the request and to automatically accept requests from that bot once can enable whitelist it by enabling autget for it, if you don&amp;rsquo;t wish to do that for each bot you can enable it globally but that is not advised.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/MSG &amp;lt;BOT&amp;gt; XDCC SEND &amp;lt;PKNO&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# to whitelist a bot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/set dcc_autoget_masks &amp;lt;BOT&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# alternatively&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/dcc get &amp;lt;BOT&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# global autoget&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/set dcc_autoget on
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# to set download dir&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/set dcc_download_path &amp;lt;DIR&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# enable autoresume of files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/set dcc_autoresume on
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;limitations&#34;&gt;Limitations&lt;/h2&gt;
+&lt;p&gt;There are some limitations with IRC there&amp;rsquo;s no chat persistance unless you use a bouncer which I still have to dip my feet into, maybe that&amp;rsquo;s something for a future post, we&amp;rsquo;ll see.&lt;/p&gt;
+&lt;h2 id=&#34;further-reading&#34;&gt;Further Reading&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.irchelp.org/faq/new2irc.html&#34;&gt;The IRC Prelude&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://irssi.org/New-users/&#34;&gt;IRSSI for New Users&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://irssi.org/documentation/settings/&#34;&gt;IRSSI Setup Options&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://daniel.haxx.se/irchistory.html&#34;&gt;History of IRC&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gist.github.com/xero/2d6e4b061b4ecbeb9f99&#34;&gt;IRC Cheatsheet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Direct Client-to-Client Protocol: &lt;a href=&#34;https://modern.ircdocs.horse/dcc.html&#34;&gt;DCC&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
     <item>
       <title>Elements of computing systems</title>
       <link>https://brongulus.github.io/notes/elements-of-computing-systems/</link>
@@ -448,7 +536,7 @@ Either no prayers at all- or one as straightforward as that.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://colah.github.io/posts/2015-08-Understanding-LSTMs/&#34;&gt;LSTM&lt;/a&gt;: Long Short-Term Memory is a type of RNN that addresses the vanishing gradient problem through additional cells, input and output gates.&lt;/li&gt;
 &lt;li&gt;BiLSTM: It is a sequence processing model that consists of two LSTMs. They effectively increase the amount of information available to the network, improving the context available to the algorithm (e.g. knowing what words immediately follow and precede a word in a sentence).&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;basics-of-nlp-pre-requisites&#34;&gt;&lt;a href=&#34;https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html&#34;&gt;Basics of NLP&lt;/a&gt; / Pre-requisites&lt;/h2&gt;
+&lt;h2 id=&#34;basics-of-nlp&#34;&gt;&lt;a href=&#34;https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html&#34;&gt;Basics of NLP&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;key-terms&#34;&gt;Key Terms&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;NLP&lt;/strong&gt;: Natural Language Processing concerns itself with interaction of technology with human languages.&lt;/li&gt;
@@ -821,6 +909,8 @@ From the loutishness of learning.&amp;rdquo;&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;https://ncase.me/mental-health/&#34;&gt;Mental Health&lt;/a&gt;, don&amp;rsquo;t fight your fear, accept it.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.gwern.net/Design&#34;&gt;Gwern - Design&lt;/a&gt;, considerations to keep in mind while designing for the web.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://observablehq.com/@yurivish/efficient-graph-search&#34;&gt;Efficient BFS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kkovacs.eu/cool-but-obscure-unix-tools/&#34;&gt;Cool but Obscure unix tools&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.explainxkcd.com/wiki/index.php/2541:_Occam&#34;&gt;Explain XKCD: Occam&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton&#34;&gt;PSB - Live at Brixton&lt;/a&gt;, a surreal experience. Tracks that I enjoyed: &lt;em&gt;Sputnik, Theme from PSB, Night Mail, Go!, Everest&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
