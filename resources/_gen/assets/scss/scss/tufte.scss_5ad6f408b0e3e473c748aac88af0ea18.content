@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Mulish:wght@300&display=swap");
 :root {
   --icon-moon-filter: invert(0);
   --icon-sun-filter: invert(1);
@@ -20,14 +20,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #08000d;
+    --bg: #0e141b;
     --bg-sel: #0e001c;
     --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
     --gradient-sel: #64acff;
     --link: #88c0d0;
     --code: #fff6ae;
-    --font: #eee6ff;
-    --head: #ffffff;
+    --font: #ffffff;
+    --head: #f2f5f7;
     --blend: lighten;
     --accent: #a6a1b0;
     --accent2: hsl(210deg, 38%, 15%);
@@ -36,11 +36,11 @@
     --icon-filter: var(--icon-sun-filter); } }
 
 [data-theme="dark"] {
-  --bg: #08000d;
+  --bg: #0e141b;
   --bg-sel: #0e001c;
   --link: #88c0d0;
-  --font: #eee6ff;
-  --head: #ffffff;
+  --font: #ffffff;
+  --head: #f2f5f7;
   --gradient-sel: #64acff;
   --code: #fff6ae;
   --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
@@ -85,7 +85,7 @@ html,
 
 html {
   color: var(--bg);
-  font-family: "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 22px;
   overflow: scroll;
   overflow-y: hidden;
@@ -140,7 +140,7 @@ h4,
 h5,
 h6 {
   color: var(--head);
-  font-family: "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: normal; }
 
 a {
@@ -310,6 +310,10 @@ table tr + tr {
   font-family: "Fira Sans";
   font-weight: 100;
   font-display: fallback; }
+
+@font-face {
+  font-family: "Mulish", sans-serif;
+  weight: 300; }
 
 @font-face {
   font-family: "Cormorant";
@@ -574,7 +578,7 @@ pre code {
   width: 7.5rem; }
 
 .post p {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Mulish", sans-serif;
   margin: 0 0 1rem;
   text-align: justify;
   hyphens: auto; }
@@ -588,7 +592,7 @@ pre code {
 .post img {
   color: #aaa;
   display: block;
-  font-family: "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 0.9rem;
   font-style: normal;
   text-align: center; }
@@ -1608,7 +1612,7 @@ footer,
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
     display: inline-block;
-    font-style: "Inter";
+    font-family: "Source Sans Pro";
     font-weight: 600;
     margin: 0;
     padding-right: 0.2rem;
@@ -1616,8 +1620,6 @@ footer,
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; }
-    .nav-title a {
-      font-style: "Inter"; }
     @media only screen and (max-width: 850px) {
       .nav-title {
         font-size: 2rem; } }
@@ -1655,7 +1657,7 @@ footer,
       opacity: 1; }
   .nav a {
     color: #555;
-    font-family: "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
+    font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
 
 footer {
   font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;

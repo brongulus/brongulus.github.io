@@ -1,7 +1,7 @@
 +++
 title = "My experience with 🦀"
 author = ["Prashant Tak"]
-lastmod = 2022-06-28T11:54:55+05:30
+lastmod = 2022-07-02T02:52:43+05:30
 draft = true
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
