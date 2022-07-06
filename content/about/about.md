@@ -2,7 +2,7 @@
 title = "About"
 author = ["Prashant Tak"]
 date = 2021-03-21T01:00:00+05:30
-lastmod = 2022-07-02T02:52:42+05:30
+lastmod = 2022-07-06T06:20:20+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
@@ -43,6 +43,7 @@ From the loutishness of learning."
 -   [Gwern - Design](https://www.gwern.net/Design), considerations to keep in mind while designing for the web.
 -   [Efficient BFS](https://observablehq.com/@yurivish/efficient-graph-search)
 -   [Oh Shit Git](https://ohshitgit.com/), for when you can't recall that specific command to do that particular thing.
+-   [Chess Engines](https://www.chessengines.org/), how to code a chess engine
 -   [Cool but Obscure unix tools](https://kkovacs.eu/cool-but-obscure-unix-tools/)
 -   [Explain XKCD: Occam](https://www.explainxkcd.com/wiki/index.php/2541:_Occam)
 -   [PSB - Live at Brixton](https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton), a surreal experience. Tracks that I enjoyed: _Sputnik, Theme from PSB, Night Mail, Go!, Everest_.

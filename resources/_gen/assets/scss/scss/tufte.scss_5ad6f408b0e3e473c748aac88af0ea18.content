@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Mulish:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&Nanum+Myeongjo&Noto+Serif+KR:wght@300&family=Mulish:wght@300&family=Abril+Fatface&display=swap");
 :root {
   --icon-moon-filter: invert(0);
   --icon-sun-filter: invert(1);
@@ -183,7 +183,8 @@ thead {
 table {
   margin-bottom: 1.5em;
   border-collapse: collapse;
-  width: 95%; }
+  width: 95%;
+  margin-left: 0.75em; }
 
 table th {
   font-family: "Josefin Sans";
@@ -313,7 +314,23 @@ table tr + tr {
 
 @font-face {
   font-family: "Mulish", sans-serif;
-  weight: 300; }
+  font-weight: 300;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Abril Fatface", serif;
+  font-display: fallback;
+  weight: 400; }
+
+@font-face {
+  font-family: "Noto Serif KR", serif;
+  font-weight: 300;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Nanum Myeongjo", serif;
+  font-weight: 400;
+  font-display: fallback; }
 
 @font-face {
   font-family: "Cormorant";
@@ -1592,8 +1609,8 @@ pre code {
     text-decoration: underline; }
   /* TextWhitespace */ }
 
-main,
 footer,
+main,
 .nav-container {
   display: block;
   margin: 0 auto;
@@ -1661,11 +1678,11 @@ footer,
 
 footer {
   font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
-  padding: 2rem 0;
-  text-align: center; }
+  text-align: center;
+  padding: 2rem 0; }
   footer span {
     color: var(--font);
-    font-size: 0.8rem; }
+    font-size: 0.85rem; }
 
 #TableOfContents {
   font-size: 1.15rem;

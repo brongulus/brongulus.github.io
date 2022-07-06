@@ -6,7 +6,17 @@
     <description>Recent content in Notes on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Jun 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 06 Jul 2022 06:20:24 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hangul</title>
+      <link>https://brongulus.github.io/notes/korean/</link>
+      <pubDate>Wed, 06 Jul 2022 06:20:24 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/korean/</guid>
+      <description>Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let&amp;rsquo;s see how.
+Consonants Consonant Pron. Mnemonic Aspirated Pron. Mnemonic ㅂ b bucket ㅍ p part II/pi ㄷ d door ㅌ t two doors ㄱ g gun ㅋ k kill ㅈ j (jug) ㅊ ch church Consonant Pron. Mnemonic ㅎ h hat ㄹ r/l rattlesnake ㅁ m mouth ㄴ n nose ㅅ s standing ㅇ - / ng(at end) zero = no Look at the last consonant, it&amp;rsquo;s a placeholder character which has no sound by itself but if it ends a particular syllable, it is pronounced as ng.</description>
+    </item>
+    
     <item>
       <title>Elements of computing systems</title>
       <link>https://brongulus.github.io/notes/elements-of-computing-systems/</link>
