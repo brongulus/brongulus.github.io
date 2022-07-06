@@ -1,12 +1,19 @@
 +++
 title = "Hangul"
 author = ["Prashant Tak"]
-lastmod = 2022-07-06T06:20:24+05:30
+date = 2022-07-06T00:00:00+05:30
+lastmod = 2022-07-06T06:26:19+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
 
 Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let's see how.
+
+<div class="note">
+
+I still have to cover more vowels and add tips for pronounciation which I'll add soon.™
+
+</div>
 
 
 ## Consonants {#consonants}
@@ -61,7 +68,7 @@ By lining up the corresponding characters with the sounds, we get the vowels. By
 | ㅃ        | bb    |
 | ㅆ        | ss    |
 
-/Examples: / 떡볶이 is tteokbokki and 빨간색 is pplagansaek (red).
+_Examples:_ 떡볶이 is tteokbokki and 빨간색 is pplagansaek (red).
 
 
 ## Resources: {#resources}
