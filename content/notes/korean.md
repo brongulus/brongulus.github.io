@@ -2,7 +2,7 @@
 title = "Hangul"
 author = ["Prashant Tak"]
 date = 2022-07-06T00:00:00+05:30
-lastmod = 2022-07-06T06:26:19+05:30
+lastmod = 2022-07-06T06:54:44+05:30
 draft = false
 creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
 +++
