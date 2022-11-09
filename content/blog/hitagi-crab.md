@@ -1,9 +1,9 @@
 +++
 title = "My experience with 🦀"
 author = ["Prashant Tak"]
-lastmod = 2022-07-06T06:20:22+05:30
+lastmod = 2022-11-10T04:50:53+05:30
 draft = true
-creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 Trying out the most loved language for six years in a row! What could go wrong? With its name being almost synonymous with terms such as **blazing fast** 🚀 and **memory safety**, its surely going to be a good experience. To infinity and beyond!

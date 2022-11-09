@@ -2,9 +2,9 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-07-06T06:20:24+05:30
+lastmod = 2022-11-10T04:51:50+05:30
 draft = false
-creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 ## Input and Output {#input-and-output}
@@ -122,4 +122,44 @@ A _map_ is a set of _ordered pairs_ called key and value where keys must be uniq
 ```
 
 
-## Simulation {#simulation}
+## Elementary Techniques {#elementary-techniques}
+
+
+### Simulation {#simulation}
+
+Simulation refers to the act of doing precisely what the problem statement states and nothing else; essentially simulating it.
+
+
+### Complete Search {#complete-search}
+
+Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:
+
+```cpp
+do {
+  check(v); // process or check the current permutation for validity
+} while(next_permutation(v.begin(), v.end()));
+```
+
+
+### Sorting and Comparators {#sorting-and-comparators}
+
+C++ has built-in function for sorting in ascending order: `std::sort(arr, arr+N)` or for a vector `sort(v.begin(), v.end())`. For sorting in a self-defined order, one must use a custom comparator.
+
+
+### Greedy Algorithms {#greedy-algorithms}
+
+Algorithms that select the most optimal choice at each step, instead of looking at the solution space as a whole. Usually in a greedy algorithm, there is a heuristic or value function that determines which choice is considered most optimal. The choice of the greedy algorithm matters too, for example in a scheduling problem choosing earliest starting next event would be incorrect, instead one should go for earliest ending next event because that would give one more choices for future events.
+
+Greedy won't work in all scenarios though, for example in the fairly popular coin change problem, if the denominations are `{1,3,4}` then greedy solution would be `{4,1,1}` but the correct least amount of coins would be two `{3,3}`. Similarly it cannot work for the knapsack problem which is solved using Dynamic Programming.
+
+
+## Graph Theory {#graph-theory}
+
+
+### Representation {#representation}
+
+Graphs (N vertices and M edges) are usually given in the format: `N` `M` followed by the `M edges` each showing the connecting vertices. This can be represented in three ways:
+
+-   Adjacency List
+-   Adjacency Matrix
+-   Edge List

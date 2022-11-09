@@ -2,9 +2,9 @@
 title = "I R SSI"
 author = ["Prashant Tak"]
 date = 2022-06-28T00:00:00+05:30
-lastmod = 2022-07-06T06:20:21+05:30
+lastmod = 2022-11-10T04:50:53+05:30
 draft = false
-creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 {{< figure src="https://imgs.xkcd.com/comics/team_chat.png" link="https://xkcd.com/1782" >}}

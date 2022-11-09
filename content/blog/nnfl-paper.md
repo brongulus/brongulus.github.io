@@ -2,9 +2,9 @@
 title = "Morphosyntactic Tagging with BiLSTM Model"
 author = ["Bernd Bohnet", "et al"]
 date = 2021-03-21T03:00:00+05:30
-lastmod = 2022-07-06T06:20:20+05:30
+lastmod = 2022-11-10T04:50:53+05:30
 draft = false
-creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 > "I had shingles, which is a painful disease."
@@ -160,7 +160,7 @@ To investigate whether a sentence sensitive character model (_Fig.1_) is better 
 
 {{< figure src="/ox-hugo/nnfl1b.png" caption="<span class=\"figure-number\">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)." link="/ox-hugo/nnfl1b.png" >}}
 
-{{< figure src="/ox-hugo/nnfl1.png" caption="<span class=\"figure-number\">Figure 3: </span>BiLSTM variant of Character-level word representation" link="/ox-hugo/nnfl1.png" >}}
+{{< figure src="/ox-hugo/nnfl1.png" caption="<span class=\"figure-number\">Figure 1: </span>BiLSTM variant of Character-level word representation" link="/ox-hugo/nnfl1.png" >}}
 
 
 ### Sentence-based Word Model {#sentence-based-word-model}
@@ -178,7 +178,7 @@ m\_{i}^{word} = MLP(o\_{i}^{word})
 \\]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
 
-{{< figure src="/ox-hugo/nnfl2a.png" caption="<span class=\"figure-number\">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model" link="/ox-hugo/nnfl2a.png" >}}
+{{< figure src="/ox-hugo/nnfl2a.png" caption="<span class=\"figure-number\">Figure 1: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model" link="/ox-hugo/nnfl2a.png" >}}
 
 
 ### Meta-BiLSTM: Model Combination {#meta-bilstm-model-combination}
@@ -194,7 +194,7 @@ f\_{m,i}^{l}, b\_{m,i}^{l} = BiLSTM(r\_{0},(cw\_{0},...,cw\_{n}))\_{i}
 m\_{i}^{comb} = MLP(concat(f\_{m,i}^{l}, b\_{m,i}^{l}))
 \\]
 
-{{< figure src="/ox-hugo/nnfl2b.png" caption="<span class=\"figure-number\">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows." link="/ox-hugo/nnfl2b.png" >}}
+{{< figure src="/ox-hugo/nnfl2b.png" caption="<span class=\"figure-number\">Figure 1: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows." link="/ox-hugo/nnfl2b.png" >}}
 
 
 ### Training Schema {#training-schema}

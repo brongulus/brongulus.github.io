@@ -330,8 +330,8 @@ A tag can then be predicted with a <em>linear classifier</em> that takes as inpu
 </figure>
 
 <figure><a href="/ox-hugo/nnfl1.png"><img src="/ox-hugo/nnfl1.png"
-         alt="Figure 3: BiLSTM variant of Character-level word representation"/></a><figcaption>
-            <p><span class="figure-number">Figure 3: </span>BiLSTM variant of Character-level word representation</p>
+         alt="Figure 1: BiLSTM variant of Character-level word representation"/></a><figcaption>
+            <p><span class="figure-number">Figure 1: </span>BiLSTM variant of Character-level word representation</p>
         </figcaption>
 </figure>
 
@@ -349,8 +349,8 @@ m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.</p>
 <figure><a href="/ox-hugo/nnfl2a.png"><img src="/ox-hugo/nnfl2a.png"
-         alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/></a><figcaption>
-            <p><span class="figure-number">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
+         alt="Figure 1: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/></a><figcaption>
+            <p><span class="figure-number">Figure 1: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
         </figcaption>
 </figure>
 
@@ -366,8 +366,8 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&hellip;,cw_{n}))_{i}
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]</p>
 <figure><a href="/ox-hugo/nnfl2b.png"><img src="/ox-hugo/nnfl2b.png"
-         alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/></a><figcaption>
-            <p><span class="figure-number">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
+         alt="Figure 1: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/></a><figcaption>
+            <p><span class="figure-number">Figure 1: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
         </figcaption>
 </figure>
 
@@ -557,7 +557,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-10-28 07:52:26.025319532 &#43;0530 IST m=&#43;0.087049816">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-11-10 04:51:58.709708021 &#43;0530 IST m=&#43;0.118352045">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

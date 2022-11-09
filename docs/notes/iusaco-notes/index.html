@@ -153,7 +153,19 @@
         <li><a href="#maps">Maps</a></li>
       </ul>
     </li>
-    <li><a href="#simulation">Simulation</a></li>
+    <li><a href="#elementary-techniques">Elementary Techniques</a>
+      <ul>
+        <li><a href="#simulation">Simulation</a></li>
+        <li><a href="#complete-search">Complete Search</a></li>
+        <li><a href="#sorting-and-comparators">Sorting and Comparators</a></li>
+        <li><a href="#greedy-algorithms">Greedy Algorithms</a></li>
+      </ul>
+    </li>
+    <li><a href="#graph-theory">Graph Theory</a>
+      <ul>
+        <li><a href="#representation">Representation</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 		
@@ -225,7 +237,27 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m</span><span class="p">.</span><span class="n">upper_bound</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">m</span><span class="p">.</span><span class="n">upper_bound</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">// 11 4
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">m</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">11</span><span class="p">);</span> <span class="c1">// [(3,5); (10,491)]
-</span></span></span></code></pre></div><h2 id="simulation">Simulation</h2>
+</span></span></span></code></pre></div><h2 id="elementary-techniques">Elementary Techniques</h2>
+<h3 id="simulation">Simulation</h3>
+<p>Simulation refers to the act of doing precisely what the problem statement states and nothing else; essentially simulating it.</p>
+<h3 id="complete-search">Complete Search</h3>
+<p>Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">check</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// process or check the current permutation for validity
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">while</span><span class="p">(</span><span class="n">next_permutation</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+</span></span></code></pre></div><h3 id="sorting-and-comparators">Sorting and Comparators</h3>
+<p>C++ has built-in function for sorting in ascending order: <code>std::sort(arr, arr+N)</code> or for a vector <code>sort(v.begin(), v.end())</code>. For sorting in a self-defined order, one must use a custom comparator.</p>
+<h3 id="greedy-algorithms">Greedy Algorithms</h3>
+<p>Algorithms that select the most optimal choice at each step, instead of looking at the solution space as a whole. Usually in a greedy algorithm, there is a heuristic or value function that determines which choice is considered most optimal. The choice of the greedy algorithm matters too, for example in a scheduling problem choosing earliest starting next event would be incorrect, instead one should go for earliest ending next event because that would give one more choices for future events.</p>
+<p>Greedy won&rsquo;t work in all scenarios though, for example in the fairly popular coin change problem, if the denominations are <code>{1,3,4}</code> then greedy solution would be <code>{4,1,1}</code> but the correct least amount of coins would be two <code>{3,3}</code>. Similarly it cannot work for the knapsack problem which is solved using Dynamic Programming.</p>
+<h2 id="graph-theory">Graph Theory</h2>
+<h3 id="representation">Representation</h3>
+<p>Graphs (N vertices and M edges) are usually given in the format: <code>N</code> <code>M</code> followed by the <code>M edges</code> each showing the connecting vertices. This can be represented in three ways:</p>
+<ul>
+<li>Adjacency List</li>
+<li>Adjacency Matrix</li>
+<li>Edge List</li>
+</ul>
 
 
 		
@@ -267,7 +299,7 @@
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-10-28 07:52:26.031400336 &#43;0530 IST m=&#43;0.093130617">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-11-10 04:51:58.710519836 &#43;0530 IST m=&#43;0.119163874">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

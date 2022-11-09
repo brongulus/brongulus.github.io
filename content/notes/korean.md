@@ -2,9 +2,9 @@
 title = "Hangul"
 author = ["Prashant Tak"]
 date = 2022-07-06T00:00:00+05:30
-lastmod = 2022-07-06T06:54:44+05:30
+lastmod = 2022-11-10T04:50:54+05:30
 draft = false
-creator = "Emacs 28.1 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
 
 Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let's see how.

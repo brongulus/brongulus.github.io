@@ -522,7 +522,27 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;cout&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;upper_bound&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;first&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;upper_bound&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;second&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;// 11 4
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;erase&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// [(3,5); (10,491)]
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;simulation&#34;&gt;Simulation&lt;/h2&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;elementary-techniques&#34;&gt;Elementary Techniques&lt;/h2&gt;
+&lt;h3 id=&#34;simulation&#34;&gt;Simulation&lt;/h3&gt;
+&lt;p&gt;Simulation refers to the act of doing precisely what the problem statement states and nothing else; essentially simulating it.&lt;/p&gt;
+&lt;h3 id=&#34;complete-search&#34;&gt;Complete Search&lt;/h3&gt;
+&lt;p&gt;Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;check&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// process or check the current permutation for validity
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;next_permutation&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;begin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;sorting-and-comparators&#34;&gt;Sorting and Comparators&lt;/h3&gt;
+&lt;p&gt;C++ has built-in function for sorting in ascending order: &lt;code&gt;std::sort(arr, arr+N)&lt;/code&gt; or for a vector &lt;code&gt;sort(v.begin(), v.end())&lt;/code&gt;. For sorting in a self-defined order, one must use a custom comparator.&lt;/p&gt;
+&lt;h3 id=&#34;greedy-algorithms&#34;&gt;Greedy Algorithms&lt;/h3&gt;
+&lt;p&gt;Algorithms that select the most optimal choice at each step, instead of looking at the solution space as a whole. Usually in a greedy algorithm, there is a heuristic or value function that determines which choice is considered most optimal. The choice of the greedy algorithm matters too, for example in a scheduling problem choosing earliest starting next event would be incorrect, instead one should go for earliest ending next event because that would give one more choices for future events.&lt;/p&gt;
+&lt;p&gt;Greedy won&amp;rsquo;t work in all scenarios though, for example in the fairly popular coin change problem, if the denominations are &lt;code&gt;{1,3,4}&lt;/code&gt; then greedy solution would be &lt;code&gt;{4,1,1}&lt;/code&gt; but the correct least amount of coins would be two &lt;code&gt;{3,3}&lt;/code&gt;. Similarly it cannot work for the knapsack problem which is solved using Dynamic Programming.&lt;/p&gt;
+&lt;h2 id=&#34;graph-theory&#34;&gt;Graph Theory&lt;/h2&gt;
+&lt;h3 id=&#34;representation&#34;&gt;Representation&lt;/h3&gt;
+&lt;p&gt;Graphs (N vertices and M edges) are usually given in the format: &lt;code&gt;N&lt;/code&gt; &lt;code&gt;M&lt;/code&gt; followed by the &lt;code&gt;M edges&lt;/code&gt; each showing the connecting vertices. This can be represented in three ways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Adjacency List&lt;/li&gt;
+&lt;li&gt;Adjacency Matrix&lt;/li&gt;
+&lt;li&gt;Edge List&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
@@ -863,8 +883,8 @@ A tag can then be predicted with a &lt;em&gt;linear classifier&lt;/em&gt; that t
 &lt;/figure&gt;
 
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl1.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl1.png&#34;
-         alt=&#34;Figure 3: BiLSTM variant of Character-level word representation&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 3: &lt;/span&gt;BiLSTM variant of Character-level word representation&lt;/p&gt;
+         alt=&#34;Figure 1: BiLSTM variant of Character-level word representation&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;BiLSTM variant of Character-level word representation&lt;/p&gt;
         &lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -882,8 +902,8 @@ m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.&lt;/p&gt;
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl2a.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl2a.png&#34;
-         alt=&#34;Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 4: &lt;/span&gt;Tagging Architecture of Word-based Character Model and Sentence-based Word Model&lt;/p&gt;
+         alt=&#34;Figure 1: Tagging Architecture of Word-based Character Model and Sentence-based Word Model&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;Tagging Architecture of Word-based Character Model and Sentence-based Word Model&lt;/p&gt;
         &lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -899,8 +919,8 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&amp;hellip;,cw_{n}))_{i}
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]&lt;/p&gt;
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl2b.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl2b.png&#34;
-         alt=&#34;Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 5: &lt;/span&gt;Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&lt;/p&gt;
+         alt=&#34;Figure 1: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&lt;/p&gt;
         &lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -1094,7 +1114,8 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
       <pubDate>Sun, 21 Mar 2021 01:00:00 +0530</pubDate>
       
       <guid>https://brongulus.github.io/about/about/</guid>
-      <description>&lt;div class=&#34;epigraph&#34;&gt;
+      <description>&lt;h2 id=&#34;webpresence-of-prashant-tak&#34;&gt;Webpresence of Prashant Tak&lt;/h2&gt;
+&lt;div class=&#34;epigraph&#34;&gt;
 &lt;p&gt;Why should a man climb Everest?
 Because it is there.&lt;/p&gt;
 &lt;div class=&#34;epicite&#34;&gt;
@@ -1119,8 +1140,10 @@ From the loutishness of learning.&amp;rdquo;&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;https://ohshitgit.com/&#34;&gt;Oh Shit Git&lt;/a&gt;, for when you can&amp;rsquo;t recall that specific command to do that particular thing.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.chessengines.org/&#34;&gt;Chess Engines&lt;/a&gt;, how to code a chess engine&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://kkovacs.eu/cool-but-obscure-unix-tools/&#34;&gt;Cool but Obscure unix tools&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://jsomers.net/i-should-have-loved-biology/&#34;&gt;I should have loved biology&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.explainxkcd.com/wiki/index.php/2541:_Occam&#34;&gt;Explain XKCD: Occam&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton&#34;&gt;PSB - Live at Brixton&lt;/a&gt;, a surreal experience. Tracks that I enjoyed: &lt;em&gt;Sputnik, Theme from PSB, Night Mail, Go!, Everest&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://makefiletutorial.com/&#34;&gt;Makefile Tutorial&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
