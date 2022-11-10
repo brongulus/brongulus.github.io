@@ -2,7 +2,7 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-11-10T04:51:50+05:30
+lastmod = 2022-11-10T06:03:47+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
@@ -158,8 +158,184 @@ Greedy won't work in all scenarios though, for example in the fairly popular coi
 
 ### Representation {#representation}
 
-Graphs (N vertices and M edges) are usually given in the format: `N` `M` followed by the `M edges` each showing the connecting vertices. This can be represented in three ways:
+Graphs (N vertices and M edges) are usually given in the format: `N` `M` followed by the `M edges` each showing the connecting vertices. One thing to note is that a graph should be stored globally and statically, for access outside the main method. A graph can be represented in three ways:
 
--   Adjacency List
--   Adjacency Matrix
--   Edge List
+
+#### Adjacency List {#adjacency-list}
+
+For using DFS, BFS, Dijkstra or other `single-source` traversal algorithms, it's the preferred way of storing graphs. In it, an array of length N of lists is maintained.
+[![](/ox-hugo/usaco-adj.png)](/ox-hugo/usaco-adj.png)
+They take up `O(M+N)` space but allow for easy traversal among the neighbors of a vertex. Often, there's a need to maintain a `visited` array.
+
+```cpp
+int n, m;
+vector<int> adj[MAXN];
+bool visited[MAXN];
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < m; i++){
+    int a, b;
+    cin >> a >> b;
+    a--; b--; // subtract 1 for vertex since array is zero-indexed
+    adj[a].push_back(b);
+    adj[b].push_back(a); // omit for directed graph
+  }
+}
+
+// For a weighted graph:
+struct Edge
+{
+  int to, weight;
+  Edge(int dest, int w):
+  to(dest), weight(w)
+  {
+  }
+}
+```
+
+
+#### Adjacency Matrix {#adjacency-matrix}
+
+This is an `N x N` 2D array that stores for each pair of indices(a,b) whether an edge exists between them or not. Primarily used for Floyd-Warshall Algorithm.
+
+```cpp
+int n, m;
+int adj[MAXN][MAXN];
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < m; i++){
+    int a, b;
+    cin >> a >> b;
+    a--; b--;
+    adj[a][b] = 1; // or w for weighted graph
+    adj[b][a] = 1; // ignore this if directed
+  }
+}
+```
+
+
+#### Edge List {#edge-list}
+
+Usually used for weighted undirected graphs when sorting the edges by weight is needed (DSU). Its simply a single list of all edges `(a, b, w)` where a and b are the vertices and w is the weight of connecting edge. Each edge is added only oncce.
+
+```cpp
+struct Edge{
+  int a, b, w;
+  Edge(int start, int end, int weight):
+  a(start), b(end), w(weight)
+  {
+  }
+  bool operator<(const Edge & e)
+  const{
+    return w < e.w; // ascending weight sort
+  }
+};
+
+int n, m;
+vector<Edge> edges;
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < m; i++){
+    int a, b, w;
+    cin >> a >> b >> w;
+    a--; b--;
+    edges.push_back(Edge(a, b, w)); // add edge to list
+  }
+  sort(edges.begin(), edges.end());
+}
+```
+
+
+### Traversal {#traversal}
+
+
+#### Breadth-First Search (BFS) {#breadth-first-search--bfs}
+
+Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.
+
+```cpp
+void bfs(int start){
+  memset(dist, -1, sizeof dist); // fill distance array with -1s
+  queue<int> q;
+  dist[start] = 0;
+  q.push(start);
+  while(!q.empty()){
+    int v = q.front();
+    q.pop();
+    for(int e: adj[v]){
+      if(dist[e] == -1){
+        dist[e] = dist[v] + 1;
+        q.push(e);
+      }
+    }
+  }
+}
+```
+
+Once BFS finishes, the array `dist` contains the distances from the start node to each node.
+
+
+#### Depth-First Search (DFS) {#depth-first-search--dfs}
+
+Continues down a single path as far as possible until it has no more vertices to visit along that path, then backtracks and finds more vertices to visit.
+
+```cpp
+void dfs(int node){
+  visited[node] = true;
+  for(int next : adj[node]){
+    if(!visited[next]){
+      dfs(next);
+    }
+  }
+}
+```
+
+If stack overflows are encountered with recursive DFS, it can be implemented iteravely by storing nodes in the BFS implementation on a stack instead of a queue.
+
+
+### Floodfill {#floodfill}
+
+Its DFS but on a grid and the aim is to find the connected component of all the connected cells with the same number. As opposed to an explicit graph where the edges are given, a grid is an implicit graph where the neighbours are nodes adjacent in the four directions.
+
+When doing floodfill, an `N x M` array of bools `visited` is maintained and a global variable for the size of currently visiting component. The search function is called recursively from squares on all four sides of the current one.
+
+```cpp
+int grid[MAXN][MAXM];
+int n, m;
+bool visited[MAXN][MAXM];
+int currentCompSize = 0;
+
+void floodfill(int r, int c, int color){
+  if(r < 0 || r >= n || c < 0 || c >= m) return; // outside grid
+  if(grid[r][c] != color) return; // wrong color
+  if(visited[r][c]) return; // already visited
+
+  visited[r][c] = true; // mark current sq as visited
+  currentCompSize++;
+  // recursively call floodfill for neighbour sqs
+  floodfill(r, c+1, color);
+  floodfill(r, c-1, color);
+  floodfill(r-1, c, color);
+  floodfill(r+1, c, color);
+}
+
+int main(){
+  /*
+   * additional stuff here
+  */
+  for(int i = 0; i < n; i++){
+    for(int j = 0; j < m; j++){
+      if(!visited[i][j]){
+        currentCompSize = 0;
+        floodfill(i, j, grid[i][j]);
+      }
+    }
+  }
+}
+```
+
+
+### Disjoint-Set Data Structure {#disjoint-set-data-structure}
