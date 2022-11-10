@@ -177,7 +177,8 @@
           </ul>
         </li>
         <li><a href="#floodfill">Floodfill</a></li>
-        <li><a href="#disjoint-set-data-structure">Disjoint-Set Data Structure</a></li>
+        <li><a href="#disjoint-set-union-data-structure">Disjoint-Set Union Data Structure</a></li>
+        <li><a href="#miscellaneous">Miscellaneous</a></li>
       </ul>
     </li>
   </ul>
@@ -403,7 +404,45 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="disjoint-set-data-structure">Disjoint-Set Data Structure</h3>
+</span></span></code></pre></div><h3 id="disjoint-set-union-data-structure">Disjoint-Set Union Data Structure</h3>
+<p>It supports two operations:</p>
+<ul>
+<li>Add an edge between two nodes</li>
+<li>Check if two nodes are connected</li>
+</ul>
+<p>For this, the sets are stored as trees; initially each node is its own set then the sets are combined when an edge is added between two nodes.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">parent</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span> <span class="c1">// store root of each set
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">initialize</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// initially, root of each set is node itself
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span> <span class="c1">// find root of set of x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// if x is its parent, it is the root
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">find</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">union</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">){</span> <span class="c1">// merge sets of a and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>        <span class="c1">// find a&#39;s root
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>        <span class="c1">// find b&#39;s root
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">!=</span> <span class="n">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>        <span class="c1">// merge sets by setting parent of d to c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>The naive recursive implementation of find can be improved from <code>O(nm)</code> by path compression; the idea being reassignment of nodes on recursive calls to <code>find</code> to prevent formation of long chains and the runtime becomes <code>O(n log n)</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="miscellaneous">Miscellaneous</h3>
+<ul>
+<li>DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from <em>u</em> to <em>v</em>, <em>u</em> appears before <em>v</em> (topological sorting).</li>
+<li>Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.</li>
+</ul>
 
 
 		
@@ -445,7 +484,7 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-11-10 06:04:58.035945805 &#43;0530 IST m=&#43;0.095127374">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-11-10 23:30:14.281266456 &#43;0530 IST m=&#43;0.187057266">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

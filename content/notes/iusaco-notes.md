@@ -2,7 +2,7 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-11-10T06:03:47+05:30
+lastmod = 2022-11-10T23:30:04+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
@@ -338,4 +338,51 @@ int main(){
 ```
 
 
-### Disjoint-Set Data Structure {#disjoint-set-data-structure}
+### Disjoint-Set Union Data Structure {#disjoint-set-union-data-structure}
+
+It supports two operations:
+
+-   Add an edge between two nodes
+-   Check if two nodes are connected
+
+For this, the sets are stored as trees; initially each node is its own set then the sets are combined when an edge is added between two nodes.
+
+```cpp
+int parent[MAXN]; // store root of each set
+
+void initialize(int N){
+  for(int i = 0; i < N; i++)
+    parent[i] = i; // initially, root of each set is node itself
+}
+
+int find(int x){ // find root of set of x
+  if(x == parent[x])
+    return x; // if x is its parent, it is the root
+  else
+    return find(parent[x]);
+}
+
+void union(int a, int b){ // merge sets of a and b
+  int c = find(a);        // find a's root
+  int d = find(b);        // find b's root
+  if (c != d)
+    parent[d] = c;        // merge sets by setting parent of d to c
+}
+```
+
+The naive recursive implementation of find can be improved from `O(nm)` by path compression; the idea being reassignment of nodes on recursive calls to `find` to prevent formation of long chains and the runtime becomes `O(n log n)`.
+
+```cpp
+int find(int x){
+  if(x == parent[x])
+    return x;
+  else
+    return parent[x] = find(parent[x]);
+}
+```
+
+
+### Miscellaneous {#miscellaneous}
+
+-   DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from _u_ to _v_, _u_ appears before _v_ (topological sorting).
+-   Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.
