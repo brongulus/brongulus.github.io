@@ -2,7 +2,7 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-11-10T23:30:04+05:30
+lastmod = 2022-11-29T03:32:33+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
@@ -386,3 +386,73 @@ int find(int x){
 
 -   DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from _u_ to _v_, _u_ appears before _v_ (topological sorting).
 -   Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.
+
+
+## More Techniques {#more-techniques}
+
+
+### Prefix Sums {#prefix-sums}
+
+To process queries to find the sum of elements between two indices in a list, prefix sum is useful. Using 1-index in the array is beneficial i.e. assigning `arr[0] = 0` and hence `prefix[0] = 0`.
+
+\\(prefix[k] = \sum\_{i=1}^{k}arr[i] = prefix[k-1] + arr[k]\\)
+
+For processing Q queries consisting on an array of N elements, the complexity is `O(N+Q)`.
+
+<div class="note">
+
+TODO: DP, 2D prefix sum as 1-D only
+
+</div>
+
+
+### Binary Search {#binary-search}
+
+
+### Basic Number Theory {#basic-number-theory}
+
+Prime factorization of a number is computed by this algorithm in \\(O(\sqrt{n})\\):
+[![](/ox-hugo/usaco-pf.png)](/ox-hugo/usaco-pf.png)
+
+| i | n   | v           |
+|---|-----|-------------|
+| 2 | 252 | {}          |
+| 2 | 126 | {2}         |
+| 2 | 63  | {2,2}       |
+| 3 | 21  | {2,2,3}     |
+| 3 | 7   | {2,2,3,3}   |
+| 7 | 1   | {2,2,3,3,7} |
+
+GCD using Euclidean Algorithm in `O(log min(a,b))`:
+
+```cpp
+int gcd(int a, int b){
+  if(!b) return a;
+  return gcd(b, a%b);
+}
+```
+
+LCM can be computed using GCD by \\(\frac{a \times b}{gcd(a,b)}\\)
+
+Modular Arithmetic is useful for dealing with overflows by taking remainders:
+
+\\[\begin{align\*}
+(a \pm b)\mod m &= (a\mod m \pm b\mod m)\mod m \\\\
+(a \times b)\mod m &= ((a\mod m) \times (b\mod m))\mod m \\\\
+a^{b}\mod m &= (a\mod m)^{b}\mod m
+\end{align\*}\\]
+
+
+## Additional Topics {#additional-topics}
+
+-   Two Pointers <br />
+    Iterate across an array that track the start and end of an interval or values in a sorted array. Both pointers are monotonic i.e. start at one end of array and move in only one direction.
+
+
+### Line Sweep {#line-sweep}
+
+
+### Bitwise Operations {#bitwise-operations}
+
+
+### Ad-hoc {#ad-hoc}

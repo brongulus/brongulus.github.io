@@ -713,6 +713,79 @@ They take up &lt;code&gt;O(M+N)&lt;/code&gt; space but allow for easy traversal 
 &lt;li&gt;DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from &lt;em&gt;u&lt;/em&gt; to &lt;em&gt;v&lt;/em&gt;, &lt;em&gt;u&lt;/em&gt; appears before &lt;em&gt;v&lt;/em&gt; (topological sorting).&lt;/li&gt;
 &lt;li&gt;Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;more-techniques&#34;&gt;More Techniques&lt;/h2&gt;
+&lt;h3 id=&#34;prefix-sums&#34;&gt;Prefix Sums&lt;/h3&gt;
+&lt;p&gt;To process queries to find the sum of elements between two indices in a list, prefix sum is useful. Using 1-index in the array is beneficial i.e. assigning &lt;code&gt;arr[0] = 0&lt;/code&gt; and hence &lt;code&gt;prefix[0] = 0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;\(prefix[k] = \sum_{i=1}^{k}arr[i] = prefix[k-1] + arr[k]\)&lt;/p&gt;
+&lt;p&gt;For processing Q queries consisting on an array of N elements, the complexity is &lt;code&gt;O(N+Q)&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;note&#34;&gt;
+&lt;p&gt;TODO: DP, 2D prefix sum as 1-D only&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;binary-search&#34;&gt;Binary Search&lt;/h3&gt;
+&lt;h3 id=&#34;basic-number-theory&#34;&gt;Basic Number Theory&lt;/h3&gt;
+&lt;p&gt;Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\):
+&lt;a href=&#34;https://brongulus.github.io/ox-hugo/usaco-pf.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/usaco-pf.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;i&lt;/th&gt;
+&lt;th&gt;n&lt;/th&gt;
+&lt;th&gt;v&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;252&lt;/td&gt;
+&lt;td&gt;{}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;126&lt;/td&gt;
+&lt;td&gt;{2}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;63&lt;/td&gt;
+&lt;td&gt;{2,2}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;{2,2,3}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;{2,2,3,3}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;{2,2,3,3,7}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;GCD using Euclidean Algorithm in &lt;code&gt;O(log min(a,b))&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;gcd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gcd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;LCM can be computed using GCD by \(\frac{a \times b}{gcd(a,b)}\)&lt;/p&gt;
+&lt;p&gt;Modular Arithmetic is useful for dealing with overflows by taking remainders:&lt;/p&gt;
+&lt;p&gt;\[\begin{align*}
+(a \pm b)\mod m &amp;amp;= (a\mod m \pm b\mod m)\mod m \\
+(a \times b)\mod m &amp;amp;= ((a\mod m) \times (b\mod m))\mod m \\
+a^{b}\mod m &amp;amp;= (a\mod m)^{b}\mod m
+\end{align*}\]&lt;/p&gt;
+&lt;h2 id=&#34;additional-topics&#34;&gt;Additional Topics&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Two Pointers &lt;br /&gt;
+Iterate across an array that track the start and end of an interval or values in a sorted array. Both pointers are monotonic i.e. start at one end of array and move in only one direction.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;line-sweep&#34;&gt;Line Sweep&lt;/h3&gt;
+&lt;h3 id=&#34;bitwise-operations&#34;&gt;Bitwise Operations&lt;/h3&gt;
+&lt;h3 id=&#34;ad-hoc&#34;&gt;Ad-hoc&lt;/h3&gt;
 </description>
     </item>
     

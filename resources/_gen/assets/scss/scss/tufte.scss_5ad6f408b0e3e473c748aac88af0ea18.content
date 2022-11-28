@@ -309,6 +309,9 @@ table tr + tr {
   color: var(--font);
   transition: filter 300ms ease-in-out; }
 
+.katex {
+  font-size: 1em !important; }
+
 @font-face {
   font-family: "Fira Sans";
   font-weight: 100;
@@ -426,7 +429,7 @@ table tr + tr {
 
 pre,
 code {
-  font-family: 'Victor Mono', monospace; }
+  font-family: "Victor Mono", monospace; }
 
 code {
   border-radius: 0px;
@@ -436,9 +439,17 @@ code {
 pre {
   border-top: 1px solid var(--accent);
   border-bottom: 1px solid var(--accent);
-  font-size: 16px;
+  font-size: 18px;
   margin: 0 0 1rem;
   padding: 0.5rem; }
+
+.chroma .c1,
+.s,
+.s1,
+.s2,
+.se,
+.k {
+  font-style: italic; }
 
 .highlight pre code:before {
   position: sticky;

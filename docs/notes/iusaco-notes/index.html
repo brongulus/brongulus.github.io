@@ -181,6 +181,20 @@
         <li><a href="#miscellaneous">Miscellaneous</a></li>
       </ul>
     </li>
+    <li><a href="#more-techniques">More Techniques</a>
+      <ul>
+        <li><a href="#prefix-sums">Prefix Sums</a></li>
+        <li><a href="#binary-search">Binary Search</a></li>
+        <li><a href="#basic-number-theory">Basic Number Theory</a></li>
+      </ul>
+    </li>
+    <li><a href="#additional-topics">Additional Topics</a>
+      <ul>
+        <li><a href="#line-sweep">Line Sweep</a></li>
+        <li><a href="#bitwise-operations">Bitwise Operations</a></li>
+        <li><a href="#ad-hoc">Ad-hoc</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 		
@@ -443,6 +457,79 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <li>DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from <em>u</em> to <em>v</em>, <em>u</em> appears before <em>v</em> (topological sorting).</li>
 <li>Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.</li>
 </ul>
+<h2 id="more-techniques">More Techniques</h2>
+<h3 id="prefix-sums">Prefix Sums</h3>
+<p>To process queries to find the sum of elements between two indices in a list, prefix sum is useful. Using 1-index in the array is beneficial i.e. assigning <code>arr[0] = 0</code> and hence <code>prefix[0] = 0</code>.</p>
+<p>\(prefix[k] = \sum_{i=1}^{k}arr[i] = prefix[k-1] + arr[k]\)</p>
+<p>For processing Q queries consisting on an array of N elements, the complexity is <code>O(N+Q)</code>.</p>
+<div class="note">
+<p>TODO: DP, 2D prefix sum as 1-D only</p>
+</div>
+<h3 id="binary-search">Binary Search</h3>
+<h3 id="basic-number-theory">Basic Number Theory</h3>
+<p>Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\):
+<a href="/ox-hugo/usaco-pf.png"><img src="/ox-hugo/usaco-pf.png" alt=""></a></p>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>n</th>
+<th>v</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>252</td>
+<td>{}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>126</td>
+<td>{2}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>63</td>
+<td>{2,2}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>21</td>
+<td>{2,2,3}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7</td>
+<td>{2,2,3,3}</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>{2,2,3,3,7}</td>
+</tr>
+</tbody>
+</table>
+<p>GCD using Euclidean Algorithm in <code>O(log min(a,b))</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">%</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>LCM can be computed using GCD by \(\frac{a \times b}{gcd(a,b)}\)</p>
+<p>Modular Arithmetic is useful for dealing with overflows by taking remainders:</p>
+<p>\[\begin{align*}
+(a \pm b)\mod m &amp;= (a\mod m \pm b\mod m)\mod m \\
+(a \times b)\mod m &amp;= ((a\mod m) \times (b\mod m))\mod m \\
+a^{b}\mod m &amp;= (a\mod m)^{b}\mod m
+\end{align*}\]</p>
+<h2 id="additional-topics">Additional Topics</h2>
+<ul>
+<li>Two Pointers <br />
+Iterate across an array that track the start and end of an interval or values in a sorted array. Both pointers are monotonic i.e. start at one end of array and move in only one direction.</li>
+</ul>
+<h3 id="line-sweep">Line Sweep</h3>
+<h3 id="bitwise-operations">Bitwise Operations</h3>
+<h3 id="ad-hoc">Ad-hoc</h3>
 
 
 		
@@ -484,7 +571,7 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-11-10 23:30:14.281266456 &#43;0530 IST m=&#43;0.187057266">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-11-29 03:32:59.896622083 &#43;0530 IST m=&#43;0.119607653">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

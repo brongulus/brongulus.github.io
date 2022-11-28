@@ -1,7 +1,7 @@
 +++
 title = "Quick Notes"
 author = ["Prashant Tak"]
-lastmod = 2022-11-10T05:15:02+05:30
+lastmod = 2022-11-29T03:32:33+05:30
 draft = true
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++

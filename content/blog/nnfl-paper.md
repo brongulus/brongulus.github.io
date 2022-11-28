@@ -2,7 +2,7 @@
 title = "Morphosyntactic Tagging with BiLSTM Model"
 author = ["Bernd Bohnet", "et al"]
 date = 2021-03-21T03:00:00+05:30
-lastmod = 2022-11-10T05:15:01+05:30
+lastmod = 2022-11-29T03:32:32+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
