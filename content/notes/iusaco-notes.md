@@ -2,7 +2,7 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-11-29T03:32:33+05:30
+lastmod = 2022-11-29T05:29:18+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
@@ -258,16 +258,19 @@ Visits nodes in order of distance away from the starting node; first visit nodes
 
 ```cpp
 void bfs(int start){
+  const total_nodes = n;
   memset(dist, -1, sizeof dist); // fill distance array with -1s
   queue<int> q;
   dist[start] = 0;
   q.push(start);
+  int seen = 1;
   while(!q.empty()){
     int v = q.front();
     q.pop();
     for(int e: adj[v]){
       if(dist[e] == -1){
         dist[e] = dist[v] + 1;
+        if(++seen == total_nodes) break; // see: https://observablehq.com/@yurivish/efficient-graph-search
         q.push(e);
       }
     }

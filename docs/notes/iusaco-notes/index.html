@@ -356,17 +356,20 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <h4 id="breadth-first-search--bfs">Breadth-First Search (BFS)</h4>
 <p>Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">start</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">total_nodes</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">memset</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">dist</span><span class="p">);</span> <span class="c1">// fill distance array with -1s
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">dist</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">seen</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">e</span><span class="p">:</span> <span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">]){</span>
 </span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
 </span></span><span class="line"><span class="cl">        <span class="n">dist</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">++</span><span class="n">seen</span> <span class="o">==</span> <span class="n">total_nodes</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span> <span class="c1">// see: https://observablehq.com/@yurivish/efficient-graph-search
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
@@ -571,7 +574,7 @@ Iterate across an array that track the start and end of an interval or values in
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-11-29 03:32:59.896622083 &#43;0530 IST m=&#43;0.119607653">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2022-11-29 05:29:25.91910454 &#43;0530 IST m=&#43;0.086941344">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 
