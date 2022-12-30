@@ -2,7 +2,7 @@
 title = "Another nix post in the wall"
 author = ["Prashant Tak"]
 date = 2022-06-02T00:00:00+05:30
-lastmod = 2022-11-29T05:29:17+05:30
+lastmod = 2022-12-09T21:10:09+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++

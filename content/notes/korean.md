@@ -2,7 +2,7 @@
 title = "Hangul"
 author = ["Prashant Tak"]
 date = 2022-07-06T00:00:00+05:30
-lastmod = 2022-11-29T05:29:18+05:30
+lastmod = 2022-12-31T00:06:35+05:30
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
@@ -69,6 +69,49 @@ By lining up the corresponding characters with the sounds, we get the vowels. By
 | ㅆ        | ss    |
 
 _Examples:_ 떡볶이 is tteokbokki and 빨간색 is pplagansaek (red).
+
+
+## Pronounciation Guide in Devanagari {#pronounciation-guide-in-devanagari}
+
+
+### Vowels {#vowels}
+
+| Vowel | Pron. | Vowel | Pron. |
+|-------|-------|-------|-------|
+| ㅏ    | आ     | ㅑ    | या    |
+| ㅓ    | ओ     | ㅕ    | यौ    |
+| ㅗ    | उ     | ㅛ    | यु     |
+| ㅜ    | ऊ     | ㅠ    | यू     |
+| ㅡ    | उ~    | ㅣ    | इ     |
+| ㅔ    | ए     | ㅐ    | ऐ     |
+| ㅖ    | ये     | ㅒ    | यै     |
+| ㅢ    | उई~   | ㅘ    | वा    |
+| ㅝ    | वौ    | ㅟ    | वी    |
+| ㅚ    | वै     | ㅙ    | वै     |
+| ㅞ    | वै     |       |       |
+
+
+### Consonants {#consonants}
+
+| Cons. | Pron.  | Asp.Cons. | Pron. | Dbl.Cons. | Pron. |
+|-------|--------|-----------|-------|-----------|-------|
+| ㄱ    | क      | ㅋ        | ख     | ㄲ        | ग़     |
+| ㄷ    | द      | ㅌ        | ट्     | ㄸ        | त     |
+| ㅂ    | ब्/पूऽ   | ㅍ        | फ़ू     | ㅃ        | प~    |
+
+| Cons. | Pron. | Dbl.Cons. | Pron. |
+|-------|-------|-----------|-------|
+| ㅅ    | सू     | ㅆ        | सऽ    |
+| ㅈ    | च     | ㅉ        | ज्     |
+
+| Cons. | Pron. |
+|-------|-------|
+| ㅊ    | च्छ    |
+| ㅎ    | ह     |
+| ㄹ    | ल     |
+| ㄴ    | न     |
+| ㅁ    | म     |
+| ㅇ    | -     |
 
 
 ## Resources: {#resources}
