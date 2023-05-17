@@ -2,9 +2,9 @@
 title = "About"
 author = ["Prashant Tak"]
 date = 2021-03-21T01:00:00+05:30
-lastmod = 2022-12-09T21:10:08+05:30
+lastmod = 2023-03-27T14:35:44+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
 +++
 
 ## Webpresence of Prashant Tak {#webpresence-of-prashant-tak}
@@ -50,4 +50,4 @@ From the loutishness of learning."
 -   [I should have loved biology](https://jsomers.net/i-should-have-loved-biology/)
 -   [Explain XKCD: Occam](https://www.explainxkcd.com/wiki/index.php/2541:_Occam)
 -   [PSB - Live at Brixton](https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton), a surreal experience. Tracks that I enjoyed: _Sputnik, Theme from PSB, Night Mail, Go!, Everest_.
--   [Makefile Tutorial](https://makefiletutorial.com/)
+-   [The Rime of the Ancient Mariner](https://www.poetryfoundation.org/poems/43997/the-rime-of-the-ancient-mariner-text-of-1834), it was part of my school curiculum, randomly thought of it today.

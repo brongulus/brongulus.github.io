@@ -385,6 +385,7 @@
 &lt;/table&gt;
 &lt;h2 id=&#34;resources&#34;&gt;Resources:&lt;/h2&gt;
 &lt;ol&gt;
+&lt;li&gt;Lets learn hangul, interactively - &lt;a href=&#34;http://letslearnhangul.com/&#34;&gt;Lets learn hangul&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Pronounciation from a native - &lt;a href=&#34;https://www.youtube.com/watch?v=aBIp-DCgWrI&#34;&gt;Korean Alphabet Guide&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Mnemonics from a native - &lt;a href=&#34;https://www.youtube.com/playlist?list=PLECz2rpRD3Z0EeOU0z3aoafwgjHyth7MN&#34;&gt;Miss Vicky&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -789,7 +790,7 @@ They take up &lt;code&gt;O(M+N)&lt;/code&gt; space but allow for easy traversal 
 &lt;h4 id=&#34;breadth-first-search--bfs&#34;&gt;Breadth-First Search (BFS)&lt;/h4&gt;
 &lt;p&gt;Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;bfs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;total_nodes&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;total_nodes&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;memset&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;sizeof&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// fill distance array with -1s
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;queue&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;dist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
@@ -1306,8 +1307,8 @@ A tag can then be predicted with a &lt;em&gt;linear classifier&lt;/em&gt; that t
 &lt;/figure&gt;
 
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl1.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl1.png&#34;
-         alt=&#34;Figure 1: BiLSTM variant of Character-level word representation&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;BiLSTM variant of Character-level word representation&lt;/p&gt;
+         alt=&#34;Figure 3: BiLSTM variant of Character-level word representation&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 3: &lt;/span&gt;BiLSTM variant of Character-level word representation&lt;/p&gt;
         &lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -1325,8 +1326,8 @@ m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.&lt;/p&gt;
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl2a.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl2a.png&#34;
-         alt=&#34;Figure 1: Tagging Architecture of Word-based Character Model and Sentence-based Word Model&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;Tagging Architecture of Word-based Character Model and Sentence-based Word Model&lt;/p&gt;
+         alt=&#34;Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 4: &lt;/span&gt;Tagging Architecture of Word-based Character Model and Sentence-based Word Model&lt;/p&gt;
         &lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -1342,8 +1343,8 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&amp;hellip;,cw_{n}))_{i}
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]&lt;/p&gt;
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl2b.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl2b.png&#34;
-         alt=&#34;Figure 1: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&lt;/p&gt;
+         alt=&#34;Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
+            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 5: &lt;/span&gt;Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&lt;/p&gt;
         &lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -1566,7 +1567,7 @@ From the loutishness of learning.&amp;rdquo;&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;https://jsomers.net/i-should-have-loved-biology/&#34;&gt;I should have loved biology&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.explainxkcd.com/wiki/index.php/2541:_Occam&#34;&gt;Explain XKCD: Occam&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton&#34;&gt;PSB - Live at Brixton&lt;/a&gt;, a surreal experience. Tracks that I enjoyed: &lt;em&gt;Sputnik, Theme from PSB, Night Mail, Go!, Everest&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://makefiletutorial.com/&#34;&gt;Makefile Tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.poetryfoundation.org/poems/43997/the-rime-of-the-ancient-mariner-text-of-1834&#34;&gt;The Rime of the Ancient Mariner&lt;/a&gt;, it was part of my school curiculum, randomly thought of it today.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>

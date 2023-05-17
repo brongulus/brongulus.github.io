@@ -144,40 +144,12 @@
   <ul>
     <li><a href="#abstract">Abstract</a></li>
     <li><a href="#terms">Terms</a></li>
-    <li><a href="#basics-of-nlp"><a href="https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html">Basics of NLP</a></a>
-      <ul>
-        <li><a href="#key-terms">Key Terms</a></li>
-        <li><a href="#a-framework-for-nlp">A framework for NLP</a></li>
-        <li><a href="#data-representation">Data Representation</a></li>
-        <li><a href="#word-representation"><a href="http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf">Word Representation</a></a></li>
-        <li><a href="#subword-models-20is-pairs-20into-20a-20new-20byte-dot-and-text-bpe-20is-20a-20word-20segmentation--unicode--20characters-20in-20data-dot"><a href="https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&amp;text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&amp;text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.">Subword models</a></a></li>
-      </ul>
-    </li>
-    <li><a href="#morphology">Morphology</a>
-      <ul>
-        <li><a href="#grammatical-value">Grammatical Value</a></li>
-      </ul>
-    </li>
+    <li><a href="#basics-of-nlp"><a href="https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html">Basics of NLP</a></a></li>
+    <li><a href="#morphology">Morphology</a></li>
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#related-work">Related Work</a></li>
-    <li><a href="#models">Models</a>
-      <ul>
-        <li><a href="#sentence-based-character-model">Sentence-based Character Model</a></li>
-        <li><a href="#word-based-character-model">Word-based Character Model</a></li>
-        <li><a href="#sentence-based-word-model">Sentence-based Word Model</a></li>
-        <li><a href="#meta-bilstm-model-combination">Meta-BiLSTM: Model Combination</a></li>
-        <li><a href="#training-schema">Training Schema</a></li>
-      </ul>
-    </li>
-    <li><a href="#experiments-and-results">Experiments and Results</a>
-      <ul>
-        <li><a href="#experimental-setup">Experimental Setup</a></li>
-        <li><a href="#data-sets">Data Sets</a></li>
-        <li><a href="#pos-tagging-results">POS Tagging Results</a></li>
-        <li><a href="#pos-tagging-on-wsj">POS Tagging on WSJ</a></li>
-        <li><a href="#morphological-tagging-results">Morphological Tagging Results</a></li>
-      </ul>
-    </li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#experiments-and-results">Experiments and Results</a></li>
     <li><a href="#ablation-study--takeaways">Ablation Study (Takeaways)</a></li>
     <li><a href="#conclusions">Conclusions</a></li>
     <li><a href="#readings-and-resources">Readings and Resources</a></li>
@@ -330,8 +302,8 @@ A tag can then be predicted with a <em>linear classifier</em> that takes as inpu
 </figure>
 
 <figure><a href="/ox-hugo/nnfl1.png"><img src="/ox-hugo/nnfl1.png"
-         alt="Figure 1: BiLSTM variant of Character-level word representation"/></a><figcaption>
-            <p><span class="figure-number">Figure 1: </span>BiLSTM variant of Character-level word representation</p>
+         alt="Figure 3: BiLSTM variant of Character-level word representation"/></a><figcaption>
+            <p><span class="figure-number">Figure 3: </span>BiLSTM variant of Character-level word representation</p>
         </figcaption>
 </figure>
 
@@ -349,8 +321,8 @@ m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.</p>
 <figure><a href="/ox-hugo/nnfl2a.png"><img src="/ox-hugo/nnfl2a.png"
-         alt="Figure 1: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/></a><figcaption>
-            <p><span class="figure-number">Figure 1: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
+         alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/></a><figcaption>
+            <p><span class="figure-number">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
         </figcaption>
 </figure>
 
@@ -366,8 +338,8 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&hellip;,cw_{n}))_{i}
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]</p>
 <figure><a href="/ox-hugo/nnfl2b.png"><img src="/ox-hugo/nnfl2b.png"
-         alt="Figure 1: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/></a><figcaption>
-            <p><span class="figure-number">Figure 1: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
+         alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/></a><figcaption>
+            <p><span class="figure-number">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
         </figcaption>
 </figure>
 
@@ -557,7 +529,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-12-31 00:06:46.930923076 &#43;0530 IST m=&#43;0.132785972">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2023-05-18 00:42:01.563046233 &#43;0530 IST m=&#43;0.073564349">2023</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

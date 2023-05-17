@@ -2,9 +2,9 @@
 title = "Hangul"
 author = ["Prashant Tak"]
 date = 2022-07-06T00:00:00+05:30
-lastmod = 2022-12-31T00:06:35+05:30
+lastmod = 2023-03-27T14:35:45+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
 +++
 
 Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let's see how.
@@ -116,5 +116,6 @@ _Examples:_ 떡볶이 is tteokbokki and 빨간색 is pplagansaek (red).
 
 ## Resources: {#resources}
 
-1.  Pronounciation from a native - [Korean Alphabet Guide](https://www.youtube.com/watch?v=aBIp-DCgWrI)
-2.  Mnemonics from a native - [Miss Vicky](https://www.youtube.com/playlist?list=PLECz2rpRD3Z0EeOU0z3aoafwgjHyth7MN)
+1.  Lets learn hangul, interactively - [Lets learn hangul](http://letslearnhangul.com/)
+2.  Pronounciation from a native - [Korean Alphabet Guide](https://www.youtube.com/watch?v=aBIp-DCgWrI)
+3.  Mnemonics from a native - [Miss Vicky](https://www.youtube.com/playlist?list=PLECz2rpRD3Z0EeOU0z3aoafwgjHyth7MN)

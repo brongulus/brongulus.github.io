@@ -144,57 +144,11 @@
   <ul>
     <li><a href="#input-and-output">Input and Output</a></li>
     <li><a href="#complexity-and-algorithm-analysis">Complexity and algorithm analysis</a></li>
-    <li><a href="#built-in-data-structures">Built-in Data Structures</a>
-      <ul>
-        <li><a href="#iterators">Iterators</a></li>
-        <li><a href="#dynamic-arrays">Dynamic Arrays</a></li>
-        <li><a href="#stacks-and-queues">Stacks and Queues</a></li>
-        <li><a href="#sets">Sets</a></li>
-        <li><a href="#maps">Maps</a></li>
-      </ul>
-    </li>
-    <li><a href="#elementary-techniques">Elementary Techniques</a>
-      <ul>
-        <li><a href="#simulation">Simulation</a></li>
-        <li><a href="#complete-search">Complete Search</a></li>
-        <li><a href="#sorting-and-comparators">Sorting and Comparators</a></li>
-        <li><a href="#greedy-algorithms">Greedy Algorithms</a></li>
-      </ul>
-    </li>
-    <li><a href="#graph-theory">Graph Theory</a>
-      <ul>
-        <li><a href="#representation">Representation</a>
-          <ul>
-            <li><a href="#adjacency-list">Adjacency List</a></li>
-            <li><a href="#adjacency-matrix">Adjacency Matrix</a></li>
-            <li><a href="#edge-list">Edge List</a></li>
-          </ul>
-        </li>
-        <li><a href="#traversal">Traversal</a>
-          <ul>
-            <li><a href="#breadth-first-search--bfs">Breadth-First Search (BFS)</a></li>
-            <li><a href="#depth-first-search--dfs">Depth-First Search (DFS)</a></li>
-          </ul>
-        </li>
-        <li><a href="#floodfill">Floodfill</a></li>
-        <li><a href="#disjoint-set-union-data-structure">Disjoint-Set Union Data Structure</a></li>
-        <li><a href="#miscellaneous">Miscellaneous</a></li>
-      </ul>
-    </li>
-    <li><a href="#more-techniques">More Techniques</a>
-      <ul>
-        <li><a href="#prefix-sums">Prefix Sums</a></li>
-        <li><a href="#binary-search">Binary Search</a></li>
-        <li><a href="#basic-number-theory">Basic Number Theory</a></li>
-      </ul>
-    </li>
-    <li><a href="#additional-topics">Additional Topics</a>
-      <ul>
-        <li><a href="#line-sweep">Line Sweep</a></li>
-        <li><a href="#bitwise-operations">Bitwise Operations</a></li>
-        <li><a href="#ad-hoc">Ad-hoc</a></li>
-      </ul>
-    </li>
+    <li><a href="#built-in-data-structures">Built-in Data Structures</a></li>
+    <li><a href="#elementary-techniques">Elementary Techniques</a></li>
+    <li><a href="#graph-theory">Graph Theory</a></li>
+    <li><a href="#more-techniques">More Techniques</a></li>
+    <li><a href="#additional-topics">Additional Topics</a></li>
   </ul>
 </nav>
 		
@@ -356,7 +310,7 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <h4 id="breadth-first-search--bfs">Breadth-First Search (BFS)</h4>
 <p>Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">start</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">total_nodes</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="kt">int</span> <span class="n">total_nodes</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">memset</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">dist</span><span class="p">);</span> <span class="c1">// fill distance array with -1s
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">dist</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -574,7 +528,7 @@ Iterate across an array that track the start and end of an interval or values in
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-12-31 00:06:46.95522124 &#43;0530 IST m=&#43;0.157084112">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2023-05-18 00:42:01.59452245 &#43;0530 IST m=&#43;0.105040523">2023</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

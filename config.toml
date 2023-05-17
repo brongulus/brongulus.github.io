@@ -25,7 +25,7 @@ pluralizelisttitles = false
     tabWidth = 4
   [markup.tableOfContents]
     startLevel = 2
-    endLevel = 5
+    endLevel = 2
     ordered = false
 
 [menu]

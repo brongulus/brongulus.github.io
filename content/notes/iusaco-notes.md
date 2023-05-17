@@ -2,9 +2,9 @@
 title = "IUSACO"
 author = ["Prashant Tak"]
 date = 2022-06-05T00:00:00+05:30
-lastmod = 2022-12-09T21:10:10+05:30
+lastmod = 2023-03-27T14:35:46+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
 +++
 
 ## Input and Output {#input-and-output}
@@ -258,7 +258,7 @@ Visits nodes in order of distance away from the starting node; first visit nodes
 
 ```cpp
 void bfs(int start){
-  const total_nodes = n;
+  const int total_nodes = n;
   memset(dist, -1, sizeof dist); // fill distance array with -1s
   queue<int> q;
   dist[start] = 0;
