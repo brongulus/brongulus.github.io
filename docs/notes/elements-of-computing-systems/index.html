@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-    
-    
-    
-     
-     
-
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
-
     
-    
-    
-    <script>
+    <script> 
         function setTheme() {
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.documentElement.setAttribute("data-theme", "dark");
@@ -27,38 +17,29 @@
       }
     </script>
     <script>
-        
-        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme); 
     </script>
 </head>
 <body>
-    
-    
         <div class="content">
-    
-	
-	
-    
             <div class="custom-scrollbar">
                 <div class = "container">
                 <head>
-		
-		
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>Elements of computing systems &middot; bacchanalian madness</title>
-
-		
-  		<link rel="stylesheet" href="/css/style.css">
-		
-		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-		<link rel="manifest" href=" /images/site.webmanifest">
-
-		
-		<link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
+  <title>Elements of computing systems &middot; bacchanalian madness</title>
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="manifest" href=" /images/site.webmanifest">
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
 </head>
 
                 		<nav class="nav">
@@ -101,8 +82,7 @@
             
         
         <li>
-            
-            <a href="/index.xml">RSS</a>
+            <a href="/index.xml">RSS</a> 
         </li>
         <li>
             <div id="dark-mode-button">
@@ -113,7 +93,6 @@
         </li>
     </ul>
 </aside>
-
 
 
 			</div>
@@ -157,15 +136,15 @@
 The text program is parsed, its semantics are uncovered, it&rsquo;s represented in some low-level language that the computer can understand. This process is called <em>compilation</em>. Its result is another text file, containing machine-level code.</p>
 <p>To make this abstract machine code concrete, it has to be realized by some <em>hardware architecture</em> which is implemented by a <em>chipset</em> - registers, memory, ALU, etc. These devices are made of logic gates which consist of <em>switching devices</em> that are implemented by transistors.</p>
 <p><em>Church-Turing conjecture</em>: At their core, all computers are essentially equivalent.</p>
-<figure><a href="/ox-hugo/ecs02.png"><img src="/ox-hugo/ecs02.png"/></a>
+<figure><a href="/ox-hugo/ecs02.png"><img src="/ox-hugo/ecs02.png"></a>
 </figure>
 
 <h2 id="boolean-logic">Boolean Logic</h2>
-<figure><a href="/ox-hugo/ecs-03.png"><img src="/ox-hugo/ecs-03.png"/></a>
+<figure><a href="/ox-hugo/ecs-03.png"><img src="/ox-hugo/ecs-03.png"></a>
 </figure>
 
 <p>Any boolean function can be realised by just the <em>nand</em> gate. Let that sink in. A gate is a physical device that implements a simple boolean function. They are implemented as transistors etched in silicon, packaged as chips. The boolean function chip is designed and tested by using a <em>Hardware Description Language</em> (HDL). This simulated realisation is then tested for corectness and other parameters such as speed of computation, energy consumption and cost are quantified. To illustrate the same proces, HDL implementation of a XOR function is shown below.</p>
-<figure><a href="/ox-hugo/ecs-04.png"><img src="/ox-hugo/ecs-04.png"/></a>
+<figure><a href="/ox-hugo/ecs-04.png"><img src="/ox-hugo/ecs-04.png"></a>
 </figure>
 
 <p>Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.</p>
@@ -175,11 +154,11 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <code>Output: out</code> <br />
 <code>Function: if ((a==1) and (b==1)) then out = 0, else out = 1</code> <br /></p>
 <p><strong>Multiplexer</strong>: Has two input(data) bits <em>a,b</em> and one selection bit <em>sel</em> which decides which input bit would be the output.</p>
-<figure><a href="/ox-hugo/ecs-05.png"><img src="/ox-hugo/ecs-05.png"/></a>
+<figure><a href="/ox-hugo/ecs-05.png"><img src="/ox-hugo/ecs-05.png"></a>
 </figure>
 
 <p><strong>Demultiplexer</strong>: Takes in a single input and routes it to one of the possible outputs depeding on the selector bit.</p>
-<figure><a href="/ox-hugo/ecs-06.png"><img src="/ox-hugo/ecs-06.png"/></a>
+<figure><a href="/ox-hugo/ecs-06.png"><img src="/ox-hugo/ecs-06.png"></a>
 </figure>
 
 <p>HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a <em>m</em>-way <em>n</em>-bit mux would select one of its <em>m n</em>-bit inputs and output it to its <em>n</em>-bit output, where there would be <em>\(k=log_{2}m\)</em> selection bits. A 4-way 16-bit mux API would look like: <br />
@@ -191,7 +170,7 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <h2 id="boolean-arithmetic">Boolean Arithmetic</h2>
 <p><em>Word size</em> is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using <em>n</em> bits, one can represent values from 0 to 2\(^{n}\) - 1.</p>
 <h3 id="addition">Addition</h3>
-<figure><a href="/ox-hugo/ecs-07.png"><img src="/ox-hugo/ecs-07.png"/></a>
+<figure><a href="/ox-hugo/ecs-07.png"><img src="/ox-hugo/ecs-07.png"></a>
 </figure>
 
 <p>If the most significant bitwise addition generates a carry of 1, <em>overflow</em> occurs, if that is ignored, one achieves <em>n</em> correct bits for adding two <em>n</em>-bit numbers.</p>
@@ -210,10 +189,10 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <p>Note that this adder implementation is inefficient because of delays incurred by propogation of carry bits which can be acclerated by <em>carry lookahead</em> heuristics.</p>
 <h3 id="alu">ALU</h3>
 <p>Designed to compute a set of arithmetic and logic operations, exactly <em>which</em> ones is a design decision derived from cost-effectiveness considerations. Shown below is the Hack ALU which computes 18 functions which are controlled by six 1-bit <em>control bits</em>. In addition to those there are <code>zr</code> and <code>ng</code> bits which flag whether the output is zero or negative. Note that the output overflow bit is ignored.</p>
-<figure><a href="/ox-hugo/ecs-08.png"><img src="/ox-hugo/ecs-08.png"/></a>
+<figure><a href="/ox-hugo/ecs-08.png"><img src="/ox-hugo/ecs-08.png"></a>
 </figure>
 
-<figure><a href="/ox-hugo/ecs-09.png"><img src="/ox-hugo/ecs-09.png"/></a>
+<figure><a href="/ox-hugo/ecs-09.png"><img src="/ox-hugo/ecs-09.png"></a>
 </figure>
 
 <p>To illustrate the ALU logic, if one wishes to compute <code>x-1 for x=27</code>, then control bits would be <code>001110</code>. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; then we compute either <code>+</code> or <code>&amp;</code> on the preprocessed values; and finally, we either negate the resulting value, or not. The first two <code>00</code> show that we neither zero nor negate x, then <code>11</code> shows that we zero y and then negate it, leading to 16-bit value <code>1111111111111111</code> which is -1 in two&rsquo;s complement. The next control bit <code>1</code> dictates addition operation and the last <code>0</code> bit shows that output shouldn&rsquo;t be negated hence we get the desired function <code>x-1</code>.</p>
@@ -221,12 +200,12 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <p>All the chips considered so far are time independent, they&rsquo;re called <em>combinational chips</em>. Now <em>sequential chips</em> are introduced whose output depends not only on current time inputs but past inputs and outputs too. The notion of time is introduced by a <em>clock</em> that generates a <em>cycle</em> of binary singals that are called a <em>tick</em> and a <em>tock</em>.</p>
 <p>By viewing the time in the form of cycles instead of a continuous progression, the changes in the system are made atomic i.e. they&rsquo;ll only be reflected during cycle transitions and within a cycle, no change would be shown. This discrete view helps in neutralizing randomness associated with time delays and can be used for synchronizing the operations of different chips. For that, the cycle should be long enough to contain the possible time delay but short enough so that the resulting system&rsquo;s fast because the changes would only be shown during transitions.</p>
 <p>Also, to ensure output validity duration of the clock cycle has to be slightly longer than the time it takes a bit to travel the longest distance from one chip to another, plus the time it takes to complete the most time-consuming within-chip calculation.</p>
-<figure><a href="/ox-hugo/ecs-11.png"><img src="/ox-hugo/ecs-11.png"/></a>
+<figure><a href="/ox-hugo/ecs-11.png"><img src="/ox-hugo/ecs-11.png"></a>
 </figure>
 
 <h3 id="flip-flops">Flip Flops</h3>
 <p>A Data flip-flip (DFF) is a memory chip which has a single-bit data input and output and an addition clock input(marked by small triangle on gate icon) that feeds from master clock&rsquo;s signal. It models the behavior <code>out(t)=in(t-1)</code> that is, in every subsequent time unit, DFF outputs input from previous time unit. At all other times, DFFs are <em>latched</em>, meaning that changes in their inputs have no immediate effect on the output.</p>
-<figure><a href="/ox-hugo/ecs-10.png"><img src="/ox-hugo/ecs-10.png"/></a>
+<figure><a href="/ox-hugo/ecs-10.png"><img src="/ox-hugo/ecs-10.png"></a>
 </figure>
 
 <p>Note that the concept of feedback loops doesn&rsquo;t make sense in combinational chips, but there is no difficulty in feeding outputs back into inputs if they&rsquo;re passed through a DFF gate so that the output at time t does not depend on itself but rather on the output at time t-1.</p>
@@ -234,25 +213,25 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 being set when the clock ticks and the second when the clock tocks.</p>
 <h3 id="registers">Registers</h3>
 <p>A register is a DFF with a <em>load</em> input. It stores and outputs its current value until <em>load</em> instructs it to update to a new value.</p>
-<figure><a href="/ox-hugo/ecs-14.png"><img src="/ox-hugo/ecs-14.png"/></a>
+<figure><a href="/ox-hugo/ecs-14.png"><img src="/ox-hugo/ecs-14.png"></a>
 </figure>
 
-<figure><a href="/ox-hugo/ecs-12.png"><img src="/ox-hugo/ecs-12.png"/></a>
+<figure><a href="/ox-hugo/ecs-12.png"><img src="/ox-hugo/ecs-12.png"></a>
 </figure>
 
 <p>A 16-bit register behaves the same as a <em>bit</em> chip, just that it deals with 16-bit values. A register fulfils the classical function of a memory device, remember and emit the last written value, until its <em>set</em> to another.</p>
 <h3 id="ram">RAM</h3>
 <p>A RAM chip consists of <em>n</em> 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is instantaneous.</p>
-<figure><a href="/ox-hugo/ecs-13.png"><img src="/ox-hugo/ecs-13.png"/></a>
+<figure><a href="/ox-hugo/ecs-13.png"><img src="/ox-hugo/ecs-13.png"></a>
 </figure>
 
 <p>RAM implementations can be modular, for example one could implement RAM64 i.e. having 64 registers by using eight RAM8 chips, to select a particular register one uses a 6-bit address <em>xxxyyy</em> where <em>xxx</em> bits can be used to select one of the RAM8 chips and <em>yyy</em> bits can be used to select the register within the RAM8 chip.</p>
 <h3 id="counter">Counter</h3>
 <p>A chip that&rsquo;s implementation of an incrementer used to keep track of program instructions (PC: Program Counter). It has three functional inputs alongwith <code>in</code>, namely <code>inc</code>, which increases counter state every cycle(PC++) and <code>reset</code> which sets it to 0 and <code>load</code> sets its value to whatever values is fed by <code>in</code>.</p>
-<figure><a href="/ox-hugo/ecs-15.png"><img src="/ox-hugo/ecs-15.png"/></a>
+<figure><a href="/ox-hugo/ecs-15.png"><img src="/ox-hugo/ecs-15.png"></a>
 </figure>
 
-<figure><a href="/ox-hugo/ecs-16.png"><img src="/ox-hugo/ecs-16.png"/></a>
+<figure><a href="/ox-hugo/ecs-16.png"><img src="/ox-hugo/ecs-16.png"></a>
 </figure>
 
 <h2 id="machine-language">Machine Language</h2>
@@ -275,14 +254,14 @@ being set when the clock ticks and the second when the clock tocks.</p>
 <code>load M,1</code> <br />
 Here by convention, M stands for memory register selected by A.</p>
 <p><strong>Flow control</strong>: For facilitating branching actions, labelled <em>goto</em> statements exist.</p>
-<figure><a href="/ox-hugo/ecs-17.png"><img src="/ox-hugo/ecs-17.png"/></a>
+<figure><a href="/ox-hugo/ecs-17.png"><img src="/ox-hugo/ecs-17.png"></a>
 </figure>
 
 <p><strong>Symbols</strong>: Make it easier to not rely on rigid physical addresses which makes the code <em>relocatable</em>.</p>
 <h3 id="hack">Hack</h3>
 <p><strong>Memory</strong>: Hack uses two distinct memory units, <em>data</em> and <em>instruction</em> memory. Both
 memories are 16-bit wide, and each has a 15-bit address space, hence maximum addressable size of each memory unit is 2\(^{15}\) or 32K 16-bit words.</p>
-<figure><a href="/ox-hugo/ecs-18.png"><img src="/ox-hugo/ecs-18.png"/></a>
+<figure><a href="/ox-hugo/ecs-18.png"><img src="/ox-hugo/ecs-18.png"></a>
 </figure>
 
 <p>Data memory&rsquo;s <code>address</code> input always contains some value so there&rsquo;s always one selected register called M. Instruction memory&rsquo;s <code>address</code> input also always contains some value that is, there&rsquo;s always one selected instruction memory register whose value is referred to as <em>current instruction</em>.</p>
@@ -290,6 +269,8 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
 <p><strong>Addressing</strong>: The <code>@xxx</code> instruction does two things, first it makes the RAM register whose address is <code>xxx</code> the selected memory register(M) and then it makes the value of the ROM register whose address is <code>xxx</code> the selected instruction. For example, to set value of <code>RAM[100]</code> to <code>17</code>, instructions are <code>@17, D=A, @100, M=D</code>. Initially A acts as a data register then as an address register. To set value of RAM[100] to value of <code>RAM[200]</code>, do <code>@200, D=M, @100, M-D</code>.</p>
 <p><strong>Branching</strong>:</p>
 
+    
+    
 
 		
 	</div>
@@ -330,15 +311,14 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2023-06-04 06:24:01.841259921 &#43;0530 IST m=&#43;0.079300055">2023</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2024-08-12 02:39:43.063925 &#43;0530 IST m=&#43;0.159204663">2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 
                 </div>
             </div>
         </div>
-    
-    <script>
+    <script> 
         const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
         if (localStorage.theme) {
             toggleSwitch.checked = localStorage.theme === "dark";
@@ -348,7 +328,6 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.theme = theme;
         }
-
         toggleSwitch.addEventListener("change", switchTheme);
     </script>
     </body>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bacchanalian madness</title>
-    <link>https://brongulus.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 06 Jul 2022 00:00:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Mar 2023 14:35:45 +0530</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hangul</title>
-      <link>https://brongulus.github.io/notes/korean/</link>
+      <link>http://localhost:1313/notes/korean/</link>
       <pubDate>Wed, 06 Jul 2022 00:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/notes/korean/</guid>
+      <guid>http://localhost:1313/notes/korean/</guid>
       <description>&lt;p&gt;Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let&amp;rsquo;s see how.&lt;/p&gt;
 &lt;div class=&#34;note&#34;&gt;
 &lt;p&gt;I still have to cover more vowels and add tips for pronounciation which I&amp;rsquo;ll add soon.™&lt;/p&gt;
@@ -108,7 +108,7 @@
 &lt;p&gt;Look at the last consonant, it&amp;rsquo;s a placeholder character which has no sound by itself &lt;em&gt;but&lt;/em&gt; if it ends a particular syllable, it is pronounced as &lt;strong&gt;ng&lt;/strong&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;vowels&#34;&gt;Vowels&lt;/h2&gt;
 &lt;p&gt;I always got confused between the vowels even with various mnemonics until I came across &lt;a href=&#34;https://www.90daykorean.com/how-to-learn-the-korean-alphabet/&#34;&gt;this guide&lt;/a&gt; by 90 day korean which really clarified with the help of their acronym  &lt;em&gt;&amp;ldquo;Old iPod, new iPad&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/vowels.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/vowels.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/vowels.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/vowels.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;By lining up the corresponding characters with the sounds, we get the vowels. By adding a seond line to these characters one can create the following sounds preceeded by &lt;em&gt;y-&lt;/em&gt;.&lt;/p&gt;
@@ -394,11 +394,11 @@
     
     <item>
       <title>I R SSI</title>
-      <link>https://brongulus.github.io/blog/irc/</link>
+      <link>http://localhost:1313/blog/irc/</link>
       <pubDate>Tue, 28 Jun 2022 00:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/blog/irc/</guid>
-      <description>&lt;figure&gt;&lt;a href=&#34;https://xkcd.com/1782&#34;&gt;&lt;img src=&#34;https://imgs.xkcd.com/comics/team_chat.png&#34;/&gt;&lt;/a&gt;
+      <guid>http://localhost:1313/blog/irc/</guid>
+      <description>&lt;figure&gt;&lt;a href=&#34;https://xkcd.com/1782&#34;&gt;&lt;img src=&#34;https://imgs.xkcd.com/comics/team_chat.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Umm. Guilty, though I&amp;rsquo;ve only been using it for two days, but I&amp;rsquo;ve been having a blast! So let&amp;rsquo;s get into it.&lt;/p&gt;
@@ -428,10 +428,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;IGNCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;IGNORE $0 JOINS PARTS QUITS&amp;#34;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# /IGNCH #gentoo&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;layout-statusbar&#34;&gt;Layout/Statusbar&lt;/h2&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/irssi.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/irssi.png&#34;
-         alt=&#34;Figure 1: IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)&lt;/p&gt;
-        &lt;/figcaption&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/irssi.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/irssi.png&#34;
+    alt=&#34;Figure 1: IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)&#34;&gt;&lt;/a&gt;&lt;figcaption&gt;
+      &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)&lt;/p&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;There&amp;rsquo;s a statusbar at the bottom which shows the current &lt;code&gt;nick/server/channel/active_channels&lt;/code&gt;. There&amp;rsquo;s a window on the left which shows all the joined servers and channels (courtesy of  &lt;code&gt;adv_windowlist&lt;/code&gt;) and a window on the right which has list of all users (via &lt;code&gt;tmux-nicklist-portable&lt;/code&gt;). To get this style of statusbar and colorscheme, I&amp;rsquo;m currently using a theme derived from the popular &lt;a href=&#34;https://github.com/ronilaukkarinen/weed&#34;&gt;weed&lt;/a&gt; theme where I did minor modifications on statusbar and messagelist.&lt;/p&gt;
@@ -482,25 +482,25 @@
     
     <item>
       <title>Elements of computing systems</title>
-      <link>https://brongulus.github.io/notes/elements-of-computing-systems/</link>
+      <link>http://localhost:1313/notes/elements-of-computing-systems/</link>
       <pubDate>Fri, 10 Jun 2022 00:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/notes/elements-of-computing-systems/</guid>
+      <guid>http://localhost:1313/notes/elements-of-computing-systems/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;These are the notes which I took while studying computer architecture from the textbook &amp;ldquo;&lt;em&gt;The Elements of Computing Systems&lt;/em&gt; by &lt;em&gt;Noam Nisan &amp;amp; Shimon Schocken&lt;/em&gt; &amp;ldquo;. They&amp;rsquo;re very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.
-&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-1.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-1.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-1.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-1.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
 The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represented in some low-level language that the computer can understand. This process is called &lt;em&gt;compilation&lt;/em&gt;. Its result is another text file, containing machine-level code.&lt;/p&gt;
 &lt;p&gt;To make this abstract machine code concrete, it has to be realized by some &lt;em&gt;hardware architecture&lt;/em&gt; which is implemented by a &lt;em&gt;chipset&lt;/em&gt; - registers, memory, ALU, etc. These devices are made of logic gates which consist of &lt;em&gt;switching devices&lt;/em&gt; that are implemented by transistors.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Church-Turing conjecture&lt;/em&gt;: At their core, all computers are essentially equivalent.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs02.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs02.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs02.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs02.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;h2 id=&#34;boolean-logic&#34;&gt;Boolean Logic&lt;/h2&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-03.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-03.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-03.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-03.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Any boolean function can be realised by just the &lt;em&gt;nand&lt;/em&gt; gate. Let that sink in. A gate is a physical device that implements a simple boolean function. They are implemented as transistors etched in silicon, packaged as chips. The boolean function chip is designed and tested by using a &lt;em&gt;Hardware Description Language&lt;/em&gt; (HDL). This simulated realisation is then tested for corectness and other parameters such as speed of computation, energy consumption and cost are quantified. To illustrate the same proces, HDL implementation of a XOR function is shown below.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-04.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-04.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-04.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-04.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.&lt;/p&gt;
@@ -510,11 +510,11 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 &lt;code&gt;Output: out&lt;/code&gt; &lt;br /&gt;
 &lt;code&gt;Function: if ((a==1) and (b==1)) then out = 0, else out = 1&lt;/code&gt; &lt;br /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Multiplexer&lt;/strong&gt;: Has two input(data) bits &lt;em&gt;a,b&lt;/em&gt; and one selection bit &lt;em&gt;sel&lt;/em&gt; which decides which input bit would be the output.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-05.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-05.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-05.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-05.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;Demultiplexer&lt;/strong&gt;: Takes in a single input and routes it to one of the possible outputs depeding on the selector bit.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-06.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-06.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-06.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-06.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a &lt;em&gt;m&lt;/em&gt;-way &lt;em&gt;n&lt;/em&gt;-bit mux would select one of its &lt;em&gt;m n&lt;/em&gt;-bit inputs and output it to its &lt;em&gt;n&lt;/em&gt;-bit output, where there would be &lt;em&gt;\(k=log_{2}m\)&lt;/em&gt; selection bits. A 4-way 16-bit mux API would look like: &lt;br /&gt;
@@ -526,7 +526,7 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 &lt;h2 id=&#34;boolean-arithmetic&#34;&gt;Boolean Arithmetic&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;Word size&lt;/em&gt; is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using &lt;em&gt;n&lt;/em&gt; bits, one can represent values from 0 to 2\(^{n}\) - 1.&lt;/p&gt;
 &lt;h3 id=&#34;addition&#34;&gt;Addition&lt;/h3&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-07.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-07.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-07.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-07.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;If the most significant bitwise addition generates a carry of 1, &lt;em&gt;overflow&lt;/em&gt; occurs, if that is ignored, one achieves &lt;em&gt;n&lt;/em&gt; correct bits for adding two &lt;em&gt;n&lt;/em&gt;-bit numbers.&lt;/p&gt;
@@ -545,10 +545,10 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 &lt;p&gt;Note that this adder implementation is inefficient because of delays incurred by propogation of carry bits which can be acclerated by &lt;em&gt;carry lookahead&lt;/em&gt; heuristics.&lt;/p&gt;
 &lt;h3 id=&#34;alu&#34;&gt;ALU&lt;/h3&gt;
 &lt;p&gt;Designed to compute a set of arithmetic and logic operations, exactly &lt;em&gt;which&lt;/em&gt; ones is a design decision derived from cost-effectiveness considerations. Shown below is the Hack ALU which computes 18 functions which are controlled by six 1-bit &lt;em&gt;control bits&lt;/em&gt;. In addition to those there are &lt;code&gt;zr&lt;/code&gt; and &lt;code&gt;ng&lt;/code&gt; bits which flag whether the output is zero or negative. Note that the output overflow bit is ignored.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-08.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-08.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-08.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-08.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-09.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-09.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-09.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-09.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;To illustrate the ALU logic, if one wishes to compute &lt;code&gt;x-1 for x=27&lt;/code&gt;, then control bits would be &lt;code&gt;001110&lt;/code&gt;. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; then we compute either &lt;code&gt;+&lt;/code&gt; or &lt;code&gt;&amp;amp;&lt;/code&gt; on the preprocessed values; and finally, we either negate the resulting value, or not. The first two &lt;code&gt;00&lt;/code&gt; show that we neither zero nor negate x, then &lt;code&gt;11&lt;/code&gt; shows that we zero y and then negate it, leading to 16-bit value &lt;code&gt;1111111111111111&lt;/code&gt; which is -1 in two&amp;rsquo;s complement. The next control bit &lt;code&gt;1&lt;/code&gt; dictates addition operation and the last &lt;code&gt;0&lt;/code&gt; bit shows that output shouldn&amp;rsquo;t be negated hence we get the desired function &lt;code&gt;x-1&lt;/code&gt;.&lt;/p&gt;
@@ -556,12 +556,12 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 &lt;p&gt;All the chips considered so far are time independent, they&amp;rsquo;re called &lt;em&gt;combinational chips&lt;/em&gt;. Now &lt;em&gt;sequential chips&lt;/em&gt; are introduced whose output depends not only on current time inputs but past inputs and outputs too. The notion of time is introduced by a &lt;em&gt;clock&lt;/em&gt; that generates a &lt;em&gt;cycle&lt;/em&gt; of binary singals that are called a &lt;em&gt;tick&lt;/em&gt; and a &lt;em&gt;tock&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;By viewing the time in the form of cycles instead of a continuous progression, the changes in the system are made atomic i.e. they&amp;rsquo;ll only be reflected during cycle transitions and within a cycle, no change would be shown. This discrete view helps in neutralizing randomness associated with time delays and can be used for synchronizing the operations of different chips. For that, the cycle should be long enough to contain the possible time delay but short enough so that the resulting system&amp;rsquo;s fast because the changes would only be shown during transitions.&lt;/p&gt;
 &lt;p&gt;Also, to ensure output validity duration of the clock cycle has to be slightly longer than the time it takes a bit to travel the longest distance from one chip to another, plus the time it takes to complete the most time-consuming within-chip calculation.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-11.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-11.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-11.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-11.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;h3 id=&#34;flip-flops&#34;&gt;Flip Flops&lt;/h3&gt;
 &lt;p&gt;A Data flip-flip (DFF) is a memory chip which has a single-bit data input and output and an addition clock input(marked by small triangle on gate icon) that feeds from master clock&amp;rsquo;s signal. It models the behavior &lt;code&gt;out(t)=in(t-1)&lt;/code&gt; that is, in every subsequent time unit, DFF outputs input from previous time unit. At all other times, DFFs are &lt;em&gt;latched&lt;/em&gt;, meaning that changes in their inputs have no immediate effect on the output.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-10.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-10.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-10.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-10.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Note that the concept of feedback loops doesn&amp;rsquo;t make sense in combinational chips, but there is no difficulty in feeding outputs back into inputs if they&amp;rsquo;re passed through a DFF gate so that the output at time t does not depend on itself but rather on the output at time t-1.&lt;/p&gt;
@@ -569,25 +569,25 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 being set when the clock ticks and the second when the clock tocks.&lt;/p&gt;
 &lt;h3 id=&#34;registers&#34;&gt;Registers&lt;/h3&gt;
 &lt;p&gt;A register is a DFF with a &lt;em&gt;load&lt;/em&gt; input. It stores and outputs its current value until &lt;em&gt;load&lt;/em&gt; instructs it to update to a new value.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-14.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-14.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-14.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-14.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-12.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-12.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-12.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-12.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;A 16-bit register behaves the same as a &lt;em&gt;bit&lt;/em&gt; chip, just that it deals with 16-bit values. A register fulfils the classical function of a memory device, remember and emit the last written value, until its &lt;em&gt;set&lt;/em&gt; to another.&lt;/p&gt;
 &lt;h3 id=&#34;ram&#34;&gt;RAM&lt;/h3&gt;
 &lt;p&gt;A RAM chip consists of &lt;em&gt;n&lt;/em&gt; 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is instantaneous.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-13.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-13.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-13.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-13.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;RAM implementations can be modular, for example one could implement RAM64 i.e. having 64 registers by using eight RAM8 chips, to select a particular register one uses a 6-bit address &lt;em&gt;xxxyyy&lt;/em&gt; where &lt;em&gt;xxx&lt;/em&gt; bits can be used to select one of the RAM8 chips and &lt;em&gt;yyy&lt;/em&gt; bits can be used to select the register within the RAM8 chip.&lt;/p&gt;
 &lt;h3 id=&#34;counter&#34;&gt;Counter&lt;/h3&gt;
 &lt;p&gt;A chip that&amp;rsquo;s implementation of an incrementer used to keep track of program instructions (PC: Program Counter). It has three functional inputs alongwith &lt;code&gt;in&lt;/code&gt;, namely &lt;code&gt;inc&lt;/code&gt;, which increases counter state every cycle(PC++) and &lt;code&gt;reset&lt;/code&gt; which sets it to 0 and &lt;code&gt;load&lt;/code&gt; sets its value to whatever values is fed by &lt;code&gt;in&lt;/code&gt;.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-15.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-15.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-15.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-15.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-16.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-16.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-16.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-16.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;h2 id=&#34;machine-language&#34;&gt;Machine Language&lt;/h2&gt;
@@ -610,14 +610,14 @@ being set when the clock ticks and the second when the clock tocks.&lt;/p&gt;
 &lt;code&gt;load M,1&lt;/code&gt; &lt;br /&gt;
 Here by convention, M stands for memory register selected by A.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Flow control&lt;/strong&gt;: For facilitating branching actions, labelled &lt;em&gt;goto&lt;/em&gt; statements exist.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-17.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-17.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-17.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-17.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;Symbols&lt;/strong&gt;: Make it easier to not rely on rigid physical addresses which makes the code &lt;em&gt;relocatable&lt;/em&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;hack&#34;&gt;Hack&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Memory&lt;/strong&gt;: Hack uses two distinct memory units, &lt;em&gt;data&lt;/em&gt; and &lt;em&gt;instruction&lt;/em&gt; memory. Both
 memories are 16-bit wide, and each has a 15-bit address space, hence maximum addressable size of each memory unit is 2\(^{15}\) or 32K 16-bit words.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-18.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-18.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/ecs-18.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/ecs-18.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Data memory&amp;rsquo;s &lt;code&gt;address&lt;/code&gt; input always contains some value so there&amp;rsquo;s always one selected register called M. Instruction memory&amp;rsquo;s &lt;code&gt;address&lt;/code&gt; input also always contains some value that is, there&amp;rsquo;s always one selected instruction memory register whose value is referred to as &lt;em&gt;current instruction&lt;/em&gt;.&lt;/p&gt;
@@ -629,10 +629,10 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
     
     <item>
       <title>IUSACO</title>
-      <link>https://brongulus.github.io/notes/iusaco-notes/</link>
+      <link>http://localhost:1313/notes/iusaco-notes/</link>
       <pubDate>Sun, 05 Jun 2022 00:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/notes/iusaco-notes/</guid>
+      <guid>http://localhost:1313/notes/iusaco-notes/</guid>
       <description>&lt;h2 id=&#34;input-and-output&#34;&gt;Input and Output&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;cstdio&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;namespace&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
@@ -718,7 +718,7 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
 &lt;p&gt;Graphs (N vertices and M edges) are usually given in the format: &lt;code&gt;N&lt;/code&gt; &lt;code&gt;M&lt;/code&gt; followed by the &lt;code&gt;M edges&lt;/code&gt; each showing the connecting vertices. One thing to note is that a graph should be stored globally and statically, for access outside the main method. A graph can be represented in three ways:&lt;/p&gt;
 &lt;h4 id=&#34;adjacency-list&#34;&gt;Adjacency List&lt;/h4&gt;
 &lt;p&gt;For using DFS, BFS, Dijkstra or other &lt;code&gt;single-source&lt;/code&gt; traversal algorithms, it&amp;rsquo;s the preferred way of storing graphs. In it, an array of length N of lists is maintained.
-&lt;a href=&#34;https://brongulus.github.io/ox-hugo/usaco-adj.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/usaco-adj.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;http://localhost:1313/ox-hugo/usaco-adj.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/usaco-adj.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
 They take up &lt;code&gt;O(M+N)&lt;/code&gt; space but allow for easy traversal among the neighbors of a vertex. Often, there&amp;rsquo;s a need to maintain a &lt;code&gt;visited&lt;/code&gt; array.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;vector&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;adj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MAXN&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;
@@ -905,7 +905,7 @@ They take up &lt;code&gt;O(M+N)&lt;/code&gt; space but allow for easy traversal 
 &lt;h3 id=&#34;binary-search&#34;&gt;Binary Search&lt;/h3&gt;
 &lt;h3 id=&#34;basic-number-theory&#34;&gt;Basic Number Theory&lt;/h3&gt;
 &lt;p&gt;Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\):
-&lt;a href=&#34;https://brongulus.github.io/ox-hugo/usaco-pf.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/usaco-pf.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;http://localhost:1313/ox-hugo/usaco-pf.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/usaco-pf.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -972,10 +972,10 @@ Iterate across an array that track the start and end of an interval or values in
     
     <item>
       <title>Another nix post in the wall</title>
-      <link>https://brongulus.github.io/blog/nix-intro/</link>
+      <link>http://localhost:1313/blog/nix-intro/</link>
       <pubDate>Thu, 02 Jun 2022 00:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/blog/nix-intro/</guid>
+      <guid>http://localhost:1313/blog/nix-intro/</guid>
       <description>&lt;h2 id=&#34;starting&#34;&gt;Starting&lt;/h2&gt;
 &lt;p&gt;Are you using Nixos? This is not for you.
 Do you want multi-user installation? This is not for you.
@@ -1050,10 +1050,10 @@ This is only useful if you want to use both flakes and home-manager.&lt;/p&gt;
     
     <item>
       <title>Meditations</title>
-      <link>https://brongulus.github.io/notes/meditations/</link>
+      <link>http://localhost:1313/notes/meditations/</link>
       <pubDate>Mon, 14 Mar 2022 00:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/notes/meditations/</guid>
+      <guid>http://localhost:1313/notes/meditations/</guid>
       <description>&lt;h2 id=&#34;book-2-on-the-river-gran-among-the-quadi&#34;&gt;Book 2: On the River Gran, Among the Quadi&lt;/h2&gt;
 &lt;p&gt;And so none of them can hurt me. No one can implicate me in ugliness. Nor can I feel angry at my relative, or hate him. We were born to work together like feet, hands, and eyes, like the two rows of teeth, upper and lower. To obstruct each other is unnatural. To feel anger at someone, to turn your back on him: these are obstructions.&lt;/p&gt;
 &lt;p&gt;Concentrate every minute like a Roman- like a man- on doing what&amp;rsquo;s in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions. Yes, you can- if you do everything as if it were the last thing you were doing in your life, and stop being aimless, stop letting emotions override what your mind tells you, stop being hypocritical, self-centered and irritable.&lt;/p&gt;
@@ -1159,14 +1159,14 @@ Either no prayers at all- or one as straightforward as that.&lt;/p&gt;
     
     <item>
       <title>Morphosyntactic Tagging with BiLSTM Model</title>
-      <link>https://brongulus.github.io/blog/nnfl-paper/</link>
+      <link>http://localhost:1313/blog/nnfl-paper/</link>
       <pubDate>Sun, 21 Mar 2021 03:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/blog/nnfl-paper/</guid>
+      <guid>http://localhost:1313/blog/nnfl-paper/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&amp;ldquo;I had shingles, which is a painful disease.&amp;rdquo;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/machine_learning.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/machine_learning.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/machine_learning.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/machine_learning.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.&lt;/p&gt;
@@ -1278,10 +1278,10 @@ Either no prayers at all- or one as straightforward as that.&lt;/p&gt;
 &lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;
 &lt;h3 id=&#34;sentence-based-character-model&#34;&gt;Sentence-based Character Model&lt;/h3&gt;
 &lt;p&gt;In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl1a.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl1a.png&#34;
-         alt=&#34;Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes.&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;Sentence-based Character Model: The representation for the token &lt;em&gt;shingles&lt;/em&gt; is the concatenation of the four shaded boxes.&lt;/p&gt;
-        &lt;/figcaption&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/nnfl1a.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/nnfl1a.png&#34;
+    alt=&#34;Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes.&#34;&gt;&lt;/a&gt;&lt;figcaption&gt;
+      &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 1: &lt;/span&gt;Sentence-based Character Model: The representation for the token &lt;em&gt;shingles&lt;/em&gt; is the concatenation of the four shaded boxes.&lt;/p&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;For an &lt;em&gt;n&lt;/em&gt;-character sentence, for each character embedding \((e_{1}^{char},&amp;hellip;,e_{n}^{char})\), a BiLSTM is applied:
@@ -1300,16 +1300,16 @@ m_{i}^{chars} = MLP(g_{i})
 A tag can then be predicted with a &lt;em&gt;linear classifier&lt;/em&gt; that takes as input \(m_{i}^{chars}\), applies a &lt;em&gt;softmax&lt;/em&gt; function and chooses for each word the tag with highest probability.&lt;/p&gt;
 &lt;h3 id=&#34;word-based-character-model&#34;&gt;Word-based Character Model&lt;/h3&gt;
 &lt;p&gt;To investigate whether a sentence sensitive character model (&lt;em&gt;Fig.1&lt;/em&gt;) is better than a model where the context is restricted to the characters of a word, (&lt;em&gt;Fig.2&lt;/em&gt;) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl1b.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl1b.png&#34;
-         alt=&#34;Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 2: &lt;/span&gt;Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).&lt;/p&gt;
-        &lt;/figcaption&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/nnfl1b.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/nnfl1b.png&#34;
+    alt=&#34;Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).&#34;&gt;&lt;/a&gt;&lt;figcaption&gt;
+      &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 2: &lt;/span&gt;Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).&lt;/p&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl1.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl1.png&#34;
-         alt=&#34;Figure 3: BiLSTM variant of Character-level word representation&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 3: &lt;/span&gt;BiLSTM variant of Character-level word representation&lt;/p&gt;
-        &lt;/figcaption&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/nnfl1.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/nnfl1.png&#34;
+    alt=&#34;Figure 3: BiLSTM variant of Character-level word representation&#34;&gt;&lt;/a&gt;&lt;figcaption&gt;
+      &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 3: &lt;/span&gt;BiLSTM variant of Character-level word representation&lt;/p&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;h3 id=&#34;sentence-based-word-model&#34;&gt;Sentence-based Word Model&lt;/h3&gt;
@@ -1325,10 +1325,10 @@ o_{i}^{word} = concat(f_{w,i}^{l}, b_{w,i}^{l})
 m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl2a.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl2a.png&#34;
-         alt=&#34;Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 4: &lt;/span&gt;Tagging Architecture of Word-based Character Model and Sentence-based Word Model&lt;/p&gt;
-        &lt;/figcaption&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/nnfl2a.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/nnfl2a.png&#34;
+    alt=&#34;Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model&#34;&gt;&lt;/a&gt;&lt;figcaption&gt;
+      &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 4: &lt;/span&gt;Tagging Architecture of Word-based Character Model and Sentence-based Word Model&lt;/p&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;h3 id=&#34;meta-bilstm-model-combination&#34;&gt;Meta-BiLSTM: Model Combination&lt;/h3&gt;
@@ -1342,15 +1342,15 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&amp;hellip;,cw_{n}))_{i}
 \[
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnfl2b.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnfl2b.png&#34;
-         alt=&#34;Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&#34;/&gt;&lt;/a&gt;&lt;figcaption&gt;
-            &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 5: &lt;/span&gt;Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&lt;/p&gt;
-        &lt;/figcaption&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/nnfl2b.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/nnfl2b.png&#34;
+    alt=&#34;Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&#34;&gt;&lt;/a&gt;&lt;figcaption&gt;
+      &lt;p&gt;&lt;span class=&#34;figure-number&#34;&gt;Figure 5: &lt;/span&gt;Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.&lt;/p&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;h3 id=&#34;training-schema&#34;&gt;Training Schema&lt;/h3&gt;
 &lt;p&gt;Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.&lt;/p&gt;
-&lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/nnflAlg.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/nnflAlg.png&#34;/&gt;&lt;/a&gt;
+&lt;figure&gt;&lt;a href=&#34;http://localhost:1313/ox-hugo/nnflAlg.png&#34;&gt;&lt;img src=&#34;http://localhost:1313/ox-hugo/nnflAlg.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;In terms of model selection, after each epoch, the algorithm evaluates the tagging accuracy of the development set and keeps the parameters of the best model. Accuracy is measured using the meta-BiLSTM tagging layer, which requires a forward pass through all three models. Only the meta-BiLSTM layer is used for model selection and test-time prediction.&lt;/p&gt;
@@ -1498,10 +1498,10 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
     
     <item>
       <title>Creating a blog using ox-hugo</title>
-      <link>https://brongulus.github.io/blog/blog-creation/</link>
+      <link>http://localhost:1313/blog/blog-creation/</link>
       <pubDate>Sun, 21 Mar 2021 02:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/blog/blog-creation/</guid>
+      <guid>http://localhost:1313/blog/blog-creation/</guid>
       <description>&lt;p&gt;I was going to make a post explaining how I made this blog but it was rendered pretty useless by &lt;a href=&#34;https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n&#34;&gt;this.&lt;/a&gt; So yeah, I might archive this later.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Install hugo from your package manager.&lt;/li&gt;
@@ -1534,10 +1534,10 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
     
     <item>
       <title>About</title>
-      <link>https://brongulus.github.io/about/about/</link>
+      <link>http://localhost:1313/about/about/</link>
       <pubDate>Sun, 21 Mar 2021 01:00:00 +0530</pubDate>
       
-      <guid>https://brongulus.github.io/about/about/</guid>
+      <guid>http://localhost:1313/about/about/</guid>
       <description>&lt;h2 id=&#34;webpresence-of-prashant-tak&#34;&gt;Webpresence of Prashant Tak&lt;/h2&gt;
 &lt;div class=&#34;epigraph&#34;&gt;
 &lt;p&gt;Why should a man climb Everest?

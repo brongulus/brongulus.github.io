@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-    
-    
-    
-     
-     
-
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
-
     
-    
-    
-    <script>
+    <script> 
         function setTheme() {
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.documentElement.setAttribute("data-theme", "dark");
@@ -27,38 +17,29 @@
       }
     </script>
     <script>
-        
-        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme); 
     </script>
 </head>
 <body>
-    
-    
         <div class="content">
-    
-	
-	
-    
             <div class="custom-scrollbar">
                 <div class = "container">
                 <head>
-		
-		
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>Morphosyntactic Tagging with BiLSTM Model &middot; bacchanalian madness</title>
-
-		
-  		<link rel="stylesheet" href="/css/style.css">
-		
-		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-		<link rel="manifest" href=" /images/site.webmanifest">
-
-		
-		<link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
+  <title>Morphosyntactic Tagging with BiLSTM Model &middot; bacchanalian madness</title>
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="manifest" href=" /images/site.webmanifest">
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
 </head>
 
                 		<nav class="nav">
@@ -101,8 +82,7 @@
             
         
         <li>
-            
-            <a href="/index.xml">RSS</a>
+            <a href="/index.xml">RSS</a> 
         </li>
         <li>
             <div id="dark-mode-button">
@@ -113,7 +93,6 @@
         </li>
     </ul>
 </aside>
-
 
 
 			</div>
@@ -161,7 +140,7 @@
 		<blockquote>
 <p>&ldquo;I had shingles, which is a painful disease.&rdquo;</p>
 </blockquote>
-<figure><a href="/ox-hugo/machine_learning.png"><img src="/ox-hugo/machine_learning.png"/></a>
+<figure><a href="/ox-hugo/machine_learning.png"><img src="/ox-hugo/machine_learning.png"></a>
 </figure>
 
 <p>This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.</p>
@@ -274,9 +253,9 @@
 <h3 id="sentence-based-character-model">Sentence-based Character Model</h3>
 <p>In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.</p>
 <figure><a href="/ox-hugo/nnfl1a.png"><img src="/ox-hugo/nnfl1a.png"
-         alt="Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes."/></a><figcaption>
-            <p><span class="figure-number">Figure 1: </span>Sentence-based Character Model: The representation for the token <em>shingles</em> is the concatenation of the four shaded boxes.</p>
-        </figcaption>
+    alt="Figure 1: Sentence-based Character Model: The representation for the token shingles is the concatenation of the four shaded boxes."></a><figcaption>
+      <p><span class="figure-number">Figure 1: </span>Sentence-based Character Model: The representation for the token <em>shingles</em> is the concatenation of the four shaded boxes.</p>
+    </figcaption>
 </figure>
 
 <p>For an <em>n</em>-character sentence, for each character embedding \((e_{1}^{char},&hellip;,e_{n}^{char})\), a BiLSTM is applied:
@@ -296,15 +275,15 @@ A tag can then be predicted with a <em>linear classifier</em> that takes as inpu
 <h3 id="word-based-character-model">Word-based Character Model</h3>
 <p>To investigate whether a sentence sensitive character model (<em>Fig.1</em>) is better than a model where the context is restricted to the characters of a word, (<em>Fig.2</em>) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.</p>
 <figure><a href="/ox-hugo/nnfl1b.png"><img src="/ox-hugo/nnfl1b.png"
-         alt="Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)."/></a><figcaption>
-            <p><span class="figure-number">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).</p>
-        </figcaption>
+    alt="Figure 2: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box)."></a><figcaption>
+      <p><span class="figure-number">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).</p>
+    </figcaption>
 </figure>
 
 <figure><a href="/ox-hugo/nnfl1.png"><img src="/ox-hugo/nnfl1.png"
-         alt="Figure 3: BiLSTM variant of Character-level word representation"/></a><figcaption>
-            <p><span class="figure-number">Figure 3: </span>BiLSTM variant of Character-level word representation</p>
-        </figcaption>
+    alt="Figure 3: BiLSTM variant of Character-level word representation"></a><figcaption>
+      <p><span class="figure-number">Figure 3: </span>BiLSTM variant of Character-level word representation</p>
+    </figcaption>
 </figure>
 
 <h3 id="sentence-based-word-model">Sentence-based Word Model</h3>
@@ -321,9 +300,9 @@ m_{i}^{word} = MLP(o_{i}^{word})
 \]
 The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.</p>
 <figure><a href="/ox-hugo/nnfl2a.png"><img src="/ox-hugo/nnfl2a.png"
-         alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"/></a><figcaption>
-            <p><span class="figure-number">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
-        </figcaption>
+    alt="Figure 4: Tagging Architecture of Word-based Character Model and Sentence-based Word Model"></a><figcaption>
+      <p><span class="figure-number">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</p>
+    </figcaption>
 </figure>
 
 <h3 id="meta-bilstm-model-combination">Meta-BiLSTM: Model Combination</h3>
@@ -338,14 +317,14 @@ f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},&hellip;,cw_{n}))_{i}
 m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 \]</p>
 <figure><a href="/ox-hugo/nnfl2b.png"><img src="/ox-hugo/nnfl2b.png"
-         alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."/></a><figcaption>
-            <p><span class="figure-number">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
-        </figcaption>
+    alt="Figure 5: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows."></a><figcaption>
+      <p><span class="figure-number">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</p>
+    </figcaption>
 </figure>
 
 <h3 id="training-schema">Training Schema</h3>
 <p>Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.</p>
-<figure><a href="/ox-hugo/nnflAlg.png"><img src="/ox-hugo/nnflAlg.png"/></a>
+<figure><a href="/ox-hugo/nnflAlg.png"><img src="/ox-hugo/nnflAlg.png"></a>
 </figure>
 
 <p>In terms of model selection, after each epoch, the algorithm evaluates the tagging accuracy of the development set and keeps the parameters of the best model. Accuracy is measured using the meta-BiLSTM tagging layer, which requires a forward pass through all three models. Only the meta-BiLSTM layer is used for model selection and test-time prediction.</p>
@@ -489,6 +468,8 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </ol>
 </div>
 
+    
+    
 
 		
 	</div>
@@ -529,15 +510,14 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2023-06-04 06:24:01.846121664 &#43;0530 IST m=&#43;0.084161794">2023</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2024-08-12 02:39:43.065253 &#43;0530 IST m=&#43;0.160532446">2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 
                 </div>
             </div>
         </div>
-    
-    <script>
+    <script> 
         const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
         if (localStorage.theme) {
             toggleSwitch.checked = localStorage.theme === "dark";
@@ -547,7 +527,6 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.theme = theme;
         }
-
         toggleSwitch.addEventListener("change", switchTheme);
     </script>
     </body>
