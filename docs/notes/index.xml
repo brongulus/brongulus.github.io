@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Notes on bacchanalian madness</title>
-    <link>http://localhost:1313/notes/</link>
+    <link>https://brongulus.github.io/notes/</link>
     <description>Recent content in Notes on bacchanalian madness</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 27 Mar 2023 14:35:46 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/notes/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hangul</title>
-      <link>http://localhost:1313/notes/korean/</link>
+      <link>https://brongulus.github.io/notes/korean/</link>
       <pubDate>Wed, 06 Jul 2022 00:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/notes/korean/</guid>
+      <guid>https://brongulus.github.io/notes/korean/</guid>
       <description>Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let&amp;rsquo;s see how.&#xA;I still have to cover more vowels and add tips for pronounciation which I&amp;rsquo;ll add soon.™&#xA;Consonants Consonant Pron. Mnemonic Aspirated Pron. Mnemonic ㅂ b bucket ㅍ p part II/pi ㄷ d door ㅌ t two doors ㄱ g gun ㅋ k kill ㅈ j (jug) ㅊ ch church Consonant Pron.</description>
     </item>
     <item>
       <title>Elements of computing systems</title>
-      <link>http://localhost:1313/notes/elements-of-computing-systems/</link>
+      <link>https://brongulus.github.io/notes/elements-of-computing-systems/</link>
       <pubDate>Fri, 10 Jun 2022 00:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/notes/elements-of-computing-systems/</guid>
+      <guid>https://brongulus.github.io/notes/elements-of-computing-systems/</guid>
       <description>Introduction These are the notes which I took while studying computer architecture from the textbook &amp;ldquo;The Elements of Computing Systems by Noam Nisan &amp;amp; Shimon Schocken &amp;ldquo;. They&amp;rsquo;re very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes. The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represented in some low-level language that the computer can understand.</description>
     </item>
     <item>
       <title>IUSACO</title>
-      <link>http://localhost:1313/notes/iusaco-notes/</link>
+      <link>https://brongulus.github.io/notes/iusaco-notes/</link>
       <pubDate>Sun, 05 Jun 2022 00:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/notes/iusaco-notes/</guid>
+      <guid>https://brongulus.github.io/notes/iusaco-notes/</guid>
       <description>Input and Output #include &amp;lt;cstdio&amp;gt; using namespace std; int main() { freopen(&amp;#34;template.in&amp;#34;, &amp;#34;r&amp;#34;, stdin); freopen(&amp;#34;template.out&amp;#34;, &amp;#34;w&amp;#34;, stdout); } When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values. 32bit int: \(\pm 2\times10^{9}\) v/s 64bit int: \(\pm 9\times 10^{18}\) Complexity and algorithm analysis Elementary mathematical calculation: O(1) Unordered set/map: O(1) per operation Binary Search: O(log n) Ordered set/map or Priority Queue: O(log n) per operation Prime factorization or primality check for int: \(O(\sqrt{n})\) Reading n inputs: O(n) Iterating through n element array: O(n) Sorting: Usually O(n log n) for std::sort() Iterating through all subsets of size k of input elements: O(\(n^{k}\) ), for triplets O(\(n^{3}\)) Iterating through all subsets: O(\(2^{n}\)) Iterating through all permutations: O(n!</description>
     </item>
     <item>
       <title>Meditations</title>
-      <link>http://localhost:1313/notes/meditations/</link>
+      <link>https://brongulus.github.io/notes/meditations/</link>
       <pubDate>Mon, 14 Mar 2022 00:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/notes/meditations/</guid>
+      <guid>https://brongulus.github.io/notes/meditations/</guid>
       <description>Book 2: On the River Gran, Among the Quadi And so none of them can hurt me. No one can implicate me in ugliness. Nor can I feel angry at my relative, or hate him. We were born to work together like feet, hands, and eyes, like the two rows of teeth, upper and lower. To obstruct each other is unnatural. To feel anger at someone, to turn your back on him: these are obstructions.</description>
     </item>
   </channel>

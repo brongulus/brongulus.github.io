@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on bacchanalian madness</title>
-    <link>http://localhost:1313/about/</link>
+    <link>https://brongulus.github.io/about/</link>
     <description>Recent content in About on bacchanalian madness</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 27 Mar 2023 14:35:44 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/about/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brongulus.github.io/about/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>http://localhost:1313/about/about/</link>
+      <link>https://brongulus.github.io/about/about/</link>
       <pubDate>Sun, 21 Mar 2021 01:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/about/about/</guid>
+      <guid>https://brongulus.github.io/about/about/</guid>
       <description>Webpresence of Prashant Tak Why should a man climb Everest? Because it is there.&#xA;-Meredith Edwards, The conquest of Everest&#xA;Hi! I&amp;rsquo;m Prashant. This is something experimental for me, the entire &amp;ldquo;blog&amp;rdquo; experience. I&amp;rsquo;ve never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that&amp;rsquo;s something which will be decided in the future.</description>
     </item>
   </channel>
