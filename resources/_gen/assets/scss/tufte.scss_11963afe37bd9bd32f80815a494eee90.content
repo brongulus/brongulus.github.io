@@ -25,7 +25,7 @@
     --gradient-sel: #64acff;
     --link: #88c0d0;
     --code: #ffffffcc;
-    --font: #ffffff;
+    --font: #f0f0f0;
     --head: #f2f5f7;
     --highlight: #617bff66;
     --blend: lighten;
@@ -39,7 +39,7 @@
   --bg-sel: #0e001c;
   --highlight: #617bff66;
   --link: #88c0d0;
-  --font: #ffffff;
+  --font: #f0f0f0;
   --head: #f2f5f7;
   --gradient-sel: #64acff;
   --code: #ffffffcc;
@@ -70,7 +70,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  line-height: 1.45;
+  line-height: 1.55;
   box-sizing: border-box;
   -webkit-font-smoothing: subpixel-antialiased; }
 
@@ -523,23 +523,17 @@ pre code {
   text-align: left; }
   @media (max-width: 625px) {
     .post .epigraph p {
-      font-size: 18px; } }
-  @media (max-width: 425px) {
-    .post .epigraph p {
-      font-size: 15px; } }
+      font-size: 16.8px; } }
 .post .epigraph .epicite p {
   border-top: none;
+  font-size: 1.1rem;
   border-bottom: 3px double #727272;
   text-align: right;
-  font-size: 1.1rem;
   font-style: normal;
   margin-bottom: 1rem; }
   @media (max-width: 625px) {
     .post .epigraph .epicite p {
-      font-size: 0.9rem; } }
-  @media (max-width: 425px) {
-    .post .epigraph .epicite p {
-      font-size: 15px; } }
+      font-size: 16.8px; } }
 .post-title {
   color: var(--head);
   font-family: "Playfair Display", serif;
@@ -569,21 +563,27 @@ pre code {
   white-space: pre-wrap;
   hyphens: nil;
   margin-bottom: 0.75em; }
-
+  @media (max-width: 625px) {
+    .post p {
+      font-size: 16.8px; } }
 .post ol li {
   font-weight: 300;
   font-size: 1.0rem;
   margin-top: 0.35em;
   margin-bottom: 0.45em;
   line-height: 1.45; }
-
+  @media (max-width: 625px) {
+    .post ol li {
+      font-size: 16.8px; } }
 .post ul li {
   font-weight: 300;
   font-size: 1.0rem;
   margin-top: 0.35em;
   margin-bottom: 0.45em;
   line-height: 1.45; }
-
+  @media (max-width: 625px) {
+    .post ul li {
+      font-size: 16.8px; } }
 .post a:hover {
   text-decoration: underline; }
 
