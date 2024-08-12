@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Mulish:wght@300&family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap");
 :root {
   --icon-moon-filter: invert(0);
   --icon-sun-filter: invert(1);
@@ -7,17 +7,15 @@
   --gradient-sel: slateblue;
   --blend: darken;
   --filter: invert(0%);
-  --accent: #a99f9a;
+  --accent: #555;
   --accent2: rgba(255, 135, 7, 0.17);
   --link: #458588;
-  --code: #cd5555;
+  --code: #555;
   --font: #252525;
   --head: #555;
   --highlight: #edbd7766;
   --bg: #fff1e5;
-  --bg-sel: #fff1e5;
-  --icon-sun: url('data:image/svg+xml,  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">    <path d="M18 12c0-0.811-0.161-1.587-0.455-2.295-0.304-0.735-0.75-1.395-1.303-1.948-0.552-0.552-1.213-0.998-1.948-1.303-0.707-0.293-1.483-0.454-2.294-0.454s-1.587 0.161-2.295 0.455c-0.735 0.304-1.395 0.75-1.948 1.302s-0.998 1.213-1.302 1.948c-0.294 0.708-0.455 1.484-0.455 2.295s0.161 1.587 0.455 2.295c0.304 0.735 0.75 1.395 1.303 1.948 0.552 0.552 1.213 0.998 1.948 1.303 0.707 0.293 1.483 0.454 2.294 0.454s1.587-0.161 2.295-0.455c0.735-0.304 1.395-0.75 1.948-1.303s0.998-1.213 1.303-1.948c0.293-0.707 0.454-1.483 0.454-2.294zM16 12c0 0.544-0.108 1.060-0.303 1.529-0.202 0.489-0.5 0.929-0.869 1.299s-0.81 0.667-1.299 0.869c-0.469 0.195-0.985 0.303-1.529 0.303s-1.060-0.108-1.529-0.303c-0.489-0.202-0.929-0.5-1.299-0.869s-0.667-0.81-0.869-1.299c-0.195-0.469-0.303-0.985-0.303-1.529s0.108-1.060 0.303-1.529c0.202-0.489 0.5-0.929 0.869-1.299s0.81-0.667 1.299-0.869c0.469-0.195 0.985-0.303 1.529-0.303s1.060 0.108 1.529 0.303c0.489 0.202 0.929 0.5 1.299 0.869s0.667 0.81 0.869 1.299c0.195 0.469 0.303 0.985 0.303 1.529zM11 1v2c0 0.552 0.448 1 1 1s1-0.448 1-1v-2c0-0.552-0.448-1-1-1s-1 0.448-1 1zM11 21v2c0 0.552 0.448 1 1 1s1-0.448 1-1v-2c0-0.552-0.448-1-1-1s-1 0.448-1 1zM3.513 4.927l1.42 1.42c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-1.42-1.42c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414zM17.653 19.067l1.42 1.42c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-1.42-1.42c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414zM1 13h2c0.552 0 1-0.448 1-1s-0.448-1-1-1h-2c-0.552 0-1 0.448-1 1s0.448 1 1 1zM21 13h2c0.552 0 1-0.448 1-1s-0.448-1-1-1h-2c-0.552 0-1 0.448-1 1s0.448 1 1 1zM4.927 20.487l1.42-1.42c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-1.42 1.42c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0zM19.067 6.347l1.42-1.42c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-1.42 1.42c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0z"></path>  </svg>');
-  --icon-moon: url('data:image/svg+xml,  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">    <path d="M21.996 12.882c0.022-0.233-0.038-0.476-0.188-0.681-0.325-0.446-0.951-0.544-1.397-0.219-0.95 0.693-2.059 1.086-3.188 1.162-0.696 0.047-1.399-0.027-2.077-0.226-0.656-0.192-1.29-0.501-1.874-0.932-0.655-0.484-1.181-1.074-1.575-1.729-0.409-0.68-0.676-1.432-0.792-2.206s-0.082-1.571 0.11-2.342c0.184-0.741 0.514-1.46 0.999-2.115 0.142-0.191 0.216-0.435 0.191-0.691-0.053-0.55-0.542-0.952-1.092-0.898-1.117 0.109-2.186 0.399-3.172 0.843-1.005 0.452-1.925 1.065-2.723 1.808-0.883 0.82-1.618 1.801-2.159 2.901-0.523 1.064-0.863 2.238-0.978 3.485-0.125 1.347 0.024 2.658 0.402 3.878 0.392 1.266 1.031 2.431 1.863 3.433s1.86 1.843 3.033 2.461c1.13 0.595 2.392 0.982 3.739 1.106s2.659-0.025 3.878-0.403c1.266-0.392 2.431-1.031 3.433-1.863s1.843-1.86 2.461-3.033c0.595-1.13 0.982-2.392 1.106-3.739zM19.567 14.674c-0.126 0.351-0.276 0.689-0.447 1.014-0.493 0.937-1.166 1.76-1.969 2.427s-1.735 1.178-2.747 1.491c-0.973 0.302-2.021 0.421-3.102 0.321s-2.089-0.41-2.99-0.884c-0.937-0.493-1.76-1.166-2.427-1.969s-1.178-1.735-1.491-2.747c-0.302-0.973-0.421-2.021-0.321-3.102 0.092-1 0.365-1.938 0.782-2.786 0.43-0.878 1.018-1.661 1.725-2.319 0.64-0.595 1.377-1.086 2.183-1.449 0.179-0.081 0.362-0.155 0.548-0.223-0.092 0.257-0.171 0.516-0.236 0.778-0.256 1.029-0.302 2.091-0.147 3.121s0.51 2.032 1.056 2.941c0.527 0.875 1.23 1.663 2.1 2.306 0.775 0.573 1.622 0.986 2.5 1.243 0.907 0.266 1.846 0.364 2.772 0.302 0.752-0.050 1.496-0.207 2.21-0.465z"></path>  </svg>'); }
+  --bg-sel: #fff1e5; }
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -26,15 +24,14 @@
     --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
     --gradient-sel: #64acff;
     --link: #88c0d0;
-    --code: #fff6ae;
+    --code: #ffffffcc;
     --font: #ffffff;
     --head: #f2f5f7;
     --highlight: #617bff66;
     --blend: lighten;
-    --accent: #a6a1b0;
+    --accent: #ffffffcc;
     --accent2: hsl(210deg, 38%, 15%);
     --filter: invert(100%);
-    --button-icon: var(--icon-sun);
     --icon-filter: var(--icon-sun-filter); } }
 
 [data-theme="dark"] {
@@ -45,13 +42,12 @@
   --font: #ffffff;
   --head: #f2f5f7;
   --gradient-sel: #64acff;
-  --code: #fff6ae;
+  --code: #ffffffcc;
   --gradient: linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
   --blend: lighten;
   --filter: invert(100%);
-  --accent: #a6a1b0;
+  --accent: #ffffffcc;
   --accent2: hsl(210deg, 38%, 15%);
-  --button-icon: var(--icon-sun);
   --icon-filter: var(--icon-sun-filter); }
 
 [data-theme="light"] {
@@ -60,12 +56,11 @@
   --gradient-sel: slateblue;
   --gradient: linear-gradient(-70deg, #64acff 0%, slateblue 100%);
   --link: #458588;
-  --code: #cd5555;
+  --code: #555;
   --font: #252525;
   --head: #555;
-  --accent: #a99f9a;
+  --accent: #555;
   --accent2: rgba(255, 135, 7, 0.17);
-  --button-icon: var(--icon-moon);
   --highlight: #edbd7766;
   --icon-filter: var(--icon-moon-filter);
   --bg: #fff1e5;
@@ -75,7 +70,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  line-height: 1.5;
+  line-height: 1.45;
   box-sizing: border-box;
   -webkit-font-smoothing: subpixel-antialiased; }
 
@@ -84,12 +79,13 @@ html,
   display: block;
   color: var(--font);
   background: var(--bg);
+  margin-bottom: 0.8em;
   margin: 0;
   height: 100%; }
 
 html {
   color: var(--bg);
-  font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 22px;
   overflow: scroll;
   overflow-y: hidden;
@@ -136,14 +132,14 @@ h3 {
   color: var(--head);
   text-transform: uppercase;
   font-family: "Josefin Sans", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   margin-bottom: 0.5rem; }
 
 h4,
 h5,
 h6 {
   color: var(--head);
-  font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: normal; }
 
 a {
@@ -208,6 +204,8 @@ tr {
   border-color: inherit; }
 
 table td {
+  font-family: "Source Sans Pro";
+  font-weight: 300;
   padding: 0.4em;
   text-align: center;
   hyphens: none; }
@@ -271,6 +269,9 @@ table tr + tr {
       transform: scale(0.85);
       top: 0.1rem; } }
 .themebox {
+  font-family: "Josefin Sans";
+  text-transform: uppercase;
+  font-weight: 600;
   display: inline-block;
   padding: 0 5px;
   color: var(--font);
@@ -298,7 +299,6 @@ table tr + tr {
   transform: translateX(0.75rem) rotate(180deg); }
 
 .toggle-icon {
-  background: var(--button-icon);
   width: 1.2em;
   height: 1.2em;
   margin: 0 0 0 0.5em;
@@ -317,16 +317,6 @@ table tr + tr {
   font-display: fallback; }
 
 @font-face {
-  font-family: "Mulish", sans-serif;
-  font-weight: 300;
-  font-display: fallback; }
-
-@font-face {
-  font-family: "Abril Fatface", serif;
-  font-display: fallback;
-  weight: 400; }
-
-@font-face {
   font-family: "Noto Serif KR", serif;
   font-weight: 200;
   font-display: fallback; }
@@ -337,12 +327,6 @@ table tr + tr {
   font-display: fallback; }
 
 @font-face {
-  font-family: "Cormorant";
-  font-weight: 300;
-  font-style: italic;
-  font-display: fallback; }
-
-@font-face {
   font-family: "Josefin Sans";
   font-weight: 200;
   font-display: fallback; }
@@ -353,51 +337,24 @@ table tr + tr {
   font-display: fallback; }
 
 @font-face {
-  font-family: "XCharter";
+  font-family: "Merriweather", serif;
   font-weight: 300;
-  font-display: fallback; }
+  font-style: normal; }
 
 @font-face {
-  font-family: "Open Sans";
+  font-family: "Merriweather", serif;
   font-weight: 300;
-  font-display: fallback; }
-
-@font-face {
-  font-family: "Roboto Mono";
-  font-weight: 300;
-  font-display: fallback; }
-
-@font-face {
-  font-family: "Inter";
-  font-weight: 300;
-  font-display: fallback; }
-
-@font-face {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-display: fallback; }
+  font-style: italic; }
 
 @font-face {
   font-family: "Source Serif Pro";
-  font-weight: 400;
-  font-style: italic;
-  font-display: fallback; }
-
-@font-face {
-  font-family: "Source Serif Pro";
-  font-weight: 400;
+  font-weight: 200;
   font-style: normal;
   font-display: fallback; }
 
 @font-face {
   font-family: "Source Serif Pro";
-  font-weight: 300;
-  font-style: normal;
-  font-display: fallback; }
-
-@font-face {
-  font-family: "Source Serif Pro";
-  font-weight: 300;
+  font-weight: 200;
   font-style: italic;
   font-display: fallback; }
 
@@ -405,11 +362,6 @@ table tr + tr {
   font-family: kepler-std-semicondensed-dis, serif;
   font-weight: 700;
   font-style: italic; }
-
-@font-face {
-  font-family: "Bodoni Moda", serif;
-  font-style: italic;
-  font-weight: 500; }
 
 @font-face {
   font-family: "Playfair Display", serif;
@@ -433,7 +385,8 @@ code {
 code {
   border-radius: 0px;
   color: var(--code);
-  font-size: 100%; }
+  font-size: 100%;
+  font-weight: 500; }
 
 pre {
   border-top: 1px solid var(--accent);
@@ -504,13 +457,13 @@ pre code {
     color: var(--accent); }
 
 .post p code {
-  font-size: 85%; }
+  font-size: 95%; }
 
 .post ul li code {
-  font-size: 85%; }
+  font-size: 95%; }
 
 .post ol li code {
-  font-size: 85%; }
+  font-size: 95%; }
 
 .post ol li pre code {
   font-size: 100%; }
@@ -608,10 +561,28 @@ pre code {
   width: 7.5rem; }
 
 .post p {
-  font-family: "Mulish", sans-serif;
+  font-family: "Merriweather", sans-serif;
+  font-weight: 300;
+  font-size: 1.0rem;
   margin: 0 0 1rem;
-  text-align: justify;
-  hyphens: auto; }
+  text-align: left;
+  white-space: pre-wrap;
+  hyphens: nil;
+  margin-bottom: 0.75em; }
+
+.post ol li {
+  font-weight: 300;
+  font-size: 1.0rem;
+  margin-top: 0.35em;
+  margin-bottom: 0.45em;
+  line-height: 1.45; }
+
+.post ul li {
+  font-weight: 300;
+  font-size: 1.0rem;
+  margin-top: 0.35em;
+  margin-bottom: 0.45em;
+  line-height: 1.45; }
 
 .post a:hover {
   text-decoration: underline; }
@@ -622,7 +593,7 @@ pre code {
 .post img {
   color: #aaa;
   display: block;
-  font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 0.9rem;
   font-style: normal;
   text-align: center; }
@@ -1673,7 +1644,6 @@ main,
     display: inline-block;
     opacity: 0.6;
     padding: 0 1.2rem 0 0;
-    font-style: "Inter", sans serif;
     font-weight: 400;
     background: var(--gradient);
     -webkit-background-clip: text;
@@ -1686,8 +1656,10 @@ main,
     .nav li:hover, .nav li:focus {
       opacity: 1; }
   .nav a {
-    color: #555;
-    font-family: "Mulish", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
+    color: #555; }
+  .nav li a {
+    font-family: "Josefin Sans";
+    text-transform: uppercase; }
 
 footer {
   font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
@@ -1770,6 +1742,8 @@ footer {
   vertical-align: top;
   font-size: 95%;
   display: inline-block;
+  margin-bottom: 0em;
+  margin-top: 0em;
   width: 32%; }
   @media (min-width: 1480px) {
     #TableOfContents ul li {

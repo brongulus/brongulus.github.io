@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
     
@@ -30,7 +30,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>About &middot; bacchanalian madness</title>
+  <title>Quick Notes &middot; bacchanalian madness</title>
   
   <link rel="stylesheet" href="/css/style.css">
   
@@ -109,47 +109,44 @@
     
         
         
-        <time datetime="2021-03-21 01:00:00 &#43;0530 IST">March 21, 2021</time>
+        <time datetime="2023-03-27 14:35:45 &#43;0530 IST">March 27, 2023</time>
 </div>
 
-		<h1 class="post-title">About</h1>
-
-		
+		<h1 class="post-title">Quick Notes</h1>
 
 		
 
 		
 
-		<h2 id="webpresence-of-prashant-tak">Webpresence of Prashant Tak</h2>
-<div class="epigraph">
-<p>Why should a man climb Everest?
-Because it is there.</p>
-<div class="epicite">
-<p>-Meredith Edwards, The conquest of Everest</p>
-</div>
-</div>
-<p>Hi! I&rsquo;m Prashant. This is something experimental for me, the entire <em>&ldquo;blog&rdquo;</em> experience. I&rsquo;ve never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that&rsquo;s something which will be decided in the future.</p>
-<p>Some stuff that I came across recently which I enjoyed, presented here in case someone&rsquo;s interested.</p>
-<div class="epigraph">
-<p>&ldquo;Spend the years of learning squandering
-Courage for the years of wandering
-Through a world politely turning
-From the loutishness of learning.&rdquo;</p>
-<div class="epicite">
-<p>-Samuel Beckett</p>
-</div>
-</div>
+		
+
+		<p>Collection of notes from various sources, rather than keeping it in a separate org file, this makes it handy for global lookups.</p>
+<h2 id="compiler-design">Compiler Design</h2>
+<p>Source: <a href="http://aosabook.org/en/llvm.html">AOSA - LLVM</a> <br />
+Three phase static compiler design:</p>
+<ol>
+<li>FrontEnd
+Parses the source code, checks for errors and builds language specific AST to represent input code.</li>
+<li>Optimizer
+Performs a variety of operations that improve code&rsquo;s run time, usually independent of the language and target.</li>
+<li>Backend
+AKA code generator, maps code onto target instruction set ensuring its <em>correct</em> and <em>optimized</em>. Common parts are instruction selection, register allocation and instruction scheduling.</li>
+</ol>
+<h2 id="interpreter-in-go">Interpreter in Go</h2>
+<p>Source: <a href="https://github.com/jablonskidev/writing-an-interpreter-in-go">Github - Jablonskidev</a>
+Change representation of source code twice before evaluation <br />
+Source code — (Lexing) → Tokens — (Parsing) → AST</p>
+<h3 id="lexing">Lexing</h3>
 <ul>
-<li><a href="https://ncase.me/mental-health/">Mental Health</a>, don&rsquo;t fight your fear, accept it.</li>
-<li><a href="https://www.gwern.net/Design">Gwern - Design</a>, considerations to keep in mind while designing for the web.</li>
-<li><a href="https://observablehq.com/@yurivish/efficient-graph-search">Efficient BFS</a></li>
-<li><a href="https://ohshitgit.com/">Oh Shit Git</a>, for when you can&rsquo;t recall that specific command to do that particular thing.</li>
-<li><a href="https://www.chessengines.org/">Chess Engines</a>, how to code a chess engine</li>
-<li><a href="https://kkovacs.eu/cool-but-obscure-unix-tools/">Cool but Obscure unix tools</a></li>
-<li><a href="https://jsomers.net/i-should-have-loved-biology/">I should have loved biology</a></li>
-<li><a href="https://www.explainxkcd.com/wiki/index.php/2541:_Occam">Explain XKCD: Occam</a></li>
-<li><a href="https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton">PSB - Live at Brixton</a>, a surreal experience. Tracks that I enjoyed: <em>Sputnik, Theme from PSB, Night Mail, Go!, Everest</em>.</li>
-<li><a href="https://www.poetryfoundation.org/poems/43997/the-rime-of-the-ancient-mariner-text-of-1834">The Rime of the Ancient Mariner</a>, it was part of my school curiculum, randomly thought of it today.</li>
+<li>Types of tokens: Numbers, Variable names, Keywords, Special Characters etc.</li>
+<li>Need a <code>token</code> data structure having <em>types</em> to differentitate different types and <em>fields</em> that store a token&rsquo;s literal value.</li>
+<li>Lexer treats the source code as a string, goes through it and throws out the tokens.</li>
+</ul>
+<h3 id="parsing">Parsing</h3>
+<ul>
+<li>Parser turns its <em>input</em> into a <em>data structure</em> (AST) that represents the input.</li>
+<li>Abstract because some (parsing guiding) elements of source not present in AST.</li>
+<li>Syntactic Analysis</li>
 </ul>
 
     
@@ -159,7 +156,8 @@ From the loutishness of learning.&rdquo;</p>
 	</div>
 
 	<div class="pagination">
-		<a href="/blog/blog-creation/" class="right arrow">&#8594;</a>
+		<a href="/notes/korean/" class="left arrow">&#8592;</a>
+		<a href="/notes/comp-arch/" class="right arrow">&#8594;</a>
 		<a href="/" class="bottom">Home</a>
 	</div>
 	
@@ -193,7 +191,7 @@ From the loutishness of learning.&rdquo;</p>
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2024-08-12 19:44:59.853237 &#43;0530 IST m=&#43;0.071065202">2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2024-08-12 19:24:09.866085 &#43;0530 IST m=&#43;0.094261037">2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 
