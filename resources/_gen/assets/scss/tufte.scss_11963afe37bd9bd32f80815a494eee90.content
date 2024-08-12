@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap");
 :root {
   --icon-moon-filter: invert(0);
   --icon-sun-filter: invert(1);
@@ -103,14 +103,17 @@ body {
   -webkit-text-size-adjust: 100%; }
 
 .container {
+  overflow-y: auto;
+  height: 100vh;
   margin: 0 auto;
   max-width: 1000px;
   width: 95%;
   transition: background 0.8s ease-in-out, color 0.5s ease; }
   @media (min-width: 1100px) {
     .container {
-      padding-right: 20%;
+      padding-right: 25%;
       width: 87.5%;
+      margin: 0 4rem;
       max-width: 1250px; } }
 h1 {
   color: var(--head);
@@ -136,6 +139,7 @@ h3 {
   color: var(--head);
   text-transform: uppercase;
   font-family: "Josefin Sans", sans-serif;
+  font-weight: 300;
   font-size: 1.1rem;
   margin-bottom: 0.5rem; }
 
@@ -185,7 +189,13 @@ table {
   margin-bottom: 1.5em;
   border-collapse: collapse;
   width: 95%;
-  margin-left: 0.75em; }
+  margin-left: 0.3em;
+  display: block;
+  overflow: auto;
+  white-space: nowrap; }
+
+table::-webkit-scrollbar {
+  display: none; }
 
 table th {
   font-family: "Josefin Sans";
@@ -221,26 +231,25 @@ table tr + tr {
   border-top: 1px solid var(--accent); }
 
 .custom-scrollbar {
-  display: block;
   overflow: auto;
   height: 100vh; }
 
-.custom-scrollbar::-webkit-scrollbar {
+::-webkit-scrollbar {
   background-color: transparent;
   width: 18px; }
 
-.custom-scrollbar::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background-color: transparent; }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 20px;
   border: 6px solid transparent;
   background-clip: content-box; }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  ::-webkit-scrollbar-thumb:hover {
     opacity: 0.6; }
 
-.custom-scrollbar::-webkit-scrollbar-corner {
+::-webkit-scrollbar-corner {
   background: var(--bg); }
 
 .toggle {
@@ -338,6 +347,11 @@ table tr + tr {
 @font-face {
   font-family: "Josefin Sans";
   font-weight: 300;
+  font-display: fallback; }
+
+@font-face {
+  font-family: "Josefin Sans";
+  font-weight: 600;
   font-display: fallback; }
 
 @font-face {
@@ -1603,10 +1617,15 @@ footer,
 main,
 .nav-container {
   display: block;
+  font-weight: 300;
   margin: 0 auto;
   max-width: 1000px;
   width: 90%; }
-
+  @media (max-width: 625px) {
+    footer,
+    main,
+    .nav-container {
+      width: 95%; } }
 .nav {
   display: block;
   box-shadow: 0 2px 2px -2px var(--accent);
@@ -1650,13 +1669,17 @@ main,
     display: inline-block;
     opacity: 0.6;
     padding: 0 1.2rem 0 0;
-    font-weight: 400;
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; }
+    @media only screen and (max-width: 625px) {
+      .nav li {
+        padding: 0 0.7rem 0 0;
+        font-size: 90%; } }
     @media only screen and (max-width: 425px) {
       .nav li {
-        padding: 0 0.9rem 0 0; } }
+        padding: 0 0.6rem 0 0;
+        font-size: 80%; } }
     .nav li:last-child {
       padding-right: 0; }
     .nav li:hover, .nav li:focus {
@@ -1665,6 +1688,7 @@ main,
     color: #555; }
   .nav li a {
     font-family: "Josefin Sans";
+    font-weight: 500;
     text-transform: uppercase; }
 
 footer {
@@ -1685,7 +1709,7 @@ footer {
     #TableOfContents {
       float: right;
       clear: right;
-      margin-right: -55%;
+      margin-right: -50%;
       width: 40%;
       margin-top: 0.3rem;
       margin-bottom: 0;
@@ -1714,15 +1738,16 @@ footer {
   color: var(--accent);
   border-bottom: 1px solid var(--accent);
   font-family: "Josefin Sans", sans-serif;
-  font-weight: 600;
+  font-weight: 300;
   display: block;
   font-size: 105%;
-  padding-top: 2.1em;
-  margin-top: -1.65em;
+  padding-top: 2rem;
+  margin-top: -1.65rem;
   margin-left: -1em; }
   @media (max-width: 1480px) {
     #TableOfContents:before {
-      margin-left: -0.75em; } }
+      margin-left: -0.70rem;
+      width: 90%; } }
 #TableOfContents ul {
   padding: 0;
   margin-block-start: 0.5em;
