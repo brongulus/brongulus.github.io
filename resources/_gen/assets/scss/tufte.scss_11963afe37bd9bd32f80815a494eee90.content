@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap");
 :root {
   --icon-moon-filter: invert(0);
   --icon-sun-filter: invert(1);
@@ -90,7 +90,8 @@ html {
   overflow: scroll;
   overflow-y: hidden;
   overflow-x: hidden;
-  margin: 0; }
+  margin: 0;
+  scroll-behavior: smooth; }
   @media (max-width: 625px) {
     html {
       font-size: 20px; } }
@@ -127,7 +128,10 @@ h2 {
   margin-bottom: 1.4rem;
   font-size: 1.8rem;
   line-height: 1; }
-
+  @media (max-width: 625px) {
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 300; } }
 h3 {
   color: var(--head);
   text-transform: uppercase;
@@ -394,7 +398,9 @@ pre {
   font-size: 18px;
   margin: 0 0 1rem;
   padding: 0.5rem; }
-
+  @media (max-width: 650px) {
+    pre {
+      font-size: 16px; } }
 .chroma .c1,
 .s,
 .s1,
@@ -485,9 +491,9 @@ pre code {
   @media (max-width: 700px) {
     .post blockquote p {
       font-size: 1rem; } }
-  @media (max-width: 425px) {
+  @media (max-width: 625px) {
     .post blockquote p {
-      font-size: 15px; } }
+      font-size: 16px; } }
 .post .note p {
   border-left: 0.25rem solid var(--accent);
   border-radius: 3px 6px 6px 3px;
@@ -514,11 +520,11 @@ pre code {
   font-style: italic;
   font-size: 1.2em;
   font-family: "Source Serif Pro", serif;
-  padding: 0.5em 2rem;
+  padding: 0.5em 1.5rem;
   margin-block-start: 1rem;
   margin-block-end: 1rem;
-  margin-inline-end: 2rem;
-  margin-inline-start: 2rem;
+  margin-inline-end: 1.5rem;
+  margin-inline-start: 1.5rem;
   margin: 0;
   text-align: left; }
   @media (max-width: 625px) {
@@ -526,14 +532,14 @@ pre code {
       font-size: 16.8px; } }
 .post .epigraph .epicite p {
   border-top: none;
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   border-bottom: 3px double #727272;
   text-align: right;
   font-style: normal;
   margin-bottom: 1rem; }
   @media (max-width: 625px) {
     .post .epigraph .epicite p {
-      font-size: 16.8px; } }
+      font-size: 15.8px; } }
 .post-title {
   color: var(--head);
   font-family: "Playfair Display", serif;
@@ -546,7 +552,7 @@ pre code {
       font-size: 2.6rem; } }
   @media (max-width: 650px) {
     .post-title {
-      font-size: 2.4rem; } }
+      font-size: 2.0rem; } }
 .post-line {
   border-top: 0.2rem solid var(--accent);
   display: block;
@@ -1710,7 +1716,7 @@ footer {
   font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
   display: block;
-  font-size: 110%;
+  font-size: 105%;
   padding-top: 2.1em;
   margin-top: -1.65em;
   margin-left: -1em; }
