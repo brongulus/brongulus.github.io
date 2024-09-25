@@ -53,16 +53,6 @@ Hi! I'm Prashant. This is something experimental for me, the entire /"blog"/ exp
 
 Some stuff that I came across recently which I enjoyed, presented here in case someone's interested.
 
-#+begin_epigraph
-"Spend the years of learning squandering
-Courage for the years of wandering
-Through a world politely turning
-From the loutishness of learning."
-#+begin_epicite
-                  -Samuel Beckett
-#+end_epicite
-#+end_epigraph
-
 + [[https://ncase.me/mental-health/][Mental Health]], don't fight your fear, accept it.
 + [[https://www.gwern.net/Design][Gwern - Design]], considerations to keep in mind while designing for the web.
 + [[https://observablehq.com/@yurivish/efficient-graph-search][Efficient BFS]]

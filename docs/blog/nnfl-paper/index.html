@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
     
@@ -109,7 +109,7 @@
     
         
         
-        <time datetime="2021-03-21 03:00:00 &#43;0530 IST">March 21, 2021</time>
+        <time datetime="2021-03-21 03:00:00 &#43;0530 &#43;0530">March 21, 2021</time>
 </div>
 
 		<h1 class="post-title">Morphosyntactic Tagging with BiLSTM Model</h1>
@@ -334,55 +334,55 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 <p>The word embeddings are initialized with zero values and the pre-trained embeddings are not updated during training. The dropout<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup> used on the embeddings is achieved by a single dropout mask and dropout is used on the input and the states of the LSTM.</p>
 <p><a id="table--Architecture"></a></p>
 <table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Parameter</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>C,W</td>
-<td>BiLSTM Layers</td>
-<td>3</td>
-</tr>
-<tr>
-<td>M</td>
-<td>BiLSTM Layers</td>
-<td>1</td>
-</tr>
-<tr>
-<td>CWM</td>
-<td>BiLSTM size</td>
-<td>400</td>
-</tr>
-<tr>
-<td>CWM</td>
-<td>Dropout LSTM</td>
-<td>0.33</td>
-</tr>
-<tr>
-<td>CWM</td>
-<td>Dropout MLP</td>
-<td>0.33</td>
-</tr>
-<tr>
-<td>W</td>
-<td>Dropout Embeddings</td>
-<td>0.33</td>
-</tr>
-<tr>
-<td>C</td>
-<td>Dropout Embedding</td>
-<td>0.5</td>
-</tr>
-<tr>
-<td>CWM</td>
-<td>Nonlinear Activation Fn (MLP)</td>
-<td>ELU</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Model</th>
+          <th style="text-align: left">Parameter</th>
+          <th style="text-align: left">Value</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">C,W</td>
+          <td style="text-align: left">BiLSTM Layers</td>
+          <td style="text-align: left">3</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">BiLSTM Layers</td>
+          <td style="text-align: left">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">CWM</td>
+          <td style="text-align: left">BiLSTM size</td>
+          <td style="text-align: left">400</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">CWM</td>
+          <td style="text-align: left">Dropout LSTM</td>
+          <td style="text-align: left">0.33</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">CWM</td>
+          <td style="text-align: left">Dropout MLP</td>
+          <td style="text-align: left">0.33</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">W</td>
+          <td style="text-align: left">Dropout Embeddings</td>
+          <td style="text-align: left">0.33</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">C</td>
+          <td style="text-align: left">Dropout Embedding</td>
+          <td style="text-align: left">0.5</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">CWM</td>
+          <td style="text-align: left">Nonlinear Activation Fn (MLP)</td>
+          <td style="text-align: left">ELU</td>
+      </tr>
+  </tbody>
 </table>
 <p>TODO Add two remaining tables</p>
 <h3 id="data-sets">Data Sets</h3>
@@ -510,7 +510,7 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
                 		<footer>
 			
 			<span>
-			&copy; <time datetime="2024-08-13 04:11:50.431475 &#43;0530 IST m=&#43;0.086793286">2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			&copy; <time datetime="2024-09-25 16:06:58.212958891 &#43;0000 UTC m=&#43;0.551384540">2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 

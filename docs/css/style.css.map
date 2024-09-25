@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.css",
-	"sourceRoot": "/Users/admin/Documents/brongulus.github.io",
+	"sourceRoot": "/data/data/org.gnu.emacs/files/brongulus.github.io",
 	"sources": [
 		"themes/tufte/assets/scss/tufte.scss",
 		"themes/tufte/assets/scss/tufte/_variables.scss",
