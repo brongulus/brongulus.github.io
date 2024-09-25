@@ -1,0 +1,1524 @@
+:CONFIG:
+#+hugo_base_dir: ../
+#+seq_todo: TODO DRAFT DONE
+#+options: creator:t
+#+macro: updatetime {{{time(%B %e\, %Y)}}}
+#+hugo_auto_set_lastmod: t
+#+startup: hidestars
+# #+startup: overview
+#+startup: logdone
+# #+startup: inlineimages
+# #+startup: latexpreview
+:END:
+
+#+title: Blog Source File
+#+author: Prashant Tak
+
+* IDEAS
+1. [[https://ncase.me/remember/][Inspiration]] - Create a reminder bot based on SRS algorithm for quick notes...
+2. Why RSS: https://ncase.me/rss/
+3. Huh TIL you could open links in kitty by shift+click, I'd been copying them like an idiot all this time. [[https://sw.kovidgoyal.net/kitty/kittens/hints/#:~:text=Pressing%20ctrl%2Bshift%2Bp%3E,need%20to%20install%20GNU%20Coreutils.][Relevant]]
+4. Calcurse: http://culot.org/calcurse/manual_en.html#options_general
+5. https://nibl.co.uk/bots
+6. http://sunxdcc.com/
+7. http://www.xdcc.eu/
+8. http://www.packetfind.com/
+9. https://linuxcommand.org/lc3_adv_mc.php
+10. https://linuxhint.com/arch_linux_ssh_server/
+11. https://www.cfos.de/en/cfos-personal-net/port-forwarding/jio-jiofi-2.htm
+12. https://broadbandforum.co/threads/guide-how-to-host-webservers-on-jio-fiber-accessible-to-ipv4-clients.204996/page-2
+13. https://threadsiiithyderabad.quora.com/
+14. https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
+* TODO
+1. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
+2. Open external links in new tab by default, unless it's meta-links.
+* Readings
+* Resources
+* About
+CLOSED: [2021-03-21 Mon 01:00]
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: about
+:EXPORT_FILE_NAME: about
+:END:
+** Webpresence of Prashant Tak
+#+begin_epigraph
+Why should a man climb Everest?
+Because it is there.
+#+begin_epicite
+-Meredith Edwards, The conquest of Everest
+#+end_epicite
+#+end_epigraph
+
+Hi! I'm Prashant. This is something experimental for me, the entire /"blog"/ experience. I've never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that's something which will be decided in the future.
+
+Some stuff that I came across recently which I enjoyed, presented here in case someone's interested.
+
+#+begin_epigraph
+"Spend the years of learning squandering
+Courage for the years of wandering
+Through a world politely turning
+From the loutishness of learning."
+#+begin_epicite
+                  -Samuel Beckett
+#+end_epicite
+#+end_epigraph
+
++ [[https://ncase.me/mental-health/][Mental Health]], don't fight your fear, accept it.
++ [[https://www.gwern.net/Design][Gwern - Design]], considerations to keep in mind while designing for the web.
++ [[https://observablehq.com/@yurivish/efficient-graph-search][Efficient BFS]]
++ [[https://ohshitgit.com/][Oh Shit Git]], for when you can't recall that specific command to do that particular thing.
++ [[https://www.chessengines.org/][Chess Engines]], how to code a chess engine
++ [[https://kkovacs.eu/cool-but-obscure-unix-tools/][Cool but Obscure unix tools]]
++ [[https://jsomers.net/i-should-have-loved-biology/][I should have loved biology]]
++ [[https://www.explainxkcd.com/wiki/index.php/2541:_Occam][Explain XKCD: Occam]]
++ [[https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton][PSB - Live at Brixton]], a surreal experience. Tracks that I enjoyed: /Sputnik, Theme from PSB, Night Mail, Go!, Everest/.
++ [[https://www.poetryfoundation.org/poems/43997/the-rime-of-the-ancient-mariner-text-of-1834][The Rime of the Ancient Mariner]], it was part of my school curiculum, randomly thought of it today.
++ [[https://www.programiz.com/cpp-programming/lambda-expression][Lambda Expressions in C++]]
+
+* Blog
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: blog
+:END:
+** Sporadic bursts of motivation
+    - Been ages since I wrote long form
+    - Don't feel anything for the most part
+** TODO Web log :noexport:
+:PROPERTIES:
+:EXPORT_FILE_NAME: weblog
+:END:
++ 2023-04-21 23:46 - Monster
++ 2023-05-19 23:05 - Beautiful Racket
++ 2023-05-22 04:52 - The Little Schemer
++ 2023-05-22 15:05 - Lisp: World of atoms and lists
++ [-] ITMO Lectures, Grind 75!! 
++ Today my dad called me and I was happy after talking to him. - 30/3/23
+** TODO The Subject of no one's affection
+CLOSED: [2019-06-10 Mon 03:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: inertia
+:END:
+#+begin_epigraph
+A mountain far off in the distance,
+A river flowing away from it,
+Hordes of trees on it.
+There’s a well somewhere,
+Penetrates the heart of the rock,
+Awaiting rain.
+#+end_epigraph
+** Morphosyntactic Tagging with BiLSTM Model
+CLOSED: [2021-03-21 Mon 03:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: nnfl-paper
+:EXPORT_AUTHOR: Bernd Bohnet, et al
+:END:
+
+#+begin_quote
+"I had shingles, which is a painful disease."
+#+end_quote
+
+[[./assets/machine_learning.png][file:./assets/machine_learning.png]]
+
+This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
+
+*** Abstract
+1. RNN leads to advances in speech tagging accuracy [[https://www.aclweb.org/anthology/K18-2001.pdf][Zeman et al]]
+2. Common thing among models, /rich initial word encodings/.
+3. Encodings are composed of recurrent character-based representation with learned and pre-trained word embeddings[fn:10].
+4. Problem with the encodings, context restriced to a single word hence only via subsequent recurrent layers the word information is processed.
+5. The paper deals with models that use RNN with sentence-level context.
+6. This provides results via synchronized training with a meta-model that learns to combine their states.
+7. Results are provided on part-of-speech and morphological tagging[fn:1] with great performance on a number of languages.
+*** Terms
+1. Morphosyntactic = Morphology + Syntax and Morphology is study of words, how they are formed, and their relationship to other words in the same language.
+2. [[https://medium.datadriveninvestor.com/how-do-lstm-networks-solve-the-problem-of-vanishing-gradients-a6784971a577][RNN]]: [[https://arxiv.org/pdf/1211.5063.pdf][On difficulty of training RNNs]]
+3. [[http://colah.github.io/posts/2015-08-Understanding-LSTMs/][LSTM]]: Long Short-Term Memory is a type of RNN that addresses the vanishing gradient problem through additional cells, input and output gates.
+4. BiLSTM: It is a sequence processing model that consists of two LSTMs. They effectively increase the amount of information available to the network, improving the context available to the algorithm (e.g. knowing what words immediately follow and precede a word in a sentence).
+*** [[https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html][Basics of NLP]]
+**** Key Terms
+1. *NLP*: Natural Language Processing concerns itself with interaction of technology with human languages.
+2. *Tokenization*: An early step in the NLP process which splits longer strings of text into smaller pieces, or /tokens/.
+3. *Normalization*: A series of tasks meant to put all text on a level playing field i.e. converting it to lowercase, removing punctuation, expanding contractions, converting numbers to their word equivalents, stripping white space, removing stop words and so on.
+   + *Stemming*: Process of eliminating affixes (suffixes, prefixes, infixes, circumfixes) from a word to obtain its stem. For example, /running/ becomes /run/.
+   + *Lemmatization*: It's related to stemming but is able to capture canonical forms based on the word's lemma (root form). For example, /better/ would turn into /good/.
+4. *Corpus*: The latin word for /body/ refers to a collection of texts which may be formed of a single language of texts, or multiple. They are generally used for statistical linguistic analysis and hypothesis testing.
+5. *Stop words*: Filter words which contribute little to the overall meaning of text since they are the very common words of the language. For example: /the/, /a/ etc.
+6. *Parts-of-speech (POS) Tagging*: It consists of assigning a category tag to the tokenized parts of a sentence such as nouns, verbs, adjectives etc. The category of words is distinguished since they share similar grammatical properties.
+7. *Statistical Language Modeling*: It's the process of building a model which takes /words/ as input and assign probabilities to the various sequences that can be formed using them.
+8. *Bag of words*: It's a representation model used to simplify the contents of a selection of text by just reducing the words to their frequency.
+9. *n-gram*: It focuses on preserving contagious sequences of N items from the text selection.
+**** A framework for NLP
+1. *Data Collection or Assembly*: Building the corpus
+2. *Data Preprocessing*: Perform operations on the collected corpus which consists of tokenization, normalization, substitution (noise removal).
+3. *Data Exploration & Visualization*: Includes visualizing word counts and distributions, generating wordclouds, performing distance measures.
+4. *Model Building*: Choosing the language models (FSM, MM), classifiers and sequence models (RNNs, LSTMs).
+5. *Model Evaluation*
+**** Data Representation
+1. We need to encode text in a way that can be controlled by us using a statistical classifier.
+2. We go from a set of categorical features in text: words, letters, POS tags, word arrangement, order etc to a series of /vectors/.
+3. *One-hot Encoding* (Sparse Vectors) :
+   + Each word, or token corresponds to a vector element.
+   + Result of one-hot encoding is a sparse matrix, that is, for a corpus containing a lot of tokens, representing a small subset of them would lead to a lot of zero vectors which would consume a large amount of memory.
+   + One more drawback is that while it contains the information regarding the presence of a certain word, it lacks positional information so making sense of the tokens is not an option. For example, /Kate hates Alex/ is the same as /Alex hates Kate/.
+   + Variants of one-hot encoding are /bag-of-words/, /n-gram/ and /TF-IDF/ representations.
+4. *Dense Embedding Vectors*:
+   + The information of the semantic relationship between tokens can be conveyed using manual or learned POS tagging that determines which tokens in a text perform what type of function. (noun, verb, adverb, etc)
+   + This is useful for /named entity recognition/, i.e. our search is restricted to just the nouns.
+   + But if one represents /features/[fn:2] as dense vectors i.e. with core features embedded into an embedding space of size /d/ dimensions, we can compress the number of dimensions used to represent a large corpus into a manageable amount.
+   + Here, each feature no longer has its own dimension but is rather mapped to a vector.
+**** [[http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf][Word Representation]]
+**** [[https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.][Subword models]]
+1. *Purely Character-level models*: In character-level modes, word embeddings[fn:3] can be composed of character embeddings which have several advantages. /Character-level/ models are needed because:
+   + Languages like Chinese don't have /word segmentations/.
+   + For languages that do have, they segment in different ways.
+   + To handle large, open, informal vocabulary.
+   + Character level model can generate embeddings for /unknown/ words.
+   + Similar spellings share similar embeddings
+2. *Subword-models*: TBD???
+*** Morphology
+It is a section of grammar whose main objects are *words* of languages, their /significant parts/ and /morphological signs/. Morphology studies:
++ Inflection
++ Derivation
++ POS
++ Grammatical values
+**** Grammatical Value
+
+*** Introduction
+Morphosyntactic tagging accuracy has improved due to using BiLSTMs to create /sentence-level context sensitive encodings/[fn:4] of words which is done by creating an initial context insensitive word representation[fn:5] having three parts:
+1. A dynamically trained word embedding
+2. A fixed pre-trained word-embedding, induced from a large corpus
+3. A sub-word character model, which is the final state of a RNN model that ingests one character at a time.
+In such a model, sub-word character-based representations only interact via subsequent recurrent layers. To elaborate, context insensitive representations would normalize words that shouldn't be, but due to the subsequent BiLSTM layer, this would be overridden. This behaviour differs from traditional linear models.[fn:6]
+
+This paper aims to investigate to what extent having initial subword and word context insensitive representations affect performance. It proposes a hybrid model based on three models- context sensitive initial character and word models and a meta-BiLSTM model which are all trained synchronously.
+
+On testing this system on 2017 CoNLL data sets, largest gains were found for morphologically rich languages, such as in the Slavic family group. It was also benchmarked on English PTB(?) data, where it performed extremely well compared to the previous best system.
+*** Related Work
+1. An excellent example of an accurate linear model that uses both word and sub-word features.[fn:6] It uses context sensitive n-gram affix features.
+2. First Modern NN for tagging which initially used only word embeddings[fn:7], was later extended to include suffix embeddings.[fn:8]
+3. TBD TBD
+4. This is the jumping point for current architectures for tagging models with RNNs.[fn:5]
+5. Then [fn:4] showed that subword/word combination representation leads to state-of-the-art morphosyntactic tagging accuracy.
+*** Models
+**** Sentence-based Character Model
+In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.
+
+#+CAPTION: Sentence-based Character Model: The representation for the token /shingles/ is the concatenation of the four shaded boxes.
+[[./assets/nnfl1a.png][file:./assets/nnfl1a.png]]
+
+For an /n/-character sentence, for each character embedding \((e_{1}^{char},...,e_{n}^{char})\), a BiLSTM is applied:
+\[
+f_{c,i}^{0},b_{c,i}^{0} = BiLSTM(r_{0},(e_{1}^{char},...,e_{n}^{char}))_{i}
+\]
+For multiple layers(/l/) that feed into each other through the concatenation of previous layer encodings, the last layer has both forward \((f_{c,l}^{l},...,f_{c,n}^{l})\) and backward \((b_{c,l}^{l},...,b_{c,n}^{l})\) output vectors for each character.
+
+To create word encodings, relevant subsets of these context sensitive character encodings are combined which can then be used in a model that assigns morphosyntactic tags to each word directly or via subsequent layers. To accomplish this, the model concatenates upto four character output vectors: the {/forward, backward/} output of the {/first, last/} character in the token /T/ = \((F_{1st}(w), F_{last}(w), B_{1st}(w), B_{last}(w))\) which are represented by the four shaded box in /Fig. 1/.
+
+Thus, the proposed model concatenates all four of these and passes it as input to an multilayer perceptron (MLP):
+\[
+g_{i} = concat(T)
+\]
+\[
+m_{i}^{chars} = MLP(g_{i})
+\]
+A tag can then be predicted with a /linear classifier/ that takes as input \(m_{i}^{chars}\), applies a /softmax/ function and chooses for each word the tag with highest probability.
+**** Word-based Character Model
+To investigate whether a sentence sensitive character model (/Fig.1/) is better than a model where the context is restricted to the characters of a word, (/Fig.2/) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.
+
+#+CAPTION: Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).
+[[./assets/nnfl1b.png][file:./assets/nnfl1b.png]]
+
+#+CAPTION: BiLSTM variant of Character-level word representation
+[[./assets/nnfl1.png][file:./assets/nnfl1.png]]
+
+**** Sentence-based Word Model
+The inputs are the words of the sentence and for each of the words, we use pre-trained word embeddings \((p_{1}^{word},...,p_{n}^{word})\) summed with a dynamically learned word embedding for each word in the corpus \((e_{1}^{word},...,e_{n}^{word})\):
+\[
+in_{i}^{word} = e_{i}^{word}+p_{i}^{word}
+\]
+The summed embeddings \(in_{i}\) are passed as input to one or more BiLSTM layers whose output \(f_{w,i}^{l}, b_{w,i}^{l}\) is concatenated and used as the final encoding, which is then passed to an MLP:
+\[
+o_{i}^{word} = concat(f_{w,i}^{l}, b_{w,i}^{l})
+\]
+\[
+m_{i}^{word} = MLP(o_{i}^{word})
+\]
+The output of this BiLSTM is essentially the Word-based Character Model before tag prediction, with the exception that the word-based character encodings are excluded.
+
+#+CAPTION: Tagging Architecture of Word-based Character Model and Sentence-based Word Model
+[[./assets/nnfl2a.png][file:./assets/nnfl2a.png]]
+
+**** Meta-BiLSTM: Model Combination
+If each of the character or word-based encodings are trained with their own loss and are combined using an additional meta-BiLSTM model, optimal performance is obtained. The meta-biLSTM model concatenates the output of context sensitive character and word-based encoding for each word and puts this through another BiLSTM to create an /additional/ combined context sensitive encoding. This is followed by a final MLP whose output is passed to a linear layer for tag prediction.
+\[
+cw_{i} = concat(m_{i}^{char}, m_{i}^{word})
+\]
+\[
+f_{m,i}^{l}, b_{m,i}^{l} = BiLSTM(r_{0},(cw_{0},...,cw_{n}))_{i}
+\]
+\[
+m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
+\]
+
+#+CAPTION: Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.
+[[./assets/nnfl2b.png][file:./assets/nnfl2b.png]]
+**** Training Schema
+Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.
+
+[[./assets/nnflAlg.png][file:./assets/nnflAlg.png]]
+
+In terms of model selection, after each epoch, the algorithm evaluates the tagging accuracy of the development set and keeps the parameters of the best model. Accuracy is measured using the meta-BiLSTM tagging layer, which requires a forward pass through all three models. Only the meta-BiLSTM layer is used for model selection and test-time prediction.
+
+The training is synchronous as the meta-BiLSTM model is trained in tandem with the two encoding models, and not after they have converged. When the meta-BiLSTM was allowed to back-propagate through the whole network, performance degraded regardless of the number of loss functions used. Each language could in theory used separate hyperparameters but identical settings for each language works well for large corpora.
+*** Experiments and Results
+**** Experimental Setup
+The word embeddings are initialized with zero values and the pre-trained embeddings are not updated during training. The dropout[fn:9] used on the embeddings is achieved by a single dropout mask and dropout is used on the input and the states of the LSTM.
+
+#+NAME: Architecture
+| Model | Parameter                     | Value |
+|-------+-------------------------------+-------|
+| C,W   | BiLSTM Layers                 |     3 |
+| M     | BiLSTM Layers                 |     1 |
+| CWM   | BiLSTM size                   |   400 |
+| CWM   | Dropout LSTM                  |  0.33 |
+| CWM   | Dropout MLP                   |  0.33 |
+| W     | Dropout Embeddings            |  0.33 |
+| C     | Dropout Embedding             |   0.5 |
+| CWM   | Nonlinear Activation Fn (MLP) |   ELU |
+
+TODO Add two remaining tables
+**** Data Sets
+**** POS Tagging Results
+**** POS Tagging on WSJ
+**** Morphological Tagging Results
+*** Ablation Study (Takeaways)
++ *Impact of the training schema*: Separate optimization better than Joint optimization
++ *Impact of the Sentence-based Character Model*: Higher accuracy than word-based character context
++ *Impact of the Meta-BiLSTM Model Combination*: Combined model has significantly higher accuracy than individual models
++ *Concatenation Strategies for the Context-Sensitive Character Encodings*: Model bases a token encoding on both forward and backward character representations of both first and last character in token. (/Fig. 1/) ....
++ *Sensitivity to Hyperparameter Search*: With larger network sizes, capacity of the network increases, but it becomes prone to overfitting. Future variants of this model might benefit from higer regularization.
++ *Discussion*: TODO Proposed modifications
+*** Conclusions
+*** Readings and Resources
+1. Pytorch: [[https://pytorch.org/tutorials/beginner/nn_tutorial.html][Beginner Guide]], [[https://deeplizard.com/learn/playlist/PLZbbT5o_s2xrfNyHZsM6ufI0iZENK9xgG][Detailed Guides]], [[https://www.cs.toronto.edu//~lczhang/360/][Notebook form]]
+2. Math: [[https://explained.ai/matrix-calculus/index.html][Matrix Calculus]], [[https://mml-book.com/][Book]]
+3. Basics:
+   + [[https://www.kaggle.com/learn/python][Python]]
+   + [[https://realpython.com/jupyter-notebook-introduction/#getting-up-and-running-with-jupyter-notebook][Jupyter]]
+   + [[http://cs231n.github.io/python-numpy-tutorial/#numpy][Numpy]], [[https://nbviewer.jupyter.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-2-Numpy.ipynb][Numpy 2]]
+   + [[https://mlcourse.ai/articles/topic1-exploratory-data-analysis-with-pandas/][Pandas]], [[https://www.kaggle.com/learn/pandas][Pandas 2]]
+   + [[https://mlcourse.ai/articles/topic2-visual-data-analysis-in-python/][Matplotlib]], [[https://matplotlib.org/matplotblog/posts/an-inquiry-into-matplotlib-figures/][Matplotlib 2]]
+   + [[https://mlcourse.ai/articles/topic2-part2-seaborn-plotly/][Seaborn]]
+   + [[http://scipy-lectures.org/][Overview]]
+4. Interactive Tutorials on [[https://www.deeplearning.ai/ai-notes/initialization/][Weight Initialization]], [[https://www.deeplearning.ai/ai-notes/optimization/][Different Optimizers]]
+5. Rougier's Bits
+   + [[https://github.com/rougier/matplotlib-tutorial][Matplotlib Tutorial]], [[https://github.com/matplotlib/cheatsheets][Matplotlib Cheatsheets]]
+   + [[https://github.com/rougier/numpy-tutorial][Numpy Tutorial]], [[https://www.labri.fr/perso/nrougier/from-python-to-numpy/][From Python to Numpy]], [[https://github.com/rougier/numpy-100][100 Numpy Exercises]]
+   + [[https://www.labri.fr/perso/nrougier/python-opengl/][Python & OpenGL for Scientific Visualization]], [[https://github.com/rougier/scientific-visualization-book][Scientific Visualization]]
+6. NLP: [[https://github.com/microsoft/nlp-recipes][Best Practices]], [[https://nlpoverview.com/][DL Techniques for NLP]]
+7. BiLSTM: [[https://arxiv.org/pdf/1807.00818v1.pdf][Improving POS tagging]]
+8. [[https://github.com/google/meta_tagger][Implementation]] of the paper
+*** Specific to Paper
+1. [[https://universaldependencies.org/guidelines.html][Universal Dependencies]]
+2. [[https://lena-voita.github.io/nlp_course.html][Great Tutorial for NLP]]
+3. [[https://github.com/Sdernal/Morphology/blob/master/README.md][Morphology]]
+*** Footnotes
+[fn:1] Morphological tagging is the task of assigning labels to a sequence of tokens that describe them morphologically. As compared to Part-of-speech tagging, morphological tagging also considers morphological features, such as case, gender or the tense of verbs.
+[fn:2] They are the different categorical characteristic of the given data. For example, it could be /grammatical/ classes or some /physical/ features. It is context and result dependent. Then for each token, a weight is assigned to it with respect to each feature.
+[fn:3] A word embedding is a learned representation for text where words that have the same meaning have a similar representation.
+[fn:4] [[https://www.aclweb.org/anthology/K17-3002.pdf][Graph based Neural Dependency Parser]]
+[fn:5] [[https://arxiv.org/pdf/1604.05529.pdf][POS Tagging with BiLSTM]]
+[fn:6] [[http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40AFFD632AC50016FE3B435B5C3FD50F?doi=10.1.1.4.7273&rep=rep1&type=pdf][*Fast POS Tagging: SVM Approach]]
+[fn:7] [[http://machinelearning.org/archive/icml2008/papers/391.pdf][Unified architecture for NLP]]
+[fn:8] [[https://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf][NLP(almost) from Scratch]]
+[fn:9] Dropping out units (hidden and visible) in a neural network, helps prevent the network from overfitting.
+[fn:10] [[https://medium.com/@b.terryjack/nlp-everything-about-word-embeddings-9ea21f51ccfe][Everything about Embeddings]] Embedding converts symbolic representations into meaningful
+** I R SSI
+CLOSED: [2022-06-28]
+:PROPERTIES:
+:EXPORT_FILE_NAME: irc
+:END:
+
+[[https://xkcd.com/1782][https://imgs.xkcd.com/comics/team_chat.png]]
+
+Umm. Guilty, though I've only been using it for two days, but I've been having a blast! So let's get into it.
+
+#+begin_note
+This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don't discuss all the aspects such as chat etiquette and other security related stuff for which I'd direct the readers to resources at the bottom.
+#+end_note
+*** Why IRC?
+In this modern age of numerous chat clients and networks with all their shiny bells and whistles and fancy embeds and numerous intergrations with various services, why should one use IRC?
+
+There's a reason why IRC is called the social network for neckbeards, it's the premier destination of folks who are actually technically-literate about the stuff that they're using and not just flaunting their latest /rice/ or worrying about their choice of distribution. This is not to say that the new platforms don't have adept helpers rather that on IRC channels you can get support for very specific things. Another thing that I recently came across in my journey to various technical channels is that the people there are very willing and understanding when someone seeks help which was in stark contrast to communities on other platforms where people are actively called out for their lack of knowledge, there's a very [[https://blog.aurynn.com/2015/12/16-contempt-culture][prevalant culture]] of superiority complex in modern technical communities which has been absent in IRC from my limited exposure and experience.
+
+Another big pull towards IRC for me has been the exclusive number of niche communities where it's the sole medium of communication for them, this allows you to get exposed to new factions of people! It's a great way to have conversations in plaintext without having to worry about people knowing who you really are, which is kinda neat and unique in its own way.
+*** Getting into it
+If you've used a modern chat platform like Slack or Discord, IRC's structured in a similar way (rather it was most likely the inspiration for these programs). Basically there are various *servers* that you can connect to, which have multiple *channels* that you can join. Unlike discord though where upon joining a server you automatically have access to all its channels, in IRC servers it's opt-in which makes sense considering some large servers have thousands of chatrooms.
+
+When you open an IRSSI for the first time, you're greeted with a barren window with an unfamiliar layout, don't worry later we'll see how to configure it to make it more convenient to use and similar to a new platform like discord. For now let's connect to our first server.
+
+#+begin_src sh
+/set nick <nick>
+/server connect irc.libera.chat
+#+end_src
+
+After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the =/list= command but for large channels such as =libera= or =rizon= that's not really a good idea. So for discovering channels, one can either [[https://libera.chat/guides/findingchannels
+][filter]] through the various list options or go to [[https://netsplit.de/channels/][netsplit]]. After choosing a channel for a server you're connected to, you can join it and chat. Also, chat can be scrolled via =fn+arrow= keys.
+
+#+begin_src sh
+/join gentoo
+#+end_src
+
+But there's a catch, once you close irssi, you'll realize that you'll have to go through the entire process again so to autoconnect to various servers and channels you can either edit your =~/.irssi/config= file or do it right from the client. There's also another annoyance, there are automated messages for whenever people join or leave channels so ignoring these provides for a cleaner chat experience.
+
+#+begin_src sh
+/server add -auto -network Libera irc.libera.chat 6697
+/channel add -auto #gentoo Libera
+/ignore #gentoo JOINS PARTS QUITS
+#+end_src
+
+A particular window can be be closed by =/wc=. I always forget the right commands so I created aliases for those in my IRSSI config.
+
+#+begin_src conf
+ADDSERV = "SERVER ADD -AUTO -NETWORK";
+# can be used as /ADDSERV irc.libera.chat 6697
+ADD = "CHANNEL ADD -AUTO";
+# /ADD #gentoo Libera
+IGNCH = "IGNORE $0 JOINS PARTS QUITS";
+# /IGNCH #gentoo
+#+end_src
+
+*** Layout/Statusbar
+#+CAPTION: IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)
+[[./assets/irssi.png][file:./assets/irssi.png]]
+
+There's a statusbar at the bottom which shows the current =nick/server/channel/active_channels=. There's a window on the left which shows all the joined servers and channels (courtesy of  =adv_windowlist=) and a window on the right which has list of all users (via =tmux-nicklist-portable=). To get this style of statusbar and colorscheme, I'm currently using a theme derived from the popular [[https://github.com/ronilaukkarinen/weed][weed]] theme where I did minor modifications on statusbar and messagelist.
+*** Scripts
+If you've ever used emacs, you'll know how it being an elisp interpreter lends to it powers of on-the-fly changes and extensibility beyond any measure. IRSSI is similar in that manner, it allows for modifications via perl scripts. There's a central [[https://scripts.irssi.org/][scripts repository]] but one can create their own scripts akin to emacs packages!
+
+#+begin_note
+In later iterations of this post, I'll add customization options for mentioned scripts.
+#+end_note
+
+Here I'd like to mention some popular scripts which can easily improve both visual and functional experience while using irssi. These are
+1. =adv_windowlist= which provides a list of all connected servers and channel akin to discord's sidebar
+2. =tmux-nicklist-portable= which adds a userlist for each channel on the right
+3. =mouse= for adding mouse scroll support
+4. =savecmdhist= which allows for a persistant history of commands
+5. =trackbar= adds a visual indicator underneath the message since last channel access
+6. Still not working: desktop-notify : needs, cpan Glib::Object::Introspection for that we do =yay -S perl-glib-object-introspection=
+*** XDCC
+Some IRC channels also offer a way to share files via XDCC. It works by sending bots PMs with requests for a particular pack number which is a reference to the desired file.
+
+#+begin_warning
+⚠ A word of caution, enabling automatic DCC is a very bad idea in general since it runs the risk of exposing your IP if the network doesn't have masking enabled so be wary of accepting files.
+#+end_warning
+
+After knowing the pack number and the related bot, one sends the request and to automatically accept requests from that bot once can enable whitelist it by enabling autget for it, if you don't wish to do that for each bot you can enable it globally but that is not advised.
+
+#+begin_src sh
+/MSG <BOT> XDCC SEND <PKNO>
+# to whitelist a bot
+/set dcc_autoget_masks <BOT>
+# alternatively
+/dcc get <BOT>
+# global autoget
+/set dcc_autoget on
+# to set download dir
+/set dcc_download_path <DIR>
+# enable autoresume of files
+/set dcc_autoresume on
+#+end_src
+
+*** Limitations
+There are some limitations with IRC there's no chat persistance unless you use a bouncer which I still have to dip my feet into, maybe that's something for a future post, we'll see.
+*** Further Reading
+1. [[https://www.irchelp.org/faq/new2irc.html][The IRC Prelude]]
+2. [[https://irssi.org/New-users/][IRSSI for New Users]]
+3. [[https://irssi.org/documentation/settings/][IRSSI Setup Options]]
+4. [[https://daniel.haxx.se/irchistory.html][History of IRC]]
+5. [[https://gist.github.com/xero/2d6e4b061b4ecbeb9f99][IRC Cheatsheet]]
+6  [[https://libera.chat/guides/cloaks][Cloaks Libera]]
+6. Direct Client-to-Client Protocol: [[https://modern.ircdocs.horse/dcc.html][DCC]]
+** DRAFT My experience with 🦀
+:PROPERTIES:
+:export_file_name: hitagi-crab
+:END:
+Trying out the most loved language for six years in a row! What could go wrong? With its name being almost synonymous with terms such as *blazing fast* 🚀 and *memory safety*, its surely going to be a good experience. To infinity and beyond!
+*** Setup
+M$ recommends using the =rustup= installer for setting up the environment, now I did the stupid thing by installing it through =pacman= which resulted in an incomplete installation so to rectify that, I had to run =rustup install stable= and then =rustup default stable=. Then I verified that the installation was successful by checking =cargo= and =rustc= versions. But nothing feels legit unless you've run that traditional =Hello, World!= program, so onto that.
+
+#+begin_src rust
+fn main(){
+      println!("Hello, World!"); // macro, not a function
+}
+#+end_src
+
+This can be compiled and run by =rustc main.rs= and then =./main=. Voila! Now you can call yourself a modern rust dev. Yes I know my humour's juvenile, cut me some slack — now to handle projects, rust uses a package manager called =cargo=. For that you'll have to ditch your freshly created hello world program in order to have a neater setup which cargo can understand. Following should roughly be the directory structure.
+
+#+begin_src sh
+~/rust-learning-path/
+ └── hello-world
+     └── main.rs
+#+end_src
+
+And after we run =cargo new hello-cargo= in the =rust-learning-path= directory, it'll become this.
+
+#+begin_src sh
+~/rust-learning-path/
+ ├── hello-cargo
+ │   ├── Cargo.toml # manifest file, holds project metadata, dependencies
+ │   └── src
+ │       └── main.rs # application code
+ └── hello-world
+     └── main.rs
+#+end_src
+
+To execute the program, change the directory to hello-cargo, then run =cargo run=.
+*** Fundamentals
+**** Variables & data types
+Rust allows for variable declaration using the =let= keyword and =type= declaration by  =let var: type = val=. Rust also does not allow for uninitialized variables (✨ memory safety ✨), one can declare it but must provide it with some value in the future.
+
+#+begin_src rust
+let cakes = 3; // default: i32 unsigned int
+let pastries: u8 = 5; // specified type (signed variants declared as i8)
+println!("{}", cakes+pastries); // works because cakes is inferred as u8
+let biscuits: u16 = 12;
+// println!("{}", cakes+biscuits); !! doesn't work since cakes is now u8 after line 3
+// println!("{}", pastries+biscuits); !! type mismatch!
+println!("{}", pastries as u16 + biscuits); // explicit casting by =as=
+let number_32: f32 = 5.0; // default f64
+#+end_src
+
+Rust also has *architecture-dependent* types namely =isize= and =uszie= where the bitsize used is subject to the running machine. The variables declared so far are all *mutable* i.e. their value cannot be altered or updated, this can be changed by declaring the variables with an additional =mut= keyword, i.e. =let mut var = value=. There's also a =todo!= macro which acts as indication for unfinished code, *with intention* to finish it somewhere down the line like all my projects.
+
+#+begin_src rust
+// Display the message "Hello, world!"
+todo!("Display the message by using the println!() macro (will I ever do it?? hmm 🤔)");
+#+end_src
+
+Rust also has the concept of *variable shadowing* where a new variable that uses the name of an existing variable becomes the only accessible instance with that name, the old variable value ceases to be in the current scope anymore. Towards strings now, they can be declared in multiple ways.
+
+#+begin_src rust
+let mut s = String::from("hello");
+s = "hello string".to_string();
+// format! macro can be used to compose strings
+s = format!("{} and {} is {}", 1, 2, 1+2);
+println!("{}",s);
+#+end_src
+
+A mutable string can be modified by using the =push_str= for a string or =push= method for a single character. There are also references to  immutable pieces of utf8 strings called *string slices* which can be declared as shown:
+
+#+begin_src rust
+let slice = "Not a string but a &str";
+let s2: &str = &s; // slice that is a reference to s.
+#+end_src
+
+Other primitive data types are =bool=, =char= which is equivalent to =u32= (21 bits +11 padding bits).
+
+**** Tuples, Structs and Enums
+Tuples are groupings of values of different types into a compound value. Its data type is defined by the sequence of data types of elements. Also tuples are immutable.
+
+#+begin_src rust
+let tuple_e = ('E', 5i32, true); // type signature: (char, i32, bool)
+println!("Is {} the {}th letter of the alphabet? {}", tuple_e.0, tuple_e.1, tuple_e.2);
+#+end_src
+
+A struct is a type that's composed of other types. To use a struct, first it must be defined with data type for each of its field and then its instance can be created for use.
+**** Functions
+Functions can be created using the =fn= keyword and return types specified by following argument list with =-> retType= .
+
+#+begin_src rust
+fn print_hello(name: &str) -> u32{
+    println!("Hello, {}!", name);
+    return 1; // or simply =1=
+}
+#+end_src
+
+**** Conditionals
+
+**** Loops and Hash Maps
+
+*** Error Handling
+*** Memory Management
+*** Generics
+*** Modules, Packages & Crates
+*** Automated Tests
+*** To-do list
+*** References
+1. [[https://stackoverflow.blog/2020/01/20/what-is-rust-and-why-is-it-so-popular/][Why is Rust so popular?]]
+2. [[https://docs.microsoft.com/en-us/learn/paths/rust-first-steps/?source=learn][Rust - First Steps]]
+3. [[https://www.youtube.com/playlist?list=PLwhLlO5Vugx6KCwTpW_4fUeES2jdkDSW9][300 seconds of Rust]]
+4. [[https://os.phil-opp.com/][Writing an OS in Rust]]
+
+** Another nix post in the wall
+CLOSED: [2022-06-02 Thu]
+:PROPERTIES:
+:EXPORT_FILE_NAME: nix-intro
+:END:
+*** Starting
+Are you using Nixos? This is not for you.
+Do you want multi-user installation? This is not for you.
+This is only useful if you want to use both flakes and home-manager.
+
++ Single-user installation (no sudo needed, easier to remove, good for testing purposes)
+  #+begin_src sh
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
+  #+end_src
++ Source the new profile or login.
+    =. ~/.nix-profile/etc/profile.d/nix.sh=
++ Since most of the nix "guides" are outdated, check what your current version supports =nix --help=, +at the time of writing this, there's no need to enable experimental features for flakes :)+ spoke too soon.
++ Upgrading nix:
+  #+begin_src sh
+nix-channel --update; nix-env -iA nixpkgs.nix nixpkgs.cacert
+  #+end_src
++ Check if =nixpkgs-unstable= channel (package sources basically) is installed or not by =nix-channel --list=
++ You can look at user-installed packages by =nix-env --query=
+*** Home manager
+Allows declarative configuration of user-specific (non global) packages and dotfiles.
+**** Installation
+#+begin_src sh
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+nix-channel --update
+#+end_src
+
+    In =.bash_profile=. (might not be needed for single-user systems, check back later)
+#+begin_src sh
+export NIX_PATH=${NIX_PATH:+:$NIX_PATH}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
+#+end_src
+
+    In your =.bash_profile=, add below and source the profile for your current session.
+#+begin_src sh
+source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+#+end_src
+**** Configuration
+Now check =~/.config/nixpkgs/home.nix=, if it exists then for the most part you've successfully installed (not sure about configuration) home-manager. Building a configuration produces a directory in the Nix store that contains all files and programs that should be available in your home directory and Nix user profile, respectively. Run =home-manager build= to successfully verify. Also periodically check =home-manager news= for updates regarding new changes to packages that are referred in your config. After [[https://nix-community.github.io/home-manager/index.html#sec-install-standalone][adding some packages]] (section 2.1), run =home-manger switch=.
+*** Fleyks (/sorry/)
+Flakes allow us to define inputs (you can think of them as dependencies) and outputs of packages in a declarative way and allow for dependency pinning using locks. As of writing this (June 2022) flakes are still experimental, so they must be enabled explicitly.
+
+#+begin_src sh
+nix-env -iA nixpkgs.nixFlakes
+#+end_src
+
+This replaces nix 2.9.0 with 2.8.1? Look into why that's happening. For now we enable experimental features.
+
+#+begin_src sh
+mkdir -p ~/.config/nix
+echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
+#+end_src
+
+The documentation is so stinky for flakes, like there are /n/ variants sayings $n^2$ different things, so for now I'm just winging it. Comment out the stateVersion from =home.nix= and in the same directory create a =flake.nix=. Replace jdoe with your username. Also the stateVersion can be changed accordingly to upgrade your =home-manager=.
+
+#+begin_src nix
+{
+  description = "Home Manager configuration of Jane Doe";
+
+  inputs = {
+    # Specify the source of Home Manager and Nixpkgs
+    home-manager.url = "github:nix-community/home-manager";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = { home-manager, ... }:
+    let
+      system = "x86_64-linux";
+      username = "jdoe";
+    in {
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
+        # Specify the path to your home configuration here
+        configuration = import ./home.nix;
+
+        inherit system username;
+        homeDirectory = "/home/${username}";
+        # Update the state version as needed.
+        # See the changelog here:
+        # https://nix-community.github.io/home-manager/release-notes.html#sec-release-21.05
+        stateVersion = "22.05"; # TODO add current unstable home-manager version
+
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+      };
+    };
+}
+#+end_src
+
+Now it's time to flake-ify your =hm=. Here <flake-uri> would be =path:.config/nixpkgs= assuming your pwd is =~=.
+
+  #+begin_src sh
+  home-manager switch --flake '<flake-uri>#jdoe'
+  #+end_src
+
+The flake inputs are not upgraded automatically when switching. The analogy to the command =home-manager --update= ... is =nix flake update=. If updating more than one input is undesirable, the command =nix flake lock --update-input <input-name>= can be used.
+
+** Old Headings
+*** Why?
+*** Benefits
+*** Home-manager
+*** Flakes
+*** Overlays
+*** Profiles
+*** Multi User
+*** Nix Shell
+** Creating a blog using ox-hugo
+CLOSED: [2021-03-21 Mon 02:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: blog-creation
+:END:
+
+I was going to make a post explaining how I made this blog but it was rendered pretty useless by [[https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n][this.]] So yeah, I might archive this later.
+
+1. Install hugo from your package manager.
+2. Create a new site:
+   #+begin_src sh
+hugo new site blog
+   #+end_src
+3. Add a theme:
+   #+begin_src sh
+cd blog
+git init
+git submodule add <theme_url> themes/<name>
+   #+end_src
+4. Install ox-hugo in emacs
+   #+begin_src emacs-lisp
+;; goes in packages.el
+(package! ox-hugo)
+
+;; goes in config.el
+(use-package ox-hugo
+  :after ox)
+   #+end_src
+5. TODO Explain the process of content and properties, tags etc.
+6. Export
+7. Config.toml (theme, title, url, publishdir, etc)
+8. Run server, check localhost.
+9. Push
+10. Go to GitHub repository Settings > GitHub pages. Select /docs in Source.
+11. Voila!
+* Notes
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: notes
+:END:
+** TODO Quick Notes
+:PROPERTIES:
+:export_file_name: random-notes
+:END:
+Collection of notes from various sources, rather than keeping it in a separate org file, this makes it handy for global lookups.
+*** Compiler Design
+Source: [[http://aosabook.org/en/llvm.html][AOSA - LLVM]] \\
+Three phase static compiler design:
+1. FrontEnd
+   Parses the source code, checks for errors and builds language specific AST to represent input code.
+2. Optimizer
+   Performs a variety of operations that improve code's run time, usually independent of the language and target.
+3. Backend
+   AKA code generator, maps code onto target instruction set ensuring its /correct/ and /optimized/. Common parts are instruction selection, register allocation and instruction scheduling.
+*** Interpreter in Go
+Source: [[https://github.com/jablonskidev/writing-an-interpreter-in-go][Github - Jablonskidev]]
+Change representation of source code twice before evaluation \\
+  Source code — (Lexing) \rightarrow Tokens — (Parsing) \rightarrow AST
+**** Lexing
++ Types of tokens: Numbers, Variable names, Keywords, Special Characters etc.
++ Need a =token= data structure having /types/ to differentitate different types and /fields/ that store a token's literal value.
++ Lexer treats the source code as a string, goes through it and throws out the tokens.
+**** Parsing
++ Parser turns its /input/ into a /data structure/ (AST) that represents the input.
++ Abstract because some (parsing guiding) elements of source not present in AST.
++ Syntactic Analysis
+*** SSH setup (iSH)
+**** iSH (Only works for local access rn :/)
++ =apk add opnssh=
++ =apk add mosh=
++ =ssh-keygen -t rsa=
++ On server: =ip addr show | sed -n 's/.*inet \([0-9.]*\).*/\1/p' | grep -v '127.0.0.1'=
++ =ssh-copy-id user@host=, then enter machine passwd
++ =mosh user@host=
++ > =vi .ssh/config=, then add this
+  #+begin_src conf
+Host <alias>
+      Hostname <host>
+      Port <port>
+      User <user>
+  #+end_src
++ Then you can just do =mosh <alias>=
+
+** TODO Principled Design
+:PROPERTIES:
+:EXPORT_FILE_NAME: comp-arch
+:END:
+#+begin_epigraph
+Architecture based upon 'principle', not upon 'precedent'.
+#+begin_epicite
+-Frank Lloyd Wright
+#+end_epicite
+#+end_epigraph
+
+The role of a computer architect is to
++ look backward — analyze and evaluate the past
++ look forward — evaluate new design choices
++ look up — develop architectures to solve important problems
++ look down — understand, predict and enable the underlying technology
+
+Levels of transformation create /abstractions/, a higher level only needs to know about the interface to the lower level, not how its implemented. *But* knowing about the lower levels allows for making better design and optimization decisions.
+** Hangul
+CLOSED: [2022-07-06 Wed]
+:PROPERTIES:
+:export_file_name: korean
+:END:
+
+Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let's see how.
+
+#+begin_note
+I still have to cover more vowels and add tips for pronounciation which I'll add soon.™
+#+end_note
+
+*** Consonants
+
+| Consonant | Pron. | Mnemonic | Aspirated | Pron. | Mnemonic   |
+|-----------+-------+----------+-----------+-------+------------|
+| ㅂ         | b     | bucket   | ㅍ         | p     | part II/pi |
+| ㄷ         | d     | door     | ㅌ         | t     | two doors  |
+| ㄱ         | g     | gun      | ㅋ         | k     | kill       |
+| ㅈ         | j     | (jug)    | ㅊ         | ch    | church     |
+
+| Consonant | Pron.          | Mnemonic    |
+|-----------+----------------+-------------|
+| ㅎ         | h              | hat         |
+| ㄹ         | r/l            | rattlesnake |
+| ㅁ         | m              | mouth       |
+| ㄴ         | n              | nose        |
+| ㅅ         | s              | standing    |
+| ㅇ         | - / ng(at end) | zero = no   |
+
+Look at the last consonant, it's a placeholder character which has no sound by itself /but/ if it ends a particular syllable, it is pronounced as *ng*.
+
+*** Vowels
+
+I always got confused between the vowels even with various mnemonics until I came across [[https://www.90daykorean.com/how-to-learn-the-korean-alphabet/][this guide]] by 90 day korean which really clarified with the help of their acronym  /"Old iPod, new iPad"/
+
+[[./assets/vowels.png][file:./assets/vowels.png]]
+
+By lining up the corresponding characters with the sounds, we get the vowels. By adding a seond line to these characters one can create the following sounds preceeded by /y-/.
+
+| Vowel | Pron. | Mnemonic | Modified | Pron.   |
+|-------+-------+----------+----------+---------|
+| ㅗ     | oh    | old      | ㅛ        | yoh     |
+| ㅓ     | eo/uh | iPod     | ㅕ        | yeo/yuh |
+| ㅜ     | ooh   | new      | ㅠ        | yooh    |
+| ㅏ     | a/ah  | iPad     | ㅑ        | yah     |
+
+| Vowel | Pron. | Mnemonic |
+|-------+-------+----------|
+| ㅣ     | ee    | tree     |
+| ㅡ     | oo    | brook    |
+*** Strong Consonants
+
+| Consonant | Pron. |
+|-----------+-------|
+| ㄸ         | dd    |
+| ㅉ         | jj    |
+| ㄲ         | gg    |
+| ㅃ         | bb    |
+| ㅆ         | ss    |
+
+/Examples:/ 떡볶이 is tteokbokki and 빨간색 is pplagansaek (red).
+
+*** Pronounciation Guide in Devanagari
+**** Vowels
+| Vowel | Pron. | Vowel | Pron. |
+|-------+-------+-------+-------|
+| ㅏ    | आ     | ㅑ    | या    |
+| ㅓ    | ओ     | ㅕ    | यौ    |
+| ㅗ    | उ     | ㅛ    | यु     |
+| ㅜ    | ऊ     | ㅠ    | यू     |
+| ㅡ    | उ~    | ㅣ    | इ     |
+| ㅔ    | ए     | ㅐ    | ऐ     |
+| ㅖ    | ये     | ㅒ    | यै     |
+| ㅢ    | उई~   | ㅘ    | वा    |
+| ㅝ    | वौ    | ㅟ    | वी    |
+| ㅚ    | वै     | ㅙ    | वै     |
+| ㅞ    | वै     |       |       |
+**** Consonants
+| Cons. | Pron. | Asp.Cons. | Pron. | Dbl.Cons. | Pron. |
+|-------+-------+-----------+-------+-----------+-------|
+| ㄱ    | क     | ㅋ        | ख     | ㄲ        | ग़     |
+| ㄷ    | द     | ㅌ        | ट्     | ㄸ        | त     |
+| ㅂ    | ब्/पूऽ  | ㅍ        | फ़ू     | ㅃ        | प~    |
+
+
+| Cons. | Pron. | Dbl.Cons. | Pron. |
+|-------+-------+-----------+-------|
+| ㅅ    | सू     | ㅆ        | सऽ    |
+| ㅈ    | च     | ㅉ        | ज्     |
+
+| Cons. | Pron. |
+|-------+-------|
+| ㅊ    | च्छ    |
+| ㅎ    | ह     |
+| ㄹ    | ल     |
+| ㄴ    | न     |
+| ㅁ    | म     |
+| ㅇ    | -     |
+
+*** Resources:
+1. Lets learn hangul, interactively - [[http://letslearnhangul.com/][Lets learn hangul]]
+2. Pronounciation from a native - [[https://www.youtube.com/watch?v=aBIp-DCgWrI][Korean Alphabet Guide]]
+3. Mnemonics from a native - [[https://www.youtube.com/playlist?list=PLECz2rpRD3Z0EeOU0z3aoafwgjHyth7MN][Miss Vicky]]
+
+** Elements of computing systems
+CLOSED: [2022-06-10 Fri]
+:PROPERTIES:
+:export_file_name: elements-of-computing-systems
+:END:
+# vhdl source blocks for HDL
+*** Introduction
+These are the notes which I took while studying computer architecture from the textbook "/The Elements of Computing Systems/ by /Noam Nisan & Shimon Schocken/ ". They're very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.
+[[./assets/ecs-1.png][file:./assets/ecs-1.png]]
+The text program is parsed, its semantics are uncovered, it's represented in some low-level language that the computer can understand. This process is called /compilation/. Its result is another text file, containing machine-level code.
+
+To make this abstract machine code concrete, it has to be realized by some /hardware architecture/ which is implemented by a /chipset/ - registers, memory, ALU, etc. These devices are made of logic gates which consist of /switching devices/ that are implemented by transistors.
+
+/Church-Turing conjecture/: At their core, all computers are essentially equivalent.
+
+[[./assets/ecs02.png][file:./assets/ecs02.png]]
+
+*** Boolean Logic
+[[./assets/ecs-03.png][file:./assets/ecs-03.png]]
+
+Any boolean function can be realised by just the /nand/ gate. Let that sink in. A gate is a physical device that implements a simple boolean function. They are implemented as transistors etched in silicon, packaged as chips. The boolean function chip is designed and tested by using a /Hardware Description Language/ (HDL). This simulated realisation is then tested for corectness and other parameters such as speed of computation, energy consumption and cost are quantified. To illustrate the same proces, HDL implementation of a XOR function is shown below.
+
+[[./assets/ecs-04.png][file:./assets/ecs-04.png]]
+
+Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.
+
+Chips are specified using the API style, for nand gate: \\
+=Chip name: Nand= \\
+=Input: a,b= \\
+=Output: out= \\
+=Function: if ((a==1) and (b==1)) then out = 0, else out = 1= \\
+
+*Multiplexer*: Has two input(data) bits /a,b/ and one selection bit /sel/ which decides which input bit would be the output.
+
+[[./assets/ecs-05.png][file:./assets/ecs-05.png]]
+
+*Demultiplexer*: Takes in a single input and routes it to one of the possible outputs depeding on the selector bit.
+
+[[./assets/ecs-06.png][file:./assets/ecs-06.png]]
+
+HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0$^{th}$ bit) to access individual bits. For example, a /m/-way /n/-bit mux would select one of its /m n/-bit inputs and output it to its /n/-bit output, where there would be /$k=log_{2}m$/ selection bits. A 4-way 16-bit mux API would look like: \\
+=Chip name: Mux4Way16= \\
+=Input: a[16],b[16],c[16],d[16],sel[2]= \\
+=Output: out[16]= \\
+=Function: if(sel==00,01,10, or 11) then out = a,b,c, or d= \\
+=Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"= \\
+
+*** Boolean Arithmetic
+/Word size/ is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using /n/ bits, one can represent values from 0 to 2$^{n}$ - 1.
+**** Addition
+[[./assets/ecs-07.png][file:./assets/ecs-07.png]]
+
+If the most significant bitwise addition generates a carry of 1, /overflow/ occurs, if that is ignored, one achieves /n/ correct bits for adding two /n/-bit numbers.
+**** Signed Numbers
+The coding scheme was chosen so that hardware implementation of arithmetic operations would be as simple as possible, its result being /two's complement/ binary code that represents negative x as binary code that represents 2$^{n}$ - x. For example, in a 4-bit binary system =-5= would be represented as binary of =(16-5)= or =1011=. This leads us to the following properties:
++ For an n-bit system, 2$^{n}$ signed numbers are generated, from -(2$^{n-1}$) to 2$^{n-1}$ - 1. 
++ Code for positive numbers begins with 0 while for negatives with 1.
++ To get code of -x from x, flip all bits of x and add 1.
+**** Adders
+*Half adder*: Adds two numbers/bits and outputs in for of =sum= and =carry= which are LSB and MSB of the addition of the input bits.
+
+*Full adder*: Adds three bits and outputs the result in form of =sum= and =carry= bits.
+
+*Adder*: Adds two /n/-bit numbers and outputs as =out=, which is also /n/-bit. Here the overflow bit is ignored.
+
+*Incrementer*: Adds 1 to a given number, enables fetching next instruction from memory after executing the current.
+
+Note that this adder implementation is inefficient because of delays incurred by propogation of carry bits which can be acclerated by /carry lookahead/ heuristics.
+**** ALU
+Designed to compute a set of arithmetic and logic operations, exactly /which/ ones is a design decision derived from cost-effectiveness considerations. Shown below is the Hack ALU which computes 18 functions which are controlled by six 1-bit /control bits/. In addition to those there are =zr= and =ng= bits which flag whether the output is zero or negative. Note that the output overflow bit is ignored.
+
+[[./assets/ecs-08.png][file:./assets/ecs-08.png]]
+
+[[./assets/ecs-09.png][file:./assets/ecs-09.png]]
+
+To illustrate the ALU logic, if one wishes to compute =x-1 for x=27=, then control bits would be =001110=. These six directives are to be performed in order: first, we either set the x and y inputs to 0, or not; next, we either negate the resulting values, or not; then we compute either =+= or =&= on the preprocessed values; and finally, we either negate the resulting value, or not. The first two =00= show that we neither zero nor negate x, then =11= shows that we zero y and then negate it, leading to 16-bit value =1111111111111111= which is -1 in two's complement. The next control bit =1= dictates addition operation and the last =0= bit shows that output shouldn't be negated hence we get the desired function =x-1=.
+*** Memory
+All the chips considered so far are time independent, they're called /combinational chips/. Now /sequential chips/ are introduced whose output depends not only on current time inputs but past inputs and outputs too. The notion of time is introduced by a /clock/ that generates a /cycle/ of binary singals that are called a /tick/ and a /tock/.
+
+By viewing the time in the form of cycles instead of a continuous progression, the changes in the system are made atomic i.e. they'll only be reflected during cycle transitions and within a cycle, no change would be shown. This discrete view helps in neutralizing randomness associated with time delays and can be used for synchronizing the operations of different chips. For that, the cycle should be long enough to contain the possible time delay but short enough so that the resulting system's fast because the changes would only be shown during transitions.
+
+Also, to ensure output validity duration of the clock cycle has to be slightly longer than the time it takes a bit to travel the longest distance from one chip to another, plus the time it takes to complete the most time-consuming within-chip calculation.
+
+[[./assets/ecs-11.png][file:./assets/ecs-11.png]]
+
+**** Flip Flops
+A Data flip-flip (DFF) is a memory chip which has a single-bit data input and output and an addition clock input(marked by small triangle on gate icon) that feeds from master clock's signal. It models the behavior =out(t)=in(t-1)= that is, in every subsequent time unit, DFF outputs input from previous time unit. At all other times, DFFs are /latched/, meaning that changes in their inputs have no immediate effect on the output.
+
+[[./assets/ecs-10.png][file:./assets/ecs-10.png]]
+
+Note that the concept of feedback loops doesn't make sense in combinational chips, but there is no difficulty in feeding outputs back into inputs if they're passed through a DFF gate so that the output at time t does not depend on itself but rather on the output at time t-1.
+
+FFs are generally constructed from nand gates connected in feedback loops. The standard construction begins by building a non-clocked flip-flop which is bi-stable, that is, can be set to be in one of two states (storing 0, and storing 1). Then a clocked flip-flop is obtained by cascading two such non-clocked flip-flops, the first
+being set when the clock ticks and the second when the clock tocks.
+**** Registers
+A register is a DFF with a /load/ input. It stores and outputs its current value until /load/ instructs it to update to a new value.
+
+[[./assets/ecs-14.png][file:./assets/ecs-14.png]]
+
+[[./assets/ecs-12.png][file:./assets/ecs-12.png]]
+
+A 16-bit register behaves the same as a /bit/ chip, just that it deals with 16-bit values. A register fulfils the classical function of a memory device, remember and emit the last written value, until its /set/ to another.
+**** RAM
+A RAM chip consists of /n/ 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is instantaneous.
+
+[[./assets/ecs-13.png][file:./assets/ecs-13.png]]
+
+RAM implementations can be modular, for example one could implement RAM64 i.e. having 64 registers by using eight RAM8 chips, to select a particular register one uses a 6-bit address /xxxyyy/ where /xxx/ bits can be used to select one of the RAM8 chips and /yyy/ bits can be used to select the register within the RAM8 chip.
+**** Counter
+A chip that's implementation of an incrementer used to keep track of program instructions (PC: Program Counter). It has three functional inputs alongwith =in=, namely =inc=, which increases counter state every cycle(PC++) and =reset= which sets it to 0 and =load= sets its value to whatever values is fed by =in=.
+
+[[./assets/ecs-15.png][file:./assets/ecs-15.png]]
+
+[[./assets/ecs-16.png][file:./assets/ecs-16.png]]
+
+*** Machine Language
+#+begin_quote
+"Form follows function."
+#+end_quote
+A machine language can be viewed as an agreed-upon formalism designed to manipulate a /memory/ using a /processor/ and a set of /registers/. Unlike high-level languages, whose design goals are cross-platform compatibility and power of expression, machine languages are designed to effect direct execution in a specific hardware platform and its control. For this project, Hack machine language is used.
+
+Machine language programs can be written in either /binary/ or /symbolic/ instructions. Programs writtern in symbolic(/assembly/) languages are translated into executable binary code by a translator program called /assembler/.
+**** Hardware
+*Memory*: Functionally speaking, a memory is a continuous sequence of cells, also referred to as locations or memory registers, each having a unique address.
+
+*Processor*: A device capable of performing a fixed set of primitve operations which include arithmetic, logical, memory access and control/branching operations.
+
+*Registers*: Inside the processor's chip, they serve as high-speed local memory, allowing it to manipulate data and instructions without having to be dependent on slow memory chips. They're categorized into /data/ and /address/ registers.
+**** Instructions
+*Arithmetic and logical operations*: Assuming that the processor has a set of registers denoted =R0, R1, R2,...=. Basic operations like addition, subtraction, and(bitwise), or, not. \\
+=load R1,true= \\
+=load R2,false= \\
+=and R1,R2,R2= (R1 \leftarrow R1 And R2) \\
+
+*Memory access*: Using address register =A=, let us set memory location 17 to value 1. \\
+=load A,17= \\
+=load M,1= \\
+Here by convention, M stands for memory register selected by A.
+
+*Flow control*: For facilitating branching actions, labelled /goto/ statements exist.
+
+[[./assets/ecs-17.png][file:./assets/ecs-17.png]]
+
+*Symbols*: Make it easier to not rely on rigid physical addresses which makes the code /relocatable/.
+**** Hack
+*Memory*: Hack uses two distinct memory units, /data/ and /instruction/ memory. Both
+memories are 16-bit wide, and each has a 15-bit address space, hence maximum addressable size of each memory unit is 2$^{15}$ or 32K 16-bit words.
+
+[[./assets/ecs-18.png][file:./assets/ecs-18.png]]
+
+Data memory's =address= input always contains some value so there's always one selected register called M. Instruction memory's =address= input also always contains some value that is, there's always one selected instruction memory register whose value is referred to as /current instruction/.
+
+*Registers*: Hack Instructions work on three 16-bit registers, /data/ (D: stores value), /address/ (A: both address and data) and selected /data memory/ register M. To store a constant in A register, instruction is =@17=, to set D register to a value, two instructions are needed: =@17= then =D=A=.
+
+*Addressing*: The =@xxx= instruction does two things, first it makes the RAM register whose address is =xxx= the selected memory register(M) and then it makes the value of the ROM register whose address is =xxx= the selected instruction. For example, to set value of =RAM[100]= to =17=, instructions are =@17, D=A, @100, M=D=. Initially A acts as a data register then as an address register. To set value of RAM[100] to value of =RAM[200]=, do =@200, D=M, @100, M-D=.
+
+*Branching*:
+** IUSACO
+CLOSED: [2022-06-05 Sun]
+:PROPERTIES:
+:EXPORT_FILE_NAME: iusaco-notes
+:END:
+*** Input and Output
+  #+begin_src cpp
+  #include <cstdio>
+  using namespace std;
+  int main() {
+      freopen("template.in", "r", stdin);
+      freopen("template.out", "w", stdout);
+  }
+  #+end_src
++ When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.
++ 32bit int: $\pm 2\times10^{9}$ v/s 64bit int: $\pm 9\times 10^{18}$
+*** Complexity and algorithm analysis
++ Elementary mathematical calculation: O(1)
++ Unordered set/map: O(1) per operation
++ Binary Search: O(log n)
++ Ordered set/map or Priority Queue: O(log n) per operation
++ Prime factorization or primality check for int: $O(\sqrt{n})$
++ Reading n inputs: O(n)
++ Iterating through n element array: O(n)
++ Sorting: Usually O(n log n) for =std::sort()=
++ Iterating through all subsets of size k of input elements: O($n^{k}$ ), for triplets O($n^{3}$)
++ Iterating through all subsets: O($2^{n}$)
++ Iterating through all permutations: O(n!)
+*** Built-in Data Structures
+Data Structure determines how data is stored, each supports some operations efficiently. In following discussion, desired data type is put between =<>=. Most std structures support =size()= and =empty()= methods.
+**** Iterators
+Allows for traversal of a container with the help of a pointer.
+#+begin_src cpp
+  for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {
+    cout << *it; //prints the values in the vector using the pointer
+  }
+#+end_src
+
+Alternate way to achieve the same with a for-each loop and =auto=.
+#+begin_src cpp
+  for(auto element : v){
+    cout << element; // prints values in vector
+  }
+#+end_src
+
+**** Dynamic Arrays
+Addition and deletion at the end in O(1) time and in the middle in O(n) time.
+#+begin_src cpp
+  vector<int> v;
+  for(int i = 1; i <= 10; i++){
+    v.push_back(i); // stores 1 to 10 in a dynamic array
+  }
+#+end_src
+
+Vectors can be made static sized by initializing it with a size, =vector<int> v(30);=. They also support an =v.erase()= operation. A dynamic array can be sorted (default ascending) by =sort(v.begin(), v.end())=.
+**** Stacks and Queues
+*Stacks*: LIFO with operations =push= (add at end), =pop= (remove at end) and =top= (show end) all of which are O(1). Declared as =stack<int> s=.
+
+*Queues*: FIFO with operations =push= (add in front), =pop= (remove at end) and =front= (show end) in O(1).
+
+*Deques*: Combination of a stack and a queue supporting insertion and deletion from both front and end. Operations are aptly named as =push_back=, =push_font=, =pop_back= and =pop_front=.
+
+*Priority Queues*: Supports insertion of elements and deletion and retrieval of element /with highest priority/ in O(log n) where priority is based on a comparator function (highest element in front). Has =push= (add at end), =pop= (remove at end) and =top= (show end) operations and is declared as =priority_queue<int> pq;=.
+**** Sets
+A /set/ is a collection of objects having no duplicates.
+
+*Unordered Sets*: Work by hashing that is, assigning a unique code to every object allowing for =insert=, =erase= and =count= (set contains element then 1 else 0) in O(1). Traversal is pointless. Declared as =unordered_set<int> s=.
+
+#+begin_src cpp
+  for(int element : s){
+    cout << element << " "; // iterating through a set, arbitrary order
+  }
+#+end_src
+
+*Ordered Sets*: Insertion, deletion and search needs O(log n) time. Has additional operations =begin()= (iterator to lowest element), =end()=, =lower_bound()= (iterator to least element \geq some k) and =upper_bound()=.
+
+*Multisets*: A sorted set allowing multiple copies of same element, whose =count= operation returns the number of times an element is present in set. Time complexity of this operation is O(log n + f) where /log n/ factor searches for element and /f/ factor iterates through sorted set to get count. Declared as =multiset<int> ms=.
+**** Maps
+A /map/ is a set of /ordered pairs/ called key and value where keys must be unique but values can be repeated. Supported operations are addition and removal of key-value pair and /retrieval/ of values for a given key. Unordered maps perform aforementioned methods in O(1) whereas for ordered maps it's O(log n), sorted in order of key.
+
+*Unordered Maps*: In map =m=, =m[key] = value= operator assigns value to a key and places the pair on the map, =m[key]= returns value associated with the key, =count(key)= checks for existence of key in the map and =erase(it)= removes pair associated with a key or iterator. Declared as =unordered_map<int, int> m=.
+
+*Ordered Maps*: Supports additional operations =lower_bound= and =upper_bound= which return iterators pointing to lowest entry not less than/ strictly greater than a specified key.
+
+#+begin_src cpp
+  map<int, int> m; // [(3,5); (11,4)]
+  m[10] = 491; // [(3,5); (10,491); (11,4)]
+  cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << "\n";
+  // 10 491
+  cout << m.upper_bound(10)->first << " " << m.upper_bound(10)->second << "\n";
+  // 11 4
+  m.erase(11); // [(3,5); (10,491)]
+#+end_src
+*** Elementary Techniques
+**** Simulation
+Simulation refers to the act of doing precisely what the problem statement states and nothing else; essentially simulating it.
+**** Complete Search
+Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:
+#+begin_src cpp
+do {
+  check(v); // process or check the current permutation for validity
+} while(next_permutation(v.begin(), v.end()));
+#+end_src
+
+**** Sorting and Comparators
+C++ has built-in function for sorting in ascending order: =std::sort(arr, arr+N)= or for a vector =sort(v.begin(), v.end())=. For sorting in a self-defined order, one must use a custom comparator.
+
+**** Greedy Algorithms
+Algorithms that select the most optimal choice at each step, instead of looking at the solution space as a whole. Usually in a greedy algorithm, there is a heuristic or value function that determines which choice is considered most optimal. The choice of the greedy algorithm matters too, for example in a scheduling problem choosing earliest starting next event would be incorrect, instead one should go for earliest ending next event because that would give one more choices for future events.
+
+Greedy won't work in all scenarios though, for example in the fairly popular coin change problem, if the denominations are ={1,3,4}= then greedy solution would be ={4,1,1}= but the correct least amount of coins would be two ={3,3}=. Similarly it cannot work for the knapsack problem which is solved using Dynamic Programming.
+*** Graph Theory
+**** Representation
+Graphs (N vertices and M edges) are usually given in the format: =N= =M= followed by the =M edges= each showing the connecting vertices. One thing to note is that a graph should be stored globally and statically, for access outside the main method. A graph can be represented in three ways:
+***** Adjacency List
+  For using DFS, BFS, Dijkstra or other =single-source= traversal algorithms, it's the preferred way of storing graphs. In it, an array of length N of lists is maintained.
+  [[./assets/usaco-adj.png][file:./assets/usaco-adj.png]]
+  They take up =O(M+N)= space but allow for easy traversal among the neighbors of a vertex. Often, there's a need to maintain a =visited= array.
+  #+begin_src cpp
+int n, m;
+vector<int> adj[MAXN];
+bool visited[MAXN];
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < m; i++){
+    int a, b;
+    cin >> a >> b;
+    a--; b--; // subtract 1 for vertex since array is zero-indexed
+    adj[a].push_back(b);
+    adj[b].push_back(a); // omit for directed graph
+  }
+}
+
+// For a weighted graph:
+struct Edge
+{
+  int to, weight;
+  Edge(int dest, int w):
+  to(dest), weight(w)
+  {
+  }
+}
+  #+end_src
+***** Adjacency Matrix
+This is an =N x N= 2D array that stores for each pair of indices(a,b) whether an edge exists between them or not. Primarily used for Floyd-Warshall Algorithm.
+#+begin_src cpp
+int n, m;
+int adj[MAXN][MAXN];
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < m; i++){
+    int a, b;
+    cin >> a >> b;
+    a--; b--;
+    adj[a][b] = 1; // or w for weighted graph
+    adj[b][a] = 1; // ignore this if directed
+  }
+}
+#+end_src
+***** Edge List
+Usually used for weighted undirected graphs when sorting the edges by weight is needed (DSU). Its simply a single list of all edges =(a, b, w)= where a and b are the vertices and w is the weight of connecting edge. Each edge is added only oncce.
+#+begin_src cpp
+struct Edge{
+  int a, b, w;
+  Edge(int start, int end, int weight):
+  a(start), b(end), w(weight)
+  {
+  }
+  bool operator<(const Edge & e)
+  const{
+    return w < e.w; // ascending weight sort
+  }
+};
+
+int n, m;
+vector<Edge> edges;
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < m; i++){
+    int a, b, w;
+    cin >> a >> b >> w;
+    a--; b--;
+    edges.push_back(Edge(a, b, w)); // add edge to list
+  }
+  sort(edges.begin(), edges.end());
+}
+#+end_src
+**** Traversal
+***** Breadth-First Search (BFS)
+Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.
+#+begin_src cpp
+void bfs(int start){
+  const int total_nodes = n;
+  memset(dist, -1, sizeof dist); // fill distance array with -1s
+  queue<int> q;
+  dist[start] = 0;
+  q.push(start);
+  int seen = 1;
+  while(!q.empty()){
+    int v = q.front();
+    q.pop();
+    for(int e: adj[v]){
+      if(dist[e] == -1){
+        dist[e] = dist[v] + 1;
+        if(++seen == total_nodes) break; // see: https://observablehq.com/@yurivish/efficient-graph-search
+        q.push(e);
+      }
+    }
+  }
+}
+#+end_src
+Once BFS finishes, the array =dist= contains the distances from the start node to each node.
+***** Depth-First Search (DFS)
+Continues down a single path as far as possible until it has no more vertices to visit along that path, then backtracks and finds more vertices to visit.
+#+begin_src cpp
+void dfs(int node){
+  visited[node] = true;
+  for(int next : adj[node]){
+    if(!visited[next]){
+      dfs(next);
+    }
+  }
+}
+#+end_src
+If stack overflows are encountered with recursive DFS, it can be implemented iteravely by storing nodes in the BFS implementation on a stack instead of a queue.
+
+**** Floodfill
+Its DFS but on a grid and the aim is to find the connected component of all the connected cells with the same number. As opposed to an explicit graph where the edges are given, a grid is an implicit graph where the neighbours are nodes adjacent in the four directions.
+
+When doing floodfill, an =N x M= array of bools =visited= is maintained and a global variable for the size of currently visiting component. The search function is called recursively from squares on all four sides of the current one.
+#+begin_src cpp
+int grid[MAXN][MAXM];
+int n, m;
+bool visited[MAXN][MAXM];
+int currentCompSize = 0;
+
+void floodfill(int r, int c, int color){
+  if(r < 0 || r >= n || c < 0 || c >= m) return; // outside grid
+  if(grid[r][c] != color) return; // wrong color
+  if(visited[r][c]) return; // already visited
+
+  visited[r][c] = true; // mark current sq as visited
+  currentCompSize++;
+  // recursively call floodfill for neighbour sqs
+  floodfill(r, c+1, color);
+  floodfill(r, c-1, color);
+  floodfill(r-1, c, color);
+  floodfill(r+1, c, color);
+}
+
+int main(){
+  /*
+   ,* additional stuff here
+  ,*/
+  for(int i = 0; i < n; i++){
+    for(int j = 0; j < m; j++){
+      if(!visited[i][j]){
+        currentCompSize = 0;
+        floodfill(i, j, grid[i][j]);
+      }
+    }
+  }
+}
+#+end_src
+**** Disjoint-Set Union Data Structure
+It supports two operations:
++ Add an edge between two nodes
++ Check if two nodes are connected
+For this, the sets are stored as trees; initially each node is its own set then the sets are combined when an edge is added between two nodes.
+#+begin_src cpp
+int parent[MAXN]; // store root of each set
+
+void initialize(int N){
+  for(int i = 0; i < N; i++)
+    parent[i] = i; // initially, root of each set is node itself
+}
+
+int find(int x){ // find root of set of x
+  if(x == parent[x])
+    return x; // if x is its parent, it is the root
+  else
+    return find(parent[x]);
+}
+
+void union(int a, int b){ // merge sets of a and b
+  int c = find(a);        // find a's root
+  int d = find(b);        // find b's root
+  if (c != d)
+    parent[d] = c;        // merge sets by setting parent of d to c
+}
+#+end_src
+The naive recursive implementation of find can be improved from =O(nm)= by path compression; the idea being reassignment of nodes on recursive calls to =find= to prevent formation of long chains and the runtime becomes =O(n log n)=.
+#+begin_src cpp
+int find(int x){
+  if(x == parent[x])
+    return x;
+  else
+    return parent[x] = find(parent[x]);
+}
+#+end_src
+**** Miscellaneous
++ DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from /u/ to /v/, /u/ appears before /v/ (topological sorting).
++ Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.
+*** More Techniques
+**** Prefix Sums
+To process queries to find the sum of elements between two indices in a list, prefix sum is useful. Using 1-index in the array is beneficial i.e. assigning =arr[0] = 0= and hence =prefix[0] = 0=.
+
+\(prefix[k] = \sum_{i=1}^{k}arr[i] = prefix[k-1] + arr[k]\)
+
+For processing Q queries consisting on an array of N elements, the complexity is =O(N+Q)=.
+
+#+begin_note
+TODO: DP, 2D prefix sum as 1-D only
+#+end_note
+
+**** Binary Search
+**** Basic Number Theory
+Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\):
+[[./assets/usaco-pf.png][file:./assets/usaco-pf.png]]
+| i |   n | v           |
+|---+-----+-------------|
+| 2 | 252 | {}          |
+| 2 | 126 | {2}         |
+| 2 |  63 | {2,2}       |
+| 3 |  21 | {2,2,3}     |
+| 3 |   7 | {2,2,3,3}   |
+| 7 |   1 | {2,2,3,3,7} |
+GCD using Euclidean Algorithm in =O(log min(a,b))=:
+#+begin_src cpp
+int gcd(int a, int b){
+  if(!b) return a;
+  return gcd(b, a%b);
+}
+#+end_src
+LCM can be computed using GCD by \(\frac{a \times b}{gcd(a,b)}\)
+
+Modular Arithmetic is useful for dealing with overflows by taking remainders:
+
+$$\begin{align*}
+(a \pm b)\mod m &= (a\mod m \pm b\mod m)\mod m \\
+(a \times b)\mod m &= ((a\mod m) \times (b\mod m))\mod m \\
+a^{b}\mod m &= (a\mod m)^{b}\mod m
+\end{align*}$$
+*** Additional Topics
++ Two Pointers \\
+  Iterate across an array that track the start and end of an interval or values in a sorted array. Both pointers are monotonic i.e. start at one end of array and move in only one direction.
+**** Line Sweep
+**** Bitwise Operations
+**** Ad-hoc
+
+** Meditations
+CLOSED: [2022-03-14 Mon]
+:PROPERTIES:
+:EXPORT_FILE_NAME: meditations
+:END:
+*** Book 2: On the River Gran, Among the Quadi
+And so none of them can hurt me. No one can implicate me in ugliness. Nor can I feel angry at my relative, or hate him. We were born to work together like feet, hands, and eyes, like the two rows of teeth, upper and lower. To obstruct each other is unnatural. To feel anger at someone, to turn your back on him: these are obstructions.
+
+Concentrate every minute like a Roman- like a man- on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions. Yes, you can- if you do everything as if it were the last thing you were doing in your life, and stop being aimless, stop letting emotions override what your mind tells you, stop being hypocritical, self-centered and irritable.
+
+Do external things distract you? Then make time for yourself to learn something worthwhile; stop letting yourself be pulled in all directions. But make sure you guard against the other kind of confusion. People who labor all their lives but have no purpose to direct every thought and impulse toward are wasting their time- even when hard at work.
+
+You could leave life right now. Let that determine what you do and say and think.
+
+Nothing is more pathetic than people who run around in circles, "delving into things that lie beneath" and conducting investigations into the souls of the people around them, never realizing that all you have to do is to be attentive to the power inside you and worship it sincerely.
+
+What is divine deserves our respect because it is good; what is human deserves our affection because it is like us. And our pity too, sometimes, for its inability to tell good from bad- as terrible a blindness as the kind that can't tell white from black.
+
+The present is all that they can give up, since that is all you have, and what you do not have, you cannot lose.
+
+The human soul degrades itself.
+
+Above all, when it does its best to become an abscess, a kind of detached growth on the world.
+
+When it allows its action and impulse to be without a purpose, to be random and disconnected: even the smallest things ought to be directed toward a goal.
+
+The body and its parts are a river, the soul a dream and mist, life is warfare and a journey far from home, lasting reputation is oblivion.
+Then what can guide us?
+Only philosophy.
+
+And nothing natural is evil.
+*** Book 3: In Carnuntum
+But getting the most out of ourselves, calculating where our duty lies, analyzing what we hear and see, deciding whether it's time to call it quits- all the things you need a healthy mind for... all those are gone.
+So we need to hurry.
+Not just because we move daily closer to death but also because our understanding- our grasp of the world- may be gone before we get there.
+
+We should remember that even Nature's inadvertence has its own charm, its own attractiveness.
+
+You boarded, you set sail, you've made the passage. Time to disembark. If it's for another life, well, there's nowhere without gods on that side either. If to nothingness, then you no longer have to put up with pain or pleasure, or go on dancing attendance on this battered crate, your body- so much inferior to that which serves it.
+One is mind and spirit, the other earth and garbage.
+
+Don't waste your the rest of your time here worrying about other people- unless it affects the common good. It will keep you from doing anything useful. You'll be too preoccupied with what so-and-so is doing, and why, and what they're saying, and what they're thinking, and what they're up to, and all the other things that throw you off and keep you from focusing on your own mind.
+You need to avoid certain things in your train of thought: everything random, everything irrelevant. And certainly everything self-important or malicious.
+
+He does only what is his to do, and considers constantly what the world has in store for him- doing his best, and trusting that all is *for* the best. For we carry our fate with us- and it carries us.
+
+And he cares nothing for their praise- men who can't even meet their own standards.
+
+... then don't make room for anything but it- for anything that might lead you astray, tempt you off the road, and leave you unable to devote yourself completely to achieving the goodness that is uniquely yours.
+
+Choose what's best.
+-Best is what benefits *me*.
+As a rational being? Then follow through. Or just as an animal? Then say so and stand your ground without making a show of it.
+
+Never regard something as doing you good if it makes you betray a trust, or lose your sense of shame, or makes you show hatred, suspicion, ill will, or hypocrisy, or a desire for things best done behind closed doors.
+
+Your ability to control your thoughts- treat it with respect. It's all that protects your mind from false perceptions- false to your nature, and that of all rational beings. It's what makes thoughtfulness possible, and affection for other people, and submission to the divine.
+
+It you do the job in a principled way, with diligence, energy and patience, if you keep yourself free of distractions, and keep the spirit inside you undamaged, as if you might have to give it back at any moment-
+If you can embrace this without fear or expectation- can find fulfillment in what you're doing now, as Nature intended, and in superhuman truthfulness (every word, every utterance)- then your life will be happy.
+No one can prevent that.
+
+To make your mind your guide to what seems best: even people who deny the gods do that. Even people who betray their country. Even people who do sex behind closed doors.
+If all rest is common coin, then what is unique to the good man?
+To welcome with affection what is sent by fate. Not to stain or disturb the spirit within him with a mess of false beliefs.
+*** Book 4
+People try to get away from it all- to the country, to the beach, to the mountains. You always wish that you could too. Which is idiotic: you can get away from it anytime you like.
+By going within.
+
+An instant's recollection and there it is: complete tranquility. And by tranquility I mean a kind of harmony.
+
+The things that have no hold on the soul. They stand there unmoving, outside it. Disturbance comes only from within- from our own perceptions.
+That everything you see will soon alter and cease to exist. Think of how many changes you've already seen.
+"The world is nothing but change. Our life is only perception."
+
+If thought is something we share, then so is reason- what makes us reasoning beings.
+If so, then the reason that tells us what to do and what not to do is also shared.
+And if so, we share a common law.
+And thus, are fellow citizens.
+And fellow citizens of something.
+And in that case, our state must be the world. What other entity could all of humanity belong to? And from it- from this state that we share- come thought and reason and law.
+
+Choose not to be harmed, and you won't feel harmed. Don't feel harmed- and you haven't been.
+
+It can ruin your life only if it ruins your character[fn:1]. Otherwise it cannot harm you- inside or not.
+
+Two kinds of readiness are constantly needed:
+1. to do only what the *logos* of authority and law directs, with the good of human beings in mind;
+2. to reconsider your position, when someone can set you straight or convert you to his. But your conversion should always rest on a conviction that it's right, or benefits others- nothing else. Not because it's more appealing or more popular.
+
+You have a mind?
+-Yes.
+Well, why not use it? Isn't that all you want- for it to do its job?
+
+Not to live as if you had endless years ahead of you. Death overshadows you. While you're alive and able- be good.
+
+The tranquility that comes when you stop caring what they say. Or think, or do. Only what *you* do. (Is this fair? Is this the right thing to do?)
+
+But suppose those who remembered you were immortal and your memory undying. What good would it do you? And I don't just mean when you're dead, but in your own lifetime. What use is praise, except to make your lifestyle a little more comfortable?
+"You're out of step- neglecting the gifts of nature to hand on someone's words in the future."
+
+Beautiful things of any kind are beautiful in themselves and sufficient to themselves. Praise is extraneous. The object of praise remains what it was- no better and no worse. This applies, I think, even to "beautiful" things in ordinary life- physical objects, artworks.
+
+Because most of what we say and do is not essential. If you can eliminate it, you'll have more time, and more tranquility. Ask yourself at any moment, "Is this necessary?"
+
+Love the discipline you know, and let it support you. Entrust everything willingly to the gods, and then make your way through life- no one's master and no one's slave.
+
+A key point to bear in mind: The value of attentiveness varies in propotion to its object. You're better off not giving the small things more time than they deserve.
+
+Then what should we work for?
+Only this: proper understanding; unselfish action; truthful speech. A resolve to accept whatever happens as necessary and familiar, flowing like water from that same source and spring.
+
+On the verge of dying and still weighed down, still turbulent, still convinced external things can harm you, still rude to other people, still not acknowledging the truth: that wisdom is justice.
+
+"A little wisp of soul carrying a corpse." - Epictetus.
+
+What follows coheres with what went before. Not like a random catalogue whose order is imposed upon it arbitrarily, but logically connected. And just as what exists is ordered and harmonious. what comes into being betrays an order too. Not a mere sequence, but an astonishing concordance.
+
+"Our words and actions should not be like those of sleepers" (for we act and speak in dreams as well) "or of children copying their parents" -doing and saying only what we have been told.
+
+Suppose that a god announced that you were going to die tomorrow "or the day after". Unless you were a complete coward you wouldn't kick up a fuss about which day it was- what difference could it make? Now recognize that the difference between years from now and tomorrow is just as small.
+
+Our lifetime is so brief. And to live it out in these cirumstances, among these people, in this body? Nothing to get excited about. Consider the abyss of time past, the infinite future. Three days of life or three generations: what's the difference?
+
+Take the shortest route, the one that nature planned- to speak and act in the healthiest way. Do that, and be free of pain and stress, free of all calculation and pretension.
+
+[fn:1] Character, as in the upholding of your innate morals, not as what is percieved by others.
+*** Book 5
+At dawn, when you have trouble getting out of bed, tell yourself: "I have to go to work- as a human being. What do I have to complain of, if I'm going to do what I was born for- the things I was brought into the world to do? Or is *this* what I was created for? To huddle under the blankets and stay warm?"
+-But it's nicer here...
+So you were born to feel "nice"? Instead of doing things and experiencing them? Don't you see the plants, the birds, the ants and spiders and bees going about their individual tasks, putting the world in order, as best as they can? And you're not willing to do your job as a human being? Why aren't you running to do what your nature demands?
+
+But nature set a limit on that- as it did on eating and drinking. And you're over the limit. You've had more than enough of that. But not of working. There you're still below your quota.
+
+Is helping others less valuable to you? Not worth your effort?
+
+If an action or utterance is appropriate, then it's appropriate for you. Don't be put off by other people's comments and criticism. If it's right to say or do it, then it's the right thing for you to do or say.
+
+Practice the virtues you *can* show: honesty, gravity, endurance, austerity, resignation, abstinence, patience, sincerity, moderation, seriousness, high-mindedness. Don't you see how much you have to offer- beyond excuses like "can't"? And yet you still settle for less.
+
+Prayer for the Athenians:
+/Zeus, rain down, rain down
+On the lands and fields of Athens./
+Either no prayers at all- or one as straightforward as that.
+
+Look at the accomplishment of nature's plans in that light- the way you look at your own health- and accept what happens (even if it seems hard to accept). Accept it because of what it leads to: the good health of the world, and the well-being and prosperity of Zeus himself, who would not have brought this on anyone unless it brought benefit to the world as a whole. No nature would do that- bring something about that wasn't beneficial to what it governed.
+
+[To be continued...]
