@@ -449,6 +449,30 @@ pre code {
     margin-bottom: 0;
     overflow-x: auto; }
 
+pre.mermaid {
+  max-width: 100%;
+  /* Prevents overflow */
+  width: auto;
+  /* Allows natural scaling */
+  height: auto;
+  /* Prevents fixed height */
+  overflow-x: auto;
+  /* Enables horizontal scrolling if needed */
+  overflow-y: hidden;
+  /* Prevents vertical scroll unless necessary */ }
+
+pre.mermaid svg {
+  /* Ensure SVG can scale and be explored */
+  max-width: none;
+  /* Override any max-width restrictions */
+  min-width: 100%;
+  /* Ensure minimum width fills container */
+  height: auto;
+  /* Maintain aspect ratio */ }
+
+pre.mermaid p {
+  font-family: initial; }
+
 ::-webkit-scrollbar {
   background-color: transparent;
   width: 3px; }

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
+    
+    <script> 
+        function setTheme() {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                return;
+            }
+            else {
+                document.documentElement.setAttribute("data-theme", "light");
+                return;
+            }
+      }
+    </script>
+    <script>
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme); 
+    </script>
+</head>
+<body>
+        <div class="content">
+            
+                <div class = "container">
+                <head>
+  
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MCM &middot; bacchanalian madness</title>
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="manifest" href=" /images/site.webmanifest">
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
+</head>
+
+                		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<div class="title" style="white-space: nowrap;">
+						<h1 class="nav-title"><b>bacchanalian madness</b></h1>
+					</div>
+				</a>
+
+				<aside>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/about/about/">
+                        
+                        <span>About</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/blog/">
+                        
+                        <span>Blog</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/notes/">
+                        
+                        <span>Notes</span>
+                    </a>
+                </li>
+            
+        
+        <li>
+            <a href="/index.xml">RSS</a> 
+        </li>
+        <li>
+            <div id="dark-mode-button">
+                <input type="checkbox" class="toggle" id="check"/>
+                <label for="check" class="themebox">
+                </label>
+            </div>
+        </li>
+    </ul>
+</aside>
+
+
+			</div>
+		</nav>
+
+                
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    
+    
+    
+    
+        
+        
+        <time datetime="2024-11-29 16:07:00 &#43;0530 IST">November 29, 2024</time>
+</div>
+
+		<h1 class="post-title">MCM</h1>
+
+		
+
+		
+
+		
+
+		<h2 id="components">Components</h2>
+<pre class="mermaid">---
+title: MCM Components
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+   %% note &#34;apiVersion, kind &amp; metadata components have not been shown&#34;
+
+   %% classDef Machine, MachineClass, MachineDeployment, MachineSet fill:#000;
+   %% Machine ---------------------------------
+   Machine &lt;|-- MachineSpec
+   Machine &lt;|-- MachineStatus
+   class Machine{
+   MachineSpec spec
+   MachineStatus status
+   }
+   %%--
+   MachineSpec &lt;|-- ClassSpec
+   MachineSpec &lt;|-- NodeTemplateSpec
+   MachineSpec &lt;|-- MachineConfiguration
+
+   class MachineSpec{
+   ClassSpec class
+   string providerID
+   NodeTemplateSpec nodeTemplate
+   MachineConfiguration MachineConfiguration
+   }
+
+   class ClassSpec{
+   string apiGroup
+   string kind
+   string name
+   }
+
+   class NodeTemplateSpec{
+   string podCIDR: IP range
+   []string podCIDRs
+   string oroviderID
+   bool unschedulable
+   []taint taints
+   *NodeConfigSource configSource: deprecated
+   source externalID: deprected
+   }
+   note for NodeTemplateSpec &#34;Actually part of NodeSpec which is a field in NodeTemplateSpec&#34;
+
+   class MachineConfiguration{
+   v1.Duration drainTimeout
+   v1.Duration healthTimeout
+   v1.Duration creationTimeout
+   int32* maxEvictRetries
+   string* nodeConditions
+   }
+   %%--
+   MachineStatus &lt;|-- LastOperation
+   MachineStatus &lt;|-- CurrentStatus
+   class MachineStatus{
+   v1.NodeCondition conditions
+   LastOperation lastOperation
+   CurrentStatus currentStatus
+   string lastKnownState
+   }
+
+   class LastOperation{
+   string description
+   string errorCode
+   v1.Time lastUpdateTime
+   MachineState state: string
+   MachineOperationType type: string
+   }
+
+   class CurrentStatus{
+   MachinePhase phase: string
+   bool timeoutActive
+   v1.Time lastUpdateTime
+   }
+
+ %% MachineClass ---------------------------------
+   MachineClass &lt;|-- NodeTemplate
+   class MachineClass{
+   NodeTemplate nodeTemplate
+   v1.SecretReference credentialsSecretRef
+   RawExtension provideSpec
+   string provider
+   v1.SecretReference secretRef
+   }
+   note for MachineClass &#34;credentialsSecretRef has cloud provider credentials&lt;br&gt;secretRef has userData: bootstrap token, API server addr, kubeconfig&#34;
+
+   class NodeTemplate{
+   v1.ResourceList capacity
+   string instanceType
+   string region
+   string zone
+   string* architecture
+   }
+
+ %% Deployment ---------------------------------
+   MachineDeployment &lt;|-- MachineDeploymentSpec
+   MachineDeployment &lt;|-- MachineDeploymentStatus
+   class MachineDeployment{
+   MachineDeploymentSpec spec
+   MachineDeploymentStatus status
+   }
+   %%--
+   MachineDeploymentSpec &lt;|-- MachineTemplateSpec
+   MachineDeploymentSpec &lt;|-- MachineDeploymentStrategy
+   class MachineDeploymentSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   MachineTemplateSpec spec
+   MachineDeploymentStrategy strategy
+   int32 minReadSeconds
+   int32* revisionHistoryLimit
+   bool paused
+   RollbackConfig rollbackTo: deprecated
+   int32* progressDeadlineSeconds
+   }
+
+   MachineTemplateSpec &lt;|-- MachineSpec
+   class MachineTemplateSpec{
+   MachineSpec spec
+   }
+
+   MachineDeploymentStrategy &lt;|-- RollingUpdateMachineDeployment
+   class MachineDeploymentStrategy{
+   MachineDeploymentStrategyType type: string
+   RollingUpdateMachineDeployment rollingUpdate
+   }
+
+   class RollingUpdateMachineDeployment{
+   IntOrString MaxUnavailable
+   IntOrString MaxSurge
+   }
+   %%--
+   MachineDeploymentStatus &lt;|-- MachineDeploymentCondition
+   MachineDeploymentStatus &lt;|-- MachineSummary
+   class MachineDeploymentStatus{
+   int64 observedGeneration
+   int32 replicas
+   int32 updatedReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int32 unavailableReplicas
+   []MachineDeploymentCondition condition
+   int32* collisionCount
+   MachineSummary failedMachines
+   }
+
+   class MachineDeploymentCondition{
+   MachineDeploymentConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastUpdateTime
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   MachineSummary &lt;|-- LastOperation
+   class MachineSummary{
+   string name
+   string providerID
+   LastOperation lastOperation
+   string ownerRef
+   }
+
+   class LastOperation{
+   string description
+   string errorCode
+   v1.Time lastUpdateTime
+   MachineState state: string
+   MachineOperationType type: string
+   }
+
+ %% MachineSet ---------------------------------
+   MachineSet &lt;|-- MachineSetSpec
+   MachineSet &lt;|-- MachineSetStatus
+   class MachineSet{
+   MachineSetSpec spec
+   MachineSetStatus status
+   }
+
+   MachineSetSpec &lt;|-- ClassSpec
+   MachineSetSpec &lt;|-- MachineTemplateSpec
+   class MachineSetSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   ClassSpec machineClass
+   MachineTemplateSpec template
+   int32 minReadySeconds
+   }
+
+   MachineSetStatus &lt;|-- MachineSetCondition
+   MachineSetStatus &lt;|-- LastOperation
+   MachineSetStatus &lt;|-- MachineSummary
+   class MachineSetStatus{
+   int32 replicas
+   int32 fullyLabeledReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int64 observedGeneration
+   []MachineSetCondition machineSetCondition
+   LastOperation lastOperation
+   MachineSummary failedMachines
+   }
+
+   class MachineSetCondition{
+   MachineSetConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   %% Can machine dep condition and machine set condition not be the same?
+</pre>
+
+<h2 id="todos">TODOs</h2>
+<ul>
+<li>Check control and target clusters, inClusterConfig.</li>
+</ul>
+
+    
+    
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/notes/20241108t095209--docker-k8s-training__k8s_sap/" class="left arrow">&#8592;</a>
+		<a href="/" class="bottom">Home</a>
+	</div>
+	
+  
+					
+  
+
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          
+          
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '\\[', right: '\\]', display: true}
+          ],
+          
+          throwOnError : false
+        });
+    });
+	</script>
+</main>
+
+
+                		<footer>
+			
+			<span>
+			&copy; <time>2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
+			</span>
+		</footer>
+
+                </div>
+            
+        </div>
+        
+        <script type="module">
+          import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+          mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+    <script> 
+        const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+        if (localStorage.theme) {
+            toggleSwitch.checked = localStorage.theme === "dark";
+        }
+        function switchTheme(e) {
+        const theme = e.target.checked ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.theme = theme;
+        }
+        toggleSwitch.addEventListener("change", switchTheme);
+    </script>
+    </body>
+</html>

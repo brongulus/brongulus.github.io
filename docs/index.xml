@@ -6,7 +6,238 @@
     <description>Recent content on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 08 Nov 2024 09:52:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Nov 2024 16:07:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MCM</title>
+      <link>https://brongulus.github.io/notes/20241129t160749--mcm__k8s_sap_work/</link>
+      <pubDate>Fri, 29 Nov 2024 16:07:00 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/20241129t160749--mcm__k8s_sap_work/</guid>
+      <description>&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: MCM Components
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+   %% note &amp;#34;apiVersion, kind &amp;amp; metadata components have not been shown&amp;#34;
+
+   %% classDef Machine, MachineClass, MachineDeployment, MachineSet fill:#000;
+   %% Machine ---------------------------------
+   Machine &amp;lt;|-- MachineSpec
+   Machine &amp;lt;|-- MachineStatus
+   class Machine{
+   MachineSpec spec
+   MachineStatus status
+   }
+   %%--
+   MachineSpec &amp;lt;|-- ClassSpec
+   MachineSpec &amp;lt;|-- NodeTemplateSpec
+   MachineSpec &amp;lt;|-- MachineConfiguration
+
+   class MachineSpec{
+   ClassSpec class
+   string providerID
+   NodeTemplateSpec nodeTemplate
+   MachineConfiguration MachineConfiguration
+   }
+
+   class ClassSpec{
+   string apiGroup
+   string kind
+   string name
+   }
+
+   class NodeTemplateSpec{
+   string podCIDR: IP range
+   []string podCIDRs
+   string oroviderID
+   bool unschedulable
+   []taint taints
+   *NodeConfigSource configSource: deprecated
+   source externalID: deprected
+   }
+   note for NodeTemplateSpec &amp;#34;Actually part of NodeSpec which is a field in NodeTemplateSpec&amp;#34;
+
+   class MachineConfiguration{
+   v1.Duration drainTimeout
+   v1.Duration healthTimeout
+   v1.Duration creationTimeout
+   int32* maxEvictRetries
+   string* nodeConditions
+   }
+   %%--
+   MachineStatus &amp;lt;|-- LastOperation
+   MachineStatus &amp;lt;|-- CurrentStatus
+   class MachineStatus{
+   v1.NodeCondition conditions
+   LastOperation lastOperation
+   CurrentStatus currentStatus
+   string lastKnownState
+   }
+
+   class LastOperation{
+   string description
+   string errorCode
+   v1.Time lastUpdateTime
+   MachineState state: string
+   MachineOperationType type: string
+   }
+
+   class CurrentStatus{
+   MachinePhase phase: string
+   bool timeoutActive
+   v1.Time lastUpdateTime
+   }
+
+ %% MachineClass ---------------------------------
+   MachineClass &amp;lt;|-- NodeTemplate
+   class MachineClass{
+   NodeTemplate nodeTemplate
+   v1.SecretReference credentialsSecretRef
+   RawExtension provideSpec
+   string provider
+   v1.SecretReference secretRef
+   }
+   note for MachineClass &amp;#34;credentialsSecretRef has cloud provider credentials&amp;lt;br&amp;gt;secretRef has userData: bootstrap token, API server addr, kubeconfig&amp;#34;
+
+   class NodeTemplate{
+   v1.ResourceList capacity
+   string instanceType
+   string region
+   string zone
+   string* architecture
+   }
+
+ %% Deployment ---------------------------------
+   MachineDeployment &amp;lt;|-- MachineDeploymentSpec
+   MachineDeployment &amp;lt;|-- MachineDeploymentStatus
+   class MachineDeployment{
+   MachineDeploymentSpec spec
+   MachineDeploymentStatus status
+   }
+   %%--
+   MachineDeploymentSpec &amp;lt;|-- MachineTemplateSpec
+   MachineDeploymentSpec &amp;lt;|-- MachineDeploymentStrategy
+   class MachineDeploymentSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   MachineTemplateSpec spec
+   MachineDeploymentStrategy strategy
+   int32 minReadSeconds
+   int32* revisionHistoryLimit
+   bool paused
+   RollbackConfig rollbackTo: deprecated
+   int32* progressDeadlineSeconds
+   }
+
+   MachineTemplateSpec &amp;lt;|-- MachineSpec
+   class MachineTemplateSpec{
+   MachineSpec spec
+   }
+
+   MachineDeploymentStrategy &amp;lt;|-- RollingUpdateMachineDeployment
+   class MachineDeploymentStrategy{
+   MachineDeploymentStrategyType type: string
+   RollingUpdateMachineDeployment rollingUpdate
+   }
+
+   class RollingUpdateMachineDeployment{
+   IntOrString MaxUnavailable
+   IntOrString MaxSurge
+   }
+   %%--
+   MachineDeploymentStatus &amp;lt;|-- MachineDeploymentCondition
+   MachineDeploymentStatus &amp;lt;|-- MachineSummary
+   class MachineDeploymentStatus{
+   int64 observedGeneration
+   int32 replicas
+   int32 updatedReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int32 unavailableReplicas
+   []MachineDeploymentCondition condition
+   int32* collisionCount
+   MachineSummary failedMachines
+   }
+
+   class MachineDeploymentCondition{
+   MachineDeploymentConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastUpdateTime
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   MachineSummary &amp;lt;|-- LastOperation
+   class MachineSummary{
+   string name
+   string providerID
+   LastOperation lastOperation
+   string ownerRef
+   }
+
+   class LastOperation{
+   string description
+   string errorCode
+   v1.Time lastUpdateTime
+   MachineState state: string
+   MachineOperationType type: string
+   }
+
+ %% MachineSet ---------------------------------
+   MachineSet &amp;lt;|-- MachineSetSpec
+   MachineSet &amp;lt;|-- MachineSetStatus
+   class MachineSet{
+   MachineSetSpec spec
+   MachineSetStatus status
+   }
+
+   MachineSetSpec &amp;lt;|-- ClassSpec
+   MachineSetSpec &amp;lt;|-- MachineTemplateSpec
+   class MachineSetSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   ClassSpec machineClass
+   MachineTemplateSpec template
+   int32 minReadySeconds
+   }
+
+   MachineSetStatus &amp;lt;|-- MachineSetCondition
+   MachineSetStatus &amp;lt;|-- LastOperation
+   MachineSetStatus &amp;lt;|-- MachineSummary
+   class MachineSetStatus{
+   int32 replicas
+   int32 fullyLabeledReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int64 observedGeneration
+   []MachineSetCondition machineSetCondition
+   LastOperation lastOperation
+   MachineSummary failedMachines
+   }
+
+   class MachineSetCondition{
+   MachineSetConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   %% Can machine dep condition and machine set condition not be the same?
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;todos&#34;&gt;TODOs&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Check control and target clusters, inClusterConfig.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
     <item>
       <title>Docker Kubernetes Notes</title>
       <link>https://brongulus.github.io/notes/20241108t095209--docker-k8s-training__k8s_sap/</link>
