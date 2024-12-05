@@ -14,8 +14,9 @@
       
       <guid>https://brongulus.github.io/notes/20241129t160749--mcm__k8s_sap_work/</guid>
       <description>&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
+&lt;div class=&#34;mermaidbox&#34;&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
-title: MCM Components
+title: Machine
 config:
   layout: elk
   class:
@@ -91,7 +92,18 @@ classDiagram
    bool timeoutActive
    v1.Time lastUpdateTime
    }
+&lt;/pre&gt;
 
+&lt;/div&gt;
+&lt;div class=&#34;mermaidbox&#34;&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: MachineClass
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
  %% MachineClass ---------------------------------
    MachineClass &amp;lt;|-- NodeTemplate
    class MachineClass{
@@ -110,7 +122,18 @@ classDiagram
    string zone
    string* architecture
    }
+&lt;/pre&gt;
 
+&lt;/div&gt;
+&lt;div class=&#34;mermaidbox&#34;&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: MachineDeployment
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
  %% Deployment ---------------------------------
    MachineDeployment &amp;lt;|-- MachineDeploymentSpec
    MachineDeployment &amp;lt;|-- MachineDeploymentStatus
@@ -187,7 +210,18 @@ classDiagram
    MachineState state: string
    MachineOperationType type: string
    }
+&lt;/pre&gt;
 
+&lt;/div&gt;
+&lt;div class=&#34;mermaidbox&#34;&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: MachineSet
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
  %% MachineSet ---------------------------------
    MachineSet &amp;lt;|-- MachineSetSpec
    MachineSet &amp;lt;|-- MachineSetStatus
@@ -231,6 +265,7 @@ classDiagram
    %% Can machine dep condition and machine set condition not be the same?
 &lt;/pre&gt;
 
+&lt;/div&gt;
 &lt;h2 id=&#34;todos&#34;&gt;TODOs&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Check control and target clusters, inClusterConfig.&lt;/li&gt;

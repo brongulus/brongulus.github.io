@@ -449,6 +449,12 @@ pre code {
     margin-bottom: 0;
     overflow-x: auto; }
 
+.mermaidbox {
+  overflow: auto;
+  /* Enables scrolling */
+  max-width: 100%;
+  /* Responsive container */ }
+
 pre.mermaid {
   max-width: 100%;
   /* Prevents overflow */
@@ -461,7 +467,7 @@ pre.mermaid {
   overflow-y: hidden;
   /* Prevents vertical scroll unless necessary */ }
 
-pre.mermaid svg {
+pre.mermaid svg[id^="m"][width][height][viewBox] {
   /* Ensure SVG can scale and be explored */
   max-width: none;
   /* Override any max-width restrictions */
@@ -471,7 +477,8 @@ pre.mermaid svg {
   /* Maintain aspect ratio */ }
 
 pre.mermaid p {
-  font-family: initial; }
+  font-family: initial;
+  line-height: 1.1; }
 
 ::-webkit-scrollbar {
   background-color: transparent;

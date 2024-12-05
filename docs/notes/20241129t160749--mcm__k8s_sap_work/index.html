@@ -121,8 +121,9 @@
 		
 
 		<h2 id="components">Components</h2>
+<div class="mermaidbox">
 <pre class="mermaid">---
-title: MCM Components
+title: Machine
 config:
   layout: elk
   class:
@@ -198,7 +199,18 @@ classDiagram
    bool timeoutActive
    v1.Time lastUpdateTime
    }
+</pre>
 
+</div>
+<div class="mermaidbox">
+<pre class="mermaid">---
+title: MachineClass
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
  %% MachineClass ---------------------------------
    MachineClass &lt;|-- NodeTemplate
    class MachineClass{
@@ -217,7 +229,18 @@ classDiagram
    string zone
    string* architecture
    }
+</pre>
 
+</div>
+<div class="mermaidbox">
+<pre class="mermaid">---
+title: MachineDeployment
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
  %% Deployment ---------------------------------
    MachineDeployment &lt;|-- MachineDeploymentSpec
    MachineDeployment &lt;|-- MachineDeploymentStatus
@@ -294,7 +317,18 @@ classDiagram
    MachineState state: string
    MachineOperationType type: string
    }
+</pre>
 
+</div>
+<div class="mermaidbox">
+<pre class="mermaid">---
+title: MachineSet
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
  %% MachineSet ---------------------------------
    MachineSet &lt;|-- MachineSetSpec
    MachineSet &lt;|-- MachineSetStatus
@@ -338,6 +372,7 @@ classDiagram
    %% Can machine dep condition and machine set condition not be the same?
 </pre>
 
+</div>
 <h2 id="todos">TODOs</h2>
 <ul>
 <li>Check control and target clusters, inClusterConfig.</li>
