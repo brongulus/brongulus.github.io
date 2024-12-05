@@ -273,14 +273,7 @@ table tr + tr {
   transition: background 0.5s ease;
   cursor: pointer;
   z-index: 1; }
-  @media only screen and (max-width: 850px) {
-    .label {
-      transform: scale(0.92);
-      top: 0.5rem; } }
-  @media only screen and (max-width: 625px) {
-    .label {
-      transform: scale(0.85);
-      top: 0.1rem; } }
+
 .themebox {
   font-family: "Josefin Sans";
   text-transform: uppercase;
@@ -451,33 +444,21 @@ pre code {
 
 .mermaidbox {
   overflow: auto;
-  /* Enables scrolling */
-  max-width: 100%;
-  /* Responsive container */ }
+  /* Enables scrolling */ }
 
 pre.mermaid {
-  max-width: 100%;
-  /* Prevents overflow */
-  width: auto;
-  /* Allows natural scaling */
-  height: auto;
-  /* Prevents fixed height */
+  max-width: none !important;
   overflow-x: auto;
-  /* Enables horizontal scrolling if needed */
-  overflow-y: hidden;
-  /* Prevents vertical scroll unless necessary */ }
+  /* Enables horizontal scrolling if needed */ }
 
 pre.mermaid svg[id^="m"][width][height][viewBox] {
   /* Ensure SVG can scale and be explored */
-  max-width: none;
-  /* Override any max-width restrictions */
-  min-width: 100%;
-  /* Ensure minimum width fills container */
-  height: auto;
-  /* Maintain aspect ratio */ }
+  max-width: none !important;
+  transform: none !important; }
 
 pre.mermaid p {
   font-family: initial;
+  font-size: 10px;
   line-height: 1.1; }
 
 ::-webkit-scrollbar {

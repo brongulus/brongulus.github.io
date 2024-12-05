@@ -309,14 +309,6 @@ classDiagram
    LastOperation lastOperation
    string ownerRef
    }
-
-   class LastOperation{
-   string description
-   string errorCode
-   v1.Time lastUpdateTime
-   MachineState state: string
-   MachineOperationType type: string
-   }
 </pre>
 
 </div>
@@ -369,7 +361,7 @@ classDiagram
    string message
    }
 
-   %% Can machine dep condition and machine set condition not be the same?
+   note for MachineSetCondition &#34;Can it not be the same as machine dep condition?&#34;
 </pre>
 
 </div>
