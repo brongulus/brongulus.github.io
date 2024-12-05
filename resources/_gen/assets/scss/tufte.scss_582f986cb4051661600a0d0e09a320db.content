@@ -444,7 +444,8 @@ pre code {
 
 .mermaidbox {
   overflow: auto;
-  /* Enables scrolling */ }
+  /* Enables scrolling */
+  text-align: center; }
 
 pre.mermaid {
   max-width: none !important;
