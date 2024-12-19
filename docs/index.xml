@@ -105,7 +105,6 @@ https://kubernetes.io/docs/reference/node/node-status/#condition
 &lt;/pre&gt;
 
 &lt;h3 id=&#34;machine-class&#34;&gt;Machine Class&lt;/h3&gt;
-&lt;div class=&#34;mermaidbox&#34;&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineClass
 config:
@@ -137,9 +136,7 @@ classDiagram
    }
 &lt;/pre&gt;
 
-&lt;/div&gt;
 &lt;h3 id=&#34;machine-set&#34;&gt;Machine Set&lt;/h3&gt;
-&lt;div class=&#34;mermaidbox&#34;&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineSet
 config:
@@ -207,9 +204,7 @@ classDiagram
    note for LastOperation &amp;#34;One has information about lastOp for Machine (summary) and the other is for MachineSet&amp;#34;
 &lt;/pre&gt;
 
-&lt;/div&gt;
 &lt;h3 id=&#34;machine-deployment&#34;&gt;Machine Deployment&lt;/h3&gt;
-&lt;div class=&#34;mermaidbox&#34;&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineDeployment
 config:
@@ -276,7 +271,6 @@ classDiagram
    }
 &lt;/pre&gt;
 
-&lt;/div&gt;
 &lt;h2 id=&#34;controllers&#34;&gt;Controllers&lt;/h2&gt;
 &lt;h3 id=&#34;reconcile-cluster-secret&#34;&gt;Reconcile Cluster Secret&lt;/h3&gt;
 &lt;ol&gt;
@@ -365,11 +359,7 @@ classDiagram
    1. force-deletion: &amp;#34;True&amp;#34; label must be present
    2. Deletion operation is more than drain-timeout minutes old
    3. Last machine drain had failed
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
