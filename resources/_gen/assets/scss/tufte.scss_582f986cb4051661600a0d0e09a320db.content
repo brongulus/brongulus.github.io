@@ -442,24 +442,9 @@ pre code {
     margin-bottom: 0;
     overflow-x: auto; }
 
-.mermaidbox {
-  overflow: auto;
-  /* Enables scrolling */
-  text-align: center; }
-
-pre.mermaid {
-  max-width: none !important;
-  overflow-x: auto;
-  /* Enables horizontal scrolling if needed */ }
-
-pre.mermaid svg[id^="m"][width][height][viewBox] {
-  /* Ensure SVG can scale and be explored */
-  max-width: none !important;
-  transform: none !important; }
-
 pre.mermaid p {
   font-family: initial;
-  font-size: 10px;
+  font-size: 16px;
   line-height: 1.1; }
 
 ::-webkit-scrollbar {

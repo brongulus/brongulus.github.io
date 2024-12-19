@@ -13,8 +13,13 @@
       <pubDate>Fri, 29 Nov 2024 16:07:00 +0530</pubDate>
       
       <guid>https://brongulus.github.io/notes/20241129t160749--mcm__k8s_sap_work/</guid>
-      <description>&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
-&lt;div class=&#34;mermaidbox&#34;&gt;
+      <description>&lt;p&gt;First, go through the &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/README.md&#34;&gt;README&lt;/a&gt;, later on check &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/development/local_setup.md&#34;&gt;local setup&lt;/a&gt; guide as well.&lt;/p&gt;
+&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
+&lt;p&gt;Check &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/tree/master/kubernetes/crds&#34;&gt;CRDs present in the MCM tree&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;warning&#34;&gt;
+&lt;p&gt;All the below class diagrams omit &lt;code&gt;TypeMeta&lt;/code&gt; and &lt;code&gt;ObjectMeta&lt;/code&gt; for brevity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;machine&#34;&gt;Machine&lt;/h3&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: Machine
 config:
@@ -22,11 +27,12 @@ config:
   class:
     hideEmptyMembersBox: true
 ---
+%%{init: { &amp;#39;themeVariables&amp;#39;: { &amp;#39;lineColor&amp;#39;: &amp;#39;#51565b&amp;#39;}}}%%
 classDiagram
    %% note &amp;#34;apiVersion, kind &amp;amp; metadata components have not been shown&amp;#34;
 
-   %% classDef Machine, MachineClass, MachineDeployment, MachineSet fill:#000;
    %% Machine ---------------------------------
+   note for Machine &amp;#34;Representation of a physical or virtual machine that corresponds to a front-end kubernetes node object&amp;#34;
    Machine &amp;lt;|-- MachineSpec
    Machine &amp;lt;|-- MachineStatus
    class Machine{
@@ -35,8 +41,8 @@ classDiagram
    }
    %%--
    MachineSpec &amp;lt;|-- ClassSpec
-   MachineSpec &amp;lt;|-- NodeTemplateSpec
    MachineSpec &amp;lt;|-- MachineConfiguration
+   MachineSpec &amp;lt;|-- NodeTemplateSpec
 
    class MachineSpec{
    ClassSpec class
@@ -50,14 +56,15 @@ classDiagram
    string kind
    string name
    }
+   note for ClassSpec &amp;#34;Refers to the MachineClass template for the Machine&amp;#34;
 
    class NodeTemplateSpec{
    string podCIDR: IP range
    []string podCIDRs
-   string oroviderID
+   string providerID
    bool unschedulable
    []taint taints
-   *NodeConfigSource configSource: deprecated
+   NodeConfigSource* configSource: deprecated
    source externalID: deprected
    }
    note for NodeTemplateSpec &amp;#34;Actually part of NodeSpec which is a field in NodeTemplateSpec&amp;#34;
@@ -74,6 +81,7 @@ classDiagram
    MachineStatus &amp;lt;|-- CurrentStatus
    class MachineStatus{
    v1.NodeCondition conditions
+https://kubernetes.io/docs/reference/node/node-status/#condition
    LastOperation lastOperation
    CurrentStatus currentStatus
    string lastKnownState
@@ -92,9 +100,11 @@ classDiagram
    bool timeoutActive
    v1.Time lastUpdateTime
    }
+
+   link MachineStatus &amp;#34;https://kubernetes.io/docs/reference/node/node-status/#condition&amp;#34;
 &lt;/pre&gt;
 
-&lt;/div&gt;
+&lt;h3 id=&#34;machine-class&#34;&gt;Machine Class&lt;/h3&gt;
 &lt;div class=&#34;mermaidbox&#34;&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineClass
@@ -103,17 +113,20 @@ config:
   class:
     hideEmptyMembersBox: true
 ---
+%%{init: { &amp;#39;themeVariables&amp;#39;: { &amp;#39;lineColor&amp;#39;: &amp;#39;#51565b&amp;#39;}}}%%
 classDiagram
  %% MachineClass ---------------------------------
+   note for MachineClass &amp;#34;Represents a template that contains cloud provider specific details used to create machines&amp;#34;
    MachineClass &amp;lt;|-- NodeTemplate
    class MachineClass{
    NodeTemplate nodeTemplate
    v1.SecretReference credentialsSecretRef
-   RawExtension provideSpec
+   RawExtension providerSpec
    string provider
    v1.SecretReference secretRef
    }
-   note for MachineClass &amp;#34;credentialsSecretRef has cloud provider credentials&amp;lt;br&amp;gt;secretRef has userData: bootstrap token, API server addr, kubeconfig&amp;#34;
+   note for MachineClass &amp;#34;credentialsSecretRef has cloud provider credentials&amp;lt;br&amp;gt;secretRef has cloud init script: bootstrap token, API server addr, kubeconfig&amp;#34;
+   note for MachineClass &amp;#34;provider specific configuration to create a node is specified in providerSpec of the extensible custom type rawExtension which permits instances of different structure types to be held within a single type&amp;#34;
 
    class NodeTemplate{
    v1.ResourceList capacity
@@ -125,6 +138,77 @@ classDiagram
 &lt;/pre&gt;
 
 &lt;/div&gt;
+&lt;h3 id=&#34;machine-set&#34;&gt;Machine Set&lt;/h3&gt;
+&lt;div class=&#34;mermaidbox&#34;&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: MachineSet
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+%%{init: { &amp;#39;themeVariables&amp;#39;: { &amp;#39;lineColor&amp;#39;: &amp;#39;#51565b&amp;#39;}}}%%
+classDiagram
+ %% MachineSet ---------------------------------
+   note for MachineSet &amp;#34;Ensures that the specified number of Machine replicas are running at any time&amp;#34;
+   MachineSet &amp;lt;|-- MachineSetSpec
+   MachineSet &amp;lt;|-- MachineSetStatus
+   class MachineSet{
+   MachineSetSpec spec
+   MachineSetStatus status
+   }
+
+   MachineSetSpec &amp;lt;|-- ClassSpec
+   MachineSetSpec &amp;lt;|-- MachineTemplateSpec
+   class MachineSetSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   ClassSpec machineClass
+   MachineTemplateSpec template
+   int32 minReadySeconds
+   }
+
+   MachineTemplateSpec &amp;lt;|-- MachineSpec
+   class MachineTemplateSpec{
+   MachineSpec spec
+   }
+
+   MachineSetStatus &amp;lt;|-- MachineSetCondition
+   MachineSetStatus &amp;lt;|-- LastOperation
+   MachineSetStatus &amp;lt;|-- MachineSummary
+   class MachineSetStatus{
+   int32 replicas
+   int32 fullyLabeledReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int64 observedGeneration
+   []MachineSetCondition machineSetCondition
+   LastOperation lastOperation
+   MachineSummary failedMachines
+   }
+
+   MachineSummary &amp;lt;|-- LastOperation
+   class MachineSummary{
+   string name
+   string providerID
+   LastOperation lastOperation
+   string ownerRef
+   }
+
+   class MachineSetCondition{
+   MachineSetConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   note for MachineSetCondition &amp;#34;Can it not be the same as machine deployment condition?&amp;#34;
+   note for LastOperation &amp;#34;One has information about lastOp for Machine (summary) and the other is for MachineSet&amp;#34;
+&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;h3 id=&#34;machine-deployment&#34;&gt;Machine Deployment&lt;/h3&gt;
 &lt;div class=&#34;mermaidbox&#34;&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineDeployment
@@ -133,8 +217,10 @@ config:
   class:
     hideEmptyMembersBox: true
 ---
+%%{init: { &amp;#39;themeVariables&amp;#39;: { &amp;#39;lineColor&amp;#39;: &amp;#39;#51565b&amp;#39;}}}%%
 classDiagram
  %% Deployment ---------------------------------
+   note for MachineDeployment &amp;#34;Provides a declarative update for MachineSet and Machines&amp;#34;
    MachineDeployment &amp;lt;|-- MachineDeploymentSpec
    MachineDeployment &amp;lt;|-- MachineDeploymentStatus
    class MachineDeployment{
@@ -147,18 +233,12 @@ classDiagram
    class MachineDeploymentSpec{
    int32 replicas
    v1.LabelSelector selector
-   MachineTemplateSpec spec
+   MachineTemplateSpec template
    MachineDeploymentStrategy strategy
-   int32 minReadSeconds
+   int32 minReadySeconds
    int32* revisionHistoryLimit
    bool paused
-   RollbackConfig rollbackTo: deprecated
-   int32* progressDeadlineSeconds
-   }
-
-   MachineTemplateSpec &amp;lt;|-- MachineSpec
-   class MachineTemplateSpec{
-   MachineSpec spec
+      int32* progressDeadlineSeconds
    }
 
    MachineDeploymentStrategy &amp;lt;|-- RollingUpdateMachineDeployment
@@ -194,73 +274,124 @@ classDiagram
    string reason
    string message
    }
-
-   MachineSummary &amp;lt;|-- LastOperation
-   class MachineSummary{
-   string name
-   string providerID
-   LastOperation lastOperation
-   string ownerRef
-   }
 &lt;/pre&gt;
 
 &lt;/div&gt;
-&lt;div class=&#34;mermaidbox&#34;&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;---
-title: MachineSet
-config:
-  layout: elk
-  class:
-    hideEmptyMembersBox: true
----
-classDiagram
- %% MachineSet ---------------------------------
-   MachineSet &amp;lt;|-- MachineSetSpec
-   MachineSet &amp;lt;|-- MachineSetStatus
-   class MachineSet{
-   MachineSetSpec spec
-   MachineSetStatus status
-   }
-
-   MachineSetSpec &amp;lt;|-- ClassSpec
-   MachineSetSpec &amp;lt;|-- MachineTemplateSpec
-   class MachineSetSpec{
-   int32 replicas
-   v1.LabelSelector selector
-   ClassSpec machineClass
-   MachineTemplateSpec template
-   int32 minReadySeconds
-   }
-
-   MachineSetStatus &amp;lt;|-- MachineSetCondition
-   MachineSetStatus &amp;lt;|-- LastOperation
-   MachineSetStatus &amp;lt;|-- MachineSummary
-   class MachineSetStatus{
-   int32 replicas
-   int32 fullyLabeledReplicas
-   int32 readyReplicas
-   int32 availableReplicas
-   int64 observedGeneration
-   []MachineSetCondition machineSetCondition
-   LastOperation lastOperation
-   MachineSummary failedMachines
-   }
-
-   class MachineSetCondition{
-   MachineSetConditionType type: string
-   ConditionStatus status: string
-   v1.Time lastTransitionTime
-   string reason
-   string message
-   }
-
-   note for MachineSetCondition &amp;#34;Can it not be the same as machine dep condition?&amp;#34;
-&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;h2 id=&#34;todos&#34;&gt;TODOs&lt;/h2&gt;
+&lt;h2 id=&#34;controllers&#34;&gt;Controllers&lt;/h2&gt;
+&lt;h3 id=&#34;reconcile-cluster-secret&#34;&gt;Reconcile Cluster Secret&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Fetch secrets&lt;/li&gt;
+&lt;li&gt;Get the &lt;code&gt;MachineClass&lt;/code&gt; referring to the passed secret&lt;/li&gt;
+&lt;li&gt;In case there are machine classes that refer it, add the finalizer to the secret else remove it. (The removal of the finalizer is needed because if the secrets aren&amp;rsquo;t referred by &lt;code&gt;MachineClass&lt;/code&gt; then their deletion shouldn&amp;rsquo;t depend on the finalizer, &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/&#34;&gt;Ref&lt;/a&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine-class&#34;&gt;Reconcile Cluster Machine Class&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Fetch the &lt;code&gt;MachineClass&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Get all the &lt;code&gt;Machines&lt;/code&gt; referring to the &lt;code&gt;MachineClass&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If there are machines that match given &lt;code&gt;MachineClass&lt;/code&gt; and the deletion hasn&amp;rsquo;t been requested yet for the &lt;code&gt;Class&lt;/code&gt; then add the finalizers to the class proceeding which all the machines referring to the class are enqueued for further processing. (&lt;code&gt;TODO&lt;/code&gt;: Learn about &lt;a href=&#34;https://pkg.go.dev/k8s.io/client-go/util/workqueue&#34;&gt;workqueue&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Otherwise if deletion isn&amp;rsquo;t scheduled and there are machines referring to the Class then add them to the &lt;code&gt;machineQueue&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If there aren&amp;rsquo;t any machines referring to the &lt;code&gt;Class&lt;/code&gt;, then the finalizers, if any, on it can be deleted.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine&#34;&gt;Reconcile Cluster Machine&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Fetch the required &lt;code&gt;Machine&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Check if the Machine controller is frozen (&lt;code&gt;safetyOptions.MachineControllerFrozen&lt;/code&gt;) and machine isn&amp;rsquo;t scheduled for deletion. If so, retry reconciliation after &lt;code&gt;longRetry&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If machine isn&amp;rsquo;t frozen, then validate the &lt;code&gt;Machine&lt;/code&gt; (check Name and Kind for the Class shouldn&amp;rsquo;t be empty). Also validate the &lt;code&gt;MachineClass&lt;/code&gt;&amp;rsquo; &lt;code&gt;Nodetemplate&lt;/code&gt; fields (&lt;code&gt;capacity&lt;/code&gt;: cpu, gpu and memory; &lt;code&gt;instanceType&lt;/code&gt;, &lt;code&gt;region&lt;/code&gt; and &lt;code&gt;zone&lt;/code&gt;).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In case the machine is scheduled for deletion, &lt;code&gt;triggerDeletionFlow&lt;/code&gt; with a &lt;code&gt;DeleteMachineRequest&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If the &lt;code&gt;Machine&lt;/code&gt; isn&amp;rsquo;t scheduled for deletion, then add the finalizers on the machine if not present.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;TODO&lt;/code&gt;: Check &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#what-are-the-different-phases-of-a-machine&#34;&gt;Machine Phases State Diagram&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Check if the machine has an associated node (look for &lt;em&gt;label&lt;/em&gt; with key &amp;ldquo;&lt;code&gt;node&lt;/code&gt;&amp;rdquo;) and if the machine has been created (i.e. &lt;code&gt;phase&lt;/code&gt; != &amp;ldquo;&amp;rdquo;, if phase is empty string, that corresponds to machine being in creation stage). If so, then:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Check control and target clusters, inClusterConfig.&lt;/li&gt;
+&lt;li&gt;Reconcile Machine Health: Updates the machine object with any change in node conditions or health. &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/cluster_machine_reconcile.html#health-check-summary&#34;&gt;Ref&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Sync Machine Name to Node: Syncs machine name on corresponding node object by adding machine name label to metadata.&lt;/li&gt;
+&lt;li&gt;Sync Machine NodeTemplates: Syncs &lt;code&gt;nodeTemplate&lt;/code&gt; between the machine and the node object by fetching it, then syncs the &lt;em&gt;annotations&lt;/em&gt;, &lt;em&gt;labels&lt;/em&gt; and &lt;em&gt;taints&lt;/em&gt; (ALT).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If machine phase is &lt;code&gt;empty&lt;/code&gt; or &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;providerId&lt;/code&gt; is empty i.e. machine doesn&amp;rsquo;t exist then &lt;code&gt;triggerCreationFlow&lt;/code&gt; with &lt;code&gt;CreateMachineRequest&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;triggerdeletionflow&#34;&gt;TriggerDeletionFlow&lt;/h4&gt;
+&lt;p&gt;Check out &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#why-is-my-machine-deleted&#34;&gt;FAQ: Why is my machine deleted?&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Check if finalizers are present on the machine, if not retry after a while.&lt;/li&gt;
+&lt;li&gt;In case they are present and the machine isn&amp;rsquo;t in &lt;code&gt;terminating&lt;/code&gt; phase, then set it to &lt;code&gt;terminating&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If machine is in &lt;code&gt;terminating&lt;/code&gt; phase, then check &lt;code&gt;LastOperation Description&lt;/code&gt;:
+&lt;ul&gt;
+&lt;li&gt;If it contains the string &lt;code&gt;GetVMStatus&lt;/code&gt; i.e. &amp;ldquo;Set machine status to termination. Now, getting VM Status&amp;rdquo; then &amp;lt; &lt;code&gt;TODO&lt;/code&gt; &amp;gt;&lt;/li&gt;
+&lt;li&gt;If it contains the string &lt;code&gt;InitiateDrain&lt;/code&gt; then call &lt;code&gt;drainNode&lt;/code&gt; &amp;lt; &lt;code&gt;TODO&lt;/code&gt; Look into drainNode &amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!--list-separator--&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;DrainNode&lt;/p&gt;
+&lt;p&gt;Check out &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#how-is-the-drain-of-a-machine-implemented&#34;&gt;FAQ: How is drain implemented?&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Check that the nodeName is valid, if not set &lt;code&gt;skipDrain&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Check if machine is in &lt;code&gt;Ready&lt;/code&gt; or &lt;code&gt;ReadOnly&lt;/code&gt; state.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If node condition is not empty and its not ready and it&amp;rsquo;s been 5mins, then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; are set.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If node condition is not empty and its read-only and it&amp;rsquo;s been 5mins, then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; are set.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If &lt;code&gt;skipDrain&lt;/code&gt; is set, then set the state to &lt;code&gt;Processing&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If skip isn&amp;rsquo;t set, then check if (MachineDrainTimeout) has occured.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If &lt;code&gt;force-deletion&lt;/code&gt; label is present on the machine or if timeout has happened then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; are set and force deletion is triggered otherwise normal deletion is triggered.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;   To perform forceful machine drain/delete either:
+   1. force-deletion: &amp;#34;True&amp;#34; label must be present
+   2. Deletion operation is more than drain-timeout minutes old
+   3. Last machine drain had failed
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;triggercreationflow&#34;&gt;&lt;span class=&#34;org-todo todo TODO&#34;&gt;TODO&lt;/span&gt; TriggerCreationFlow&lt;/h4&gt;
+&lt;h2 id=&#34;queries&#34;&gt;Queries&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;How much access/info does the end user have about machines? How much can they control them or is the access restricted to editing nodes only?&lt;/li&gt;
+&lt;li&gt;Check control and target clusters, inClusterConfig. Control cluster is the one where the machine-* objects are stored. Target cluster is where all the node objects are registered.&lt;/li&gt;
+&lt;li&gt;When node deletion checks are happening, how is the &lt;code&gt;ReadOnlyFileSystem&lt;/code&gt; flag checked for?&lt;/li&gt;
+&lt;li&gt;Why is this required in two places? &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#i-need-to-change-the-apis-what-are-the-recommended-steps&#34;&gt;FAQ: API Change&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;In a lot of functions, we clone the resource, then work with the cloned copy, why is that necessary?&lt;/li&gt;
+&lt;li&gt;Why is bootstrap token deletion required when machine creation goes through?&lt;/li&gt;
+&lt;li&gt;What is this permit that&amp;rsquo;s used when &lt;code&gt;Unknown&lt;/code&gt; phase and machine times out&lt;/li&gt;
+&lt;li&gt;Why is internalExternalScheme conversion needed?
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-go-ts&#34; data-lang=&#34;go-ts&#34;&gt;// Validate internal to external scheme conversion. Why is this needed?
+class = &amp;amp;v1alpha1.MachineClass{}
+internalClass := &amp;amp;machine.MachineClass{}
+err := c.internalExternalScheme.Convert(class, internalClass, nil)
+if err != nil {
+	return err
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>

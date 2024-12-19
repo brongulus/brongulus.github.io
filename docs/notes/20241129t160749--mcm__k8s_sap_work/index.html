@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
+  <head>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
     
     <script> 
-        function setTheme() {
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.setAttribute("data-theme", "dark");
-                return;
-            }
-            else {
-                document.documentElement.setAttribute("data-theme", "light");
-                return;
-            }
+      function setTheme() {
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.setAttribute("data-theme", "dark");
+              return;
+          }
+          else {
+              document.documentElement.setAttribute("data-theme", "light");
+              return;
+          }
       }
     </script>
     <script>
-        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme); 
+      if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme); 
     </script>
-</head>
-<body>
-        <div class="content">
-            
-                <div class = "container">
-                <head>
+  </head>
+  <body>
+    <div class="content">
+      
+        <div class = "container">
+          <head>
   
   
   <meta charset="UTF-8">
@@ -42,7 +42,7 @@
   <link href="" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
 </head>
 
-                		<nav class="nav">
+          		<nav class="nav">
 			<div class="nav-container">
 				<a href="/">
 					<div class="title" style="white-space: nowrap;">
@@ -98,7 +98,7 @@
 			</div>
 		</nav>
 
-                
+          
 
 <main>
 	<div class="post">
@@ -119,9 +119,22 @@
 		
 
 		
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#components">Components</a></li>
+    <li><a href="#controllers">Controllers</a></li>
+    <li><a href="#queries">Queries</a></li>
+  </ul>
+</nav>
+		
 
-		<h2 id="components">Components</h2>
-<div class="mermaidbox">
+		<p>First, go through the <a href="https://github.com/gardener/machine-controller-manager/blob/master/README.md">README</a>, later on check <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/development/local_setup.md">local setup</a> guide as well.</p>
+<h2 id="components">Components</h2>
+<p>Check <a href="https://github.com/gardener/machine-controller-manager/tree/master/kubernetes/crds">CRDs present in the MCM tree</a></p>
+<div class="warning">
+<p>All the below class diagrams omit <code>TypeMeta</code> and <code>ObjectMeta</code> for brevity.</p>
+</div>
+<h3 id="machine">Machine</h3>
 <pre class="mermaid">---
 title: Machine
 config:
@@ -129,11 +142,12 @@ config:
   class:
     hideEmptyMembersBox: true
 ---
+%%{init: { &#39;themeVariables&#39;: { &#39;lineColor&#39;: &#39;#51565b&#39;}}}%%
 classDiagram
    %% note &#34;apiVersion, kind &amp; metadata components have not been shown&#34;
 
-   %% classDef Machine, MachineClass, MachineDeployment, MachineSet fill:#000;
    %% Machine ---------------------------------
+   note for Machine &#34;Representation of a physical or virtual machine that corresponds to a front-end kubernetes node object&#34;
    Machine &lt;|-- MachineSpec
    Machine &lt;|-- MachineStatus
    class Machine{
@@ -142,8 +156,8 @@ classDiagram
    }
    %%--
    MachineSpec &lt;|-- ClassSpec
-   MachineSpec &lt;|-- NodeTemplateSpec
    MachineSpec &lt;|-- MachineConfiguration
+   MachineSpec &lt;|-- NodeTemplateSpec
 
    class MachineSpec{
    ClassSpec class
@@ -157,14 +171,15 @@ classDiagram
    string kind
    string name
    }
+   note for ClassSpec &#34;Refers to the MachineClass template for the Machine&#34;
 
    class NodeTemplateSpec{
    string podCIDR: IP range
    []string podCIDRs
-   string oroviderID
+   string providerID
    bool unschedulable
    []taint taints
-   *NodeConfigSource configSource: deprecated
+   NodeConfigSource* configSource: deprecated
    source externalID: deprected
    }
    note for NodeTemplateSpec &#34;Actually part of NodeSpec which is a field in NodeTemplateSpec&#34;
@@ -181,6 +196,7 @@ classDiagram
    MachineStatus &lt;|-- CurrentStatus
    class MachineStatus{
    v1.NodeCondition conditions
+https://kubernetes.io/docs/reference/node/node-status/#condition
    LastOperation lastOperation
    CurrentStatus currentStatus
    string lastKnownState
@@ -199,9 +215,11 @@ classDiagram
    bool timeoutActive
    v1.Time lastUpdateTime
    }
+
+   link MachineStatus &#34;https://kubernetes.io/docs/reference/node/node-status/#condition&#34;
 </pre>
 
-</div>
+<h3 id="machine-class">Machine Class</h3>
 <div class="mermaidbox">
 <pre class="mermaid">---
 title: MachineClass
@@ -210,17 +228,20 @@ config:
   class:
     hideEmptyMembersBox: true
 ---
+%%{init: { &#39;themeVariables&#39;: { &#39;lineColor&#39;: &#39;#51565b&#39;}}}%%
 classDiagram
  %% MachineClass ---------------------------------
+   note for MachineClass &#34;Represents a template that contains cloud provider specific details used to create machines&#34;
    MachineClass &lt;|-- NodeTemplate
    class MachineClass{
    NodeTemplate nodeTemplate
    v1.SecretReference credentialsSecretRef
-   RawExtension provideSpec
+   RawExtension providerSpec
    string provider
    v1.SecretReference secretRef
    }
-   note for MachineClass &#34;credentialsSecretRef has cloud provider credentials&lt;br&gt;secretRef has userData: bootstrap token, API server addr, kubeconfig&#34;
+   note for MachineClass &#34;credentialsSecretRef has cloud provider credentials&lt;br&gt;secretRef has cloud init script: bootstrap token, API server addr, kubeconfig&#34;
+   note for MachineClass &#34;provider specific configuration to create a node is specified in providerSpec of the extensible custom type rawExtension which permits instances of different structure types to be held within a single type&#34;
 
    class NodeTemplate{
    v1.ResourceList capacity
@@ -232,6 +253,77 @@ classDiagram
 </pre>
 
 </div>
+<h3 id="machine-set">Machine Set</h3>
+<div class="mermaidbox">
+<pre class="mermaid">---
+title: MachineSet
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+%%{init: { &#39;themeVariables&#39;: { &#39;lineColor&#39;: &#39;#51565b&#39;}}}%%
+classDiagram
+ %% MachineSet ---------------------------------
+   note for MachineSet &#34;Ensures that the specified number of Machine replicas are running at any time&#34;
+   MachineSet &lt;|-- MachineSetSpec
+   MachineSet &lt;|-- MachineSetStatus
+   class MachineSet{
+   MachineSetSpec spec
+   MachineSetStatus status
+   }
+
+   MachineSetSpec &lt;|-- ClassSpec
+   MachineSetSpec &lt;|-- MachineTemplateSpec
+   class MachineSetSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   ClassSpec machineClass
+   MachineTemplateSpec template
+   int32 minReadySeconds
+   }
+
+   MachineTemplateSpec &lt;|-- MachineSpec
+   class MachineTemplateSpec{
+   MachineSpec spec
+   }
+
+   MachineSetStatus &lt;|-- MachineSetCondition
+   MachineSetStatus &lt;|-- LastOperation
+   MachineSetStatus &lt;|-- MachineSummary
+   class MachineSetStatus{
+   int32 replicas
+   int32 fullyLabeledReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int64 observedGeneration
+   []MachineSetCondition machineSetCondition
+   LastOperation lastOperation
+   MachineSummary failedMachines
+   }
+
+   MachineSummary &lt;|-- LastOperation
+   class MachineSummary{
+   string name
+   string providerID
+   LastOperation lastOperation
+   string ownerRef
+   }
+
+   class MachineSetCondition{
+   MachineSetConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   note for MachineSetCondition &#34;Can it not be the same as machine deployment condition?&#34;
+   note for LastOperation &#34;One has information about lastOp for Machine (summary) and the other is for MachineSet&#34;
+</pre>
+
+</div>
+<h3 id="machine-deployment">Machine Deployment</h3>
 <div class="mermaidbox">
 <pre class="mermaid">---
 title: MachineDeployment
@@ -240,8 +332,10 @@ config:
   class:
     hideEmptyMembersBox: true
 ---
+%%{init: { &#39;themeVariables&#39;: { &#39;lineColor&#39;: &#39;#51565b&#39;}}}%%
 classDiagram
  %% Deployment ---------------------------------
+   note for MachineDeployment &#34;Provides a declarative update for MachineSet and Machines&#34;
    MachineDeployment &lt;|-- MachineDeploymentSpec
    MachineDeployment &lt;|-- MachineDeploymentStatus
    class MachineDeployment{
@@ -254,18 +348,12 @@ classDiagram
    class MachineDeploymentSpec{
    int32 replicas
    v1.LabelSelector selector
-   MachineTemplateSpec spec
+   MachineTemplateSpec template
    MachineDeploymentStrategy strategy
-   int32 minReadSeconds
+   int32 minReadySeconds
    int32* revisionHistoryLimit
    bool paused
-   RollbackConfig rollbackTo: deprecated
-   int32* progressDeadlineSeconds
-   }
-
-   MachineTemplateSpec &lt;|-- MachineSpec
-   class MachineTemplateSpec{
-   MachineSpec spec
+      int32* progressDeadlineSeconds
    }
 
    MachineDeploymentStrategy &lt;|-- RollingUpdateMachineDeployment
@@ -301,73 +389,124 @@ classDiagram
    string reason
    string message
    }
-
-   MachineSummary &lt;|-- LastOperation
-   class MachineSummary{
-   string name
-   string providerID
-   LastOperation lastOperation
-   string ownerRef
-   }
 </pre>
 
 </div>
-<div class="mermaidbox">
-<pre class="mermaid">---
-title: MachineSet
-config:
-  layout: elk
-  class:
-    hideEmptyMembersBox: true
----
-classDiagram
- %% MachineSet ---------------------------------
-   MachineSet &lt;|-- MachineSetSpec
-   MachineSet &lt;|-- MachineSetStatus
-   class MachineSet{
-   MachineSetSpec spec
-   MachineSetStatus status
-   }
-
-   MachineSetSpec &lt;|-- ClassSpec
-   MachineSetSpec &lt;|-- MachineTemplateSpec
-   class MachineSetSpec{
-   int32 replicas
-   v1.LabelSelector selector
-   ClassSpec machineClass
-   MachineTemplateSpec template
-   int32 minReadySeconds
-   }
-
-   MachineSetStatus &lt;|-- MachineSetCondition
-   MachineSetStatus &lt;|-- LastOperation
-   MachineSetStatus &lt;|-- MachineSummary
-   class MachineSetStatus{
-   int32 replicas
-   int32 fullyLabeledReplicas
-   int32 readyReplicas
-   int32 availableReplicas
-   int64 observedGeneration
-   []MachineSetCondition machineSetCondition
-   LastOperation lastOperation
-   MachineSummary failedMachines
-   }
-
-   class MachineSetCondition{
-   MachineSetConditionType type: string
-   ConditionStatus status: string
-   v1.Time lastTransitionTime
-   string reason
-   string message
-   }
-
-   note for MachineSetCondition &#34;Can it not be the same as machine dep condition?&#34;
-</pre>
-
-</div>
-<h2 id="todos">TODOs</h2>
+<h2 id="controllers">Controllers</h2>
+<h3 id="reconcile-cluster-secret">Reconcile Cluster Secret</h3>
+<ol>
+<li>Fetch secrets</li>
+<li>Get the <code>MachineClass</code> referring to the passed secret</li>
+<li>In case there are machine classes that refer it, add the finalizer to the secret else remove it. (The removal of the finalizer is needed because if the secrets aren&rsquo;t referred by <code>MachineClass</code> then their deletion shouldn&rsquo;t depend on the finalizer, <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/">Ref</a>)</li>
+</ol>
+<h3 id="reconcile-cluster-machine-class">Reconcile Cluster Machine Class</h3>
+<ol>
+<li>Fetch the <code>MachineClass</code></li>
+<li>Get all the <code>Machines</code> referring to the <code>MachineClass</code>.</li>
+<li>If there are machines that match given <code>MachineClass</code> and the deletion hasn&rsquo;t been requested yet for the <code>Class</code> then add the finalizers to the class proceeding which all the machines referring to the class are enqueued for further processing. (<code>TODO</code>: Learn about <a href="https://pkg.go.dev/k8s.io/client-go/util/workqueue">workqueue</a>)</li>
+<li>Otherwise if deletion isn&rsquo;t scheduled and there are machines referring to the Class then add them to the <code>machineQueue</code>.</li>
+<li>If there aren&rsquo;t any machines referring to the <code>Class</code>, then the finalizers, if any, on it can be deleted.</li>
+</ol>
+<h3 id="reconcile-cluster-machine">Reconcile Cluster Machine</h3>
+<ol>
+<li>
+<p>Fetch the required <code>Machine</code>.</p>
+</li>
+<li>
+<p>Check if the Machine controller is frozen (<code>safetyOptions.MachineControllerFrozen</code>) and machine isn&rsquo;t scheduled for deletion. If so, retry reconciliation after <code>longRetry</code>.</p>
+</li>
+<li>
+<p>If machine isn&rsquo;t frozen, then validate the <code>Machine</code> (check Name and Kind for the Class shouldn&rsquo;t be empty). Also validate the <code>MachineClass</code>&rsquo; <code>Nodetemplate</code> fields (<code>capacity</code>: cpu, gpu and memory; <code>instanceType</code>, <code>region</code> and <code>zone</code>).</p>
+</li>
+<li>
+<p>In case the machine is scheduled for deletion, <code>triggerDeletionFlow</code> with a <code>DeleteMachineRequest</code>.</p>
+</li>
+<li>
+<p>If the <code>Machine</code> isn&rsquo;t scheduled for deletion, then add the finalizers on the machine if not present.</p>
+</li>
+<li>
+<p><code>TODO</code>: Check <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#what-are-the-different-phases-of-a-machine">Machine Phases State Diagram</a></p>
+<p>Check if the machine has an associated node (look for <em>label</em> with key &ldquo;<code>node</code>&rdquo;) and if the machine has been created (i.e. <code>phase</code> != &ldquo;&rdquo;, if phase is empty string, that corresponds to machine being in creation stage). If so, then:</p>
 <ul>
-<li>Check control and target clusters, inClusterConfig.</li>
+<li>Reconcile Machine Health: Updates the machine object with any change in node conditions or health. <a href="https://elankath.github.io/mcmdesign/machine-controller/cluster_machine_reconcile.html#health-check-summary">Ref</a></li>
+<li>Sync Machine Name to Node: Syncs machine name on corresponding node object by adding machine name label to metadata.</li>
+<li>Sync Machine NodeTemplates: Syncs <code>nodeTemplate</code> between the machine and the node object by fetching it, then syncs the <em>annotations</em>, <em>labels</em> and <em>taints</em> (ALT).</li>
+</ul>
+</li>
+<li>
+<p>If machine phase is <code>empty</code> or <code>crashloopbackoff</code> or <code>providerId</code> is empty i.e. machine doesn&rsquo;t exist then <code>triggerCreationFlow</code> with <code>CreateMachineRequest</code>.</p>
+</li>
+</ol>
+<h4 id="triggerdeletionflow">TriggerDeletionFlow</h4>
+<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#why-is-my-machine-deleted">FAQ: Why is my machine deleted?</a></p>
+<ol>
+<li>Check if finalizers are present on the machine, if not retry after a while.</li>
+<li>In case they are present and the machine isn&rsquo;t in <code>terminating</code> phase, then set it to <code>terminating</code>.</li>
+<li>If machine is in <code>terminating</code> phase, then check <code>LastOperation Description</code>:
+<ul>
+<li>If it contains the string <code>GetVMStatus</code> i.e. &ldquo;Set machine status to termination. Now, getting VM Status&rdquo; then &lt; <code>TODO</code> &gt;</li>
+<li>If it contains the string <code>InitiateDrain</code> then call <code>drainNode</code> &lt; <code>TODO</code> Look into drainNode &gt;</li>
+</ul>
+</li>
+</ol>
+<!--list-separator-->
+<ul>
+<li>
+<p>DrainNode</p>
+<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#how-is-the-drain-of-a-machine-implemented">FAQ: How is drain implemented?</a></p>
+<ol>
+<li>
+<p>Check that the nodeName is valid, if not set <code>skipDrain</code>.</p>
+</li>
+<li>
+<p>Check if machine is in <code>Ready</code> or <code>ReadOnly</code> state.</p>
+</li>
+<li>
+<p>If node condition is not empty and its not ready and it&rsquo;s been 5mins, then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set.</p>
+</li>
+<li>
+<p>If node condition is not empty and its read-only and it&rsquo;s been 5mins, then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set.</p>
+</li>
+<li>
+<p>If <code>skipDrain</code> is set, then set the state to <code>Processing</code>.</p>
+</li>
+<li>
+<p>If skip isn&rsquo;t set, then check if (MachineDrainTimeout) has occured.</p>
+<ul>
+<li>If <code>force-deletion</code> label is present on the machine or if timeout has happened then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set and force deletion is triggered otherwise normal deletion is triggered.</li>
+</ul>
+<!--listend-->
+<pre tabindex="0"><code class="language-nil" data-lang="nil">   To perform forceful machine drain/delete either:
+   1. force-deletion: &#34;True&#34; label must be present
+   2. Deletion operation is more than drain-timeout minutes old
+   3. Last machine drain had failed
+</code></pre><ul>
+<li></li>
+</ul>
+</li>
+<li></li>
+</ol>
+</li>
+</ul>
+<h4 id="triggercreationflow"><span class="org-todo todo TODO">TODO</span> TriggerCreationFlow</h4>
+<h2 id="queries">Queries</h2>
+<ul>
+<li>How much access/info does the end user have about machines? How much can they control them or is the access restricted to editing nodes only?</li>
+<li>Check control and target clusters, inClusterConfig. Control cluster is the one where the machine-* objects are stored. Target cluster is where all the node objects are registered.</li>
+<li>When node deletion checks are happening, how is the <code>ReadOnlyFileSystem</code> flag checked for?</li>
+<li>Why is this required in two places? <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#i-need-to-change-the-apis-what-are-the-recommended-steps">FAQ: API Change</a></li>
+<li>In a lot of functions, we clone the resource, then work with the cloned copy, why is that necessary?</li>
+<li>Why is bootstrap token deletion required when machine creation goes through?</li>
+<li>What is this permit that&rsquo;s used when <code>Unknown</code> phase and machine times out</li>
+<li>Why is internalExternalScheme conversion needed?
+<pre tabindex="0"><code class="language-go-ts" data-lang="go-ts">// Validate internal to external scheme conversion. Why is this needed?
+class = &amp;v1alpha1.MachineClass{}
+internalClass := &amp;machine.MachineClass{}
+err := c.internalExternalScheme.Convert(class, internalClass, nil)
+if err != nil {
+	return err
+}
+</code></pre></li>
 </ul>
 
     
@@ -408,33 +547,43 @@ classDiagram
 </main>
 
 
-                		<footer>
+          		<footer>
 			
 			<span>
 			&copy; <time>2024</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
 			</span>
 		</footer>
 
-                </div>
-            
         </div>
         
-        <script type="module">
-          import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-          mermaid.initialize({ startOnLoad: true });
-        </script>
+    </div>
+    
+    <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    var config = {
+        startOnLoad: true,
         
-    <script> 
-        const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
-        if (localStorage.theme) {
-            toggleSwitch.checked = localStorage.theme === "dark";
-        }
-        function switchTheme(e) {
-        const theme = e.target.checked ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", theme);
-        localStorage.theme = theme;
-        }
-        toggleSwitch.addEventListener("change", switchTheme);
-    </script>
-    </body>
+        theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default',
+        align:'center',
+    };
+    mermaid.initialize(config);
+    
+    
+    
+    
+</script>
+
+<script> 
+  const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+  if (localStorage.theme) {
+      toggleSwitch.checked = localStorage.theme === "dark";
+  }
+  function switchTheme(e) {
+      const theme = e.target.checked ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.theme = theme;
+  }
+  toggleSwitch.addEventListener("change", switchTheme);
+</script>
+</body>
 </html>
