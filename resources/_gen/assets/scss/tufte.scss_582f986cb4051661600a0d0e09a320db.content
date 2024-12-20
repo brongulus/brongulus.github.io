@@ -121,6 +121,8 @@ h1 {
   margin-bottom: 1.5rem;
   font-size: 3.2rem;
   line-height: 1; }
+  h1 a {
+    line-height: 1; }
 
 h2 {
   font-family: "Fira Sans", sans-serif;
@@ -151,7 +153,9 @@ h5,
 h6 {
   color: var(--head);
   font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-  line-height: normal; }
+  font-size: 1.05rem;
+  letter-spacing: 0.1rem;
+  margin-bottom: 0.5rem; }
 
 a {
   color: var(--link);

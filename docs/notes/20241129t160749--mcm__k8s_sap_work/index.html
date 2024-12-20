@@ -179,8 +179,6 @@ classDiagram
    string providerID
    bool unschedulable
    []taint taints
-   NodeConfigSource* configSource: deprecated
-   source externalID: deprected
    }
    note for NodeTemplateSpec &#34;Actually part of NodeSpec which is a field in NodeTemplateSpec&#34;
 
@@ -196,7 +194,6 @@ classDiagram
    MachineStatus &lt;|-- CurrentStatus
    class MachineStatus{
    v1.NodeCondition conditions
-https://kubernetes.io/docs/reference/node/node-status/#condition
    LastOperation lastOperation
    CurrentStatus currentStatus
    string lastKnownState
@@ -419,12 +416,12 @@ classDiagram
 <p>If the <code>Machine</code> isn&rsquo;t scheduled for deletion, then add the finalizers on the machine if not present.</p>
 </li>
 <li>
-<p><code>TODO</code>: Check <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#what-are-the-different-phases-of-a-machine">Machine Phases State Diagram</a></p>
+<p>Check <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#what-are-the-different-phases-of-a-machine">Machine Phases State Diagram</a></p>
 <p>Check if the machine has an associated node (look for <em>label</em> with key &ldquo;<code>node</code>&rdquo;) and if the machine has been created (i.e. <code>phase</code> != &ldquo;&rdquo;, if phase is empty string, that corresponds to machine being in creation stage). If so, then:</p>
 <ul>
 <li>Reconcile Machine Health: Updates the machine object with any change in node conditions or health. <a href="https://elankath.github.io/mcmdesign/machine-controller/cluster_machine_reconcile.html#health-check-summary">Ref</a></li>
 <li>Sync Machine Name to Node: Syncs machine name on corresponding node object by adding machine name label to metadata.</li>
-<li>Sync Machine NodeTemplates: Syncs <code>nodeTemplate</code> between the machine and the node object by fetching it, then syncs the <em>annotations</em>, <em>labels</em> and <em>taints</em> (ALT).</li>
+<li>Sync Machine NodeTemplates: Syncs <code>nodeTemplate</code> between the machine and the node object by fetching it, then syncs the <em>annotations</em>, <em>labels</em> and <em>taints</em> ().</li>
 </ul>
 </li>
 <li>
@@ -432,22 +429,31 @@ classDiagram
 </li>
 </ol>
 <h4 id="triggerdeletionflow">TriggerDeletionFlow</h4>
-<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#why-is-my-machine-deleted">FAQ: Why is my machine deleted?</a></p>
+<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#why-is-my-machine-deleted">FAQ: Why is my machine deleted?</a>
+Check if finalizers are present on the machine, if not retry after a while. In case they are present and the machine isn&rsquo;t in <code>terminating</code> phase, then set it to <code>terminating</code>. If machine is in <code>terminating</code> phase, then check <code>LastOperation Description</code>:</p>
 <ol>
-<li>Check if finalizers are present on the machine, if not retry after a while.</li>
-<li>In case they are present and the machine isn&rsquo;t in <code>terminating</code> phase, then set it to <code>terminating</code>.</li>
-<li>If machine is in <code>terminating</code> phase, then check <code>LastOperation Description</code>:
+<li>If it contains the string <code>GetVMStatus</code> i.e. &ldquo;Set machine status to termination. Now, getting VM Status&rdquo; then <code>updateMachineStatusAndNodeLabel</code> is called which adds the &ldquo;<code>node</code>&rdquo; label if not present while checking for any errors in getting machine error status. After confirming that the node label is updated, the LastOperation <code>type</code> is set to <code>delete</code> and LastOperation <code>description</code> to <code>InitiateDrain</code>.</li>
+<li>If it contains the string <code>InitiateDrain</code> then call <code>DrainNode</code>. (explained below)</li>
+<li>If its <code>DelVolumesAttachments</code>, then <code>deleteNodeVolAttachments</code> is invoked:
 <ul>
-<li>If it contains the string <code>GetVMStatus</code> i.e. &ldquo;Set machine status to termination. Now, getting VM Status&rdquo; then &lt; <code>TODO</code> &gt;</li>
-<li>If it contains the string <code>InitiateDrain</code> then call <code>drainNode</code> &lt; <code>TODO</code> Look into drainNode &gt;</li>
+<li>If node is not found or if <code>node.Status.VolumesAttached</code> is zero then <code>description</code> is updated to <code>InitiateVMDeletion</code> and <code>state</code> is set to <code>Processing</code>.</li>
+<li>If there are non-zero attached volumes then <code>getLiveVolumeAttachmentsForNode</code> fetches all the volumes attached to our node not having DeletionTimestamp set.</li>
+<li>If there are live volumes, <code>deleteVolumeAttachmentsForNode</code> removes them and when zero live volumes are attached then <code>InitiateVMDeletion</code> is the <code>description</code>.</li>
+<li>After this the machine status is updated with the corresponding state and description.</li>
 </ul>
 </li>
-</ol>
-<!--list-separator-->
+<li>When it&rsquo;s <code>InitiateVMDeletion</code>, then <code>deleteVM</code> delgates the task to <code>driver.DeleteMachine()</code>. If deletion is successful then description is set to <code>InitiateNodeDeletion</code> with <code>processing</code> <code>state</code>. If there are any errors:
 <ul>
-<li>
-<p>DrainNode</p>
-<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#how-is-the-drain-of-a-machine-implemented">FAQ: How is drain implemented?</a></p>
+<li>In case its <code>NotFound</code>, then deletion flow is continued and <code>state</code> is set to <code>processing</code> with <code>description</code> being <code>InitiateNodeDeletion</code>.</li>
+<li>If it&rsquo;s <code>Unknown</code>, <code>DeadlineExceeded</code>, <code>Aborted</code> or <code>Unavailable</code> or any other error code(<code>default</code>) or failure in decoding the machineErr itself: the <code>state</code> is set as <code>failed</code> and <code>description</code> is <code>InitiateVMDeletion</code> as deletion is re-tried.</li>
+<li>After this the machine status is updated with the corresponding state and description.</li>
+</ul>
+</li>
+<li>Whereas <code>InitiateNodeDeletion</code> calls upon <code>deleteNodeObject</code> which if can&rsquo;t find the associated node, continues the deletion flow with <code>description</code> set to <code>InitiateFinalizerRemoval</code> and <code>state</code> as <code>Processing</code> otherwise <code>Delete()</code> is called for the node which on success moves to <code>Processing</code> and <code>InitiateFinalizerRemoval</code> stages however on error switches to <code>failed</code> state (any error other than object not found). After this the machine status is updated.</li>
+<li>At last when we have <code>InitiateFinalizerRemoval</code>, <code>deleteMachineFinalizers</code> is invoked which deletes <code>MCMFinalizerName</code> if present, if there are any errors while updating the machine with the new set of finalizers, then re-queue is triggered after a ShortRetry.</li>
+</ol>
+<h4 id="drainnode">DrainNode</h4>
+<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#how-is-the-drain-of-a-machine-implemented">FAQ: How is drain implemented?</a>, and the <a href="https://elankath.github.io/mcmdesign/machine-controller/mc_helper_methods.html#controllerdrainnode">flowchart</a>.</p>
 <ol>
 <li>
 <p>Check that the nodeName is valid, if not set <code>skipDrain</code>.</p>
@@ -456,35 +462,68 @@ classDiagram
 <p>Check if machine is in <code>Ready</code> or <code>ReadOnly</code> state.</p>
 </li>
 <li>
-<p>If node condition is not empty and its not ready and it&rsquo;s been 5mins, then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set.</p>
-</li>
-<li>
-<p>If node condition is not empty and its read-only and it&rsquo;s been 5mins, then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set.</p>
-</li>
-<li>
-<p>If <code>skipDrain</code> is set, then set the state to <code>Processing</code>.</p>
+<p>If node condition is not empty and its <code>not Ready</code> or its <code>ReadOnly</code> and it&rsquo;s been 5mins, then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set, <code>printLogInitError()</code> is called i.e. <code>description</code> is set to <code>InitiateVMDeletion</code>.</p>
 </li>
 <li>
 <p>If skip isn&rsquo;t set, then check if (MachineDrainTimeout) has occured.</p>
 <ul>
-<li>If <code>force-deletion</code> label is present on the machine or if timeout has happened then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set and force deletion is triggered otherwise normal deletion is triggered.</li>
-</ul>
-<!--listend-->
+<li>If <code>force-deletion</code> label is present on the machine or if timeout has happened then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> are set and <em>force deletion</em> is triggered otherwise <em>normal deletion</em> is triggered.</li>
+<li>After that, <code>UpdateNodeTerminationCondition</code> is called, which checks that the <code>phase</code> is not <code>CrashLoopBackOff</code> or <code>empty</code> i.e. machine is not in creation stage. Then we check if there are nodes that are already in <code>terminating</code> condition, if not, then if <code>phase</code> is <code>failed</code> then <code>terminationCondition</code> reason is set to <code>Unhealthy</code>, otherwise it&rsquo;s set to <code>ScaleDown</code>.</li>
+<li>If termination condition update results in an error in a <em>normal deletion</em> then, <code>skipDrain</code> is set and <code>state</code> is set to <code>failed</code>.</li>
+<li>If termination condition update doesn&rsquo;t result in an error then <code>RunDrain</code> (explained below) is invoked; if drain is successful then <code>state</code> is set to <code>Processing</code> &amp; if it&rsquo;s <em>normal deletion</em> <code>description</code> is set to <code>InitiateVMDeletion</code> (since regular deletion already waits for volume detach/attach) otherwise if it&rsquo;s <em>force deletion</em> then <code>description</code> is set to <code>DelVolumesAttachments</code>  alongwith <code>Processing</code> <code>state</code>. If <code>RunDrain</code> is unsuccessful however and its <em>normal deletion</em> then <code>description</code> is set to <code>InitiateDrain</code> with <code>failed</code> <code>state</code> for a retry.</li>
+<li>To summarize the above:
 <pre tabindex="0"><code class="language-nil" data-lang="nil">   To perform forceful machine drain/delete either:
    1. force-deletion: &#34;True&#34; label must be present
    2. Deletion operation is more than drain-timeout minutes old
    3. Last machine drain had failed
 </code></pre></li>
-</ol>
-</li>
 </ul>
-<h4 id="triggercreationflow"><span class="org-todo todo TODO">TODO</span> TriggerCreationFlow</h4>
+</li>
+<li>
+<p>If <code>skipDrain</code> is set, then set the state to <code>Processing</code>, LastOperation <code>type</code> to <code>delete</code>, <code>description</code> is set to <code>InitiateVMDeletion</code> by <code>printLogInitError()</code> and it&rsquo;s re-queued.</p>
+</li>
+</ol>
+<h4 id="rundrain">RunDrain</h4>
+<ol>
+<li>
+<p>drainContext</p>
+</li>
+<li>
+<p><code>RunCordonOrUncordon</code></p>
+<p>First we try to get the associated node, if it results in an error that means the node doesn&rsquo;t exist i.e. deletion was triggered during the machine creation process hence there&rsquo;s nothing to do. If the node is there and it&rsquo;s <code>Spec.Unschedulable</code> is true, then there&rsquo;s nothing to do otherwise <code>Unschedulable</code> is set to true. (<em>Cordoning</em> means sealing off/preventing access)</p>
+</li>
+<li>
+<p><code>WaitForCacheSync</code> is processed for the pod informer cache to sync.</p>
+</li>
+<li>
+<p><code>deleteOrEvictPodsSimple</code></p>
+<ul>
+<li>Calls <code>getPodsForDeletion</code> which lists all <code>pods.Spec.NodeName</code> matching our node, (TODO: check podFilter) and if there aren&rsquo;t any errors, then returns the list of pods.</li>
+<li>Following which we <code>deleteOrEvictPods</code>: Here, we first check if the server supports eviction by <code>SupportEviction</code> and if <code>ForceDeletePods</code> is false then we call <code>evictPods</code> which performs <em>normal eviction</em> of the pods, parallelly <code>evictPodsWithoutPv</code> and serially (by sorting by Priority) <code>evictPodsWithPv</code> for ones having volume attached since it needs to wait for volume detachment. Both of these ways attempt to <code>evictPod</code> if supported for <code>MaxEvictRetries</code> times failing which they <code>deletePod</code>. If <code>forceDeletePods</code> is true, then <em>forceful eviction</em> of the pods happens and all pods are evicted parallelly by calling <code>evictPodsWithPv</code>.</li>
+<li><code>TODO</code> Look into <code>getPdbForPod</code>, <code>isMisconfiguredPdb</code>, <code>TerminationGracePeriod</code>, <code>waitForDelete</code>: <a href="https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodwithoutpvinternal">evictPodsWithoutPVInternal</a></li>
+<li><code>TODO</code> Check <a href="https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodswithpvinternal">evictPodsWithPVInternal</a></li>
+<li>If there are any failures in <code>deleteOrEvictPods</code>, they are reported as pendingPods.</li>
+</ul>
+</li>
+</ol>
+<h4 id="triggercreationflow">TriggerCreationFlow</h4>
+<ol>
+<li>Update MachineRequest&rsquo;s secret by processing the secret with (TODO) <code>addBootstrapTokenToUserData</code> and <code>addMachineNameToUserData</code> which checks if <code>secret[&quot;userData&quot;]</code> exists, then replacing <code>MachineNamePlaceholder</code> &lt;MACHINE_NAME&gt; with the actual <code>machine.Name</code>.</li>
+<li>After that, the secret is used alongwith the Machine and MachineClass to create a GetMachineStatusRequest which responds with <code>providerId</code> and associated <code>nodeName</code>.</li>
+<li>If there is no error with the GetMachineStatusRequest and the machine&rsquo;s &ldquo;node&rdquo; label or <code>providerID</code> is empty then the required VM is found and the node and providerID for the machine is updated. (<code>updateLabels</code>: adds the necessary labels, annotations with MachinePriority as 3 if unset and updates the providerID)</li>
+<li>If there is an error in getting the machine status and the ErrCode is <code>NotFound</code> or <code>Unimplemented</code> and if the &ldquo;node&rdquo; label is not present on the machine then: <code>driver.CreateMachine()</code> is invoked which on success gives us the <code>providerId</code> and the <code>nodeName</code>, then we try to <code>Get()</code> (TODO: nodeName != machineName significance?) the returned <code>nodeName</code> to check if a node object already exists. If so, it is treated as a stale node and <code>driver.DeleteMachine()</code> is triggered and the machine object is marked as <code>state</code> <code>failed</code>, <code>phase</code> being <code>failed</code>  with LastOperation <code>description</code> set as &ldquo;<code>VM using old node obj</code>&rdquo; and then its status is updated. NOTE: Also, <code>uninitializedMachine</code> is set to true.</li>
+<li>If the returned codes are <code>Unknown</code>, <code>DeadlineExceeded</code>, <code>Aborted</code> or <code>Unavailable</code>, then again <code>machineStatusUpdate</code> is called with <code>state</code> set to <code>failed</code> and <code>phase</code> being <code>failed</code> or <code>crashloopbackoff</code> depending upon whether or not MachineCreationTimeout happened.</li>
+<li>Whereas the case when returned code is <code>Uninitialized</code>, the flag <code>uninitializedMachine</code> is set to true. In any other scenario, a <code>machineStatusUpdate</code> call similar to the previous case is made with a re-queue call.</li>
+<li>In case the <code>uninitializedMachine</code> flag is set, <code>initializeMachine</code> is called for starting the VM instance for the machine, it delegates the task to <code>driver.InitializeMachine</code> which if it returns <code>Unimplemented</code> error code, then VM initialization is skipped as provider doesn&rsquo;t support it otherwise <code>machineStatusUpdate</code> call is made with <code>failed</code> <code>state</code> and <code>crashloopbackoff</code> or <code>failed</code> <code>phase</code> based on MachineCreationTimeout. Upon successful initialization, an error is returned by <code>triggerCreationFlow</code> for another re-queue.</li>
+<li>If however the machine <code>phase</code> is <code>empty</code> (creation) or <code>crashloopbackoff</code> then <code>state</code> is set as <code>Processing</code>, <code>phase</code> as <code>Pending</code> and a <code>UpdateStatus</code> call is made for the machine.</li>
+</ol>
 <h2 id="queries">Queries</h2>
 <ul>
 <li>How much access/info does the end user have about machines? How much can they control them or is the access restricted to editing nodes only?</li>
 <li>Check control and target clusters, inClusterConfig. Control cluster is the one where the machine-* objects are stored. Target cluster is where all the node objects are registered.</li>
 <li>When node deletion checks are happening, how is the <code>ReadOnlyFileSystem</code> flag checked for?</li>
 <li>Why is this required in two places? <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#i-need-to-change-the-apis-what-are-the-recommended-steps">FAQ: API Change</a></li>
+<li>What is this <code>FakeDriver</code> business?</li>
 <li>In a lot of functions, we clone the resource, then work with the cloned copy, why is that necessary?</li>
 <li>Why is bootstrap token deletion required when machine creation goes through?</li>
 <li>What is this permit that&rsquo;s used when <code>Unknown</code> phase and machine times out</li>
