@@ -92,6 +92,8 @@ classDiagram
    MachineOperationType type: string
    }
 
+   note for LastOperation &amp;#34;State can be &amp;#39;Processing&amp;#39;, &amp;#39;Failed&amp;#39; or &amp;#39;Successful&amp;#39;&amp;lt;br&amp;gt;Type can be &amp;#39;Create&amp;#39;, &amp;#39;Update&amp;#39;, &amp;#39;HealthCheck&amp;#39; or &amp;#39;Delete&amp;#39;&amp;#34;
+
    class CurrentStatus{
    MachinePhase phase: string
    bool timeoutActive
@@ -197,7 +199,6 @@ classDiagram
    string message
    }
 
-   note for MachineSetCondition &amp;#34;Can it not be the same as machine deployment condition?&amp;#34;
    note for LastOperation &amp;#34;One has information about lastOp for Machine (summary) and the other is for MachineSet&amp;#34;
 &lt;/pre&gt;
 
@@ -230,7 +231,8 @@ classDiagram
    int32 minReadySeconds
    int32* revisionHistoryLimit
    bool paused
-      int32* progressDeadlineSeconds
+   RollbackConfig* rollbackTo
+   int32* progressDeadlineSeconds
    }
 
    MachineDeploymentStrategy &amp;lt;|-- RollingUpdateMachineDeployment
@@ -268,7 +270,32 @@ classDiagram
    }
 &lt;/pre&gt;
 
-&lt;h2 id=&#34;controllers&#34;&gt;Controllers&lt;/h2&gt;
+&lt;h3 id=&#34;miscellaneous&#34;&gt;Miscellaneous&lt;/h3&gt;
+&lt;h4 id=&#34;safetyoptions&#34;&gt;SafetyOptions&lt;/h4&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: SafetyOptions
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+class SafetyOptions{
+ metav1.Duration	MachineCreationTimeout
+ metav1.Duration	MachineHealthTimeout
+ metav1.Duration	MachineDrainTimeout
+ metav1.Duration	PvDetachTimeout
+ metav1.Duration	PvReattachTimeout
+ metav1.Duration	MachineSafetyAPIServerStatusCheckTimeout
+ metav1.Duration	MachineSafetyAPIServerStatusCheckPeriod
+ metav1.Duration	MachineSafetyOrphanVMsPeriod
+	time.Time APIserverInactiveStartTime
+	bool MachineControllerFrozen
+	int32 MaxEvictRetries
+}
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;machine-controller&#34;&gt;Machine Controller&lt;/h2&gt;
 &lt;h3 id=&#34;reconcile-cluster-secret&#34;&gt;Reconcile Cluster Secret&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Fetch secrets&lt;/li&gt;
@@ -289,7 +316,7 @@ classDiagram
 &lt;p&gt;Fetch the required &lt;code&gt;Machine&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Check if the Machine controller is frozen (&lt;code&gt;safetyOptions.MachineControllerFrozen&lt;/code&gt;) and machine isn&amp;rsquo;t scheduled for deletion. If so, retry reconciliation after &lt;code&gt;longRetry&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Check if the Machine controller is frozen (&lt;code&gt;MachineControllerFrozen&lt;/code&gt;) and machine isn&amp;rsquo;t scheduled for deletion. If so, retry reconciliation after &lt;code&gt;longRetry&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;If machine isn&amp;rsquo;t frozen, then validate the &lt;code&gt;Machine&lt;/code&gt; (check Name and Kind for the Class shouldn&amp;rsquo;t be empty). Also validate the &lt;code&gt;MachineClass&lt;/code&gt;&amp;rsquo; &lt;code&gt;Nodetemplate&lt;/code&gt; fields (&lt;code&gt;capacity&lt;/code&gt;: cpu, gpu and memory; &lt;code&gt;instanceType&lt;/code&gt;, &lt;code&gt;region&lt;/code&gt; and &lt;code&gt;zone&lt;/code&gt;).&lt;/p&gt;
@@ -383,11 +410,22 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;deleteOrEvictPodsSimple&lt;/code&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Calls &lt;code&gt;getPodsForDeletion&lt;/code&gt; which lists all &lt;code&gt;pods.Spec.NodeName&lt;/code&gt; matching our node, (TODO: check podFilter) and if there aren&amp;rsquo;t any errors, then returns the list of pods.&lt;/li&gt;
-&lt;li&gt;Following which we &lt;code&gt;deleteOrEvictPods&lt;/code&gt;: Here, we first check if the server supports eviction by &lt;code&gt;SupportEviction&lt;/code&gt; and if &lt;code&gt;ForceDeletePods&lt;/code&gt; is false then we call &lt;code&gt;evictPods&lt;/code&gt; which performs &lt;em&gt;normal eviction&lt;/em&gt; of the pods, parallelly &lt;code&gt;evictPodsWithoutPv&lt;/code&gt; and serially (by sorting by Priority) &lt;code&gt;evictPodsWithPv&lt;/code&gt; for ones having volume attached since it needs to wait for volume detachment. Both of these ways attempt to &lt;code&gt;evictPod&lt;/code&gt; if supported for &lt;code&gt;MaxEvictRetries&lt;/code&gt; times failing which they &lt;code&gt;deletePod&lt;/code&gt;. If &lt;code&gt;forceDeletePods&lt;/code&gt; is true, then &lt;em&gt;forceful eviction&lt;/em&gt; of the pods happens and all pods are evicted parallelly by calling &lt;code&gt;evictPodsWithPv&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;TODO&lt;/code&gt; Look into &lt;code&gt;getPdbForPod&lt;/code&gt;, &lt;code&gt;isMisconfiguredPdb&lt;/code&gt;, &lt;code&gt;TerminationGracePeriod&lt;/code&gt;, &lt;code&gt;waitForDelete&lt;/code&gt;: &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodwithoutpvinternal&#34;&gt;evictPodsWithoutPVInternal&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;TODO&lt;/code&gt; Check &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodswithpvinternal&#34;&gt;evictPodsWithPVInternal&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;If there are any failures in &lt;code&gt;deleteOrEvictPods&lt;/code&gt;, they are reported as pendingPods.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Calls &lt;code&gt;getPodsForDeletion&lt;/code&gt; which lists all &lt;code&gt;pods.Spec.NodeName&lt;/code&gt; matching our node, (TODO: check podFilter) and if there aren&amp;rsquo;t any errors, then returns the list of pods.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Following which we &lt;code&gt;deleteOrEvictPods&lt;/code&gt;: Here, we first check if the server supports eviction by &lt;code&gt;SupportEviction&lt;/code&gt; and if &lt;code&gt;ForceDeletePods&lt;/code&gt; is false then we call &lt;code&gt;evictPods&lt;/code&gt; which performs &lt;em&gt;normal eviction&lt;/em&gt; of the pods, parallelly &lt;code&gt;evictPodsWithoutPv&lt;/code&gt; and serially (by sorting by Priority) &lt;code&gt;evictPodsWithPv&lt;/code&gt; for ones having volume attached since it needs to wait for volume detachment. Both of these ways attempt to &lt;code&gt;evictPod&lt;/code&gt; if supported for &lt;code&gt;MaxEvictRetries&lt;/code&gt; times failing which they &lt;code&gt;deletePod&lt;/code&gt;. If &lt;code&gt;forceDeletePods&lt;/code&gt; is true, then &lt;em&gt;forceful eviction&lt;/em&gt; of the pods happens and all pods are evicted parallelly by calling &lt;code&gt;evictPodsWithPv&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;TODO&lt;/code&gt; Look into &lt;code&gt;getPdbForPod&lt;/code&gt;, &lt;code&gt;isMisconfiguredPdb&lt;/code&gt;, &lt;code&gt;TerminationGracePeriod&lt;/code&gt;, &lt;code&gt;waitForDelete&lt;/code&gt;: &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodwithoutpvinternal&#34;&gt;evictPodsWithoutPVInternal&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;References: &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/pods/disruptions/&#34;&gt;Disruptions&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/tasks/run-application/configure-pdb/&#34;&gt;Configuring PDB&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction/&#34;&gt;API Eviction&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;TODO&lt;/code&gt; Check &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodswithpvinternal&#34;&gt;evictPodsWithPVInternal&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If there are any failures in &lt;code&gt;deleteOrEvictPods&lt;/code&gt;, they are reported as pendingPods.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
@@ -402,25 +440,124 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;li&gt;In case the &lt;code&gt;uninitializedMachine&lt;/code&gt; flag is set, &lt;code&gt;initializeMachine&lt;/code&gt; is called for starting the VM instance for the machine, it delegates the task to &lt;code&gt;driver.InitializeMachine&lt;/code&gt; which if it returns &lt;code&gt;Unimplemented&lt;/code&gt; error code, then VM initialization is skipped as provider doesn&amp;rsquo;t support it otherwise &lt;code&gt;machineStatusUpdate&lt;/code&gt; call is made with &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;state&lt;/code&gt; and &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;phase&lt;/code&gt; based on MachineCreationTimeout. Upon successful initialization, an error is returned by &lt;code&gt;triggerCreationFlow&lt;/code&gt; for another re-queue.&lt;/li&gt;
 &lt;li&gt;If however the machine &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;empty&lt;/code&gt; (creation) or &lt;code&gt;crashloopbackoff&lt;/code&gt; then &lt;code&gt;state&lt;/code&gt; is set as &lt;code&gt;Processing&lt;/code&gt;, &lt;code&gt;phase&lt;/code&gt; as &lt;code&gt;Pending&lt;/code&gt; and a &lt;code&gt;UpdateStatus&lt;/code&gt; call is made for the machine.&lt;/li&gt;
 &lt;/ol&gt;
+&lt;h2 id=&#34;safety-controller&#34;&gt;Safety Controller&lt;/h2&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine-safety-orphan-vms&#34;&gt;Reconcile Cluster Machine Safety Orphan VMs&lt;/h3&gt;
+&lt;p&gt;It lists all the VMs in the cloud matching the &lt;code&gt;tag&lt;/code&gt; of given cluster name and maps the VMs with the &lt;code&gt;machine&lt;/code&gt; objects using the &lt;code&gt;ProviderID&lt;/code&gt; field. VMs without any backing machine objects are logged and deleted after confirmation. It runs every &lt;code&gt;MachineSafetyOrphanVMsPeriod&lt;/code&gt; duration (15 mins). It runs:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;checkMachineClasses&lt;/code&gt;: fetches all the MachineClasses and for each of them calls &lt;code&gt;checkMachineClass&lt;/code&gt;:
+&lt;ul&gt;
+&lt;li&gt;It fetches their &lt;code&gt;secretData&lt;/code&gt;, lists all the &lt;code&gt;Machines&lt;/code&gt; referencing that class, updates their cache via &lt;code&gt;WaitForCacheSync&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Then it iterates over the MachineList: &lt;code&gt;&amp;lt;providerID, machineName&amp;gt;&lt;/code&gt;, fetching each machine and ensuring that the providerID matches.&lt;/li&gt;
+&lt;li&gt;If it doesn&amp;rsquo;t and the &lt;code&gt;phase&lt;/code&gt; is &amp;quot;&amp;quot; or &lt;code&gt;crashloopbackoff&lt;/code&gt;, then it continues iterating otherwise it creates a dummy machine object for &lt;code&gt;DeleteMachineRequest&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AnnotateNodesUnmanagedByMCM&lt;/code&gt;: fetches all the nodes on the target cluster then iterates over them:
+&lt;ul&gt;
+&lt;li&gt;Calls &lt;code&gt;getMachineFromNode&lt;/code&gt; which returns &lt;code&gt;errMultipleMachineMatch&lt;/code&gt; or &lt;code&gt;errNoMachineMatch&lt;/code&gt; depending on the number of machines associated with the node. If there&amp;rsquo;s only one machine, then it returns the machine.&lt;/li&gt;
+&lt;li&gt;If we get &lt;code&gt;errNoMachineMatch&lt;/code&gt; then we compare &lt;code&gt;currentTime - nodeCreationTime&lt;/code&gt; with MachineCreationTimeout, if timeout has occured and the node doesn&amp;rsquo;t have &lt;code&gt;NotManagedByMCM&lt;/code&gt; annotation present on it then it means there&amp;rsquo;s no backing machine object for the node. So we annotate it with &lt;code&gt;NotManagedByMCM&lt;/code&gt; and then update the node.&lt;/li&gt;
+&lt;li&gt;If it returns the machine having &lt;code&gt;NotManagedByMCM&lt;/code&gt; annotation then we remove the annotation and update the node.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine-safety-api-server&#34;&gt;Reconcile Cluster Machine Safety API Server&lt;/h3&gt;
+&lt;p&gt;Freezes &lt;code&gt;MachineDeployment&lt;/code&gt; and &lt;code&gt;MachineSet&lt;/code&gt; controller if number of &lt;code&gt;machine&lt;/code&gt; objects goes beyond a certain threshold on top of &lt;code&gt;Spec.Replicas&lt;/code&gt; by applying a &lt;code&gt;freeze&lt;/code&gt; label. It also freezes the functionality of MCM if &lt;code&gt;target-apiserver&lt;/code&gt; or &lt;code&gt;control-apiserver&lt;/code&gt; is not reachable and unfreezes once situation becomes normal.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Checks if &lt;code&gt;MachineControllerFrozen&lt;/code&gt; is true if so it checks if &lt;code&gt;isApiServerUp&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;isApiServerUp&lt;/code&gt; makes a dummy call to control APIServer (&lt;code&gt;controlMachineClient&lt;/code&gt;) and target APIServer (&lt;code&gt;targetCoreClient&lt;/code&gt;) and if either gives an error different from isNotFound error, it returns false. If it returns true then we unfreeze them by iterating over them and if their &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;Unknown&lt;/code&gt;, we get machine from &lt;code&gt;controlMachineClient&lt;/code&gt; and set the phase as &lt;code&gt;Running&lt;/code&gt;, &lt;code&gt;state&lt;/code&gt; as &lt;code&gt;successful&lt;/code&gt; and &lt;code&gt;description&lt;/code&gt; as &amp;ldquo;Machine Health Timeout was reset due to APIServer being unreachable&amp;rdquo;. After which we update the status and &lt;code&gt;enqueueMachineAfter&lt;/code&gt; 30 seconds for reconcile and set &lt;code&gt;MachineControllerFrozen&lt;/code&gt; to false &amp;amp; &lt;code&gt;APIserverInactiveStartTime&lt;/code&gt; to nil.&lt;/li&gt;
+&lt;li&gt;If initially &lt;code&gt;MachineControllerFrozen&lt;/code&gt; was false, and &lt;code&gt;isApiServerUp&lt;/code&gt; returned false i.e. its not up then we set &lt;code&gt;APIserverInactiveStartTime&lt;/code&gt; as current time if its unset and check if time passed since Inactive time is more than &lt;code&gt;MachineSafetyAPIServerStatusCheckTimeout&lt;/code&gt;, if so we set &lt;code&gt;MachineControllerFrozen&lt;/code&gt; to true and then re-enqueue the API Server check.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;machine-controller-manager&#34;&gt;Machine Controller Manager&lt;/h2&gt;
+&lt;p&gt;Handles reconciliation of &lt;code&gt;MachineDeployment&lt;/code&gt; and &lt;code&gt;MachineSet&lt;/code&gt; objects.&lt;/p&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine-set&#34;&gt;Reconcile Cluster Machine Set&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Fetch the &lt;code&gt;MachineSet&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;ValidateMachineSetSpec&lt;/code&gt;: Ensures that &lt;code&gt;spec.Replicas&lt;/code&gt; is greater than or equal to zero and &lt;code&gt;selector.matchLabels&lt;/code&gt; matches &lt;code&gt;template.metadata.labels&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If DeletionTimestamp is not set, then &lt;code&gt;addMachineSetFinalizers&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;TODO&lt;/code&gt; LabelSelectorAsSelector: machine-template-hash&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;ClaimMachine&lt;/code&gt; indirectly calls &lt;code&gt;ClaimObject&lt;/code&gt; with &lt;code&gt;Match&lt;/code&gt;, &lt;code&gt;Adopt&lt;/code&gt; and &lt;code&gt;Release&lt;/code&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Match&lt;/code&gt;: Checks if the selector matches, after which it runs a set of &lt;code&gt;filter&lt;/code&gt; functions. On success, it returns true.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AdoptMachine&lt;/code&gt; (Adopt): &amp;lt;TODO: CanAdopt()&amp;gt;, If true then &lt;code&gt;PatchMachine&lt;/code&gt; with the &lt;em&gt;OwnerRef&lt;/em&gt; to the MachineSet and add to &lt;code&gt;claimedMachines&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ReleaseMachine&lt;/code&gt; (Release): Sends a &lt;code&gt;deleteOwnerRefPatch&lt;/code&gt; to free the Machine from controller. On patching, &lt;code&gt;NotFound&lt;/code&gt; and &lt;code&gt;IsInvalid&lt;/code&gt; errors are ignored since if the machine doesn&amp;rsquo;t exist or if it has no ownerRef or if the UID doesn&amp;rsquo;t match (implies machine was recreated after deletion) then it&amp;rsquo;s fine.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ClaimObject:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;     It will reconcile the following:
+​       - Adopt orphans if the match function returns true.
+​       - Release owned objects if the match function returns false.
+&lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;
+&lt;li&gt;Get the &lt;code&gt;ownerRef&lt;/code&gt; using &lt;code&gt;GetControllerOf&lt;/code&gt;, it it&amp;rsquo;s not nil, check if
+ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids&#34;&gt;UID&lt;/a&gt; is k8s system generated string to uniquely identify object).  If the DeletionTimestamp is not set (nil), and the selector &lt;code&gt;match&lt;/code&gt; fails, then attempt a &lt;code&gt;release&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;In case the ownerRef was nil, check if machineSet is not scheduled for deletion (&lt;code&gt;DeletionTimestamp&lt;/code&gt; nil) and the &lt;code&gt;match&lt;/code&gt; was succesful. If so, then if the machine isn&amp;rsquo;t scheduled for deletion, attempt &lt;code&gt;Adopt&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After the list of claimedMachines if procured, we call &lt;code&gt;syncMachinesNodeTemplates&lt;/code&gt;, &lt;code&gt;syncMachinesConfig&lt;/code&gt; &amp;amp; &lt;code&gt;syncMachineClassKind&lt;/code&gt; which goes through the list and checks if a machine requires updation of the &lt;code&gt;Nodetemplate&lt;/code&gt;, &lt;code&gt;MachineConfiguration&lt;/code&gt; and &lt;code&gt;Class.Kind&lt;/code&gt; and copies them from the &lt;code&gt;machineSet&lt;/code&gt; to the &lt;code&gt;machine&lt;/code&gt; if needed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then check if the &lt;em&gt;machineSet&lt;/em&gt; is scheduled for deletion i.e. &lt;code&gt;DeletionTimestamp&lt;/code&gt; is not nil, if there aren&amp;rsquo;t any claimedMachines for this machineSet (len(filteredMachines) is 0) then remove the finalizer from the &lt;em&gt;machineSet&lt;/em&gt; otherwise trigger deletion of the claimedMachines via &lt;code&gt;terminateMachines&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In case the &lt;em&gt;machineSet&lt;/em&gt; wasn&amp;rsquo;t scheduled for deletion, &lt;code&gt;manageReplicas&lt;/code&gt; is called:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Gets the MetaNameSpaceKey for the &lt;em&gt;machineSet&lt;/em&gt; and creates a list of activeMachines (&lt;code&gt;phase&lt;/code&gt; != &lt;code&gt;failed&lt;/code&gt; or &lt;code&gt;terminating&lt;/code&gt;) and staleMachines (&lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;failed&lt;/code&gt;) from the list of claimedMachines.&lt;/li&gt;
+&lt;li&gt;If there are staleMachines then they are scheduled for deletion, &lt;code&gt;terminateMachines&lt;/code&gt; is called.&lt;/li&gt;
+&lt;li&gt;Then we check the difference between the number of activeMachines and the number of &lt;code&gt;Replicas&lt;/code&gt; specified by the &lt;em&gt;machineSet&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;If the activeMachines are less, then count (diff) is set to &lt;code&gt;min(BurstReplicas: 100, Replicas - len(activeMachines))&lt;/code&gt; and &amp;lt;TODO ExpectCreations&amp;gt; &lt;code&gt;slowStartBatch&lt;/code&gt; is called which calls a function &lt;code&gt;CreateMachinesWithControllerRef&lt;/code&gt; &lt;code&gt;count&lt;/code&gt; times, starting slow with group of &lt;code&gt;SlowStartInitialBatchSize&lt;/code&gt; (1) to check for errors, then speeding up if calls succeed. Within each batch, it may call the function multiple times concurrently. If a whole batch succeeds, the next batch gets exponentially larger.&lt;/li&gt;
+&lt;li&gt;&amp;lt;TODO&amp;gt; skippedMachines CreationObserved&lt;/li&gt;
+&lt;li&gt;In case the activeMachines are more than the &lt;code&gt;Replica&lt;/code&gt; count, then deletion must be triggered. &lt;code&gt;diff&lt;/code&gt; is set to &lt;code&gt;min(BurstReplicas: 100, len(activeMachines) - Replicas)&lt;/code&gt; and then the activeMachines are sorted in the order &lt;code&gt;NonReady &amp;lt; Ready&lt;/code&gt;, &lt;code&gt;Unscheduled &amp;lt; Scheduled&lt;/code&gt;, &lt;code&gt;Pending &amp;lt; Running&lt;/code&gt;. &amp;lt;TODO: ExpectDeletions&amp;gt;. After getting the sorted list, the machines are deleted by called &lt;code&gt;terminateMachines&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then MachineSet status is calculated and updated following which reconcile is enqueued after 10 minutes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine-deployment&#34;&gt;&lt;span class=&#34;org-todo todo TODO&#34;&gt;TODO&lt;/span&gt; Reconcile Cluster Machine Deployment&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Fetch the deployment by getting the name from &lt;code&gt;SplitMetaNamespaceKey&lt;/code&gt;, then validate it by ensuring &lt;code&gt;Replicas&lt;/code&gt; is not negative and that &lt;code&gt;selector.matchLabels&lt;/code&gt; is consistent with &lt;code&gt;template.metadata.labels&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Add finalizers if DeletionTimestamp is nil, then check if &lt;code&gt;Selector&lt;/code&gt; is empty i.e. the deployment is selecting all machines, if so record that event and set &lt;code&gt;Status.ObservedGeneration&lt;/code&gt; to &lt;code&gt;Generation&lt;/code&gt; if it&amp;rsquo;s less and then update the status.&lt;/li&gt;
+&lt;li&gt;Then &lt;code&gt;getMachineSetsForMachineDeployment&lt;/code&gt; is called which internally calls &lt;code&gt;ClaimMachineSets&lt;/code&gt; (acts in a similar fashion to &lt;code&gt;ClaimMachine&lt;/code&gt; for MachineSets by leveraging &lt;code&gt;ClaimObject&lt;/code&gt;) to get the machineSets owned by the deployment via adoption/orphaning. &amp;lt;TODO: canAdoptFunc&amp;gt;&lt;/li&gt;
+&lt;li&gt;&amp;lt;TODO: getMachineMapForMachineDeployment&amp;gt;&lt;/li&gt;
+&lt;li&gt;If DeletionTimestamp is set and if deployment doesn&amp;rsquo;t have &lt;code&gt;DeleteFinalizerName&lt;/code&gt; otherwise if there are no MachineSets referring to the deployment then remove the finalizers. If there are MachineSets owned by the deployment then &lt;code&gt;terminateMachineSets&lt;/code&gt; is called after which &lt;code&gt;syncStatusOnly&lt;/code&gt; calls &lt;code&gt;getAllMachineSetsAndSyncRevision&lt;/code&gt; that lists the MachineSets and machines for the deployment and applies &lt;code&gt;machine-template-hash&lt;/code&gt; to the adopted ones and then deployment status is synced.&lt;/li&gt;
+&lt;li&gt;Ref: &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment&#34;&gt;Pausing a deployment&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#deployment-status&#34;&gt;Deployment Status&lt;/a&gt; &amp;lt;TODO: Why?! are we doing this&amp;gt;
+&lt;code&gt;checkPausedConditions&lt;/code&gt; fetches the condition with &lt;code&gt;type&lt;/code&gt; as &lt;code&gt;Progressing&lt;/code&gt;
+&lt;ol&gt;
+&lt;li&gt;If &lt;code&gt;cond.Reason&lt;/code&gt; is &lt;code&gt;TimedOutReason&lt;/code&gt;, return without overwriting with  paused condition.&lt;/li&gt;
+&lt;li&gt;Check if &lt;code&gt;pausedCondExists&lt;/code&gt; by seeing if cond.Reason is &lt;code&gt;PausedMachineDeployReason&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;Spec.Paused&lt;/code&gt; is true and &lt;code&gt;pausedCondExists&lt;/code&gt; is false, then update the condition with &lt;code&gt;Reason&lt;/code&gt; as &lt;code&gt;PausedMachineDeployReason&lt;/code&gt; and &lt;code&gt;message&lt;/code&gt; as &lt;em&gt;&amp;ldquo;Deployment is paused&amp;rdquo;&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Otherwise if &lt;code&gt;Spec.Paused&lt;/code&gt; is false and &lt;code&gt;pausedCondExists&lt;/code&gt; is true, then update the condition with &lt;code&gt;Reason&lt;/code&gt; as &lt;code&gt;ResumedMachineDeployReason&lt;/code&gt; and &lt;code&gt;message&lt;/code&gt; as &lt;em&gt;&amp;ldquo;Deployment is resumed&amp;rdquo;&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Update the deployment status.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&amp;lt;TODO&amp;gt; Then we check if &lt;code&gt;Spec.Paused&lt;/code&gt; is true, if so it implies that &lt;em&gt;Scaling was detected for deployment which is paused&lt;/em&gt;,&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;queries&#34;&gt;Queries&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;How much access/info does the end user have about machines? How much can they control them or is the access restricted to editing nodes only?&lt;/li&gt;
 &lt;li&gt;Check control and target clusters, inClusterConfig. Control cluster is the one where the machine-* objects are stored. Target cluster is where all the node objects are registered.&lt;/li&gt;
 &lt;li&gt;When node deletion checks are happening, how is the &lt;code&gt;ReadOnlyFileSystem&lt;/code&gt; flag checked for?&lt;/li&gt;
 &lt;li&gt;Why is this required in two places? &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#i-need-to-change-the-apis-what-are-the-recommended-steps&#34;&gt;FAQ: API Change&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Is local setup guide enough to get started or is there something else to look out for as well?&lt;/li&gt;
+&lt;li&gt;In the &lt;code&gt;ClaimMachines&lt;/code&gt; function, we&amp;rsquo;re not passing the filters, what&amp;rsquo;s the point of having them then? In what scenarios will they be needed?&lt;/li&gt;
+&lt;li&gt;How is the &lt;code&gt;CanAdopt()&lt;/code&gt; function working?&lt;/li&gt;
+&lt;li&gt;What is this controllerRef for?&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;What is the &lt;code&gt;KeyFunc()&lt;/code&gt; doing in manageReplicas: cache.MetaNameSpaceKeyFunc&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;What is this ControllerExpectations, why is it needed? Handle race conditions, Expectations are supposed to be used to await previous controller actions to be seen in watch. ContExpectations is a cache mapping controllers to what they expect to see before being woken up for a sync.&lt;/li&gt;
 &lt;li&gt;What is this &lt;code&gt;FakeDriver&lt;/code&gt; business?&lt;/li&gt;
-&lt;li&gt;In a lot of functions, we clone the resource, then work with the cloned copy, why is that necessary?&lt;/li&gt;
-&lt;li&gt;Why is bootstrap token deletion required when machine creation goes through?&lt;/li&gt;
-&lt;li&gt;What is this permit that&amp;rsquo;s used when &lt;code&gt;Unknown&lt;/code&gt; phase and machine times out&lt;/li&gt;
-&lt;li&gt;Why is internalExternalScheme conversion needed?
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-go-ts&#34; data-lang=&#34;go-ts&#34;&gt;// Validate internal to external scheme conversion. Why is this needed?
-class = &amp;amp;v1alpha1.MachineClass{}
-internalClass := &amp;amp;machine.MachineClass{}
-err := c.internalExternalScheme.Convert(class, internalClass, nil)
-if err != nil {
-	return err
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;In a lot of functions, we clone the resource, then work with the cloned copy, why is that necessary?&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Why is bootstrap token deletion required when machine creation goes through?&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;What is this permit that&amp;rsquo;s used when &lt;code&gt;Unknown&lt;/code&gt; phase and machine times out&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Why is internalExternalScheme conversion needed?&lt;/del&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
