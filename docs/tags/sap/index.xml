@@ -13,7 +13,7 @@
       <link>https://brongulus.github.io/notes/20241108t095209--docker-k8s-training__k8s_sap/</link>
       <pubDate>Fri, 08 Nov 2024 09:52:00 +0530</pubDate>
       <guid>https://brongulus.github.io/notes/20241108t095209--docker-k8s-training__k8s_sap/</guid>
-      <description>&lt;h2 id=&#34;docker&#34;&gt;Docker&lt;/h2&gt;&#xA;&lt;p&gt;A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. The Linux kernel does not know about containers at all – for it, containers are nothing more than just regular processes running on the system. It however offers several features that Docker and other container engines leverage to achieve an almost complete isolation of processes from each other. Some of them being&lt;/p&gt;</description>
+      <description>Docker A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. The Linux kernel does not know about containers at all – for it, containers are nothing more than just regular processes running on the system. It however offers several features that Docker and other container engines leverage to achieve an almost complete isolation of processes from each other.</description>
     </item>
   </channel>
 </rss>

@@ -6,7 +6,541 @@
     <description>Recent content on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Nov 2024 16:07:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Jan 2025 00:07:00 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2 Fast 2 MCM</title>
+      <link>https://brongulus.github.io/notes/2fast2mcm/</link>
+      <pubDate>Wed, 15 Jan 2025 00:07:00 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/2fast2mcm/</guid>
+      <description>&lt;p&gt;These visual representations helps understand the complex workflows within the Machine Controller Manager.&lt;/p&gt;
+&lt;h2 id=&#34;machine-controller-manager-architecture&#34;&gt;Machine Controller Manager Architecture&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The system consists of three main controllers working in concert&lt;/li&gt;
+&lt;li&gt;Each controller handles specific aspects of machine lifecycle management&lt;/li&gt;
+&lt;li&gt;Interfaces with both cloud providers and Kubernetes clusters&lt;/li&gt;
+&lt;li&gt;Manages the full lifecycle of machines from creation to deletion&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s start with an overview of the main components and their interactions:&lt;/p&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    direction TB
+    
+    state &amp;#34;Machine Controller Manager&amp;#34; as MCM {
+        state &amp;#34;Machine Controller&amp;#34; as MC
+        state &amp;#34;Safety Controller&amp;#34; as SC
+        state &amp;#34;MCM Controller&amp;#34; as MCMC
+        
+        [*] --&amp;gt; MC
+        [*] --&amp;gt; SC
+        [*] --&amp;gt; MCMC
+    }
+    
+    state &amp;#34;Cloud Provider&amp;#34; as CP {
+        VMs
+        API
+    }
+    
+    state &amp;#34;Kubernetes Cluster&amp;#34; as K8S {
+        state &amp;#34;Control Plane&amp;#34; as CP_K8S {
+            API_Server
+            etcd
+        }
+        
+        state &amp;#34;Node Components&amp;#34; as NC {
+            kubelet
+            container_runtime
+        }
+    }
+    
+    MCM --&amp;gt; CP : Manages VMs
+    MCM --&amp;gt; K8S : Manages Nodes
+    
+    note right of MCM
+        Handles:
+        - Machine lifecycle
+        - Safety checks
+        - Deployments/Sets
+    end note
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;machine-controller-core-flows&#34;&gt;Machine Controller Core Flows&lt;/h2&gt;
+&lt;p&gt;Now, let&amp;rsquo;s dive into the Machine Controller&amp;rsquo;s core reconciliation flows for different resources. It handles three main types of reconciliation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Secret Reconciliation: Manages secrets referenced by MachineClasses&lt;/li&gt;
+&lt;li&gt;MachineClass Reconciliation: Handles machine class lifecycle&lt;/li&gt;
+&lt;li&gt;Machine Reconciliation: Core machine lifecycle management&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    state &amp;#34;Machine Controller&amp;#34; as MC {
+        state &amp;#34;Secret Reconciliation&amp;#34; as SR {
+            [*] --&amp;gt; FetchSecret
+            FetchSecret --&amp;gt; GetMachineClass
+            GetMachineClass --&amp;gt; CheckReferences
+            CheckReferences --&amp;gt; FinalizerAdd : Has References
+            CheckReferences --&amp;gt; FinalizerRemove : No References
+            FinalizerAdd --&amp;gt; [*]
+            FinalizerRemove --&amp;gt; [*]
+        }
+
+        state &amp;#34;MachineClass Reconciliation&amp;#34; as MCR {
+            [*] --&amp;gt; FetchClass
+            FetchClass --&amp;gt; GetMachines
+            GetMachines --&amp;gt; CheckMachines
+            CheckMachines --&amp;gt; AddFinalizer : Has Machines
+            CheckMachines --&amp;gt; RemoveFinalizer : No Machines
+            AddFinalizer --&amp;gt; EnqueueMachines
+            EnqueueMachines --&amp;gt; [*]
+            RemoveFinalizer --&amp;gt; [*]
+        }
+
+        state &amp;#34;Machine Reconciliation&amp;#34; as MR {
+            [*] --&amp;gt; FetchMachine
+            FetchMachine --&amp;gt; CheckFrozen
+            
+            CheckFrozen --&amp;gt; ValidateMachine : Not Frozen
+            CheckFrozen --&amp;gt; RetryLater : Frozen
+            
+            ValidateMachine --&amp;gt; DeletionFlow : Deletion Requested
+            ValidateMachine --&amp;gt; AddFinalizers : No Deletion
+            
+            AddFinalizers --&amp;gt; CheckPhase
+            
+            CheckPhase --&amp;gt; ReconcileHealth : Has Node
+            CheckPhase --&amp;gt; CreationFlow : No Node/Failed
+            
+            ReconcileHealth --&amp;gt; SyncNodeName
+            SyncNodeName --&amp;gt; SyncTemplates
+            SyncTemplates --&amp;gt; [*]
+            
+            CreationFlow --&amp;gt; [*]
+            DeletionFlow --&amp;gt; [*]
+        }
+    }
+&lt;/pre&gt;
+
+&lt;h3 id=&#34;machine-creation-or-deletion&#34;&gt;Machine Creation or Deletion&lt;/h3&gt;
+&lt;p&gt;Machine Creation Flow:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Complex process involving multiple status checks&lt;/li&gt;
+&lt;li&gt;Handles initialization and error cases&lt;/li&gt;
+&lt;li&gt;Includes node verification and cleanup of stale resources&lt;/li&gt;
+&lt;li&gt;Multiple retry mechanisms for resilience&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Machine Deletion Flow:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Carefully orchestrated process to ensure clean resource cleanup&lt;/li&gt;
+&lt;li&gt;Involves multiple phases from drain to final cleanup&lt;/li&gt;
+&lt;li&gt;Handles volume attachments and node cleanup&lt;/li&gt;
+&lt;li&gt;Includes finalizer management for resource protection&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    state &amp;#34;Creation Flow&amp;#34; as CF {
+        [*] --&amp;gt; UpdateMachineRequest
+        UpdateMachineRequest --&amp;gt; GetMachineStatus
+        
+        GetMachineStatus --&amp;gt; UpdateNodeLabels : Success
+        GetMachineStatus --&amp;gt; CreateMachine : NotFound
+        GetMachineStatus --&amp;gt; HandleError : Other Errors
+        
+        CreateMachine --&amp;gt; CheckNodeExists
+        CheckNodeExists --&amp;gt; DeleteMachine : Stale Node
+        CheckNodeExists --&amp;gt; StatusUpdate : No Node
+        
+        DeleteMachine --&amp;gt; MarkFailed
+        StatusUpdate --&amp;gt; InitializeMachine : Success
+        InitializeMachine --&amp;gt; Requeue
+        
+        HandleError --&amp;gt; MarkFailed : Timeout
+        MarkFailed --&amp;gt; [*]
+        Requeue --&amp;gt; [*]
+    }
+
+    state &amp;#34;Deletion Flow&amp;#34; as DF {
+        [*] --&amp;gt; CheckFinalizers
+        CheckFinalizers --&amp;gt; SetTerminating
+        SetTerminating --&amp;gt; ProcessPhase
+        
+        state &amp;#34;ProcessPhase&amp;#34; as PP {
+            [*] --&amp;gt; GetVMStatus
+            GetVMStatus --&amp;gt; InitiateDrain
+            InitiateDrain --&amp;gt; DeleteVolumeAttachments
+            DeleteVolumeAttachments --&amp;gt; InitiateVMDeletion
+            InitiateVMDeletion --&amp;gt; InitiateNodeDeletion
+            InitiateNodeDeletion --&amp;gt; RemoveFinalizers
+            RemoveFinalizers --&amp;gt; [*]
+        }
+        
+        ProcessPhase --&amp;gt; UpdateStatus
+        UpdateStatus --&amp;gt; [*]
+    }
+&lt;/pre&gt;
+
+&lt;h3 id=&#34;node-drain-process&#34;&gt;Node Drain Process&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s visualize the Node Drain process, which is a critical part of machine deletion:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sophisticated pod eviction handling&lt;/li&gt;
+&lt;li&gt;Supports both forced and normal drain scenarios&lt;/li&gt;
+&lt;li&gt;Handles PDB (Pod Disruption Budget) violations&lt;/li&gt;
+&lt;li&gt;Includes parallel and serial eviction strategies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    state &amp;#34;Node Drain&amp;#34; as ND {
+        [*] --&amp;gt; ValidateNode
+        
+        ValidateNode --&amp;gt; CheckNodeCondition
+        CheckNodeCondition --&amp;gt; ForceDeletion : Not Ready/Timeout
+        CheckNodeCondition --&amp;gt; NormalDrain : Healthy
+        
+        state &amp;#34;NormalDrain&amp;#34; as Normal {
+            [*] --&amp;gt; CordonNode
+            CordonNode --&amp;gt; WaitForSync
+            WaitForSync --&amp;gt; GetPods
+            GetPods --&amp;gt; EvictPods
+            
+            state &amp;#34;EvictPods&amp;#34; as EP {
+                [*] --&amp;gt; CheckEvictionSupport
+                
+                CheckEvictionSupport --&amp;gt; ParallelEviction : Force Delete
+                CheckEvictionSupport --&amp;gt; MixedEviction : Normal Delete
+                
+                state &amp;#34;MixedEviction&amp;#34; as ME {
+                    ParallelNoPV --&amp;gt; SerialWithPV
+                }
+                
+                ParallelEviction --&amp;gt; WaitForEviction
+                MixedEviction --&amp;gt; WaitForEviction
+                WaitForEviction --&amp;gt; HandlePDBViolation
+                HandlePDBViolation --&amp;gt; RetryEviction
+                RetryEviction --&amp;gt; [*]
+            }
+            
+            EvictPods --&amp;gt; UpdateNodeCondition
+            UpdateNodeCondition --&amp;gt; [*]
+        }
+        
+        ForceDeletion --&amp;gt; [*]
+    }
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;safety-controller&#34;&gt;Safety Controller&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Orphan VM Check:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Runs periodically (every 15 minutes) to detect and clean up orphaned VMs&lt;/li&gt;
+&lt;li&gt;Lists all VMs in the cloud provider matching the cluster&amp;rsquo;s tag&lt;/li&gt;
+&lt;li&gt;Maps VMs to machine objects using ProviderID&lt;/li&gt;
+&lt;li&gt;Handles nodes without machine objects:
+&lt;ul&gt;
+&lt;li&gt;Adds &lt;code&gt;NotManagedByMCM&lt;/code&gt; annotation after timeout&lt;/li&gt;
+&lt;li&gt;Removes annotation if machine object is found&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Logs all cleanup operations for audit purposes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;API Server Safety:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Monitors connectivity to both control and target API servers&lt;/li&gt;
+&lt;li&gt;Implements a freezing mechanism when API servers are unreachable&lt;/li&gt;
+&lt;li&gt;Manages machine controller state based on API server health:
+&lt;ul&gt;
+&lt;li&gt;Freezes operations if timeout exceeded&lt;/li&gt;
+&lt;li&gt;Unfreezes when API servers become available&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Handles machine status updates during API server recovery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    state &amp;#34;Safety Controller&amp;#34; as SC {
+        state &amp;#34;Orphan VM Check&amp;#34; as OVC {
+            [*] --&amp;gt; ListCloudVMs
+            ListCloudVMs --&amp;gt; MapToMachines
+            MapToMachines --&amp;gt; CheckOrphans
+            
+            state &amp;#34;CheckOrphans&amp;#34; as CO {
+                [*] --&amp;gt; NoMachineObject
+                NoMachineObject --&amp;gt; ConfirmDeletion
+                ConfirmDeletion --&amp;gt; DeleteVM
+                DeleteVM --&amp;gt; LogDeletion
+            }
+            
+            CheckOrphans --&amp;gt; AnnotateNodes
+            
+            state &amp;#34;AnnotateNodes&amp;#34; as AN {
+                [*] --&amp;gt; CheckNodeMachine
+                CheckNodeMachine --&amp;gt; MultipleMatch : Multiple Machines
+                CheckNodeMachine --&amp;gt; NoMatch : No Machine
+                CheckNodeMachine --&amp;gt; SingleMatch : One Machine
+                
+                NoMatch --&amp;gt; TimeoutCheck
+                TimeoutCheck --&amp;gt; AddAnnotation : Timeout Exceeded
+                
+                SingleMatch --&amp;gt; RemoveAnnotation : Has Annotation
+                
+                AddAnnotation --&amp;gt; UpdateNode
+                RemoveAnnotation --&amp;gt; UpdateNode
+            }
+        }
+
+        state &amp;#34;API Server Safety&amp;#34; as ASS {
+            [*] --&amp;gt; CheckFrozen
+            CheckFrozen --&amp;gt; CheckAPIServer : Frozen
+            CheckFrozen --&amp;gt; MonitorAPI : Not Frozen
+            
+            CheckAPIServer --&amp;gt; Unfreeze : API Up
+            CheckAPIServer --&amp;gt; Requeue : API Down
+            
+            MonitorAPI --&amp;gt; SetInactiveTime : API Down
+            MonitorAPI --&amp;gt; ClearInactiveTime : API Up
+            
+            SetInactiveTime --&amp;gt; CheckTimeout
+            CheckTimeout --&amp;gt; Freeze : Timeout Exceeded
+            
+            Unfreeze --&amp;gt; UpdateMachines
+            UpdateMachines --&amp;gt; ResetTimeout
+        }
+    }
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;machineset-controller&#34;&gt;MachineSet Controller&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Core Reconciliation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Validates MachineSet specifications&lt;/li&gt;
+&lt;li&gt;Manages finalizers for proper cleanup&lt;/li&gt;
+&lt;li&gt;Implements machine ownership through controller references&lt;/li&gt;
+&lt;li&gt;Synchronizes node templates and configurations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Replica Management:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Implements sophisticated scaling logic:
+&lt;ul&gt;
+&lt;li&gt;Slow-start batching for scale-up operations&lt;/li&gt;
+&lt;li&gt;Prioritized scale-down based on machine health&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Handles stale machine cleanup&lt;/li&gt;
+&lt;li&gt;Maintains desired replica count&lt;/li&gt;
+&lt;li&gt;Updates status to reflect current state&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    state &amp;#34;MachineSet Controller&amp;#34; as MSC {
+        [*] --&amp;gt; FetchMachineSet
+        FetchMachineSet --&amp;gt; ValidateSpec
+        ValidateSpec --&amp;gt; AddFinalizers : No Deletion
+        ValidateSpec --&amp;gt; ProcessDeletion : Deletion Requested
+        
+        AddFinalizers --&amp;gt; ClaimMachines
+        
+        state &amp;#34;ClaimMachines&amp;#34; as CM {
+            [*] --&amp;gt; CreateControllerRef
+            CreateControllerRef --&amp;gt; MatchSelector
+            MatchSelector --&amp;gt; AdoptOrphan : No Owner
+            MatchSelector --&amp;gt; ReleaseClaimed : Wrong Owner
+            
+            AdoptOrphan --&amp;gt; UpdateOwnerRef
+            ReleaseClaimed --&amp;gt; RemoveOwnerRef
+        }
+        
+        ClaimMachines --&amp;gt; SyncNodeTemplates
+        SyncNodeTemplates --&amp;gt; SyncMachineConfig
+        SyncMachineConfig --&amp;gt; HandleDeletion : Deletion Requested
+        SyncMachineConfig --&amp;gt; ManageReplicas : No Deletion
+        
+        state &amp;#34;ManageReplicas&amp;#34; as MR {
+            [*] --&amp;gt; GetActiveMachines
+            GetActiveMachines --&amp;gt; DeleteStale
+            DeleteStale --&amp;gt; CheckReplicas
+            
+            CheckReplicas --&amp;gt; ScaleUp : Active Machine Too Few
+            CheckReplicas --&amp;gt; ScaleDown : Active Machine Too Many
+            
+            ScaleUp --&amp;gt; SlowStartBatch
+            SlowStartBatch --&amp;gt; CreateMachines
+            
+            ScaleDown --&amp;gt; SortMachines
+            SortMachines --&amp;gt; DeleteExcess
+        }
+        
+        ManageReplicas --&amp;gt; UpdateStatus
+        HandleDeletion --&amp;gt; UpdateStatus
+        UpdateStatus --&amp;gt; [*]
+    }
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;machinedeployment-controller&#34;&gt;MachineDeployment Controller&lt;/h2&gt;
+&lt;p&gt;Deployment Management:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Handles multiple MachineSets for a deployment&lt;/li&gt;
+&lt;li&gt;Maintains deployment history through revisions&lt;/li&gt;
+&lt;li&gt;Supports pausing and resuming deployments&lt;/li&gt;
+&lt;li&gt;Implements rollback functionality&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Deployment Strategies:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Recreate Strategy:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Scales down old MachineSets completely&lt;/li&gt;
+&lt;li&gt;Creates and scales up new MachineSet&lt;/li&gt;
+&lt;li&gt;Ensures clean cutover between versions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Rolling Update Strategy:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Gradually scales up new MachineSet&lt;/li&gt;
+&lt;li&gt;Gradually scales down old MachineSets&lt;/li&gt;
+&lt;li&gt;Maintains availability during updates&lt;/li&gt;
+&lt;li&gt;Handles surge and unavailability constraints&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Scaling Operations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Detects and handles scaling events&lt;/li&gt;
+&lt;li&gt;Manages desired replica counts across MachineSets&lt;/li&gt;
+&lt;li&gt;Updates annotations for autoscaler integration&lt;/li&gt;
+&lt;li&gt;Ensures proper resource cleanup&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+    state &amp;#34;MachineDeployment Controller&amp;#34; as MDC {
+        [*] --&amp;gt; FetchDeployment
+        FetchDeployment --&amp;gt; ValidateSpec
+        ValidateSpec --&amp;gt; GetMachineSets
+        
+        state &amp;#34;GetMachineSets&amp;#34; as GMS {
+            [*] --&amp;gt; ClaimMachineSets
+            ClaimMachineSets --&amp;gt; BuildMachineMap
+            BuildMachineMap --&amp;gt; SyncRevision
+            
+            state &amp;#34;ClaimMachineSets&amp;#34; as CMS {
+                [*] --&amp;gt; CreateControllerRef
+                CreateControllerRef --&amp;gt; MatchSelector
+                MatchSelector --&amp;gt; AdoptOrphan : No Owner
+                MatchSelector --&amp;gt; ReleaseClaimed : Wrong Owner
+
+                AdoptOrphan --&amp;gt; UpdateOwnerRef
+                ReleaseClaimed --&amp;gt; RemoveOwnerRef
+            }
+        }
+        
+        GetMachineSets --&amp;gt; CheckDeletion
+        CheckDeletion --&amp;gt; HandleDeletion : Deletion Requested
+        CheckDeletion --&amp;gt; CheckPaused : No Deletion
+        
+        
+        CheckPaused --&amp;gt; Sync : Paused
+        CheckPaused --&amp;gt; CheckRollback : Not Paused
+        
+        state &amp;#34;Rollback&amp;#34; as RB {
+            [*] --&amp;gt; FindRevision
+            FindRevision --&amp;gt; RemoveTaints
+            RemoveTaints --&amp;gt; UpdateTemplate
+            UpdateTemplate --&amp;gt; SyncStatus
+        }
+        
+        CheckRollback --&amp;gt; Rollback : Rollback Requested
+        CheckRollback --&amp;gt; CheckScaling : No Rollback
+        
+        state &amp;#34;Scaling&amp;#34; as SC {
+            [*] --&amp;gt; CheckActiveMS
+            CheckActiveMS --&amp;gt; CheckReplicas
+            CheckReplicas --&amp;gt; SyncScale
+        }
+        
+        CheckScaling --&amp;gt; Scaling : Scale Event
+        CheckScaling --&amp;gt; DeployStrategy : No Scale Event
+        
+        state &amp;#34;DeployStrategy&amp;#34; as DS {
+            state &amp;#34;Recreate&amp;#34; as RC {
+                [*] --&amp;gt; OldScaleDown
+                OldScaleDown --&amp;gt; CreateNew
+                CreateNew --&amp;gt; NewScaleUp
+            }
+            
+            state &amp;#34;RollingUpdate&amp;#34; as RU {
+                [*] --&amp;gt; ScaleUpNew
+                [*] --&amp;gt; ScaleDownOld
+                ScaleDownOld --&amp;gt; CleanupOld
+            }
+        }
+        
+        DeployStrategy --&amp;gt; UpdateStatus
+        UpdateStatus --&amp;gt; [*]
+    }
+        
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Each of these controllers implements sophisticated error handling and retry mechanisms:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Error Handling:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Categorizes errors into recoverable and non-recoverable&lt;/li&gt;
+&lt;li&gt;Implements exponential backoff for retries&lt;/li&gt;
+&lt;li&gt;Maintains error counters and conditions&lt;/li&gt;
+&lt;li&gt;Updates status to reflect error states&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Resource Protection:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Uses finalizers to prevent premature deletion&lt;/li&gt;
+&lt;li&gt;Implements owner references for proper garbage collection&lt;/li&gt;
+&lt;li&gt;Maintains consistent state through careful status updates&lt;/li&gt;
+&lt;li&gt;Handles race conditions through proper locking&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Performance Considerations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Implements work queues for efficient processing&lt;/li&gt;
+&lt;li&gt;Uses informers for efficient cache handling&lt;/li&gt;
+&lt;li&gt;Batches operations when possible&lt;/li&gt;
+&lt;li&gt;Implements rate limiting for API calls&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Monitoring and Metrics:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tracks operation durations&lt;/li&gt;
+&lt;li&gt;Records error counts and types&lt;/li&gt;
+&lt;li&gt;Provides health metrics&lt;/li&gt;
+&lt;li&gt;Implements proper logging for debugging&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The entire system works together to provide:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Reliable machine lifecycle management&lt;/li&gt;
+&lt;li&gt;Proper cleanup of resources&lt;/li&gt;
+&lt;li&gt;Scaling capabilities&lt;/li&gt;
+&lt;li&gt;Rolling updates and rollbacks&lt;/li&gt;
+&lt;li&gt;Protection against race conditions and API server issues&lt;/li&gt;
+&lt;li&gt;Efficient resource utilization&lt;/li&gt;
+&lt;li&gt;Proper monitoring and debugging capabilities&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This comprehensive system ensures robust machine management while maintaining high availability and proper resource utilization. The controllers work together to maintain the desired state while handling various edge cases and failure scenarios.&lt;/p&gt;
+</description>
+    </item>
+    
     <item>
       <title>MCM</title>
       <link>https://brongulus.github.io/notes/20241129t160749--mcm__k8s_sap_work/</link>
@@ -123,7 +657,7 @@ classDiagram
    string provider
    v1.SecretReference secretRef
    }
-   note for MachineClass &amp;#34;credentialsSecretRef has cloud provider credentials&amp;lt;br&amp;gt;secretRef has cloud init script: bootstrap token, API server addr, kubeconfig&amp;#34;
+   note for MachineClass &amp;#34;credentialsSecretRef has cloud provider credentials&amp;lt;br&amp;gt;secretRef has cloud init script: userData containing bootstrap token, API server address, kubeconfig&amp;#34;
    note for MachineClass &amp;#34;provider specific configuration to create a node is specified in providerSpec of the extensible custom type rawExtension which permits instances of different structure types to be held within a single type&amp;#34;
 
    class NodeTemplate{
@@ -271,9 +805,11 @@ classDiagram
 &lt;/pre&gt;
 
 &lt;h3 id=&#34;miscellaneous&#34;&gt;Miscellaneous&lt;/h3&gt;
-&lt;h4 id=&#34;safetyoptions&#34;&gt;SafetyOptions&lt;/h4&gt;
+&lt;div class=&#34;warning&#34;&gt;
+&lt;p&gt;These are added for reference purpose only, no need to delve too much into dissecting them.&lt;/p&gt;
+&lt;/div&gt;
 &lt;pre class=&#34;mermaid&#34;&gt;---
-title: SafetyOptions
+title: SafetyOptions &amp;amp; PodDisruptionBudget
 config:
   layout: elk
   class:
@@ -292,6 +828,81 @@ class SafetyOptions{
 	time.Time APIserverInactiveStartTime
 	bool MachineControllerFrozen
 	int32 MaxEvictRetries
+}
+
+PodDisruptionBudget &amp;lt;|-- PodDisruptionBudgetSpec
+PodDisruptionBudget &amp;lt;|-- PodDisruptionBudgetStatus
+class PodDisruptionBudget{
+PodDisruptionBudgetSpec spec
+PodDisruptionBudgetStatus status
+}
+
+class PodDisruptionBudgetSpec{
+IntOrString* minAvailable
+v1.LabelSelector* selector
+IntOrString* maxUnavailable
+}
+
+class PodDisruptionBudgetStatus{
+int64 observedGeneration
+map[string]v1.Time disruptedPods
+int32 disruptionsAllowed
+int32 currentHealthy
+int32 desiredHealthy
+int32 expectedPods
+[]v1.Condition conditions
+}
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: VolumeAttachmentHandler
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+VolumeAttachmentHandler &amp;lt;|-- VolumeAttachment
+note for VolumeAttachmentHandler &amp;#34;Distribute incoming VolumeAttachment requests to all listening workers&amp;#34;
+class VolumeAttachmentHandler{
+sync.Mutex
+[]chan storagev1.VolumeAttachment* workers
+dispatch()
+AddWorker()
+DeleteWorker()
+}
+
+VolumeAttachment &amp;lt;|-- VolumeAttachmentSpec
+VolumeAttachment &amp;lt;|-- VolumeAttachmentStatus
+note for VolumeAttachment &amp;#34;Captures the intent to attach/detach specified volume to/from the specified node&amp;#34;
+class VolumeAttachment{
+VolumeAttachmentSpec spec
+VolumeAttachmentStatus status
+}
+
+VolumeAttachmentSpec &amp;lt;|-- VolumeAttachmentSource
+class VolumeAttachmentSpec{
+string attacher
+VolumeAttachmentSource source
+string nodeName
+}
+
+VolumeAttachmentStatus &amp;lt;|-- VolumeError
+class VolumeAttachmentStatus{
+bool attached
+map[string]string attachmentMetadata
+VolumeError* attachError
+VolumeError* detachError
+}
+
+class VolumeAttachmentSource{
+string* persistentVolumeName
+v1.PersistentVolumeSpec* inlineVolumeSpec
+}
+
+class VolumeError{
+metav1.Time time
+string message
 }
 &lt;/pre&gt;
 
@@ -322,7 +933,7 @@ class SafetyOptions{
 &lt;p&gt;If machine isn&amp;rsquo;t frozen, then validate the &lt;code&gt;Machine&lt;/code&gt; (check Name and Kind for the Class shouldn&amp;rsquo;t be empty). Also validate the &lt;code&gt;MachineClass&lt;/code&gt;&amp;rsquo; &lt;code&gt;Nodetemplate&lt;/code&gt; fields (&lt;code&gt;capacity&lt;/code&gt;: cpu, gpu and memory; &lt;code&gt;instanceType&lt;/code&gt;, &lt;code&gt;region&lt;/code&gt; and &lt;code&gt;zone&lt;/code&gt;).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;In case the machine is scheduled for deletion, &lt;code&gt;triggerDeletionFlow&lt;/code&gt; with a &lt;code&gt;DeleteMachineRequest&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In case the machine is scheduled for deletion, &lt;a href=&#34;#triggerdeletionflow&#34;&gt;TriggerDeletionFlow&lt;/a&gt; with a &lt;code&gt;DeleteMachineRequest&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;If the &lt;code&gt;Machine&lt;/code&gt; isn&amp;rsquo;t scheduled for deletion, then add the finalizers on the machine if not present.&lt;/p&gt;
@@ -337,31 +948,31 @@ class SafetyOptions{
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;If machine phase is &lt;code&gt;empty&lt;/code&gt; or &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;providerId&lt;/code&gt; is empty i.e. machine doesn&amp;rsquo;t exist then &lt;code&gt;triggerCreationFlow&lt;/code&gt; with &lt;code&gt;CreateMachineRequest&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If machine phase is &lt;code&gt;empty&lt;/code&gt; or &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;providerId&lt;/code&gt; is empty i.e. machine doesn&amp;rsquo;t exist then &lt;a href=&#34;#triggercreationflow&#34;&gt;TriggerCreationFlow&lt;/a&gt; with &lt;code&gt;CreateMachineRequest&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h4 id=&#34;triggerdeletionflow&#34;&gt;TriggerDeletionFlow&lt;/h4&gt;
 &lt;p&gt;Check out &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#why-is-my-machine-deleted&#34;&gt;FAQ: Why is my machine deleted?&lt;/a&gt;
-Check if finalizers are present on the machine, if not retry after a while. In case they are present and the machine isn&amp;rsquo;t in &lt;code&gt;terminating&lt;/code&gt; phase, then set it to &lt;code&gt;terminating&lt;/code&gt;. If machine is in &lt;code&gt;terminating&lt;/code&gt; phase, then check &lt;code&gt;LastOperation Description&lt;/code&gt;:&lt;/p&gt;
+Check if finalizers are present on the machine, if not retry after a while. In case they are present and the machine isn&amp;rsquo;t in &lt;code&gt;terminating&lt;/code&gt; phase, then set it to &lt;code&gt;terminating&lt;/code&gt; (also sets &lt;code&gt;LastOperation&lt;/code&gt; state to &lt;code&gt;Processing&lt;/code&gt; and description to &lt;code&gt;GetVMStatus&lt;/code&gt;). If machine is in &lt;code&gt;terminating&lt;/code&gt; phase, then check &lt;code&gt;LastOperation Description&lt;/code&gt;:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;If it contains the string &lt;code&gt;GetVMStatus&lt;/code&gt; i.e. &amp;ldquo;Set machine status to termination. Now, getting VM Status&amp;rdquo; then &lt;code&gt;updateMachineStatusAndNodeLabel&lt;/code&gt; is called which adds the &amp;ldquo;&lt;code&gt;node&lt;/code&gt;&amp;rdquo; label if not present while checking for any errors in getting machine error status. After confirming that the node label is updated, the LastOperation &lt;code&gt;type&lt;/code&gt; is set to &lt;code&gt;delete&lt;/code&gt; and LastOperation &lt;code&gt;description&lt;/code&gt; to &lt;code&gt;InitiateDrain&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;If it contains the string &lt;code&gt;InitiateDrain&lt;/code&gt; then call &lt;code&gt;DrainNode&lt;/code&gt;. (explained below)&lt;/li&gt;
-&lt;li&gt;If its &lt;code&gt;DelVolumesAttachments&lt;/code&gt;, then &lt;code&gt;deleteNodeVolAttachments&lt;/code&gt; is invoked:
+&lt;li&gt;If it contains the string &lt;code&gt;GetVMStatus&lt;/code&gt; i.e. &lt;em&gt;&amp;ldquo;Set machine status to termination. Now, getting VM Status&amp;rdquo;&lt;/em&gt; then &lt;code&gt;updateMachineStatus&amp;amp;NodeLabel&lt;/code&gt; is called which adds the &amp;ldquo;&lt;code&gt;node&lt;/code&gt;&amp;rdquo; label if not present while checking for any errors in getting machine error status. After confirming that the node label is updated, the LastOperation &lt;code&gt;type&lt;/code&gt; is set to &lt;code&gt;delete&lt;/code&gt; and LastOperation &lt;code&gt;description&lt;/code&gt; to &lt;code&gt;InitiateDrain&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If it contains the string &lt;code&gt;InitiateDrain&lt;/code&gt; then call &lt;a href=&#34;#drainnode&#34;&gt;DrainNode&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;If its &lt;code&gt;DelVolumesAttachments&lt;/code&gt;, then &lt;code&gt;deleteNodeVA&lt;/code&gt; is invoked:
 &lt;ul&gt;
-&lt;li&gt;If node is not found or if &lt;code&gt;node.Status.VolumesAttached&lt;/code&gt; is zero then &lt;code&gt;description&lt;/code&gt; is updated to &lt;code&gt;InitiateVMDeletion&lt;/code&gt; and &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;Processing&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;If there are non-zero attached volumes then &lt;code&gt;getLiveVolumeAttachmentsForNode&lt;/code&gt; fetches all the volumes attached to our node not having DeletionTimestamp set.&lt;/li&gt;
-&lt;li&gt;If there are live volumes, &lt;code&gt;deleteVolumeAttachmentsForNode&lt;/code&gt; removes them and when zero live volumes are attached then &lt;code&gt;InitiateVMDeletion&lt;/code&gt; is the &lt;code&gt;description&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If node is not found or if &lt;code&gt;node.VolumesAttached&lt;/code&gt; is zero then &lt;code&gt;description&lt;/code&gt; is updated to &lt;code&gt;InitiateVMDeletion&lt;/code&gt; and &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;Processing&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If there are non-zero attached volumes then &lt;code&gt;getLiveVAForNode&lt;/code&gt; fetches all the volumes attached to our node not having DeletionTimestamp set.&lt;/li&gt;
+&lt;li&gt;If there are live volumes, &lt;code&gt;deleteVAForNode&lt;/code&gt; removes them and when zero live volumes are attached then &lt;code&gt;InitiateVMDeletion&lt;/code&gt; is set as the &lt;code&gt;description&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;After this the machine status is updated with the corresponding state and description.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;When it&amp;rsquo;s &lt;code&gt;InitiateVMDeletion&lt;/code&gt;, then &lt;code&gt;deleteVM&lt;/code&gt; delgates the task to &lt;code&gt;driver.DeleteMachine()&lt;/code&gt;. If deletion is successful then description is set to &lt;code&gt;InitiateNodeDeletion&lt;/code&gt; with &lt;code&gt;processing&lt;/code&gt; &lt;code&gt;state&lt;/code&gt;. If there are any errors:
+&lt;li&gt;When it&amp;rsquo;s &lt;code&gt;InitiateVMDeletion&lt;/code&gt;, then &lt;code&gt;deleteVM&lt;/code&gt; delgates the task to driver.&lt;a href=&#34;#deletemachine&#34;&gt;DeleteMachine&lt;/a&gt; method. If deletion is successful then description is set to &lt;code&gt;InitiateNodeDeletion&lt;/code&gt; with &lt;code&gt;processing&lt;/code&gt; &lt;code&gt;state&lt;/code&gt;. If there are any errors:
 &lt;ul&gt;
-&lt;li&gt;In case its &lt;code&gt;NotFound&lt;/code&gt;, then deletion flow is continued and &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;processing&lt;/code&gt; with &lt;code&gt;description&lt;/code&gt; being &lt;code&gt;InitiateNodeDeletion&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;If it&amp;rsquo;s &lt;code&gt;Unknown&lt;/code&gt;, &lt;code&gt;DeadlineExceeded&lt;/code&gt;, &lt;code&gt;Aborted&lt;/code&gt; or &lt;code&gt;Unavailable&lt;/code&gt; or any other error code(&lt;code&gt;default&lt;/code&gt;) or failure in decoding the machineErr itself: the &lt;code&gt;state&lt;/code&gt; is set as &lt;code&gt;failed&lt;/code&gt; and &lt;code&gt;description&lt;/code&gt; is &lt;code&gt;InitiateVMDeletion&lt;/code&gt; as deletion is re-tried.&lt;/li&gt;
+&lt;li&gt;In case its &lt;code&gt;NotFound&lt;/code&gt;, then deletion flow is continued and &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;processing&lt;/code&gt; with &lt;code&gt;description&lt;/code&gt; as &lt;code&gt;InitiateNodeDeletion&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If it&amp;rsquo;s &lt;code&gt;Unknown&lt;/code&gt;, &lt;code&gt;DeadlineExceeded&lt;/code&gt;, &lt;code&gt;Aborted&lt;/code&gt; or &lt;code&gt;Unavailable&lt;/code&gt; or any other error code(&lt;code&gt;default&lt;/code&gt;) or failure in decoding the machineErr itself: the &lt;code&gt;state&lt;/code&gt; is set as &lt;code&gt;failed&lt;/code&gt; and &lt;code&gt;description&lt;/code&gt; remains &lt;code&gt;InitiateVMDeletion&lt;/code&gt; as deletion is re-tried.&lt;/li&gt;
 &lt;li&gt;After this the machine status is updated with the corresponding state and description.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;Whereas &lt;code&gt;InitiateNodeDeletion&lt;/code&gt; calls upon &lt;code&gt;deleteNodeObject&lt;/code&gt; which if can&amp;rsquo;t find the associated node, continues the deletion flow with &lt;code&gt;description&lt;/code&gt; set to &lt;code&gt;InitiateFinalizerRemoval&lt;/code&gt; and &lt;code&gt;state&lt;/code&gt; as &lt;code&gt;Processing&lt;/code&gt; otherwise &lt;code&gt;Delete()&lt;/code&gt; is called for the node which on success moves to &lt;code&gt;Processing&lt;/code&gt; and &lt;code&gt;InitiateFinalizerRemoval&lt;/code&gt; stages however on error switches to &lt;code&gt;failed&lt;/code&gt; state (any error other than object not found). After this the machine status is updated.&lt;/li&gt;
+&lt;li&gt;Whereas &lt;code&gt;InitiateNodeDeletion&lt;/code&gt; calls upon &lt;code&gt;deleteNodeObject&lt;/code&gt; which if it can&amp;rsquo;t find the associated node, continues the deletion flow with &lt;code&gt;description&lt;/code&gt; set to &lt;code&gt;InitiateFinalizerRemoval&lt;/code&gt; and sets the &lt;code&gt;state&lt;/code&gt; as &lt;code&gt;Processing&lt;/code&gt; otherwise &lt;code&gt;Delete()&lt;/code&gt; is called for the node which on success moves the state to &lt;code&gt;Processing&lt;/code&gt; and &lt;code&gt;InitiateFinalizerRemoval&lt;/code&gt; stages however on error switches to &lt;code&gt;failed&lt;/code&gt; state (any error other than object not found). After this the machine status is updated.&lt;/li&gt;
 &lt;li&gt;At last when we have &lt;code&gt;InitiateFinalizerRemoval&lt;/code&gt;, &lt;code&gt;deleteMachineFinalizers&lt;/code&gt; is invoked which deletes &lt;code&gt;MCMFinalizerName&lt;/code&gt; if present, if there are any errors while updating the machine with the new set of finalizers, then re-queue is triggered after a ShortRetry.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h4 id=&#34;drainnode&#34;&gt;DrainNode&lt;/h4&gt;
@@ -374,15 +985,15 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;p&gt;Check if machine is in &lt;code&gt;Ready&lt;/code&gt; or &lt;code&gt;ReadOnly&lt;/code&gt; state.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;If node condition is not empty and its &lt;code&gt;not Ready&lt;/code&gt; or its &lt;code&gt;ReadOnly&lt;/code&gt; and it&amp;rsquo;s been 5mins, then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; are set, &lt;code&gt;printLogInitError()&lt;/code&gt; is called i.e. &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;InitiateVMDeletion&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If node condition is not empty and its &lt;code&gt;not Ready&lt;/code&gt; or its &lt;code&gt;ReadOnly&lt;/code&gt; and it&amp;rsquo;s been 5mins, then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; labels are set, &lt;code&gt;printLogInitError()&lt;/code&gt; is called i.e. &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;InitiateVMDeletion&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;If skip isn&amp;rsquo;t set, then check if (MachineDrainTimeout) has occured.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;If &lt;code&gt;force-deletion&lt;/code&gt; label is present on the machine or if timeout has happened then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; are set and &lt;em&gt;force deletion&lt;/em&gt; is triggered otherwise &lt;em&gt;normal deletion&lt;/em&gt; is triggered.&lt;/li&gt;
-&lt;li&gt;After that, &lt;code&gt;UpdateNodeTerminationCondition&lt;/code&gt; is called, which checks that the &lt;code&gt;phase&lt;/code&gt; is not &lt;code&gt;CrashLoopBackOff&lt;/code&gt; or &lt;code&gt;empty&lt;/code&gt; i.e. machine is not in creation stage. Then we check if there are nodes that are already in &lt;code&gt;terminating&lt;/code&gt; condition, if not, then if &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;failed&lt;/code&gt; then &lt;code&gt;terminationCondition&lt;/code&gt; reason is set to &lt;code&gt;Unhealthy&lt;/code&gt;, otherwise it&amp;rsquo;s set to &lt;code&gt;ScaleDown&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;force-deletion&lt;/code&gt; label is present on the machine or if timeout has happened then &lt;code&gt;forceDeleteMachines&lt;/code&gt; and &lt;code&gt;forceDeletePods&lt;/code&gt; labels are set and &lt;em&gt;force deletion&lt;/em&gt; is triggered otherwise &lt;em&gt;normal deletion&lt;/em&gt; is triggered.&lt;/li&gt;
+&lt;li&gt;After that, &lt;code&gt;UpdateNode TerminationCondition&lt;/code&gt; is called, which checks that the &lt;code&gt;phase&lt;/code&gt; is not &lt;code&gt;CrashLoopBackOff&lt;/code&gt; or &lt;code&gt;empty&lt;/code&gt; i.e. machine is not in creation stage. Then we check if there are nodes that are already in &lt;code&gt;terminating&lt;/code&gt; condition, if not, then if &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;failed&lt;/code&gt; then &lt;code&gt;terminationCondition&lt;/code&gt; reason is set to &lt;code&gt;Unhealthy&lt;/code&gt;, otherwise it&amp;rsquo;s set to &lt;code&gt;ScaleDown&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;If termination condition update results in an error in a &lt;em&gt;normal deletion&lt;/em&gt; then, &lt;code&gt;skipDrain&lt;/code&gt; is set and &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;failed&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;If termination condition update doesn&amp;rsquo;t result in an error then &lt;code&gt;RunDrain&lt;/code&gt; (explained below) is invoked; if drain is successful then &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;Processing&lt;/code&gt; &amp;amp; if it&amp;rsquo;s &lt;em&gt;normal deletion&lt;/em&gt; &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;InitiateVMDeletion&lt;/code&gt; (since regular deletion already waits for volume detach/attach) otherwise if it&amp;rsquo;s &lt;em&gt;force deletion&lt;/em&gt; then &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;DelVolumesAttachments&lt;/code&gt;  alongwith &lt;code&gt;Processing&lt;/code&gt; &lt;code&gt;state&lt;/code&gt;. If &lt;code&gt;RunDrain&lt;/code&gt; is unsuccessful however and its &lt;em&gt;normal deletion&lt;/em&gt; then &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;InitiateDrain&lt;/code&gt; with &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;state&lt;/code&gt; for a retry.&lt;/li&gt;
+&lt;li&gt;If termination condition update doesn&amp;rsquo;t result in an error then &lt;a href=&#34;#rundrain&#34;&gt;RunDrain&lt;/a&gt; is invoked; if drain is successful then &lt;code&gt;state&lt;/code&gt; is set to &lt;code&gt;Processing&lt;/code&gt; &amp;amp; if it&amp;rsquo;s &lt;em&gt;normal deletion&lt;/em&gt; &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;InitiateVMDeletion&lt;/code&gt; (since regular deletion already waits for volume detach/attach) otherwise if it&amp;rsquo;s &lt;em&gt;force deletion&lt;/em&gt; then &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;DelVolumesAttachments&lt;/code&gt;  alongwith &lt;code&gt;Processing&lt;/code&gt; &lt;code&gt;state&lt;/code&gt;. If &lt;code&gt;RunDrain&lt;/code&gt; is unsuccessful however and its &lt;em&gt;normal deletion&lt;/em&gt; then &lt;code&gt;description&lt;/code&gt; is set to &lt;code&gt;InitiateDrain&lt;/code&gt; with &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;state&lt;/code&gt; for a retry.&lt;/li&gt;
 &lt;li&gt;To summarize the above:
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;   To perform forceful machine drain/delete either:
    1. force-deletion: &amp;#34;True&amp;#34; label must be present
@@ -417,8 +1028,11 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;p&gt;Following which we &lt;code&gt;deleteOrEvictPods&lt;/code&gt;: Here, we first check if the server supports eviction by &lt;code&gt;SupportEviction&lt;/code&gt; and if &lt;code&gt;ForceDeletePods&lt;/code&gt; is false then we call &lt;code&gt;evictPods&lt;/code&gt; which performs &lt;em&gt;normal eviction&lt;/em&gt; of the pods, parallelly &lt;code&gt;evictPodsWithoutPv&lt;/code&gt; and serially (by sorting by Priority) &lt;code&gt;evictPodsWithPv&lt;/code&gt; for ones having volume attached since it needs to wait for volume detachment. Both of these ways attempt to &lt;code&gt;evictPod&lt;/code&gt; if supported for &lt;code&gt;MaxEvictRetries&lt;/code&gt; times failing which they &lt;code&gt;deletePod&lt;/code&gt;. If &lt;code&gt;forceDeletePods&lt;/code&gt; is true, then &lt;em&gt;forceful eviction&lt;/em&gt; of the pods happens and all pods are evicted parallelly by calling &lt;code&gt;evictPodsWithPv&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;code&gt;TODO&lt;/code&gt; Look into &lt;code&gt;getPdbForPod&lt;/code&gt;, &lt;code&gt;isMisconfiguredPdb&lt;/code&gt;, &lt;code&gt;TerminationGracePeriod&lt;/code&gt;, &lt;code&gt;waitForDelete&lt;/code&gt;: &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodwithoutpvinternal&#34;&gt;evictPodsWithoutPVInternal&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;References: &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/pods/disruptions/&#34;&gt;Disruptions&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/tasks/run-application/configure-pdb/&#34;&gt;Configuring PDB&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction/&#34;&gt;API Eviction&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In case there are errors while performing either &lt;em&gt;evictPod&lt;/em&gt; or &lt;em&gt;deletePod&lt;/em&gt;, it could be that the pod wasn&amp;rsquo;t evicted due to PDB violation, hence we get the PDB for the pod and check if its misconfigured by verifying that the &lt;code&gt;Generation&lt;/code&gt; is same as &lt;code&gt;Status.ObservedGeneration&lt;/code&gt; and that &lt;code&gt;CurrentHealthy&lt;/code&gt; pods are more than &lt;code&gt;ExpectedPods&lt;/code&gt; (which should be more than 0) and &lt;code&gt;DisruptionsAllowed&lt;/code&gt; is zero. All these scenarios result in a misconfigured PDB.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If it&amp;rsquo;s not a case of misconfigured PDB then we sleep for &lt;code&gt;PodEvictionRetryInterval&lt;/code&gt; and then move to next iteration of the eviction attempt. &lt;code&gt;TODO&lt;/code&gt; &lt;code&gt;TerminationGracePeriod&lt;/code&gt;, &lt;code&gt;waitForDelete&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;References: &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/pods/disruptions/&#34;&gt;Disruptions&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/tasks/run-application/configure-pdb/&#34;&gt;Configuring PDB&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction/&#34;&gt;API Eviction&lt;/a&gt;, &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodwithoutpvinternal&#34;&gt;evictPodsWoPVInternal&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;TODO&lt;/code&gt; Check &lt;a href=&#34;https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodswithpvinternal&#34;&gt;evictPodsWithPVInternal&lt;/a&gt;&lt;/p&gt;
@@ -432,12 +1046,12 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;h4 id=&#34;triggercreationflow&#34;&gt;TriggerCreationFlow&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;Update MachineRequest&amp;rsquo;s secret by processing the secret with (TODO) &lt;code&gt;addBootstrapTokenToUserData&lt;/code&gt; and &lt;code&gt;addMachineNameToUserData&lt;/code&gt; which checks if &lt;code&gt;secret[&amp;quot;userData&amp;quot;]&lt;/code&gt; exists, then replacing &lt;code&gt;MachineNamePlaceholder&lt;/code&gt; &amp;lt;MACHINE_NAME&amp;gt; with the actual &lt;code&gt;machine.Name&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;After that, the secret is used alongwith the Machine and MachineClass to create a GetMachineStatusRequest which responds with &lt;code&gt;providerId&lt;/code&gt; and associated &lt;code&gt;nodeName&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;After that, the secret is used alongwith the Machine and MachineClass to create a &lt;a href=&#34;#getmachinestatus&#34;&gt;GetMachineStatus&lt;/a&gt;Request which responds with &lt;code&gt;providerId&lt;/code&gt; and associated &lt;code&gt;nodeName&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;If there is no error with the GetMachineStatusRequest and the machine&amp;rsquo;s &amp;ldquo;node&amp;rdquo; label or &lt;code&gt;providerID&lt;/code&gt; is empty then the required VM is found and the node and providerID for the machine is updated. (&lt;code&gt;updateLabels&lt;/code&gt;: adds the necessary labels, annotations with MachinePriority as 3 if unset and updates the providerID)&lt;/li&gt;
-&lt;li&gt;If there is an error in getting the machine status and the ErrCode is &lt;code&gt;NotFound&lt;/code&gt; or &lt;code&gt;Unimplemented&lt;/code&gt; and if the &amp;ldquo;node&amp;rdquo; label is not present on the machine then: &lt;code&gt;driver.CreateMachine()&lt;/code&gt; is invoked which on success gives us the &lt;code&gt;providerId&lt;/code&gt; and the &lt;code&gt;nodeName&lt;/code&gt;, then we try to &lt;code&gt;Get()&lt;/code&gt; (TODO: nodeName != machineName significance?) the returned &lt;code&gt;nodeName&lt;/code&gt; to check if a node object already exists. If so, it is treated as a stale node and &lt;code&gt;driver.DeleteMachine()&lt;/code&gt; is triggered and the machine object is marked as &lt;code&gt;state&lt;/code&gt; &lt;code&gt;failed&lt;/code&gt;, &lt;code&gt;phase&lt;/code&gt; being &lt;code&gt;failed&lt;/code&gt;  with LastOperation &lt;code&gt;description&lt;/code&gt; set as &amp;ldquo;&lt;code&gt;VM using old node obj&lt;/code&gt;&amp;rdquo; and then its status is updated. NOTE: Also, &lt;code&gt;uninitializedMachine&lt;/code&gt; is set to true.&lt;/li&gt;
+&lt;li&gt;If there is an error in getting the machine status and the ErrCode is &lt;code&gt;NotFound&lt;/code&gt; or &lt;code&gt;Unimplemented&lt;/code&gt; and if the &amp;ldquo;node&amp;rdquo; label is not present on the machine then: driver.&lt;a href=&#34;#createmachine&#34;&gt;CreateMachine&lt;/a&gt;() is invoked which on success gives us the &lt;code&gt;providerId&lt;/code&gt; and the &lt;code&gt;nodeName&lt;/code&gt;, then we try to &lt;code&gt;Get()&lt;/code&gt; (TODO: nodeName != machineName significance?) the returned &lt;code&gt;nodeName&lt;/code&gt; to check if a node object already exists. If so, it is treated as a stale node and &lt;code&gt;driver.DeleteMachine()&lt;/code&gt; is triggered and the machine object is marked as &lt;code&gt;state&lt;/code&gt; &lt;code&gt;failed&lt;/code&gt;, &lt;code&gt;phase&lt;/code&gt; being &lt;code&gt;failed&lt;/code&gt;  with LastOperation &lt;code&gt;description&lt;/code&gt; set as &amp;ldquo;&lt;code&gt;VM using old node obj&lt;/code&gt;&amp;rdquo; and then its status is updated. NOTE: Also, &lt;code&gt;uninitializedMachine&lt;/code&gt; is set to true.&lt;/li&gt;
 &lt;li&gt;If the returned codes are &lt;code&gt;Unknown&lt;/code&gt;, &lt;code&gt;DeadlineExceeded&lt;/code&gt;, &lt;code&gt;Aborted&lt;/code&gt; or &lt;code&gt;Unavailable&lt;/code&gt;, then again &lt;code&gt;machineStatusUpdate&lt;/code&gt; is called with &lt;code&gt;state&lt;/code&gt; set to &lt;code&gt;failed&lt;/code&gt; and &lt;code&gt;phase&lt;/code&gt; being &lt;code&gt;failed&lt;/code&gt; or &lt;code&gt;crashloopbackoff&lt;/code&gt; depending upon whether or not MachineCreationTimeout happened.&lt;/li&gt;
 &lt;li&gt;Whereas the case when returned code is &lt;code&gt;Uninitialized&lt;/code&gt;, the flag &lt;code&gt;uninitializedMachine&lt;/code&gt; is set to true. In any other scenario, a &lt;code&gt;machineStatusUpdate&lt;/code&gt; call similar to the previous case is made with a re-queue call.&lt;/li&gt;
-&lt;li&gt;In case the &lt;code&gt;uninitializedMachine&lt;/code&gt; flag is set, &lt;code&gt;initializeMachine&lt;/code&gt; is called for starting the VM instance for the machine, it delegates the task to &lt;code&gt;driver.InitializeMachine&lt;/code&gt; which if it returns &lt;code&gt;Unimplemented&lt;/code&gt; error code, then VM initialization is skipped as provider doesn&amp;rsquo;t support it otherwise &lt;code&gt;machineStatusUpdate&lt;/code&gt; call is made with &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;state&lt;/code&gt; and &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;phase&lt;/code&gt; based on MachineCreationTimeout. Upon successful initialization, an error is returned by &lt;code&gt;triggerCreationFlow&lt;/code&gt; for another re-queue.&lt;/li&gt;
+&lt;li&gt;In case the &lt;code&gt;uninitializedMachine&lt;/code&gt; flag is set, &lt;code&gt;initializeMachine&lt;/code&gt; is called for starting the VM instance for the machine, it delegates the task to driver.&lt;a href=&#34;#initializemachine&#34;&gt;InitializeMachine&lt;/a&gt; which if it returns &lt;code&gt;Unimplemented&lt;/code&gt; error code, then VM initialization is skipped as provider doesn&amp;rsquo;t support it otherwise &lt;code&gt;machineStatusUpdate&lt;/code&gt; call is made with &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;state&lt;/code&gt; and &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;phase&lt;/code&gt; based on MachineCreationTimeout. Upon successful initialization, an error is returned by &lt;code&gt;triggerCreationFlow&lt;/code&gt; for another re-queue.&lt;/li&gt;
 &lt;li&gt;If however the machine &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;empty&lt;/code&gt; (creation) or &lt;code&gt;crashloopbackoff&lt;/code&gt; then &lt;code&gt;state&lt;/code&gt; is set as &lt;code&gt;Processing&lt;/code&gt;, &lt;code&gt;phase&lt;/code&gt; as &lt;code&gt;Pending&lt;/code&gt; and a &lt;code&gt;UpdateStatus&lt;/code&gt; call is made for the machine.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;safety-controller&#34;&gt;Safety Controller&lt;/h2&gt;
@@ -447,7 +1061,7 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;li&gt;&lt;code&gt;checkMachineClasses&lt;/code&gt;: fetches all the MachineClasses and for each of them calls &lt;code&gt;checkMachineClass&lt;/code&gt;:
 &lt;ul&gt;
 &lt;li&gt;It fetches their &lt;code&gt;secretData&lt;/code&gt;, lists all the &lt;code&gt;Machines&lt;/code&gt; referencing that class, updates their cache via &lt;code&gt;WaitForCacheSync&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Then it iterates over the MachineList: &lt;code&gt;&amp;lt;providerID, machineName&amp;gt;&lt;/code&gt;, fetching each machine and ensuring that the providerID matches.&lt;/li&gt;
+&lt;li&gt;Then it iterates over the MachineList returned by &lt;a href=&#34;#listmachines&#34;&gt;ListMachines&lt;/a&gt;: &lt;code&gt;&amp;lt;providerID, machineName&amp;gt;&lt;/code&gt;, fetching each machine and ensuring that the providerID matches.&lt;/li&gt;
 &lt;li&gt;If it doesn&amp;rsquo;t and the &lt;code&gt;phase&lt;/code&gt; is &amp;quot;&amp;quot; or &lt;code&gt;crashloopbackoff&lt;/code&gt;, then it continues iterating otherwise it creates a dummy machine object for &lt;code&gt;DeleteMachineRequest&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -462,9 +1076,9 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;h3 id=&#34;reconcile-cluster-machine-safety-api-server&#34;&gt;Reconcile Cluster Machine Safety API Server&lt;/h3&gt;
 &lt;p&gt;Freezes &lt;code&gt;MachineDeployment&lt;/code&gt; and &lt;code&gt;MachineSet&lt;/code&gt; controller if number of &lt;code&gt;machine&lt;/code&gt; objects goes beyond a certain threshold on top of &lt;code&gt;Spec.Replicas&lt;/code&gt; by applying a &lt;code&gt;freeze&lt;/code&gt; label. It also freezes the functionality of MCM if &lt;code&gt;target-apiserver&lt;/code&gt; or &lt;code&gt;control-apiserver&lt;/code&gt; is not reachable and unfreezes once situation becomes normal.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Checks if &lt;code&gt;MachineControllerFrozen&lt;/code&gt; is true if so it checks if &lt;code&gt;isApiServerUp&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;isApiServerUp&lt;/code&gt; makes a dummy call to control APIServer (&lt;code&gt;controlMachineClient&lt;/code&gt;) and target APIServer (&lt;code&gt;targetCoreClient&lt;/code&gt;) and if either gives an error different from isNotFound error, it returns false. If it returns true then we unfreeze them by iterating over them and if their &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;Unknown&lt;/code&gt;, we get machine from &lt;code&gt;controlMachineClient&lt;/code&gt; and set the phase as &lt;code&gt;Running&lt;/code&gt;, &lt;code&gt;state&lt;/code&gt; as &lt;code&gt;successful&lt;/code&gt; and &lt;code&gt;description&lt;/code&gt; as &amp;ldquo;Machine Health Timeout was reset due to APIServer being unreachable&amp;rdquo;. After which we update the status and &lt;code&gt;enqueueMachineAfter&lt;/code&gt; 30 seconds for reconcile and set &lt;code&gt;MachineControllerFrozen&lt;/code&gt; to false &amp;amp; &lt;code&gt;APIserverInactiveStartTime&lt;/code&gt; to nil.&lt;/li&gt;
-&lt;li&gt;If initially &lt;code&gt;MachineControllerFrozen&lt;/code&gt; was false, and &lt;code&gt;isApiServerUp&lt;/code&gt; returned false i.e. its not up then we set &lt;code&gt;APIserverInactiveStartTime&lt;/code&gt; as current time if its unset and check if time passed since Inactive time is more than &lt;code&gt;MachineSafetyAPIServerStatusCheckTimeout&lt;/code&gt;, if so we set &lt;code&gt;MachineControllerFrozen&lt;/code&gt; to true and then re-enqueue the API Server check.&lt;/li&gt;
+&lt;li&gt;Checks if &lt;code&gt;MachineControllerFrozen&lt;/code&gt; is true if it is, then it checks if &lt;code&gt;isApiServerUp&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;isApiServerUp&lt;/code&gt; makes a dummy call to control APIServer (&lt;code&gt;controlMachineClient&lt;/code&gt;) and target APIServer (&lt;code&gt;targetCoreClient&lt;/code&gt;) and if either gives an error different from isNotFound error, it returns false. If it returns true then we unfreeze them by iterating over them and if their &lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;Unknown&lt;/code&gt;, we get machine from &lt;code&gt;controlMachineClient&lt;/code&gt; and set the phase as &lt;code&gt;Running&lt;/code&gt;, &lt;code&gt;state&lt;/code&gt; as &lt;code&gt;successful&lt;/code&gt; and &lt;code&gt;description&lt;/code&gt; as &lt;em&gt;&amp;ldquo;Machine Health Timeout was reset due to APIServer being unreachable&amp;rdquo;&lt;/em&gt;. After which we update the status and &lt;code&gt;enqueueMachineAfter&lt;/code&gt; 30 seconds for reconcile and set &lt;code&gt;MachineControllerFrozen&lt;/code&gt; to false &amp;amp; &lt;code&gt;APIserverInactiveStartTime&lt;/code&gt; to nil.&lt;/li&gt;
+&lt;li&gt;If initially &lt;code&gt;MachineControllerFrozen&lt;/code&gt; was false, and &lt;code&gt;isApiServerUp&lt;/code&gt; returned false i.e. its not up then we set &lt;code&gt;APIserverInactiveStartTime&lt;/code&gt; as current time if its unset and check if time passed since Inactive time is more than &lt;code&gt;MachineSafety APIServer StatusCheckTimeout&lt;/code&gt;, if so we set &lt;code&gt;MachineControllerFrozen&lt;/code&gt; to true and then re-enqueue the API Server check.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;machine-controller-manager&#34;&gt;Machine Controller Manager&lt;/h2&gt;
 &lt;p&gt;Handles reconciliation of &lt;code&gt;MachineDeployment&lt;/code&gt; and &lt;code&gt;MachineSet&lt;/code&gt; objects.&lt;/p&gt;
@@ -480,21 +1094,21 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;p&gt;If DeletionTimestamp is not set, then &lt;code&gt;addMachineSetFinalizers&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;code&gt;TODO&lt;/code&gt; LabelSelectorAsSelector: machine-template-hash&lt;/p&gt;
+&lt;p&gt;LabelSelectorAsSelector converts MachineSet selector to a selector object that&amp;rsquo;s used by &lt;code&gt;claimMachines&lt;/code&gt; function that creates a &lt;code&gt;*Machine Controller Ref Manager*&lt;/code&gt; tagged with a &lt;code&gt;CanAdopt&lt;/code&gt; function that first fetches &lt;code&gt;fresh&lt;/code&gt; i.e. latest version of the machineSet and then verifies its UID with the existing &lt;code&gt;machineSet&lt;/code&gt;&amp;rsquo;s UID to ensure that the machineSet isn&amp;rsquo;t being deleted. (This function is later used by &lt;code&gt;AdoptMachine&lt;/code&gt;)&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;ClaimMachine&lt;/code&gt; indirectly calls &lt;code&gt;ClaimObject&lt;/code&gt; with &lt;code&gt;Match&lt;/code&gt;, &lt;code&gt;Adopt&lt;/code&gt; and &lt;code&gt;Release&lt;/code&gt;:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;Match&lt;/code&gt;: Checks if the selector matches, after which it runs a set of &lt;code&gt;filter&lt;/code&gt; functions. On success, it returns true.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;AdoptMachine&lt;/code&gt; (Adopt): &amp;lt;TODO: CanAdopt()&amp;gt;, If true then &lt;code&gt;PatchMachine&lt;/code&gt; with the &lt;em&gt;OwnerRef&lt;/em&gt; to the MachineSet and add to &lt;code&gt;claimedMachines&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AdoptMachine&lt;/code&gt; (Adopt): Runs the previously created &lt;code&gt;CanAdopt&lt;/code&gt; function to verify that the machine can be adopted by the machineSet, if so then &lt;code&gt;PatchMachine&lt;/code&gt; with the &lt;em&gt;OwnerRef&lt;/em&gt; to the MachineSet and add to &lt;code&gt;claimedMachines&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ReleaseMachine&lt;/code&gt; (Release): Sends a &lt;code&gt;deleteOwnerRefPatch&lt;/code&gt; to free the Machine from controller. On patching, &lt;code&gt;NotFound&lt;/code&gt; and &lt;code&gt;IsInvalid&lt;/code&gt; errors are ignored since if the machine doesn&amp;rsquo;t exist or if it has no ownerRef or if the UID doesn&amp;rsquo;t match (implies machine was recreated after deletion) then it&amp;rsquo;s fine.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;ClaimObject:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;     It will reconcile the following:
-​       - Adopt orphans if the match function returns true.
-​       - Release owned objects if the match function returns false.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;It will reconcile the following:
+​  - Adopt orphans if the match function returns true.
+​  - Release owned objects if the match function returns false.
 &lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;
 &lt;li&gt;Get the &lt;code&gt;ownerRef&lt;/code&gt; using &lt;code&gt;GetControllerOf&lt;/code&gt;, it it&amp;rsquo;s not nil, check if
 ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids&#34;&gt;UID&lt;/a&gt; is k8s system generated string to uniquely identify object).  If the DeletionTimestamp is not set (nil), and the selector &lt;code&gt;match&lt;/code&gt; fails, then attempt a &lt;code&gt;release&lt;/code&gt;.&lt;/li&gt;
@@ -513,22 +1127,22 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;li&gt;Gets the MetaNameSpaceKey for the &lt;em&gt;machineSet&lt;/em&gt; and creates a list of activeMachines (&lt;code&gt;phase&lt;/code&gt; != &lt;code&gt;failed&lt;/code&gt; or &lt;code&gt;terminating&lt;/code&gt;) and staleMachines (&lt;code&gt;phase&lt;/code&gt; is &lt;code&gt;failed&lt;/code&gt;) from the list of claimedMachines.&lt;/li&gt;
 &lt;li&gt;If there are staleMachines then they are scheduled for deletion, &lt;code&gt;terminateMachines&lt;/code&gt; is called.&lt;/li&gt;
 &lt;li&gt;Then we check the difference between the number of activeMachines and the number of &lt;code&gt;Replicas&lt;/code&gt; specified by the &lt;em&gt;machineSet&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;If the activeMachines are less, then count (diff) is set to &lt;code&gt;min(BurstReplicas: 100, Replicas - len(activeMachines))&lt;/code&gt; and &amp;lt;TODO ExpectCreations&amp;gt; &lt;code&gt;slowStartBatch&lt;/code&gt; is called which calls a function &lt;code&gt;CreateMachinesWithControllerRef&lt;/code&gt; &lt;code&gt;count&lt;/code&gt; times, starting slow with group of &lt;code&gt;SlowStartInitialBatchSize&lt;/code&gt; (1) to check for errors, then speeding up if calls succeed. Within each batch, it may call the function multiple times concurrently. If a whole batch succeeds, the next batch gets exponentially larger.&lt;/li&gt;
+&lt;li&gt;If the activeMachines are less, then count (diff) is set to &lt;code&gt;min(BurstReplicas: 100, Replicas - len(activeMachines))&lt;/code&gt; and &amp;lt;TODO ExpectCreations&amp;gt; &lt;code&gt;slowStartBatch&lt;/code&gt; is called which calls a function &lt;code&gt;CreateMachines With ControllerRef&lt;/code&gt; &lt;code&gt;count&lt;/code&gt; times, starting slow with group of &lt;code&gt;SlowStartInitialBatchSize&lt;/code&gt; (1) to check for errors, then speeding up if calls succeed. Within each batch, it may call the function multiple times concurrently. If a whole batch succeeds, the next batch gets exponentially larger.&lt;/li&gt;
 &lt;li&gt;&amp;lt;TODO&amp;gt; skippedMachines CreationObserved&lt;/li&gt;
-&lt;li&gt;In case the activeMachines are more than the &lt;code&gt;Replica&lt;/code&gt; count, then deletion must be triggered. &lt;code&gt;diff&lt;/code&gt; is set to &lt;code&gt;min(BurstReplicas: 100, len(activeMachines) - Replicas)&lt;/code&gt; and then the activeMachines are sorted in the order &lt;code&gt;NonReady &amp;lt; Ready&lt;/code&gt;, &lt;code&gt;Unscheduled &amp;lt; Scheduled&lt;/code&gt;, &lt;code&gt;Pending &amp;lt; Running&lt;/code&gt;. &amp;lt;TODO: ExpectDeletions&amp;gt;. After getting the sorted list, the machines are deleted by called &lt;code&gt;terminateMachines&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;In case the activeMachines are more than the &lt;code&gt;Replica&lt;/code&gt; count, then deletion must be triggered. &lt;code&gt;diff&lt;/code&gt; is set to &lt;code&gt;min(BurstReplicas: 100, len(activeMachines) - Replicas)&lt;/code&gt; and then the activeMachines are sorted in the order &lt;code&gt;NonReady, Ready, Unscheduled, Scheduled, Pending, Running&lt;/code&gt;. &amp;lt;TODO: ExpectDeletions&amp;gt;. After getting the sorted list, the machines are deleted by called &lt;code&gt;terminateMachines&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Then MachineSet status is calculated and updated following which reconcile is enqueued after 10 minutes.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;reconcile-cluster-machine-deployment&#34;&gt;&lt;span class=&#34;org-todo todo TODO&#34;&gt;TODO&lt;/span&gt; Reconcile Cluster Machine Deployment&lt;/h3&gt;
+&lt;h3 id=&#34;reconcile-cluster-machine-deployment&#34;&gt;Reconcile Cluster Machine Deployment&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Fetch the deployment by getting the name from &lt;code&gt;SplitMetaNamespaceKey&lt;/code&gt;, then validate it by ensuring &lt;code&gt;Replicas&lt;/code&gt; is not negative and that &lt;code&gt;selector.matchLabels&lt;/code&gt; is consistent with &lt;code&gt;template.metadata.labels&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Add finalizers if DeletionTimestamp is nil, then check if &lt;code&gt;Selector&lt;/code&gt; is empty i.e. the deployment is selecting all machines, if so record that event and set &lt;code&gt;Status.ObservedGeneration&lt;/code&gt; to &lt;code&gt;Generation&lt;/code&gt; if it&amp;rsquo;s less and then update the status.&lt;/li&gt;
-&lt;li&gt;Then &lt;code&gt;getMachineSetsForMachineDeployment&lt;/code&gt; is called which internally calls &lt;code&gt;ClaimMachineSets&lt;/code&gt; (acts in a similar fashion to &lt;code&gt;ClaimMachine&lt;/code&gt; for MachineSets by leveraging &lt;code&gt;ClaimObject&lt;/code&gt;) to get the machineSets owned by the deployment via adoption/orphaning. &amp;lt;TODO: canAdoptFunc&amp;gt;&lt;/li&gt;
-&lt;li&gt;&amp;lt;TODO: getMachineMapForMachineDeployment&amp;gt;&lt;/li&gt;
-&lt;li&gt;If DeletionTimestamp is set and if deployment doesn&amp;rsquo;t have &lt;code&gt;DeleteFinalizerName&lt;/code&gt; otherwise if there are no MachineSets referring to the deployment then remove the finalizers. If there are MachineSets owned by the deployment then &lt;code&gt;terminateMachineSets&lt;/code&gt; is called after which &lt;code&gt;syncStatusOnly&lt;/code&gt; calls &lt;code&gt;getAllMachineSetsAndSyncRevision&lt;/code&gt; that lists the MachineSets and machines for the deployment and applies &lt;code&gt;machine-template-hash&lt;/code&gt; to the adopted ones and then deployment status is synced.&lt;/li&gt;
+&lt;li&gt;Then &lt;code&gt;getMachineSets&lt;/code&gt; is called which uses a controller reference manager to handle ownership and internally calls &lt;code&gt;ClaimMachineSets&lt;/code&gt; (acts in a similar fashion to &lt;code&gt;ClaimMachine&lt;/code&gt; in &lt;a href=&#34;#reconcile-cluster-machine-set&#34;&gt;Reconcile Cluster Machine Set&lt;/a&gt; by leveraging &lt;code&gt;ClaimObject&lt;/code&gt; however it doesn&amp;rsquo;t run any filters) to get the machineSets owned by the deployment via adoption/orphaning with a similar &lt;code&gt;CanAdopt&lt;/code&gt; function that fetches a fresh copy of the deployment object and compares UID to ensure that the deployment isn&amp;rsquo;t being deleted.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getMachineMap&lt;/code&gt;: Creates a map from MachineSet UID to list of Machines it controls; used to verify machine labels and handle recreate deployments; it groups machines by their controller reference.&lt;/li&gt;
+&lt;li&gt;If DeletionTimestamp is set &lt;strong&gt;and&lt;/strong&gt; deployment has &lt;code&gt;DeleteFinalizerName&lt;/code&gt; &lt;strong&gt;and&lt;/strong&gt; if there are no MachineSets referring to the deployment &lt;em&gt;then&lt;/em&gt; remove the finalizers. If there are MachineSets owned by the deployment then &lt;code&gt;terminateMachineSets&lt;/code&gt; is called after which &lt;code&gt;syncStatusOnly&lt;/code&gt; calls &lt;code&gt;getMSAndSyncRevision&lt;/code&gt; that lists the &lt;em&gt;old&lt;/em&gt; and new (&lt;strong&gt;with updated revision&lt;/strong&gt;) MachineSets and machines for the deployment and applies &lt;code&gt;machine-template-hash&lt;/code&gt; to the adopted ones and then deployment status is synced.&lt;/li&gt;
 &lt;li&gt;Ref: &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment&#34;&gt;Pausing a deployment&lt;/a&gt;, &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#deployment-status&#34;&gt;Deployment Status&lt;/a&gt; &amp;lt;TODO: Why?! are we doing this&amp;gt;
 &lt;code&gt;checkPausedConditions&lt;/code&gt; fetches the condition with &lt;code&gt;type&lt;/code&gt; as &lt;code&gt;Progressing&lt;/code&gt;
 &lt;ol&gt;
@@ -539,17 +1153,157 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;li&gt;Update the deployment status.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
-&lt;li&gt;&amp;lt;TODO&amp;gt; Then we check if &lt;code&gt;Spec.Paused&lt;/code&gt; is true, if so it implies that &lt;em&gt;Scaling was detected for deployment which is paused&lt;/em&gt;,&lt;/li&gt;
+&lt;li&gt;Then we check if &lt;code&gt;Spec.Paused&lt;/code&gt; is true, if so it implies that &lt;em&gt;Scaling was detected for deployment which is paused&lt;/em&gt;, so &lt;code&gt;sync&lt;/code&gt; is called (which has the responsibility of reconciling deployments on scaling/when paused)
+&lt;ol&gt;
+&lt;li&gt;First &lt;code&gt;getMSAndSyncRevision&lt;/code&gt; is called to get list of new and old machineSets.&lt;/li&gt;
+&lt;li&gt;Then &lt;a href=&#34;#scale&#34;&gt;Scale&lt;/a&gt;() method is invoked, following which &lt;code&gt;spec.Paused&lt;/code&gt; is checked, if deployment is paused and there&amp;rsquo;s no rollback in progress i.e. &lt;code&gt;spec.RollbackTo&lt;/code&gt; is nil, then deployment &lt;code&gt;cleanup&lt;/code&gt; is called for. The cleanup filters the old machineSet to get ones which are currently active (i.e. DeletionTimestamp is not set) and then deletes (note that if any delete fails, it stops the cleanup process since the failure could be due to api server overload) all but &lt;code&gt;RevisionHistoryLimit&lt;/code&gt; number of machineSets (in this process it checks if the filtered machineSets have non-zero replica counts and avoids deleting them).&lt;/li&gt;
+&lt;li&gt;Otherwise the new machineSets, if any are added to set of all machineSets and their status is synced by calling &lt;code&gt;sync MachineDeployment Status&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;If the deployment wasn&amp;rsquo;t paused and &lt;code&gt;Spec.RollbackTo&lt;/code&gt; is non-nil i.e. there exists a revision that the deployment is rolling back to, the &lt;code&gt;rollback()&lt;/code&gt; method is invoked:
+&lt;ol&gt;
+&lt;li&gt;First &lt;code&gt;getMSAndSyncRevision&lt;/code&gt; is called to get list of new and old machineSets.&lt;/li&gt;
+&lt;li&gt;Ref: &lt;a href=&#34;https://learnk8s.io/kubernetes-rollbacks&#34;&gt;k8s rollbacks&lt;/a&gt;, Then we check the rollback revision version (&lt;code&gt;RollbackTo.Revision&lt;/code&gt;), if its zero then we find the &lt;code&gt;LastRevision()&lt;/code&gt; i.e. second max revision number by iterating over all machineSets and if its also zero, then that means we were unable to find the last revision and we give up rollback (&lt;em&gt;update Deployment and Clear Rollback&lt;/em&gt; To is called)&lt;/li&gt;
+&lt;li&gt;Otherwise we proceed with the rollback: Iterating over the list of machineSets, we get the &lt;code&gt;Revision&lt;/code&gt; for each machineSet and if it matches the &lt;code&gt;RollbackTo.Revision&lt;/code&gt;, then the &lt;code&gt;PreferNoSchedule&lt;/code&gt; taint is removed from the nodes which are backing that machineSet.&lt;/li&gt;
+&lt;li&gt;After taint removal, &lt;code&gt;rollbackToTemplate()&lt;/code&gt; method is called which compares the templates (hash) of the deployment with the matching machineSet and updates the the &lt;em&gt;template&lt;/em&gt; of the deployment incase they&amp;rsquo;re different (Set From Machine Set Template) and the &lt;em&gt;annotations&lt;/em&gt; of the deployment to the rollbacked machineSet revision (Set Machine Deployment Annotations To).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;If it wasn&amp;rsquo;t a rollback event either, then we check if its a &lt;code&gt;ScalingEvent&lt;/code&gt; i.e. there are activeMachineSets (found by filtering as new MachineSets with Replicas more than 0). For scaling events &lt;code&gt;sync&lt;/code&gt; is called (check above Paused discussion to see what it does)
+&lt;ol&gt;
+&lt;li&gt;In case there&amp;rsquo;s no activeMachineSets and the &lt;code&gt;Replicas&lt;/code&gt; on the deployment is more than 0 i.e. its a &lt;em&gt;scale from zero&lt;/em&gt; scenario so its considered as a scalingEvent.&lt;/li&gt;
+&lt;li&gt;Otherwise when there are activeMachineSets with &lt;code&gt;desired-replicas&lt;/code&gt; annotation not equal to the deployment replicas then also its a scalingEvent.&lt;/li&gt;
+&lt;li&gt;If no such machineSets exist i.e. all the active ones have the same amount of desired-replicas as the deployment replica then its not a scaling event.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;In case none of the scenarios were true i.e. not paused, not rolling back, and not scaling, then we execute the deployment strategy which is either &lt;a href=&#34;#recreate&#34;&gt;Recreate&lt;/a&gt; or &lt;a href=&#34;#rolling&#34;&gt;Rolling&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h4 id=&#34;scale&#34;&gt;&lt;span class=&#34;org-todo todo TODO&#34;&gt;TODO&lt;/span&gt; Scale&lt;/h4&gt;
+&lt;h4 id=&#34;recreate&#34;&gt;Recreate&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;First &lt;code&gt;getMSAndSyncRevision&lt;/code&gt; is called to get list of new and old machineSets. Old MS is filtered to find the active ones i.e. those having non-zero replicas.&lt;/li&gt;
+&lt;li&gt;Create annotations to disable CA performing scale-downs during rollout and apply them to all machineSets if &lt;code&gt;autoscaler ScaleDown Annotation During Rollout&lt;/code&gt; bool is true &lt;em&gt;and&lt;/em&gt; there are old MS that haven&amp;rsquo;t been scaled to zero yet.&lt;/li&gt;
+&lt;li&gt;Then activeOld MS are scaled down:
+&lt;ol&gt;
+&lt;li&gt;If replica for the MS is already zero then scaling is not required.&lt;/li&gt;
+&lt;li&gt;Otherwise MS has to be scaled-down, its annotated with &lt;code&gt;desiredReplicas&lt;/code&gt; being the deployment Replicas and the &lt;code&gt;maxReplicas&lt;/code&gt; being &lt;code&gt;maxSurge&lt;/code&gt; amount more than that. &lt;code&gt;maxSurge&lt;/code&gt; is 0 for &lt;em&gt;non-rolling&lt;/em&gt; updates.&lt;/li&gt;
+&lt;li&gt;In case scaling was required, after adding the annotations, the old MS is updated.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;If a scale-down occured or if there are old MS having non-zero replicas then, &lt;code&gt;Sync RolloutStatus&lt;/code&gt; is invoked:
+&lt;ol&gt;
+&lt;li&gt;TODO calculateDeploymentStatus&lt;/li&gt;
+&lt;li&gt;Then we get all the MD conditions having &lt;code&gt;type&lt;/code&gt; as &lt;code&gt;Progressing&lt;/code&gt; and check if the current deployment is complete or not by:
+&lt;ul&gt;
+&lt;li&gt;Ensuring &lt;code&gt;Replicas&lt;/code&gt; and &lt;code&gt;UpdatedReplicas&lt;/code&gt; are the same&lt;/li&gt;
+&lt;li&gt;There is a MD condition of &lt;code&gt;Progressing Type&lt;/code&gt; having &lt;code&gt;Reason&lt;/code&gt; as &amp;ldquo;&lt;em&gt;New Machine Set Available&lt;/em&gt;&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If its not a complete deployment then i.e. rollout hasn&amp;rsquo;t happened then progress estimation happens:
+&lt;ul&gt;
+&lt;li&gt;In case deployment is &lt;strong&gt;completed&lt;/strong&gt; (UpdatedReplicas, AvailableReplicas and Replicas are the same and new ObserverGen is more than or equal to MD generation) i.e. all desired replicas are updated and available, no old machine are running; then the condition is updated to &lt;code&gt;Progressing&lt;/code&gt; with  &amp;ldquo;&lt;em&gt;New Machine Set Available&lt;/em&gt;&amp;rdquo; (The conditions talked about in the previous point).&lt;/li&gt;
+&lt;li&gt;If its in &lt;strong&gt;progressing&lt;/strong&gt; state, then the progress is estimated by comparing the current and new status of the deployment. Specifically, when new machines are scaled up or become ready/available or old machines are scaled down. In this case, the &lt;code&gt;Reason&lt;/code&gt; is set to &amp;ldquo;&lt;em&gt;Machine Set Updated&lt;/em&gt;&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;If its in &lt;strong&gt;timed out&lt;/strong&gt; state, then &amp;ldquo;Progressing&amp;rdquo; state is set to false and the reason is updated as &amp;ldquo;&lt;em&gt;Progress Deadline Exceeded&lt;/em&gt;&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Then we fetch all the failure conditions of the &lt;code&gt;type&lt;/code&gt; &amp;ldquo;&lt;em&gt;Replica Failure&lt;/em&gt;&amp;rdquo; for MS and convert them to deployment conditions. In case we don&amp;rsquo;t find any, we remove &amp;ldquo;Replica Failure&amp;rdquo; condition from the deployment if present.&lt;/li&gt;
+&lt;li&gt;If there aren&amp;rsquo;t any status changes to be done on the deployment, then its re-queued otherwise the status is updated.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;If there is a need to create new MS i.e. new MS from initial &lt;code&gt;getMSAndSyncRevision&lt;/code&gt; is nil, then the function is called again with the creation flag set to true which creates the new MS.&lt;/li&gt;
+&lt;li&gt;The new MS are scaled up to deployment&amp;rsquo;s &lt;code&gt;Replicas&lt;/code&gt; count and the annotations for &lt;code&gt;desiredReplicas&lt;/code&gt; and &lt;code&gt;maxReplicas&lt;/code&gt; are added.&lt;/li&gt;
+&lt;li&gt;Again the progress is estimated and if deployment is &lt;strong&gt;completed&lt;/strong&gt; then, autoscaler annotations are removed, deployment is &lt;em&gt;cleaned up&lt;/em&gt;. At the end &lt;code&gt;Sync RolloutStatus&lt;/code&gt; is called again.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;rolling&#34;&gt;Rolling&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;First &lt;code&gt;getMSAndSyncRevision&lt;/code&gt; is called to get list of new and old machineSets. Create annotations to disable CA performing scale-downs during rollout and apply them to all machineSets if &lt;code&gt;autoscaler ScaleDown Annotation During Rollout&lt;/code&gt; bool is true &lt;em&gt;and&lt;/em&gt; there are old MS that haven&amp;rsquo;t been scaled to zero yet.&lt;/li&gt;
+&lt;li&gt;Also, nodes backing all the old MS have &amp;ldquo;PreferNoSchedule&amp;rdquo; taint added to them to avoid scheduling on them. And &lt;code&gt;reconcileNewMS&lt;/code&gt; is called to try to scale up, if possible:
+&lt;ol&gt;
+&lt;li&gt;Check if newMS.Replicas is same as deployment&amp;rsquo;s Replicas, that means there&amp;rsquo;s no scaling needed.&lt;/li&gt;
+&lt;li&gt;If newMS.Replicas are more then scale-down needs to happen alongwith updation of &lt;code&gt;desiredReplicas&lt;/code&gt; and &lt;code&gt;maxReplicas&lt;/code&gt; annotation. In cases of rolling updates, &lt;code&gt;surge&lt;/code&gt; is not simply 0 it is calculated via &lt;code&gt;ResolveFenceposts&lt;/code&gt; as \(surge = \lceil\frac{maxSurge * Replicas}{100}\rceil\) when &lt;code&gt;maxSurge&lt;/code&gt; is passed as a % value otherwise its taken as is. And the &lt;code&gt;maxReplicas&lt;/code&gt; value is annotated as &lt;code&gt;Replicas + surge&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;If its neither, then scale-up needs to happen, &lt;code&gt;NewISNewReplicas&lt;/code&gt; is used to get the target Replicas count, first &lt;code&gt;surge&lt;/code&gt; is computed in a similar fashion as above and then &lt;code&gt;maxReplicas&lt;/code&gt; is compared with currently active MS replica count. If the current count is more i.e. scale up is not possible and target count is returned the same as newMS replicas count otherwise scale up needs to happen by
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;min(max - current, dep.Replicas - newMS.Replicas)
+&lt;/code&gt;&lt;/pre&gt;and &lt;code&gt;scaleUp + newIS.Replicas&lt;/code&gt; is returned as the target replicas count.&lt;/li&gt;
+&lt;li&gt;If any scaling happens, then &lt;code&gt;Sync RolloutStatus&lt;/code&gt; is called to update the deployment status.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;After this an attempt is made to scale-down the active oldMS. First check if their total replica count is 0 in which case no further scale-down is possible. Otherwise we attempt the scale-down:
+&lt;ol&gt;
+&lt;li&gt;Check minAvailable needed number of replicas, &lt;code&gt;deployment.Replicas - unavailable&lt;/code&gt; where it is calculated via &lt;code&gt;ResolveFenceposts&lt;/code&gt; as \(unavail = \lfloor\frac{maxUnavailable * Replicas}{100}\rfloor\) when &lt;code&gt;maxAvailable&lt;/code&gt; is passed as a % value otherwise its taken as is.&lt;/li&gt;
+&lt;li&gt;Check newMS that are still unavailable, &lt;code&gt;newMS.Replicas - newMS.AvailableReplicas&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Hence there by removing (minAvailable + newMSUnavailable) from total active replicas, we get the number of replicas that can be cleanup up without any issues. (maxScaledDown)&lt;/li&gt;
+&lt;li&gt;An attempt is made to clean up those replicas from the oldMS where first oldMS are sorted in the order &lt;code&gt;notready, ready, unscheduled, scheduled, pending, running&lt;/code&gt; so that unhealthy replicas are cleaned up before to not increase unavailability:
+&lt;ul&gt;
+&lt;li&gt;Iterating over the sorted oldMS, we first check if the targetMS&amp;rsquo;s replica count is 0 or equal to its availableReplicas in which cases it can&amp;rsquo;t be downscaled or has no unhealthy replicas so we skip its cleanup.&lt;/li&gt;
+&lt;li&gt;Otherwise compute &lt;code&gt;scaledownCount&lt;/code&gt; for the targetMS by
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)
+&lt;/code&gt;&lt;/pre&gt;where &lt;code&gt;totalScaledDown&lt;/code&gt; keeps incrementing by &lt;code&gt;scaleDownCount&lt;/code&gt; as we iterate over all oldMS.&lt;/li&gt;
+&lt;li&gt;We then compute &lt;code&gt;newReplicacount&lt;/code&gt; as &lt;code&gt;Replicas - scaledownCount&lt;/code&gt; and attempt to scaledown the targetMS to it. &amp;lt;TODO: Rewrite this&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;After attempting the cleanup of old unhealthy MS, we them attempt a scaledown by first checking if its possible, computing &lt;code&gt;minAvailable&lt;/code&gt; needed replica count and &lt;code&gt;totalAvailable&lt;/code&gt; and seeing if total&amp;rsquo;s less than min in which case we can&amp;rsquo;t scale down. Otherwise we compute &lt;code&gt;totalScaledDownCount&lt;/code&gt; (aka target) as &lt;code&gt;total - min&lt;/code&gt; available replica count &amp;amp; sort oldMS similar to how we did in the cleanup process above and start iterating over them:
+&lt;ul&gt;
+&lt;li&gt;Check if scaling&amp;rsquo;s done by comparing &lt;code&gt;totalScaledDown&lt;/code&gt; number with the target in which case we stop.&lt;/li&gt;
+&lt;li&gt;If MS&amp;rsquo;s replicas is 0 then scaling isnt possible for it, so skip it.&lt;/li&gt;
+&lt;li&gt;Otherwise scaledown is attempted with &lt;code&gt;scaleDownCount&lt;/code&gt; being
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;min(Replicas, target - totalScaledDown)
+&lt;/code&gt;&lt;/pre&gt;and &lt;code&gt;newReplicacount&lt;/code&gt; as &lt;code&gt;Replicas - scaleDownCount&lt;/code&gt; after which &lt;code&gt;totalScaledDown&lt;/code&gt; is updated with &lt;code&gt;scaleDownCount&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If any scaling happens, then &lt;code&gt;sync RolloutStatus&lt;/code&gt; is invoked later for updating the status.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;At the end, the progress is estimated and if deployment is &lt;strong&gt;completed&lt;/strong&gt; then, autoscaler annotations are removed, deployment is &lt;em&gt;cleaned up&lt;/em&gt;. At the end &lt;code&gt;Sync RolloutStatus&lt;/code&gt; is called again.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;reconcile-machine-safety-overshooting&#34;&gt;&lt;span class=&#34;org-todo todo TODO&#34;&gt;TODO&lt;/span&gt; Reconcile Machine Safety Overshooting&lt;/h3&gt;
+&lt;h2 id=&#34;extension&#34;&gt;Extension&lt;/h2&gt;
+&lt;p&gt;All methods in &lt;code&gt;Driver&lt;/code&gt; interface take a &lt;code&gt;Request&lt;/code&gt; and provide a &lt;code&gt;Response&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Driver&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;CreateMachine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CreateMachineRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CreateMachineResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;InitializeMachine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;InitializeMachineRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;InitializeMachineResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;DeleteMachine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;DeleteMachineRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;DeleteMachineResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;GetMachineStatus&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;GetMachineStatusRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;GetMachineStatusResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;ListMachines&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ListMachinesRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ListMachinesResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;GetVolumeIDs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;GetVolumeIDsRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;GetVolumeIDsResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/development/machine_error_codes.md&#34;&gt;Machine Error Codes&lt;/a&gt; document goes a bit more in-depth into the workings of the various driver interface methods.&lt;/p&gt;
+&lt;p&gt;All methods follow a similar pattern at the start where they first check that the &lt;code&gt;MachineClass.provider&lt;/code&gt; in the request is the correct one otherwise &lt;code&gt;InvalidArgument&lt;/code&gt; is returned as the error code. Then the request&amp;rsquo;s &lt;code&gt;MachineClass&lt;/code&gt; and &lt;code&gt;Secret&lt;/code&gt; are used to extract the &lt;code&gt;providerSpec&lt;/code&gt;, validation of the spec happens during the extraction process. If there&amp;rsquo;s an issue while &lt;em&gt;unmarshalling&lt;/em&gt; the &lt;code&gt;rawSpec&lt;/code&gt;, &lt;code&gt;internal&lt;/code&gt; error is returned and if there&amp;rsquo;s an issue with validation, &lt;code&gt;InvalidArgument&lt;/code&gt; is returned. The other common part is creation of a &lt;em&gt;service client&lt;/em&gt; which is handled by the &lt;code&gt;createSVC&lt;/code&gt; method (takes in &lt;em&gt;region&lt;/em&gt; and &lt;em&gt;secret&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;Note that during the invocation of some methods, &lt;code&gt;Record Driver API Metric&lt;/code&gt; function runs which captures the duration of the operation and records any failures. Coming to the specifics of the methods:&lt;/p&gt;
+&lt;h3 id=&#34;createmachine&#34;&gt;CreateMachine&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Secret&amp;rsquo;s &lt;code&gt;userData&lt;/code&gt; is checked for existence and is encoded if found. (Later used in &lt;code&gt;RunInstancesInput&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Validate given AMI&amp;rsquo;s (Amazon Machine Image) existence, verify that the image exists and is valid using &lt;a href=&#34;https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html&#34;&gt;DescribeImages&lt;/a&gt; &lt;code&gt;POST&lt;/code&gt; request.&lt;/li&gt;
+&lt;li&gt;Block devices are the &lt;em&gt;storage volumes&lt;/em&gt; attached to an &lt;code&gt;Instance&lt;/code&gt;. And &lt;code&gt;BlockDeviceMappings&lt;/code&gt; define the EBS volumes and instance store volumes to attach to an instance at launch. So using the list of devices from providerSpec and the &lt;code&gt;RootDeviceName&lt;/code&gt; from the image, block device mappings are generated for storage.&lt;/li&gt;
+&lt;li&gt;Then tags are generated for &lt;code&gt;instance&lt;/code&gt;, &lt;code&gt;volume&lt;/code&gt; and &lt;code&gt;NetworkInterface&lt;/code&gt;. These tags are useful as they act as identifiers which map the clusters that resources belong to and for management (cleanup, securtiy) etc. Failure in tag generation results in an &lt;code&gt;Internal&lt;/code&gt; error code being returned.&lt;/li&gt;
+&lt;li&gt;Afterwards, &lt;code&gt;NetworkInterfaceSpec&lt;/code&gt; is defined for all the interfaces and by iterative over providerSpec NetworkInterfaces. And &lt;code&gt;IamInstanceProfile&lt;/code&gt; is set up by going through &lt;em&gt;IAM name and ARN&lt;/em&gt;. And after that &lt;em&gt;instance metadata options&lt;/em&gt; are initialized.&lt;/li&gt;
+&lt;li&gt;Following all this, the &lt;code&gt;RunInstancesInput&lt;/code&gt; config is initialized using all the above fetched/initialized fields. Some additional fields such as &lt;code&gt;Placement&lt;/code&gt;, &lt;code&gt;Capacity Reservation Target&lt;/code&gt;, &lt;code&gt;CPU Options&lt;/code&gt; and &lt;code&gt;Spot Price&lt;/code&gt; are further set up before the &lt;a href=&#34;https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html&#34;&gt;RunInstance&lt;/a&gt; call which launches the EC2 instance.&lt;/li&gt;
+&lt;li&gt;Then we wait for the VM with &lt;code&gt;ProviderID&lt;/code&gt; for machine &lt;code&gt;Name&lt;/code&gt; to be visible to AWS endpoints by checking using &lt;code&gt;confirmInstance&lt;/code&gt; calls following which&amp;rsquo;s success the &lt;em&gt;MachineResponse&lt;/em&gt; consisting of the &lt;code&gt;ProviderID&lt;/code&gt; and &lt;code&gt;Machine Name&lt;/code&gt; is returned.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;initializemachine&#34;&gt;InitializeMachine&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;InitializeMachine&lt;/code&gt; method should only be invoked as a post VM creation initialization to configure network configuration etc.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First we decode spec, create a service request and then we fetch the running &lt;code&gt;instances&lt;/code&gt; for the requested &lt;code&gt;Machine&lt;/code&gt; by leveraging the &lt;code&gt;tags&lt;/code&gt; populated earlier. In case searching via tags fails, fall back to using &lt;code&gt;instanceID&lt;/code&gt; from &lt;code&gt;providerID&lt;/code&gt; for fetching the VM instances. Failure returns &lt;code&gt;codes.Uninitialized&lt;/code&gt; as the error code.&lt;/li&gt;
+&lt;li&gt;After getting the instance, we disable &lt;code&gt;SrcDstCheck&lt;/code&gt; for NAT instances if specified as false by targeting the &lt;code&gt;instanceID&lt;/code&gt;. If this operations fails, &lt;code&gt;Uninitialized&lt;/code&gt; is retured as the error code.&lt;/li&gt;
+&lt;li&gt;Then we iterate over the &lt;code&gt;Network Interfaces&lt;/code&gt; and assigns IPv6 prefixes to them if configured. Failure returns &lt;code&gt;codes.Uninitialized&lt;/code&gt; as the error code. If everything is successful, we return &lt;code&gt;Response&lt;/code&gt; with providerID and node name.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;deletemachine&#34;&gt;DeleteMachine&lt;/h3&gt;
+&lt;p&gt;We do provider check and decode the spec, create the service client. Afterwards we check if the requested Machine has &lt;code&gt;providerID&lt;/code&gt; populated, if so we extract the &lt;code&gt;instanceID&lt;/code&gt; from it and invoke &lt;a href=&#34;https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TerminateInstances.html&#34;&gt;terminateInstance&lt;/a&gt;. If &lt;code&gt;providerID&lt;/code&gt; is not populated, then we get the instances by &lt;code&gt;tags&lt;/code&gt; and &lt;em&gt;terminate&lt;/em&gt; them.&lt;/p&gt;
+&lt;h3 id=&#34;getmachinestatus&#34;&gt;GetMachineStatus&lt;/h3&gt;
+&lt;p&gt;Again we start with checking the provider, decoding the spec and creating the service client. Then we get the matching instances by &lt;code&gt;tags&lt;/code&gt; or &lt;code&gt;instanceID&lt;/code&gt; failing the fetching by former. If multiple VM instances are returned for the machine object, it is flagged as &lt;code&gt;OutOfRange&lt;/code&gt; error and returned.&lt;/p&gt;
+&lt;p&gt;Otherwise we check if the &lt;code&gt;SourceDestCheck&lt;/code&gt; on the instance matches the one on &lt;code&gt;providerSpec&lt;/code&gt;, in case they don&amp;rsquo;t match it returns &lt;code&gt;Uninitialized&lt;/code&gt; else we return the response with &lt;code&gt;NodeName&lt;/code&gt; and &lt;code&gt;ProviderID&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;listmachines&#34;&gt;ListMachines&lt;/h3&gt;
+&lt;p&gt;Do the needful provider check, spec decoding and service creation following which we iterate over the &lt;code&gt;tags&lt;/code&gt; to check if they contain the &lt;code&gt;clusterName&lt;/code&gt; tag or the &lt;code&gt;nodeRole&lt;/code&gt; tag. These are then used to create &amp;ldquo;tag-key&amp;rdquo; filters alongwith a &amp;ldquo;instance-state-name&amp;rdquo; filter (with &lt;em&gt;pending, running, stopping &amp;amp; stopped&lt;/em&gt; values). These filters are used to fetch the relevant VM &lt;code&gt;instances&lt;/code&gt; for the machineClass. After getting the instances, a map of &lt;code&gt;providerID&lt;/code&gt; to the &lt;code&gt;machineName&lt;/code&gt; is created and and returned as the response.&lt;/p&gt;
+&lt;h3 id=&#34;getvolumeids&#34;&gt;GetVolumeIDs&lt;/h3&gt;
+&lt;p&gt;Extracts EBS volume IDs from PersistentVolume specification by handling both in-tree AWS EBS volumes and CSI driver volumes and returns list of volume IDs as response. (Invoked indirectly by &lt;code&gt;evictPodsWithPv&lt;/code&gt;)&lt;/p&gt;
 &lt;h2 id=&#34;queries&#34;&gt;Queries&lt;/h2&gt;
 &lt;ul&gt;
+&lt;li&gt;How is MCM different from CCM? Is there any overlap between the two?&lt;/li&gt;
 &lt;li&gt;How much access/info does the end user have about machines? How much can they control them or is the access restricted to editing nodes only?&lt;/li&gt;
 &lt;li&gt;Check control and target clusters, inClusterConfig. Control cluster is the one where the machine-* objects are stored. Target cluster is where all the node objects are registered.&lt;/li&gt;
 &lt;li&gt;When node deletion checks are happening, how is the &lt;code&gt;ReadOnlyFileSystem&lt;/code&gt; flag checked for?&lt;/li&gt;
 &lt;li&gt;Why is this required in two places? &lt;a href=&#34;https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#i-need-to-change-the-apis-what-are-the-recommended-steps&#34;&gt;FAQ: API Change&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Is local setup guide enough to get started or is there something else to look out for as well?&lt;/li&gt;
 &lt;li&gt;In the &lt;code&gt;ClaimMachines&lt;/code&gt; function, we&amp;rsquo;re not passing the filters, what&amp;rsquo;s the point of having them then? In what scenarios will they be needed?&lt;/li&gt;
-&lt;li&gt;How is the &lt;code&gt;CanAdopt()&lt;/code&gt; function working?&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;How is the &lt;code&gt;CanAdopt()&lt;/code&gt; function working?&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;What is this controllerRef for?&lt;/li&gt;
 &lt;li&gt;&lt;del&gt;What is the &lt;code&gt;KeyFunc()&lt;/code&gt; doing in manageReplicas: cache.MetaNameSpaceKeyFunc&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;What is this ControllerExpectations, why is it needed? Handle race conditions, Expectations are supposed to be used to await previous controller actions to be seen in watch. ContExpectations is a cache mapping controllers to what they expect to see before being woken up for a sync.&lt;/li&gt;
@@ -699,91 +1453,91 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;/div&gt;
 &lt;h2 id=&#34;consonants&#34;&gt;Consonants&lt;/h2&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Consonant&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Mnemonic&lt;/th&gt;
-          &lt;th&gt;Aspirated&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Mnemonic&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅂ&lt;/td&gt;
-          &lt;td&gt;b&lt;/td&gt;
-          &lt;td&gt;bucket&lt;/td&gt;
-          &lt;td&gt;ㅍ&lt;/td&gt;
-          &lt;td&gt;p&lt;/td&gt;
-          &lt;td&gt;part II/pi&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄷ&lt;/td&gt;
-          &lt;td&gt;d&lt;/td&gt;
-          &lt;td&gt;door&lt;/td&gt;
-          &lt;td&gt;ㅌ&lt;/td&gt;
-          &lt;td&gt;t&lt;/td&gt;
-          &lt;td&gt;two doors&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄱ&lt;/td&gt;
-          &lt;td&gt;g&lt;/td&gt;
-          &lt;td&gt;gun&lt;/td&gt;
-          &lt;td&gt;ㅋ&lt;/td&gt;
-          &lt;td&gt;k&lt;/td&gt;
-          &lt;td&gt;kill&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅈ&lt;/td&gt;
-          &lt;td&gt;j&lt;/td&gt;
-          &lt;td&gt;(jug)&lt;/td&gt;
-          &lt;td&gt;ㅊ&lt;/td&gt;
-          &lt;td&gt;ch&lt;/td&gt;
-          &lt;td&gt;church&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Consonant&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Mnemonic&lt;/th&gt;
+&lt;th&gt;Aspirated&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Mnemonic&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅂ&lt;/td&gt;
+&lt;td&gt;b&lt;/td&gt;
+&lt;td&gt;bucket&lt;/td&gt;
+&lt;td&gt;ㅍ&lt;/td&gt;
+&lt;td&gt;p&lt;/td&gt;
+&lt;td&gt;part II/pi&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄷ&lt;/td&gt;
+&lt;td&gt;d&lt;/td&gt;
+&lt;td&gt;door&lt;/td&gt;
+&lt;td&gt;ㅌ&lt;/td&gt;
+&lt;td&gt;t&lt;/td&gt;
+&lt;td&gt;two doors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄱ&lt;/td&gt;
+&lt;td&gt;g&lt;/td&gt;
+&lt;td&gt;gun&lt;/td&gt;
+&lt;td&gt;ㅋ&lt;/td&gt;
+&lt;td&gt;k&lt;/td&gt;
+&lt;td&gt;kill&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅈ&lt;/td&gt;
+&lt;td&gt;j&lt;/td&gt;
+&lt;td&gt;(jug)&lt;/td&gt;
+&lt;td&gt;ㅊ&lt;/td&gt;
+&lt;td&gt;ch&lt;/td&gt;
+&lt;td&gt;church&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Consonant&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Mnemonic&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅎ&lt;/td&gt;
-          &lt;td&gt;h&lt;/td&gt;
-          &lt;td&gt;hat&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄹ&lt;/td&gt;
-          &lt;td&gt;r/l&lt;/td&gt;
-          &lt;td&gt;rattlesnake&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅁ&lt;/td&gt;
-          &lt;td&gt;m&lt;/td&gt;
-          &lt;td&gt;mouth&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄴ&lt;/td&gt;
-          &lt;td&gt;n&lt;/td&gt;
-          &lt;td&gt;nose&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅅ&lt;/td&gt;
-          &lt;td&gt;s&lt;/td&gt;
-          &lt;td&gt;standing&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅇ&lt;/td&gt;
-          &lt;td&gt;- / ng(at end)&lt;/td&gt;
-          &lt;td&gt;zero = no&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Consonant&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Mnemonic&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅎ&lt;/td&gt;
+&lt;td&gt;h&lt;/td&gt;
+&lt;td&gt;hat&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄹ&lt;/td&gt;
+&lt;td&gt;r/l&lt;/td&gt;
+&lt;td&gt;rattlesnake&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅁ&lt;/td&gt;
+&lt;td&gt;m&lt;/td&gt;
+&lt;td&gt;mouth&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄴ&lt;/td&gt;
+&lt;td&gt;n&lt;/td&gt;
+&lt;td&gt;nose&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅅ&lt;/td&gt;
+&lt;td&gt;s&lt;/td&gt;
+&lt;td&gt;standing&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅇ&lt;/td&gt;
+&lt;td&gt;- / ng(at end)&lt;/td&gt;
+&lt;td&gt;zero = no&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;Look at the last consonant, it&amp;rsquo;s a placeholder character which has no sound by itself &lt;em&gt;but&lt;/em&gt; if it ends a particular syllable, it is pronounced as &lt;strong&gt;ng&lt;/strong&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;vowels&#34;&gt;Vowels&lt;/h2&gt;
@@ -793,275 +1547,275 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 
 &lt;p&gt;By lining up the corresponding characters with the sounds, we get the vowels. By adding a seond line to these characters one can create the following sounds preceeded by &lt;em&gt;y-&lt;/em&gt;.&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Vowel&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Mnemonic&lt;/th&gt;
-          &lt;th&gt;Modified&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅗ&lt;/td&gt;
-          &lt;td&gt;oh&lt;/td&gt;
-          &lt;td&gt;old&lt;/td&gt;
-          &lt;td&gt;ㅛ&lt;/td&gt;
-          &lt;td&gt;yoh&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅓ&lt;/td&gt;
-          &lt;td&gt;eo/uh&lt;/td&gt;
-          &lt;td&gt;iPod&lt;/td&gt;
-          &lt;td&gt;ㅕ&lt;/td&gt;
-          &lt;td&gt;yeo/yuh&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅜ&lt;/td&gt;
-          &lt;td&gt;ooh&lt;/td&gt;
-          &lt;td&gt;new&lt;/td&gt;
-          &lt;td&gt;ㅠ&lt;/td&gt;
-          &lt;td&gt;yooh&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅏ&lt;/td&gt;
-          &lt;td&gt;a/ah&lt;/td&gt;
-          &lt;td&gt;iPad&lt;/td&gt;
-          &lt;td&gt;ㅑ&lt;/td&gt;
-          &lt;td&gt;yah&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Vowel&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Mnemonic&lt;/th&gt;
+&lt;th&gt;Modified&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅗ&lt;/td&gt;
+&lt;td&gt;oh&lt;/td&gt;
+&lt;td&gt;old&lt;/td&gt;
+&lt;td&gt;ㅛ&lt;/td&gt;
+&lt;td&gt;yoh&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅓ&lt;/td&gt;
+&lt;td&gt;eo/uh&lt;/td&gt;
+&lt;td&gt;iPod&lt;/td&gt;
+&lt;td&gt;ㅕ&lt;/td&gt;
+&lt;td&gt;yeo/yuh&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅜ&lt;/td&gt;
+&lt;td&gt;ooh&lt;/td&gt;
+&lt;td&gt;new&lt;/td&gt;
+&lt;td&gt;ㅠ&lt;/td&gt;
+&lt;td&gt;yooh&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅏ&lt;/td&gt;
+&lt;td&gt;a/ah&lt;/td&gt;
+&lt;td&gt;iPad&lt;/td&gt;
+&lt;td&gt;ㅑ&lt;/td&gt;
+&lt;td&gt;yah&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Vowel&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Mnemonic&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅣ&lt;/td&gt;
-          &lt;td&gt;ee&lt;/td&gt;
-          &lt;td&gt;tree&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅡ&lt;/td&gt;
-          &lt;td&gt;oo&lt;/td&gt;
-          &lt;td&gt;brook&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Vowel&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Mnemonic&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅣ&lt;/td&gt;
+&lt;td&gt;ee&lt;/td&gt;
+&lt;td&gt;tree&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅡ&lt;/td&gt;
+&lt;td&gt;oo&lt;/td&gt;
+&lt;td&gt;brook&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;strong-consonants&#34;&gt;Strong Consonants&lt;/h2&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Consonant&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄸ&lt;/td&gt;
-          &lt;td&gt;dd&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅉ&lt;/td&gt;
-          &lt;td&gt;jj&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄲ&lt;/td&gt;
-          &lt;td&gt;gg&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅃ&lt;/td&gt;
-          &lt;td&gt;bb&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅆ&lt;/td&gt;
-          &lt;td&gt;ss&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Consonant&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄸ&lt;/td&gt;
+&lt;td&gt;dd&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅉ&lt;/td&gt;
+&lt;td&gt;jj&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄲ&lt;/td&gt;
+&lt;td&gt;gg&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅃ&lt;/td&gt;
+&lt;td&gt;bb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅆ&lt;/td&gt;
+&lt;td&gt;ss&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;&lt;em&gt;Examples:&lt;/em&gt; 떡볶이 is tteokbokki and 빨간색 is pplagansaek (red).&lt;/p&gt;
 &lt;h2 id=&#34;pronounciation-guide-in-devanagari&#34;&gt;Pronounciation Guide in Devanagari&lt;/h2&gt;
 &lt;h3 id=&#34;vowels&#34;&gt;Vowels&lt;/h3&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Vowel&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Vowel&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅏ&lt;/td&gt;
-          &lt;td&gt;आ&lt;/td&gt;
-          &lt;td&gt;ㅑ&lt;/td&gt;
-          &lt;td&gt;या&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅓ&lt;/td&gt;
-          &lt;td&gt;ओ&lt;/td&gt;
-          &lt;td&gt;ㅕ&lt;/td&gt;
-          &lt;td&gt;यौ&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅗ&lt;/td&gt;
-          &lt;td&gt;उ&lt;/td&gt;
-          &lt;td&gt;ㅛ&lt;/td&gt;
-          &lt;td&gt;यु&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅜ&lt;/td&gt;
-          &lt;td&gt;ऊ&lt;/td&gt;
-          &lt;td&gt;ㅠ&lt;/td&gt;
-          &lt;td&gt;यू&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅡ&lt;/td&gt;
-          &lt;td&gt;उ~&lt;/td&gt;
-          &lt;td&gt;ㅣ&lt;/td&gt;
-          &lt;td&gt;इ&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅔ&lt;/td&gt;
-          &lt;td&gt;ए&lt;/td&gt;
-          &lt;td&gt;ㅐ&lt;/td&gt;
-          &lt;td&gt;ऐ&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅖ&lt;/td&gt;
-          &lt;td&gt;ये&lt;/td&gt;
-          &lt;td&gt;ㅒ&lt;/td&gt;
-          &lt;td&gt;यै&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅢ&lt;/td&gt;
-          &lt;td&gt;उई~&lt;/td&gt;
-          &lt;td&gt;ㅘ&lt;/td&gt;
-          &lt;td&gt;वा&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅝ&lt;/td&gt;
-          &lt;td&gt;वौ&lt;/td&gt;
-          &lt;td&gt;ㅟ&lt;/td&gt;
-          &lt;td&gt;वी&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅚ&lt;/td&gt;
-          &lt;td&gt;वै&lt;/td&gt;
-          &lt;td&gt;ㅙ&lt;/td&gt;
-          &lt;td&gt;वै&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅞ&lt;/td&gt;
-          &lt;td&gt;वै&lt;/td&gt;
-          &lt;td&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Vowel&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Vowel&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅏ&lt;/td&gt;
+&lt;td&gt;आ&lt;/td&gt;
+&lt;td&gt;ㅑ&lt;/td&gt;
+&lt;td&gt;या&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅓ&lt;/td&gt;
+&lt;td&gt;ओ&lt;/td&gt;
+&lt;td&gt;ㅕ&lt;/td&gt;
+&lt;td&gt;यौ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅗ&lt;/td&gt;
+&lt;td&gt;उ&lt;/td&gt;
+&lt;td&gt;ㅛ&lt;/td&gt;
+&lt;td&gt;यु&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅜ&lt;/td&gt;
+&lt;td&gt;ऊ&lt;/td&gt;
+&lt;td&gt;ㅠ&lt;/td&gt;
+&lt;td&gt;यू&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅡ&lt;/td&gt;
+&lt;td&gt;उ~&lt;/td&gt;
+&lt;td&gt;ㅣ&lt;/td&gt;
+&lt;td&gt;इ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅔ&lt;/td&gt;
+&lt;td&gt;ए&lt;/td&gt;
+&lt;td&gt;ㅐ&lt;/td&gt;
+&lt;td&gt;ऐ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅖ&lt;/td&gt;
+&lt;td&gt;ये&lt;/td&gt;
+&lt;td&gt;ㅒ&lt;/td&gt;
+&lt;td&gt;यै&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅢ&lt;/td&gt;
+&lt;td&gt;उई~&lt;/td&gt;
+&lt;td&gt;ㅘ&lt;/td&gt;
+&lt;td&gt;वा&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅝ&lt;/td&gt;
+&lt;td&gt;वौ&lt;/td&gt;
+&lt;td&gt;ㅟ&lt;/td&gt;
+&lt;td&gt;वी&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅚ&lt;/td&gt;
+&lt;td&gt;वै&lt;/td&gt;
+&lt;td&gt;ㅙ&lt;/td&gt;
+&lt;td&gt;वै&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅞ&lt;/td&gt;
+&lt;td&gt;वै&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;consonants&#34;&gt;Consonants&lt;/h3&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Cons.&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Asp.Cons.&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Dbl.Cons.&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄱ&lt;/td&gt;
-          &lt;td&gt;क&lt;/td&gt;
-          &lt;td&gt;ㅋ&lt;/td&gt;
-          &lt;td&gt;ख&lt;/td&gt;
-          &lt;td&gt;ㄲ&lt;/td&gt;
-          &lt;td&gt;ग़&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄷ&lt;/td&gt;
-          &lt;td&gt;द&lt;/td&gt;
-          &lt;td&gt;ㅌ&lt;/td&gt;
-          &lt;td&gt;ट्&lt;/td&gt;
-          &lt;td&gt;ㄸ&lt;/td&gt;
-          &lt;td&gt;त&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅂ&lt;/td&gt;
-          &lt;td&gt;ब्/पूऽ&lt;/td&gt;
-          &lt;td&gt;ㅍ&lt;/td&gt;
-          &lt;td&gt;फ़ू&lt;/td&gt;
-          &lt;td&gt;ㅃ&lt;/td&gt;
-          &lt;td&gt;प~&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Cons.&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Asp.Cons.&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Dbl.Cons.&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄱ&lt;/td&gt;
+&lt;td&gt;क&lt;/td&gt;
+&lt;td&gt;ㅋ&lt;/td&gt;
+&lt;td&gt;ख&lt;/td&gt;
+&lt;td&gt;ㄲ&lt;/td&gt;
+&lt;td&gt;ग़&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄷ&lt;/td&gt;
+&lt;td&gt;द&lt;/td&gt;
+&lt;td&gt;ㅌ&lt;/td&gt;
+&lt;td&gt;ट्&lt;/td&gt;
+&lt;td&gt;ㄸ&lt;/td&gt;
+&lt;td&gt;त&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅂ&lt;/td&gt;
+&lt;td&gt;ब्/पूऽ&lt;/td&gt;
+&lt;td&gt;ㅍ&lt;/td&gt;
+&lt;td&gt;फ़ू&lt;/td&gt;
+&lt;td&gt;ㅃ&lt;/td&gt;
+&lt;td&gt;प~&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Cons.&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-          &lt;th&gt;Dbl.Cons.&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅅ&lt;/td&gt;
-          &lt;td&gt;सू&lt;/td&gt;
-          &lt;td&gt;ㅆ&lt;/td&gt;
-          &lt;td&gt;सऽ&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅈ&lt;/td&gt;
-          &lt;td&gt;च&lt;/td&gt;
-          &lt;td&gt;ㅉ&lt;/td&gt;
-          &lt;td&gt;ज्&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Cons.&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;th&gt;Dbl.Cons.&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅅ&lt;/td&gt;
+&lt;td&gt;सू&lt;/td&gt;
+&lt;td&gt;ㅆ&lt;/td&gt;
+&lt;td&gt;सऽ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅈ&lt;/td&gt;
+&lt;td&gt;च&lt;/td&gt;
+&lt;td&gt;ㅉ&lt;/td&gt;
+&lt;td&gt;ज्&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Cons.&lt;/th&gt;
-          &lt;th&gt;Pron.&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅊ&lt;/td&gt;
-          &lt;td&gt;च्छ&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅎ&lt;/td&gt;
-          &lt;td&gt;ह&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄹ&lt;/td&gt;
-          &lt;td&gt;ल&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㄴ&lt;/td&gt;
-          &lt;td&gt;न&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅁ&lt;/td&gt;
-          &lt;td&gt;म&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ㅇ&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Cons.&lt;/th&gt;
+&lt;th&gt;Pron.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅊ&lt;/td&gt;
+&lt;td&gt;च्छ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅎ&lt;/td&gt;
+&lt;td&gt;ह&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄹ&lt;/td&gt;
+&lt;td&gt;ल&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㄴ&lt;/td&gt;
+&lt;td&gt;न&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅁ&lt;/td&gt;
+&lt;td&gt;म&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ㅇ&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;resources&#34;&gt;Resources:&lt;/h2&gt;
 &lt;ol&gt;
@@ -1587,45 +2341,45 @@ They take up &lt;code&gt;O(M+N)&lt;/code&gt; space but allow for easy traversal 
 &lt;p&gt;Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\):
 &lt;a href=&#34;https://brongulus.github.io/ox-hugo/usaco-pf.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/usaco-pf.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;i&lt;/th&gt;
-          &lt;th&gt;n&lt;/th&gt;
-          &lt;th&gt;v&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;2&lt;/td&gt;
-          &lt;td&gt;252&lt;/td&gt;
-          &lt;td&gt;{}&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;2&lt;/td&gt;
-          &lt;td&gt;126&lt;/td&gt;
-          &lt;td&gt;{2}&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;2&lt;/td&gt;
-          &lt;td&gt;63&lt;/td&gt;
-          &lt;td&gt;{2,2}&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;3&lt;/td&gt;
-          &lt;td&gt;21&lt;/td&gt;
-          &lt;td&gt;{2,2,3}&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;3&lt;/td&gt;
-          &lt;td&gt;7&lt;/td&gt;
-          &lt;td&gt;{2,2,3,3}&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;7&lt;/td&gt;
-          &lt;td&gt;1&lt;/td&gt;
-          &lt;td&gt;{2,2,3,3,7}&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;i&lt;/th&gt;
+&lt;th&gt;n&lt;/th&gt;
+&lt;th&gt;v&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;252&lt;/td&gt;
+&lt;td&gt;{}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;126&lt;/td&gt;
+&lt;td&gt;{2}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;63&lt;/td&gt;
+&lt;td&gt;{2,2}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;{2,2,3}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;{2,2,3,3}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;{2,2,3,3,7}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;GCD using Euclidean Algorithm in &lt;code&gt;O(log min(a,b))&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;gcd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
@@ -2040,55 +2794,55 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 &lt;p&gt;The word embeddings are initialized with zero values and the pre-trained embeddings are not updated during training. The dropout&lt;sup id=&#34;fnref:10&#34;&gt;&lt;a href=&#34;#fn:10&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;10&lt;/a&gt;&lt;/sup&gt; used on the embeddings is achieved by a single dropout mask and dropout is used on the input and the states of the LSTM.&lt;/p&gt;
 &lt;p&gt;&lt;a id=&#34;table--Architecture&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Model&lt;/th&gt;
-          &lt;th&gt;Parameter&lt;/th&gt;
-          &lt;th&gt;Value&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;C,W&lt;/td&gt;
-          &lt;td&gt;BiLSTM Layers&lt;/td&gt;
-          &lt;td&gt;3&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;M&lt;/td&gt;
-          &lt;td&gt;BiLSTM Layers&lt;/td&gt;
-          &lt;td&gt;1&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;CWM&lt;/td&gt;
-          &lt;td&gt;BiLSTM size&lt;/td&gt;
-          &lt;td&gt;400&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;CWM&lt;/td&gt;
-          &lt;td&gt;Dropout LSTM&lt;/td&gt;
-          &lt;td&gt;0.33&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;CWM&lt;/td&gt;
-          &lt;td&gt;Dropout MLP&lt;/td&gt;
-          &lt;td&gt;0.33&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;W&lt;/td&gt;
-          &lt;td&gt;Dropout Embeddings&lt;/td&gt;
-          &lt;td&gt;0.33&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;C&lt;/td&gt;
-          &lt;td&gt;Dropout Embedding&lt;/td&gt;
-          &lt;td&gt;0.5&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;CWM&lt;/td&gt;
-          &lt;td&gt;Nonlinear Activation Fn (MLP)&lt;/td&gt;
-          &lt;td&gt;ELU&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Model&lt;/th&gt;
+&lt;th&gt;Parameter&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;C,W&lt;/td&gt;
+&lt;td&gt;BiLSTM Layers&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;M&lt;/td&gt;
+&lt;td&gt;BiLSTM Layers&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CWM&lt;/td&gt;
+&lt;td&gt;BiLSTM size&lt;/td&gt;
+&lt;td&gt;400&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CWM&lt;/td&gt;
+&lt;td&gt;Dropout LSTM&lt;/td&gt;
+&lt;td&gt;0.33&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CWM&lt;/td&gt;
+&lt;td&gt;Dropout MLP&lt;/td&gt;
+&lt;td&gt;0.33&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;W&lt;/td&gt;
+&lt;td&gt;Dropout Embeddings&lt;/td&gt;
+&lt;td&gt;0.33&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;Dropout Embedding&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CWM&lt;/td&gt;
+&lt;td&gt;Nonlinear Activation Fn (MLP)&lt;/td&gt;
+&lt;td&gt;ELU&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;TODO Add two remaining tables&lt;/p&gt;
 &lt;h3 id=&#34;data-sets&#34;&gt;Data Sets&lt;/h3&gt;
