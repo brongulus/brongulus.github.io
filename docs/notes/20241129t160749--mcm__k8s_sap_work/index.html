@@ -141,7 +141,6 @@
 <pre class="mermaid">---
 title: Machine
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -225,7 +224,6 @@ classDiagram
 <pre class="mermaid">---
 title: MachineClass
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -257,7 +255,6 @@ classDiagram
 <pre class="mermaid">---
 title: MachineSet
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -324,7 +321,6 @@ classDiagram
 <pre class="mermaid">---
 title: MachineDeployment
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -395,7 +391,6 @@ classDiagram
 <pre class="mermaid">---
 title: SafetyOptions &amp; PodDisruptionBudget
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -441,7 +436,6 @@ int32 expectedPods
 <pre class="mermaid">---
 title: VolumeAttachmentHandler
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -949,20 +943,23 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
     </div>
     
     <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-    var config = {
-        startOnLoad: true,
-        
-        theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default',
-        align:'center',
-    };
-    mermaid.initialize(config);
-    
-    const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
-    toggleSwitch.addEventListener('click', () => {
-        window.location.reload();
-    });
-</script>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs';
+
+      mermaid.registerLayoutLoaders(elkLayouts);
+      var config = {
+          startOnLoad: true,
+          
+          theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default',
+          align:'center',
+      };
+      mermaid.initialize(config);
+      
+      const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+      toggleSwitch.addEventListener('click', () => {
+          window.location.reload();
+      });
+    </script>
 
 <script> 
   const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');

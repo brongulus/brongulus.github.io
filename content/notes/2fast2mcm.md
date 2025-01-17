@@ -64,6 +64,10 @@ Now, let's dive into the Machine Controller's core reconciliation flows for diff
 - Machine Reconciliation: Core machine lifecycle management
 
 ```mermaid
+---
+  config:
+    layout: elk
+---
 stateDiagram-v2
     state "Machine Controller" as MC {
         state "Secret Reconciliation" as SR {
@@ -94,13 +98,16 @@ stateDiagram-v2
             CheckFrozen --> ValidateMachine : Not Frozen
             CheckFrozen --> RetryLater : Frozen
             
-            ValidateMachine --> DeletionFlow : Deletion Requested
-            ValidateMachine --> AddFinalizers : No Deletion
+            ValidateMachine --> ValidateMachineClass
+            VaildateMachineClass --> DeletionTimestamp
+
+            DeletionTimestamp --> DeletionFlow : Deletion Requested
+            DeletionTimestamp --> AddFinalizers : No Deletion
             
-            AddFinalizers --> CheckPhase
+            AddFinalizers --> CheckPhase&NodeLabel
             
-            CheckPhase --> ReconcileHealth : Has Node
-            CheckPhase --> CreationFlow : No Node/Failed
+            CheckPhase&NodeLabel --> ReconcileHealth : Has Node & Non-empty phase
+            CheckPhase&NodeLabel --> CreationFlow : No Node or<br/>CrashLoopBackOff<br/>or EmptyPhase
             
             ReconcileHealth --> SyncNodeName
             SyncNodeName --> SyncTemplates
@@ -112,42 +119,83 @@ stateDiagram-v2
     }
 ```
 
-### Machine Creation or Deletion
+### Machine Creation
 Machine Creation Flow:
 - Complex process involving multiple status checks
 - Handles initialization and error cases
 - Includes node verification and cleanup of stale resources
 - Multiple retry mechanisms for resilience
 
+```mermaid
+---
+  config:
+    look: handDrawn
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state "From <u>CreateResponse</u>: Assign Node Name & ProviderID" as ANPIDCMR
+        state "From <u>GetMachineStatusResponse</u>: Assign Node Name & ProviderID" as ANPIDGMS
+        state "From <u>GetMachineStatusResponse</u>: Assign Node Name & ProviderID" as ANPIDGMSR
+        state "Assign Node Name<br/>from Machine label" as ANML
+        state "Phase: <i>Pending</i><br/>State: <i>Processing</i><br/>OpType: Create" as CPPP
+        state "State: <i>Failed</i><br/>OpType: <i>Create</i>" as SFFF
+        
+        [*] --> AddBootToken&MachineName
+        AddBootToken&MachineName --> GetMachineStatus
+        
+        GetMachineStatus --> ANPIDGMS : Success
+        ANPIDGMS --> UpdateAnnotationsLabels
+        UpdateAnnotationsLabels --> CPPP : Phase <i>""(empty) or CrashLoopBackOff</i>
+        CPPP --> StatusUpdate
+        StatusUpdate --> [*]
+        
+        GetMachineStatus --> CheckNodeExists : NotFound or Unimplemented
+        CheckNodeExists --> ANML : Node Exists
+        ANML --> UpdateAnnotationsLabels
+        
+        CheckNodeExists --> CreateMachine:::imp : No Node
+        CreateMachine:::imp --> ANPIDCMR : Successful creation
+        CreateMachine:::imp --> CheckFailurePhase : Creation Error
+        ANPIDCMR --> SetUninitialized : Node name is Machine Name
+        SetUninitialized --> UpdateAnnotationLabel
+        UpdateAnnotationLabel --> InitializeMachine:::imp
+        InitializeMachine:::imp --> [*]
+        
+        ANPIDCMR --> DeleteMachine:::imp : <u>Stale Node</u><br/>NodeName is not MachineName
+        DeleteMachine:::imp --> SFFF: "VM using old node obj"
+        
+        GetMachineStatus --> ANPIDGMSR : Uninitialized
+        ANPIDGMSR --> SetUninitialized
+        
+        GetMachineStatus --> CheckFailurePhase : Other Errors
+        CheckFailurePhase --> Failed : Timeout
+        CheckFailurePhase --> CrashLoopBackOff : Not timed out
+        Failed --> SFFF
+        CrashLoopBackOff --> SFFF
+        
+        SFFF --> [*]
+
+```
+
+### Machine Deletion
 Machine Deletion Flow:
 - Carefully orchestrated process to ensure clean resource cleanup
 - Involves multiple phases from drain to final cleanup
 - Handles volume attachments and node cleanup
 - Includes finalizer management for resource protection
 
-```mermaid
-stateDiagram-v2
-    state "Creation Flow" as CF {
-        [*] --> UpdateMachineRequest
-        UpdateMachineRequest --> GetMachineStatus
-        
-        GetMachineStatus --> UpdateNodeLabels : Success
-        GetMachineStatus --> CreateMachine : NotFound
-        GetMachineStatus --> HandleError : Other Errors
-        
-        CreateMachine --> CheckNodeExists
-        CheckNodeExists --> DeleteMachine : Stale Node
-        CheckNodeExists --> StatusUpdate : No Node
-        
-        DeleteMachine --> MarkFailed
-        StatusUpdate --> InitializeMachine : Success
-        InitializeMachine --> Requeue
-        
-        HandleError --> MarkFailed : Timeout
-        MarkFailed --> [*]
-        Requeue --> [*]
-    }
+Let's visualize the Node Drain process, which is a critical part of machine deletion:
+- Sophisticated pod eviction handling
+- Supports both forced and normal drain scenarios
+- Handles PDB (Pod Disruption Budget) violations
+- Includes parallel and serial eviction strategies
 
+```mermaid
+---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state "Deletion Flow" as DF {
         [*] --> CheckFinalizers
         CheckFinalizers --> SetTerminating
@@ -166,18 +214,8 @@ stateDiagram-v2
         ProcessPhase --> UpdateStatus
         UpdateStatus --> [*]
     }
-```
-
-### Node Drain Process
-Let's visualize the Node Drain process, which is a critical part of machine deletion:
-- Sophisticated pod eviction handling
-- Supports both forced and normal drain scenarios
-- Handles PDB (Pod Disruption Budget) violations
-- Includes parallel and serial eviction strategies
-
-```mermaid
-stateDiagram-v2
-    state "Node Drain" as ND {
+    
+    state "Initiate Drain" as ND {
         [*] --> ValidateNode
         
         ValidateNode --> CheckNodeCondition
@@ -234,6 +272,10 @@ stateDiagram-v2
    - Handles machine status updates during API server recovery
 
 ```mermaid
+---
+  config:
+    layout: elk
+---
 stateDiagram-v2
     state "Safety Controller" as SC {
         state "Orphan VM Check" as OVC {
@@ -303,6 +345,10 @@ stateDiagram-v2
    - Updates status to reflect current state
 
 ```mermaid
+---
+  config:
+    layout: elk
+---
 stateDiagram-v2
     state "MachineSet Controller" as MSC {
         [*] --> FetchMachineSet
@@ -375,6 +421,10 @@ Deployment Management:
    - Ensures proper resource cleanup
 
 ```mermaid
+---
+  config:
+    layout: elk
+---
 stateDiagram-v2
     state "MachineDeployment Controller" as MDC {
         [*] --> FetchDeployment

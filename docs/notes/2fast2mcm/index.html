@@ -188,7 +188,11 @@
 <li>MachineClass Reconciliation: Handles machine class lifecycle</li>
 <li>Machine Reconciliation: Core machine lifecycle management</li>
 </ul>
-<pre class="mermaid">stateDiagram-v2
+<pre class="mermaid">---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &#34;Machine Controller&#34; as MC {
         state &#34;Secret Reconciliation&#34; as SR {
             [*] --&gt; FetchSecret
@@ -218,13 +222,16 @@
             CheckFrozen --&gt; ValidateMachine : Not Frozen
             CheckFrozen --&gt; RetryLater : Frozen
             
-            ValidateMachine --&gt; DeletionFlow : Deletion Requested
-            ValidateMachine --&gt; AddFinalizers : No Deletion
+            ValidateMachine --&gt; ValidateMachineClass
+            VaildateMachineClass --&gt; DeletionTimestamp
+
+            DeletionTimestamp --&gt; DeletionFlow : Deletion Requested
+            DeletionTimestamp --&gt; AddFinalizers : No Deletion
             
-            AddFinalizers --&gt; CheckPhase
+            AddFinalizers --&gt; CheckPhase&amp;NodeLabel
             
-            CheckPhase --&gt; ReconcileHealth : Has Node
-            CheckPhase --&gt; CreationFlow : No Node/Failed
+            CheckPhase&amp;NodeLabel --&gt; ReconcileHealth : Has Node &amp; Non-empty phase
+            CheckPhase&amp;NodeLabel --&gt; CreationFlow : No Node or&lt;br/&gt;CrashLoopBackOff&lt;br/&gt;or EmptyPhase
             
             ReconcileHealth --&gt; SyncNodeName
             SyncNodeName --&gt; SyncTemplates
@@ -236,7 +243,7 @@
     }
 </pre>
 
-<h3 id="machine-creation-or-deletion">Machine Creation or Deletion</h3>
+<h3 id="machine-creation">Machine Creation</h3>
 <p>Machine Creation Flow:</p>
 <ul>
 <li>Complex process involving multiple status checks</li>
@@ -244,6 +251,56 @@
 <li>Includes node verification and cleanup of stale resources</li>
 <li>Multiple retry mechanisms for resilience</li>
 </ul>
+<pre class="mermaid">---
+  config:
+    look: handDrawn
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state &#34;From &lt;u&gt;CreateResponse&lt;/u&gt;: Assign Node Name &amp; ProviderID&#34; as ANPIDCMR
+        state &#34;From &lt;u&gt;GetMachineStatusResponse&lt;/u&gt;: Assign Node Name &amp; ProviderID&#34; as ANPIDGMS
+        state &#34;From &lt;u&gt;GetMachineStatusResponse&lt;/u&gt;: Assign Node Name &amp; ProviderID&#34; as ANPIDGMSR
+        state &#34;Assign Node Name&lt;br/&gt;from Machine label&#34; as ANML
+        state &#34;Phase: &lt;i&gt;Pending&lt;/i&gt;&lt;br/&gt;State: &lt;i&gt;Processing&lt;/i&gt;&lt;br/&gt;OpType: Create&#34; as CPPP
+        state &#34;State: &lt;i&gt;Failed&lt;/i&gt;&lt;br/&gt;OpType: &lt;i&gt;Create&lt;/i&gt;&#34; as SFFF
+        
+        [*] --&gt; AddBootToken&amp;MachineName
+        AddBootToken&amp;MachineName --&gt; GetMachineStatus
+        
+        GetMachineStatus --&gt; ANPIDGMS : Success
+        ANPIDGMS --&gt; UpdateAnnotationsLabels
+        UpdateAnnotationsLabels --&gt; CPPP : Phase &lt;i&gt;&#34;&#34;(empty) or CrashLoopBackOff&lt;/i&gt;
+        CPPP --&gt; StatusUpdate
+        StatusUpdate --&gt; [*]
+        
+        GetMachineStatus --&gt; CheckNodeExists : NotFound or Unimplemented
+        CheckNodeExists --&gt; ANML : Node Exists
+        ANML --&gt; UpdateAnnotationsLabels
+        
+        CheckNodeExists --&gt; CreateMachine:::imp : No Node
+        CreateMachine:::imp --&gt; ANPIDCMR : Successful creation
+        CreateMachine:::imp --&gt; CheckFailurePhase : Creation Error
+        ANPIDCMR --&gt; SetUninitialized : Node name is Machine Name
+        SetUninitialized --&gt; UpdateAnnotationLabel
+        UpdateAnnotationLabel --&gt; InitializeMachine:::imp
+        InitializeMachine:::imp --&gt; [*]
+        
+        ANPIDCMR --&gt; DeleteMachine:::imp : &lt;u&gt;Stale Node&lt;/u&gt;&lt;br/&gt;NodeName is not MachineName
+        DeleteMachine:::imp --&gt; SFFF: &#34;VM using old node obj&#34;
+        
+        GetMachineStatus --&gt; ANPIDGMSR : Uninitialized
+        ANPIDGMSR --&gt; SetUninitialized
+        
+        GetMachineStatus --&gt; CheckFailurePhase : Other Errors
+        CheckFailurePhase --&gt; Failed : Timeout
+        CheckFailurePhase --&gt; CrashLoopBackOff : Not timed out
+        Failed --&gt; SFFF
+        CrashLoopBackOff --&gt; SFFF
+        
+        SFFF --&gt; [*]
+</pre>
+
+<h3 id="machine-deletion">Machine Deletion</h3>
 <p>Machine Deletion Flow:</p>
 <ul>
 <li>Carefully orchestrated process to ensure clean resource cleanup</li>
@@ -251,28 +308,18 @@
 <li>Handles volume attachments and node cleanup</li>
 <li>Includes finalizer management for resource protection</li>
 </ul>
-<pre class="mermaid">stateDiagram-v2
-    state &#34;Creation Flow&#34; as CF {
-        [*] --&gt; UpdateMachineRequest
-        UpdateMachineRequest --&gt; GetMachineStatus
-        
-        GetMachineStatus --&gt; UpdateNodeLabels : Success
-        GetMachineStatus --&gt; CreateMachine : NotFound
-        GetMachineStatus --&gt; HandleError : Other Errors
-        
-        CreateMachine --&gt; CheckNodeExists
-        CheckNodeExists --&gt; DeleteMachine : Stale Node
-        CheckNodeExists --&gt; StatusUpdate : No Node
-        
-        DeleteMachine --&gt; MarkFailed
-        StatusUpdate --&gt; InitializeMachine : Success
-        InitializeMachine --&gt; Requeue
-        
-        HandleError --&gt; MarkFailed : Timeout
-        MarkFailed --&gt; [*]
-        Requeue --&gt; [*]
-    }
-
+<p>Let&rsquo;s visualize the Node Drain process, which is a critical part of machine deletion:</p>
+<ul>
+<li>Sophisticated pod eviction handling</li>
+<li>Supports both forced and normal drain scenarios</li>
+<li>Handles PDB (Pod Disruption Budget) violations</li>
+<li>Includes parallel and serial eviction strategies</li>
+</ul>
+<pre class="mermaid">---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &#34;Deletion Flow&#34; as DF {
         [*] --&gt; CheckFinalizers
         CheckFinalizers --&gt; SetTerminating
@@ -291,18 +338,8 @@
         ProcessPhase --&gt; UpdateStatus
         UpdateStatus --&gt; [*]
     }
-</pre>
-
-<h3 id="node-drain-process">Node Drain Process</h3>
-<p>Let&rsquo;s visualize the Node Drain process, which is a critical part of machine deletion:</p>
-<ul>
-<li>Sophisticated pod eviction handling</li>
-<li>Supports both forced and normal drain scenarios</li>
-<li>Handles PDB (Pod Disruption Budget) violations</li>
-<li>Includes parallel and serial eviction strategies</li>
-</ul>
-<pre class="mermaid">stateDiagram-v2
-    state &#34;Node Drain&#34; as ND {
+    
+    state &#34;Initiate Drain&#34; as ND {
         [*] --&gt; ValidateNode
         
         ValidateNode --&gt; CheckNodeCondition
@@ -372,7 +409,11 @@
 </ul>
 </li>
 </ol>
-<pre class="mermaid">stateDiagram-v2
+<pre class="mermaid">---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &#34;Safety Controller&#34; as SC {
         state &#34;Orphan VM Check&#34; as OVC {
             [*] --&gt; ListCloudVMs
@@ -450,7 +491,11 @@
 </ul>
 </li>
 </ol>
-<pre class="mermaid">stateDiagram-v2
+<pre class="mermaid">---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &#34;MachineSet Controller&#34; as MSC {
         [*] --&gt; FetchMachineSet
         FetchMachineSet --&gt; ValidateSpec
@@ -536,7 +581,11 @@
 </ul>
 </li>
 </ol>
-<pre class="mermaid">stateDiagram-v2
+<pre class="mermaid">---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &#34;MachineDeployment Controller&#34; as MDC {
         [*] --&gt; FetchDeployment
         FetchDeployment --&gt; ValidateSpec
@@ -707,20 +756,23 @@
     </div>
     
     <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-    var config = {
-        startOnLoad: true,
-        
-        theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default',
-        align:'center',
-    };
-    mermaid.initialize(config);
-    
-    const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
-    toggleSwitch.addEventListener('click', () => {
-        window.location.reload();
-    });
-</script>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs';
+
+      mermaid.registerLayoutLoaders(elkLayouts);
+      var config = {
+          startOnLoad: true,
+          
+          theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default',
+          align:'center',
+      };
+      mermaid.initialize(config);
+      
+      const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+      toggleSwitch.addEventListener('click', () => {
+          window.location.reload();
+      });
+    </script>
 
 <script> 
   const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');

@@ -70,7 +70,11 @@
 &lt;li&gt;MachineClass Reconciliation: Handles machine class lifecycle&lt;/li&gt;
 &lt;li&gt;Machine Reconciliation: Core machine lifecycle management&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &amp;#34;Machine Controller&amp;#34; as MC {
         state &amp;#34;Secret Reconciliation&amp;#34; as SR {
             [*] --&amp;gt; FetchSecret
@@ -100,13 +104,16 @@
             CheckFrozen --&amp;gt; ValidateMachine : Not Frozen
             CheckFrozen --&amp;gt; RetryLater : Frozen
             
-            ValidateMachine --&amp;gt; DeletionFlow : Deletion Requested
-            ValidateMachine --&amp;gt; AddFinalizers : No Deletion
+            ValidateMachine --&amp;gt; ValidateMachineClass
+            VaildateMachineClass --&amp;gt; DeletionTimestamp
+
+            DeletionTimestamp --&amp;gt; DeletionFlow : Deletion Requested
+            DeletionTimestamp --&amp;gt; AddFinalizers : No Deletion
             
-            AddFinalizers --&amp;gt; CheckPhase
+            AddFinalizers --&amp;gt; CheckPhase&amp;amp;NodeLabel
             
-            CheckPhase --&amp;gt; ReconcileHealth : Has Node
-            CheckPhase --&amp;gt; CreationFlow : No Node/Failed
+            CheckPhase&amp;amp;NodeLabel --&amp;gt; ReconcileHealth : Has Node &amp;amp; Non-empty phase
+            CheckPhase&amp;amp;NodeLabel --&amp;gt; CreationFlow : No Node or&amp;lt;br/&amp;gt;CrashLoopBackOff&amp;lt;br/&amp;gt;or EmptyPhase
             
             ReconcileHealth --&amp;gt; SyncNodeName
             SyncNodeName --&amp;gt; SyncTemplates
@@ -118,7 +125,7 @@
     }
 &lt;/pre&gt;
 
-&lt;h3 id=&#34;machine-creation-or-deletion&#34;&gt;Machine Creation or Deletion&lt;/h3&gt;
+&lt;h3 id=&#34;machine-creation&#34;&gt;Machine Creation&lt;/h3&gt;
 &lt;p&gt;Machine Creation Flow:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Complex process involving multiple status checks&lt;/li&gt;
@@ -126,6 +133,56 @@
 &lt;li&gt;Includes node verification and cleanup of stale resources&lt;/li&gt;
 &lt;li&gt;Multiple retry mechanisms for resilience&lt;/li&gt;
 &lt;/ul&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    look: handDrawn
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state &amp;#34;From &amp;lt;u&amp;gt;CreateResponse&amp;lt;/u&amp;gt;: Assign Node Name &amp;amp; ProviderID&amp;#34; as ANPIDCMR
+        state &amp;#34;From &amp;lt;u&amp;gt;GetMachineStatusResponse&amp;lt;/u&amp;gt;: Assign Node Name &amp;amp; ProviderID&amp;#34; as ANPIDGMS
+        state &amp;#34;From &amp;lt;u&amp;gt;GetMachineStatusResponse&amp;lt;/u&amp;gt;: Assign Node Name &amp;amp; ProviderID&amp;#34; as ANPIDGMSR
+        state &amp;#34;Assign Node Name&amp;lt;br/&amp;gt;from Machine label&amp;#34; as ANML
+        state &amp;#34;Phase: &amp;lt;i&amp;gt;Pending&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;State: &amp;lt;i&amp;gt;Processing&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;OpType: Create&amp;#34; as CPPP
+        state &amp;#34;State: &amp;lt;i&amp;gt;Failed&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;OpType: &amp;lt;i&amp;gt;Create&amp;lt;/i&amp;gt;&amp;#34; as SFFF
+        
+        [*] --&amp;gt; AddBootToken&amp;amp;MachineName
+        AddBootToken&amp;amp;MachineName --&amp;gt; GetMachineStatus
+        
+        GetMachineStatus --&amp;gt; ANPIDGMS : Success
+        ANPIDGMS --&amp;gt; UpdateAnnotationsLabels
+        UpdateAnnotationsLabels --&amp;gt; CPPP : Phase &amp;lt;i&amp;gt;&amp;#34;&amp;#34;(empty) or CrashLoopBackOff&amp;lt;/i&amp;gt;
+        CPPP --&amp;gt; StatusUpdate
+        StatusUpdate --&amp;gt; [*]
+        
+        GetMachineStatus --&amp;gt; CheckNodeExists : NotFound or Unimplemented
+        CheckNodeExists --&amp;gt; ANML : Node Exists
+        ANML --&amp;gt; UpdateAnnotationsLabels
+        
+        CheckNodeExists --&amp;gt; CreateMachine:::imp : No Node
+        CreateMachine:::imp --&amp;gt; ANPIDCMR : Successful creation
+        CreateMachine:::imp --&amp;gt; CheckFailurePhase : Creation Error
+        ANPIDCMR --&amp;gt; SetUninitialized : Node name is Machine Name
+        SetUninitialized --&amp;gt; UpdateAnnotationLabel
+        UpdateAnnotationLabel --&amp;gt; InitializeMachine:::imp
+        InitializeMachine:::imp --&amp;gt; [*]
+        
+        ANPIDCMR --&amp;gt; DeleteMachine:::imp : &amp;lt;u&amp;gt;Stale Node&amp;lt;/u&amp;gt;&amp;lt;br/&amp;gt;NodeName is not MachineName
+        DeleteMachine:::imp --&amp;gt; SFFF: &amp;#34;VM using old node obj&amp;#34;
+        
+        GetMachineStatus --&amp;gt; ANPIDGMSR : Uninitialized
+        ANPIDGMSR --&amp;gt; SetUninitialized
+        
+        GetMachineStatus --&amp;gt; CheckFailurePhase : Other Errors
+        CheckFailurePhase --&amp;gt; Failed : Timeout
+        CheckFailurePhase --&amp;gt; CrashLoopBackOff : Not timed out
+        Failed --&amp;gt; SFFF
+        CrashLoopBackOff --&amp;gt; SFFF
+        
+        SFFF --&amp;gt; [*]
+&lt;/pre&gt;
+
+&lt;h3 id=&#34;machine-deletion&#34;&gt;Machine Deletion&lt;/h3&gt;
 &lt;p&gt;Machine Deletion Flow:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Carefully orchestrated process to ensure clean resource cleanup&lt;/li&gt;
@@ -133,28 +190,18 @@
 &lt;li&gt;Handles volume attachments and node cleanup&lt;/li&gt;
 &lt;li&gt;Includes finalizer management for resource protection&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
-    state &amp;#34;Creation Flow&amp;#34; as CF {
-        [*] --&amp;gt; UpdateMachineRequest
-        UpdateMachineRequest --&amp;gt; GetMachineStatus
-        
-        GetMachineStatus --&amp;gt; UpdateNodeLabels : Success
-        GetMachineStatus --&amp;gt; CreateMachine : NotFound
-        GetMachineStatus --&amp;gt; HandleError : Other Errors
-        
-        CreateMachine --&amp;gt; CheckNodeExists
-        CheckNodeExists --&amp;gt; DeleteMachine : Stale Node
-        CheckNodeExists --&amp;gt; StatusUpdate : No Node
-        
-        DeleteMachine --&amp;gt; MarkFailed
-        StatusUpdate --&amp;gt; InitializeMachine : Success
-        InitializeMachine --&amp;gt; Requeue
-        
-        HandleError --&amp;gt; MarkFailed : Timeout
-        MarkFailed --&amp;gt; [*]
-        Requeue --&amp;gt; [*]
-    }
-
+&lt;p&gt;Let&amp;rsquo;s visualize the Node Drain process, which is a critical part of machine deletion:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sophisticated pod eviction handling&lt;/li&gt;
+&lt;li&gt;Supports both forced and normal drain scenarios&lt;/li&gt;
+&lt;li&gt;Handles PDB (Pod Disruption Budget) violations&lt;/li&gt;
+&lt;li&gt;Includes parallel and serial eviction strategies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &amp;#34;Deletion Flow&amp;#34; as DF {
         [*] --&amp;gt; CheckFinalizers
         CheckFinalizers --&amp;gt; SetTerminating
@@ -173,18 +220,8 @@
         ProcessPhase --&amp;gt; UpdateStatus
         UpdateStatus --&amp;gt; [*]
     }
-&lt;/pre&gt;
-
-&lt;h3 id=&#34;node-drain-process&#34;&gt;Node Drain Process&lt;/h3&gt;
-&lt;p&gt;Let&amp;rsquo;s visualize the Node Drain process, which is a critical part of machine deletion:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Sophisticated pod eviction handling&lt;/li&gt;
-&lt;li&gt;Supports both forced and normal drain scenarios&lt;/li&gt;
-&lt;li&gt;Handles PDB (Pod Disruption Budget) violations&lt;/li&gt;
-&lt;li&gt;Includes parallel and serial eviction strategies&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
-    state &amp;#34;Node Drain&amp;#34; as ND {
+    
+    state &amp;#34;Initiate Drain&amp;#34; as ND {
         [*] --&amp;gt; ValidateNode
         
         ValidateNode --&amp;gt; CheckNodeCondition
@@ -254,7 +291,11 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &amp;#34;Safety Controller&amp;#34; as SC {
         state &amp;#34;Orphan VM Check&amp;#34; as OVC {
             [*] --&amp;gt; ListCloudVMs
@@ -332,7 +373,11 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &amp;#34;MachineSet Controller&amp;#34; as MSC {
         [*] --&amp;gt; FetchMachineSet
         FetchMachineSet --&amp;gt; ValidateSpec
@@ -418,7 +463,11 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre class=&#34;mermaid&#34;&gt;stateDiagram-v2
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
     state &amp;#34;MachineDeployment Controller&amp;#34; as MDC {
         [*] --&amp;gt; FetchDeployment
         FetchDeployment --&amp;gt; ValidateSpec
@@ -557,7 +606,6 @@
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: Machine
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -641,7 +689,6 @@ classDiagram
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineClass
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -673,7 +720,6 @@ classDiagram
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineSet
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -740,7 +786,6 @@ classDiagram
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: MachineDeployment
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -811,7 +856,6 @@ classDiagram
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: SafetyOptions &amp;amp; PodDisruptionBudget
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
@@ -857,7 +901,6 @@ int32 expectedPods
 &lt;pre class=&#34;mermaid&#34;&gt;---
 title: VolumeAttachmentHandler
 config:
-  layout: elk
   class:
     hideEmptyMembersBox: true
 ---
