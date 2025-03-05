@@ -141,15 +141,15 @@ stateDiagram-v2
         state "State: <i>Failed</i><br/>OpType: <i>Create</i>" as SFFF
         
         [*] --> AddBootToken&MachineName
-        AddBootToken&MachineName --> GetMachineStatus
+        AddBootToken&MachineName --> GetMachineStatus:::imp
         
-        GetMachineStatus --> ANPIDGMS : Success
+        GetMachineStatus:::imp --> ANPIDGMS : Success
         ANPIDGMS --> UpdateAnnotationsLabels
         UpdateAnnotationsLabels --> CPPP : Phase <i>""(empty) or CrashLoopBackOff</i>
         CPPP --> StatusUpdate
         StatusUpdate --> [*]
         
-        GetMachineStatus --> CheckNodeExists : NotFound or Unimplemented
+        GetMachineStatus:::imp --> CheckNodeExists : NotFound or Unimplemented
         CheckNodeExists --> ANML : Node Exists
         ANML --> UpdateAnnotationsLabels
         
@@ -164,10 +164,10 @@ stateDiagram-v2
         ANPIDCMR --> DeleteMachine:::imp : <u>Stale Node</u><br/>NodeName is not MachineName
         DeleteMachine:::imp --> SFFF: "VM using old node obj"
         
-        GetMachineStatus --> ANPIDGMSR : Uninitialized
+        GetMachineStatus:::imp --> ANPIDGMSR : Uninitialized
         ANPIDGMSR --> SetUninitialized
         
-        GetMachineStatus --> CheckFailurePhase : Other Errors
+        GetMachineStatus:::imp --> CheckFailurePhase : Other Errors
         CheckFailurePhase --> Failed : Timeout
         CheckFailurePhase --> CrashLoopBackOff : Not timed out
         Failed --> SFFF
@@ -177,12 +177,151 @@ stateDiagram-v2
 
 ```
 
+### Health Check
+```mermaid
+---
+  config:
+    layout: elk
+---
+stateDiagram-v2
+    state "Health Reconciliation" as HR {
+        state "Phase: <i>Unknown</i><br/>State: <i>Processing</i><br/>LastOp: <i>HealthChk</i>" as PUSP
+        state "Phase: <i>Failed</i><br/>State: <i>Failed</i>" as PFSF
+        state "LastOp State: Successful<br/>Phase: Running" as SSPR
+
+        [*] --> GetMachineNode
+        GetMachineNode --> PUSP : Not Found & RunningPhase<br/>Node object missing
+        GetMachineNode --> Found
+
+        Found --> MachineCondSetToNodeCond : NodeCondition != MachineCondition
+        Found --> isHealthy : TODO (isHealthy)
+
+        GetMachineNode --> CreationTimeout : PendingPhase
+        GetMachineNode --> HealthTimeout : UnknownPhase
+
+        CreationTimeout --> PFSF : Now - LastUpdateTime > Timeout
+        HealthTimeout --> GetDeploymentName : Now - LastUpdateTime > Timeout
+        CreationTimeout --> EnqueueAfter : Not timed out
+        HealthTimeout --> EnqueueAfter : Not timed out
+
+
+        GetDeploymentName --> RegisterPermit
+        RegisterPermit --> TryMarkingMachineFailed
+        TryMarkingMachineFailed --> InProgressMachines++ : Phase not<br/>Unknown or Running<br/>Machines "getting replaced"
+        InProgressMachines++ --> PFSF:  InProgressMachines < MaxReplacements(1)
+
+        MachineCondSetToNodeCond --> isHealthy
+        isHealthy --> PUSP: Not Healthy & RunningPhase
+        isHealthy --> CheckLastOp : Healthy & NotRunningPhase &<br/>NoCriticalComponentNotReadyTaint
+
+        CheckLastOp --> DeleteBootstrapToken: TypeCreate &<br/> State is not Successful<br/>(Machine creation happened)
+        CheckLastOp --> LastOpType=HealthChk: Not Create<br/>(Machine re-joined)
+
+        DeleteBootstrapToken --> SSPR
+        LastOpType=HealthChk --> SSPR
+
+        SSPR --> UpdateStatus
+        PUSP --> UpdateStatus
+        PFSF --> UpdateStatus
+
+        UpdateStatus --> [*]
+        EnqueueAfter --> [*]
+    }       
+
+```
+
 ### Machine Deletion
 Machine Deletion Flow:
 - Carefully orchestrated process to ensure clean resource cleanup
 - Involves multiple phases from drain to final cleanup
 - Handles volume attachments and node cleanup
 - Includes finalizer management for resource protection
+
+```mermaid
+---
+  config:
+    layout: elk
+---
+stateDiagram-v2
+    state "Deletion Flow" as DF {
+        direction LR
+        state "ProcessPhase" as PP
+        state "UpdateStatus" as US
+
+        [*] --> CheckFinalizers
+        CheckFinalizers --> SetTerminating
+        SetTerminating --> PP
+
+        PP --> GetVMStatus
+        GetVMStatus --> [*]
+        PP --> InitiateDrain
+        InitiateDrain --> [*]
+        PP --> DeleteVolumeAttachments
+        DeleteVolumeAttachments --> [*]
+        PP --> InitiateVMDeletion
+        InitiateVMDeletion --> [*]
+        PP --> InitiateNodeDeletion
+        InitiateNodeDeletion --> [*]
+        PP --> RemoveFinalizers
+        RemoveFinalizers --> [*]
+        PP --> US
+        US --> [*]
+    }
+```
+
+```mermaid
+---
+  config:
+    layout: elk
+---
+stateDiagram-v2
+    state "Initiate Drain" as ND {
+        [*] --> ValidateNode
+        state "UpdateStatus" as USD
+        state "State: Processing<br/>Type: Delete" as SPTD
+        state "CheckNodeCondition<br/>'Ready' or 'Read-only FS'" as CNC
+        state "Phase is not Terminating" as NAT
+        state "Terminating<br/>Reason: Unhealthy" as TRU
+        state "Terminating<br/>Reason: ScaleDown" as TRSD
+        state "SkipDrain<br/>State: Failed" as CUFail
+        state "State: Processing<br/>Desc: DelVolAttachments" as SPDDVA
+        state "State: Processing<br/>Desc: InitVMDeletion" as SPDIVD
+        state "State: Failed<br/>Desc: InitiateDrain" as SFDID
+
+        ValidateNode --> SPTD : NodeName is empty
+        SPTD --> USD
+        ValidateNode --> CNC
+        CNC --> ForceDeletion : Read-Only/NotReady &<br/>Last-transition Timeout
+        CNC --> NormalDrain : Healthy
+        CNC --> ForceDeletion : "force-delete" label on machine or Drain<br/> Timeout on deletion
+
+        ForceDeletion --> UpdateTerminationCondition
+        NormalDrain --> UpdateTerminationCondition
+
+        UpdateTerminationCondition --> RunDrain : Phase is empty or CrashLoopBackOff
+        UpdateTerminationCondition --> NAT : Non-creation Phase
+        NAT --> TRU : Phase is failed
+        NAT --> TRSD : Phase not failed
+        TRU --> TerminationConditionUpdate
+        TRSD --> TerminationConditionUpdate
+
+        TerminationConditionUpdate --> CUFail : Update failure<br/>during NormalDrain
+        TerminationConditionUpdate --> RunDrain : Update failure<br/>during ForceDeletion
+        TerminationConditionUpdate --> RunDrain : Update Successful
+        CUFail --> USD
+
+        RunDrain --> SPDDVA : Drain successful<br/>during ForceDeletion
+        RunDrain --> SPDIVD : Drain successful<br/>during NormalDrain
+        RunDrain --> SPDDVA : Drain failed<br/>"force-delete" label present
+        RunDrain --> SFDID : Drain failed<br/>"force-delete" label absent
+
+        SPDDVA --> USD
+        SPDIVD --> USD
+        SFDID --> USD
+
+        USD --> [*]
+    }
+```
 
 Let's visualize the Node Drain process, which is a critical part of machine deletion:
 - Sophisticated pod eviction handling
@@ -196,61 +335,195 @@ Let's visualize the Node Drain process, which is a critical part of machine dele
     layout: elk
 ---
 stateDiagram-v2
-    state "Deletion Flow" as DF {
-        [*] --> CheckFinalizers
-        CheckFinalizers --> SetTerminating
-        SetTerminating --> ProcessPhase
+    state "RunDrain" as Normal {
+        state "CordonNode (Sealing off)<br/>(Set Unschedulable to true)" as CN
+        [*] --> CN
+        CN --> WaitForPodCacheSync
+        WaitForPodCacheSync --> GetPodsForDeletion : TODO
         
-        state "ProcessPhase" as PP {
-            [*] --> GetVMStatus
-            GetVMStatus --> InitiateDrain
-            InitiateDrain --> DeleteVolumeAttachments
-            DeleteVolumeAttachments --> InitiateVMDeletion
-            InitiateVMDeletion --> InitiateNodeDeletion
-            InitiateNodeDeletion --> RemoveFinalizers
-            RemoveFinalizers --> [*]
+        %% http://localhost:3000/machine-controller/node_drain.html#drainoptionsgetpodsfordeletion
+        %% mirrorPodFilter: pod doesnt have MirrorPodAnnotation (set by kubelet when creating mirror pods)
+        %% localStorageFilter
+        %% unreplicatedFilter
+        %% daemonSetFilter
+        
+        GetPodsForDeletion --> DeleteOrEvictPods
+
+        DeleteOrEvictPods --> UpdateNodeCondition
+        UpdateNodeCondition --> [*]
+        
+        state "DeleteOrEvictPods" as EP {
+            [*] --> CheckEvictionSupport
+
+            CheckEvictionSupport --> ParallelEviction : ForceDeletion
+            CheckEvictionSupport --> MixedEviction : NormalDrain
+
+            MixedEviction --> ParallelEvictNoPV
+            MixedEviction --> SerialEvictWithPV
+
+            ParallelEvictNoPV --> WaitForEviction
+            SerialEvictWithPV --> WaitForEviction
+            ParallelEviction --> WaitForEviction
+            WaitForEviction --> HandlePDBViolation
+            HandlePDBViolation --> RetryEviction
+            RetryEviction --> [*]
         }
+}
+```
+
+```mermaid
+---
+title: EvictPodsNoPV
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state "Retry count >= MaxEvictRetries" as Term
+        state "Set attemptEvict as False" as AEF
+        state "Sleep(EvictRetryInterval)" as SRC
+
+        [*] --> Term:::imp
+
+        Term:::imp --> CheckAttemptEvict : No
+        Term:::imp --> AEF : Yes
+        AEF --> CheckAttemptEvict
+
+        CheckAttemptEvict --> EvictPod : True
+        CheckAttemptEvict --> DeletePod : False
+
+        EvictPod --> CheckErr
+        DeletePod --> CheckErr
+
+        CheckErr --> BreakLoop:::imp : nil
+        CheckErr --> LogEvict : notFound
+        CheckErr --> EvictFailErr : AttemptEvict is False
+        CheckErr --> PDBViolation : APIErr too many req
+
+        PDBViolation --> GetPDB
+
+        GetPDB --> SRC : No PDB
+        GetPDB --> CheckMisconfigured : PDB exists
+
+        CheckMisconfigured --> MisconfigErr : Generation is ObserverGen<br/>HealthyPods >= ExpectedPods<br/>DisruptionsAllowed is 0
+        CheckMisconfigured --> SRC : No
+
+        SRC:::imp --> Term : count++
+
+
+        BreakLoop:::imp --> ReturnSuccess:::imp : ForceDeletion
+        BreakLoop:::imp --> GetTerminationGracePeriod : NormalDrain
+
+        GetTerminationGracePeriod --> SetToTimeout : GracePeriod > Timeout
+        GetTerminationGracePeriod --> WaitForDeletion : Grace < Timeout
+        SetToTimeout --> WaitForDeletion
+
+        WaitForDeletion --> TimeoutErr : timeout &<br/>pod exists
+        WaitForDeletion --> WaitErr : err
+        WaitForDeletion --> ReturnSuccess:::imp : timeout &<br/>pod deleted
+
+        LogEvict --> [*]
+        EvictFailErr --> [*]
+        MisconfigErr --> [*]
+        TimeoutErr --> [*]
+        WaitErr --> [*]
+        ReturnSuccess:::imp --> [*]
+```
+
+```mermaid
+---
+title: TODO EvictPodsWithPV
+config:
+  layout: elk
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state "Retry count < MaxEvictRetries" as Term
+        state "Sleep(EvictRetryInterval)" as SRC
+        state "CheckRemainingPods" as CRP
         
-        ProcessPhase --> UpdateStatus
-        UpdateStatus --> [*]
-    }
-    
-    state "Initiate Drain" as ND {
-        [*] --> ValidateNode
-        
-        ValidateNode --> CheckNodeCondition
-        CheckNodeCondition --> ForceDeletion : Not Ready/Timeout
-        CheckNodeCondition --> NormalDrain : Healthy
-        
-        state "NormalDrain" as Normal {
-            [*] --> CordonNode
-            CordonNode --> WaitForSync
-            WaitForSync --> GetPods
-            GetPods --> EvictPods
-            
-            state "EvictPods" as EP {
-                [*] --> CheckEvictionSupport
-                
-                CheckEvictionSupport --> ParallelEviction : Force Delete
-                CheckEvictionSupport --> MixedEviction : Normal Delete
-                
-                state "MixedEviction" as ME {
-                    ParallelNoPV --> SerialWithPV
-                }
-                
-                ParallelEviction --> WaitForEviction
-                MixedEviction --> WaitForEviction
-                WaitForEviction --> HandlePDBViolation
-                HandlePDBViolation --> RetryEviction
-                RetryEviction --> [*]
-            }
-            
-            EvictPods --> UpdateNodeCondition
-            UpdateNodeCondition --> [*]
-        }
-        
-        ForceDeletion --> [*]
-    }
+        [*] --> SortPodsByPriority
+        SortPodsByPriority --> podVolumeInfoMap : Create a map from pod to list of attached PVs (VolName, VolID -> GetVolumeID)
+
+        podVolumeInfoMap --> AttemptEvict
+        AttemptEvict --> evictPodPVInternal(Delete):::imp : false
+        AttemptEvict --> Term:::imp : true
+        Term:::imp --> evictPodPVInternal(Evict):::imp : true
+        evictPodPVInternal(Evict):::imp --> break:::imp : FastTrack or<br/>All pods evicted
+        evictPodPVInternal(Evict):::imp --> SRC : Not FastTrack and<br/>Pods Remaining
+        SRC --> Term:::imp : count++
+
+        Term:::imp --> evictPodPVInternal(Delete):::imp : false<br/>Not FastTrack and<br/>Pods Remaining
+        break:::imp --> [*] : All pods evicted
+
+        break:::imp --> CRP : FastTrack
+        evictPodPVInternal(Delete):::imp --> CRP
+
+        CRP --> Success:::imp : Node Not Found
+        CRP --> ChkAttemptEvict
+        ChkAttemptEvict --> EvictErr : True
+        ChkAttemptEvict --> DeleteErr : False
+
+```
+
+```mermaid
+---
+title: EvictPodsWithPVInternal
+config:
+  layout: elk
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state "Add Pod to RetryPods" as Retry
+        state "Log NotFound<br/>DeleteWorker" as LogNotFound
+        [*] --> SelectPod : Start Eviction Process
+
+        SelectPod --> CheckContextTimeout:::imp
+
+        CheckContextTimeout:::imp --> AbortProcess : Context Done
+        CheckContextTimeout:::imp --> AddWorker(AttachmentHandler) : Context Not Done
+
+        AddWorker(AttachmentHandler) --> EvictOrDelete
+
+        EvictOrDelete --> CheckEvictionResult:::imp
+
+        CheckEvictionResult:::imp --> EvictionFailed
+        EvictionFailed --> PDBViolation : Eviction Attempted &<br/>TooManyRequests
+        EvictionFailed --> PodAlreadyGone : Pod Not Found
+        EvictionFailed --> EvictionError : Other Errors
+        CheckEvictionResult:::imp --> WaitForVolumeDetach : Successful Eviction
+
+        PDBViolation --> GetPDB
+        GetPDB --> CheckMisconfigured : PDB Exists
+        GetPDB --> Retry : NoPDB
+        CheckMisconfigured --> MisconfigErr : Generation is ObserverGen<br/>HealthyPods >= ExpectedPods<br/>DisruptionsAllowed is 0
+        CheckMisconfigured --> Retry:::imp : NotMisconfig
+        MisconfigErr --> DeleteWorker
+
+        PodAlreadyGone --> DeleteWorker
+
+        EvictionError --> Retry:::imp
+
+        WaitForVolumeDetach --> CheckDetachResult:::imp : TerminationGracePeriod + DetachTimeout
+
+        CheckDetachResult:::imp --> LogNotFound : Node Not Found
+        CheckDetachResult:::imp --> DetachError : Detach Failed
+        CheckDetachResult:::imp --> WaitForReattach : Successful Detach
+
+        LogNotFound --> AbortProcess
+        DetachError --> DeleteWorker
+
+        WaitForReattach --> CheckReattachResult:::imp : PvReattachTimeout
+
+        CheckReattachResult:::imp --> ReattachTimeout : Timeout
+        CheckReattachResult:::imp --> LogError : Reattach Failed
+        CheckReattachResult:::imp --> SuccessfulEviction:::imp : Successful Reattach
+
+        ReattachTimeout --> DeleteWorker : TODO IsThisCorrect?
+        LogError --> DeleteWorker
+        SuccessfulEviction:::imp --> DeleteWorker : Pod Processed
+
+        DeleteWorker --> [*]
+        Retry:::imp --> DeleteWorker
+        AbortProcess --> Exit:::imp : Terminate (FastTrack)<br/>Return Remaining Pods
 ```
 
 ## Safety Controller

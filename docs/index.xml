@@ -147,15 +147,15 @@ stateDiagram-v2
         state &amp;#34;State: &amp;lt;i&amp;gt;Failed&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;OpType: &amp;lt;i&amp;gt;Create&amp;lt;/i&amp;gt;&amp;#34; as SFFF
         
         [*] --&amp;gt; AddBootToken&amp;amp;MachineName
-        AddBootToken&amp;amp;MachineName --&amp;gt; GetMachineStatus
+        AddBootToken&amp;amp;MachineName --&amp;gt; GetMachineStatus:::imp
         
-        GetMachineStatus --&amp;gt; ANPIDGMS : Success
+        GetMachineStatus:::imp --&amp;gt; ANPIDGMS : Success
         ANPIDGMS --&amp;gt; UpdateAnnotationsLabels
         UpdateAnnotationsLabels --&amp;gt; CPPP : Phase &amp;lt;i&amp;gt;&amp;#34;&amp;#34;(empty) or CrashLoopBackOff&amp;lt;/i&amp;gt;
         CPPP --&amp;gt; StatusUpdate
         StatusUpdate --&amp;gt; [*]
         
-        GetMachineStatus --&amp;gt; CheckNodeExists : NotFound or Unimplemented
+        GetMachineStatus:::imp --&amp;gt; CheckNodeExists : NotFound or Unimplemented
         CheckNodeExists --&amp;gt; ANML : Node Exists
         ANML --&amp;gt; UpdateAnnotationsLabels
         
@@ -170,16 +170,67 @@ stateDiagram-v2
         ANPIDCMR --&amp;gt; DeleteMachine:::imp : &amp;lt;u&amp;gt;Stale Node&amp;lt;/u&amp;gt;&amp;lt;br/&amp;gt;NodeName is not MachineName
         DeleteMachine:::imp --&amp;gt; SFFF: &amp;#34;VM using old node obj&amp;#34;
         
-        GetMachineStatus --&amp;gt; ANPIDGMSR : Uninitialized
+        GetMachineStatus:::imp --&amp;gt; ANPIDGMSR : Uninitialized
         ANPIDGMSR --&amp;gt; SetUninitialized
         
-        GetMachineStatus --&amp;gt; CheckFailurePhase : Other Errors
+        GetMachineStatus:::imp --&amp;gt; CheckFailurePhase : Other Errors
         CheckFailurePhase --&amp;gt; Failed : Timeout
         CheckFailurePhase --&amp;gt; CrashLoopBackOff : Not timed out
         Failed --&amp;gt; SFFF
         CrashLoopBackOff --&amp;gt; SFFF
         
         SFFF --&amp;gt; [*]
+&lt;/pre&gt;
+
+&lt;h3 id=&#34;health-check&#34;&gt;Health Check&lt;/h3&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
+    state &amp;#34;Health Reconciliation&amp;#34; as HR {
+        state &amp;#34;Phase: &amp;lt;i&amp;gt;Unknown&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;State: &amp;lt;i&amp;gt;Processing&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;LastOp: &amp;lt;i&amp;gt;HealthChk&amp;lt;/i&amp;gt;&amp;#34; as PUSP
+        state &amp;#34;Phase: &amp;lt;i&amp;gt;Failed&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;State: &amp;lt;i&amp;gt;Failed&amp;lt;/i&amp;gt;&amp;#34; as PFSF
+        state &amp;#34;LastOp State: Successful&amp;lt;br/&amp;gt;Phase: Running&amp;#34; as SSPR
+
+        [*] --&amp;gt; GetMachineNode
+        GetMachineNode --&amp;gt; PUSP : Not Found &amp;amp; RunningPhase&amp;lt;br/&amp;gt;Node object missing
+        GetMachineNode --&amp;gt; Found
+
+        Found --&amp;gt; MachineCondSetToNodeCond : NodeCondition != MachineCondition
+        Found --&amp;gt; isHealthy : TODO (isHealthy)
+
+        GetMachineNode --&amp;gt; CreationTimeout : PendingPhase
+        GetMachineNode --&amp;gt; HealthTimeout : UnknownPhase
+
+        CreationTimeout --&amp;gt; PFSF : Now - LastUpdateTime &amp;gt; Timeout
+        HealthTimeout --&amp;gt; GetDeploymentName : Now - LastUpdateTime &amp;gt; Timeout
+        CreationTimeout --&amp;gt; EnqueueAfter : Not timed out
+        HealthTimeout --&amp;gt; EnqueueAfter : Not timed out
+
+
+        GetDeploymentName --&amp;gt; RegisterPermit
+        RegisterPermit --&amp;gt; TryMarkingMachineFailed
+        TryMarkingMachineFailed --&amp;gt; InProgressMachines++ : Phase not&amp;lt;br/&amp;gt;Unknown or Running&amp;lt;br/&amp;gt;Machines &amp;#34;getting replaced&amp;#34;
+        InProgressMachines++ --&amp;gt; PFSF:  InProgressMachines &amp;lt; MaxReplacements(1)
+
+        MachineCondSetToNodeCond --&amp;gt; isHealthy
+        isHealthy --&amp;gt; PUSP: Not Healthy &amp;amp; RunningPhase
+        isHealthy --&amp;gt; CheckLastOp : Healthy &amp;amp; NotRunningPhase &amp;amp;&amp;lt;br/&amp;gt;NoCriticalComponentNotReadyTaint
+
+        CheckLastOp --&amp;gt; DeleteBootstrapToken: TypeCreate &amp;amp;&amp;lt;br/&amp;gt; State is not Successful&amp;lt;br/&amp;gt;(Machine creation happened)
+        CheckLastOp --&amp;gt; LastOpType=HealthChk: Not Create&amp;lt;br/&amp;gt;(Machine re-joined)
+
+        DeleteBootstrapToken --&amp;gt; SSPR
+        LastOpType=HealthChk --&amp;gt; SSPR
+
+        SSPR --&amp;gt; UpdateStatus
+        PUSP --&amp;gt; UpdateStatus
+        PFSF --&amp;gt; UpdateStatus
+
+        UpdateStatus --&amp;gt; [*]
+        EnqueueAfter --&amp;gt; [*]
+    }       
 &lt;/pre&gt;
 
 &lt;h3 id=&#34;machine-deletion&#34;&gt;Machine Deletion&lt;/h3&gt;
@@ -190,6 +241,90 @@ stateDiagram-v2
 &lt;li&gt;Handles volume attachments and node cleanup&lt;/li&gt;
 &lt;li&gt;Includes finalizer management for resource protection&lt;/li&gt;
 &lt;/ul&gt;
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
+    state &amp;#34;Deletion Flow&amp;#34; as DF {
+        direction LR
+        state &amp;#34;ProcessPhase&amp;#34; as PP
+        state &amp;#34;UpdateStatus&amp;#34; as US
+
+        [*] --&amp;gt; CheckFinalizers
+        CheckFinalizers --&amp;gt; SetTerminating
+        SetTerminating --&amp;gt; PP
+
+        PP --&amp;gt; GetVMStatus
+        GetVMStatus --&amp;gt; [*]
+        PP --&amp;gt; InitiateDrain
+        InitiateDrain --&amp;gt; [*]
+        PP --&amp;gt; DeleteVolumeAttachments
+        DeleteVolumeAttachments --&amp;gt; [*]
+        PP --&amp;gt; InitiateVMDeletion
+        InitiateVMDeletion --&amp;gt; [*]
+        PP --&amp;gt; InitiateNodeDeletion
+        InitiateNodeDeletion --&amp;gt; [*]
+        PP --&amp;gt; RemoveFinalizers
+        RemoveFinalizers --&amp;gt; [*]
+        PP --&amp;gt; US
+        US --&amp;gt; [*]
+    }
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+  config:
+    layout: elk
+---
+stateDiagram-v2
+    state &amp;#34;Initiate Drain&amp;#34; as ND {
+        [*] --&amp;gt; ValidateNode
+        state &amp;#34;UpdateStatus&amp;#34; as USD
+        state &amp;#34;State: Processing&amp;lt;br/&amp;gt;Type: Delete&amp;#34; as SPTD
+        state &amp;#34;CheckNodeCondition&amp;lt;br/&amp;gt;&amp;#39;Ready&amp;#39; or &amp;#39;Read-only FS&amp;#39;&amp;#34; as CNC
+        state &amp;#34;Phase is not Terminating&amp;#34; as NAT
+        state &amp;#34;Terminating&amp;lt;br/&amp;gt;Reason: Unhealthy&amp;#34; as TRU
+        state &amp;#34;Terminating&amp;lt;br/&amp;gt;Reason: ScaleDown&amp;#34; as TRSD
+        state &amp;#34;SkipDrain&amp;lt;br/&amp;gt;State: Failed&amp;#34; as CUFail
+        state &amp;#34;State: Processing&amp;lt;br/&amp;gt;Desc: DelVolAttachments&amp;#34; as SPDDVA
+        state &amp;#34;State: Processing&amp;lt;br/&amp;gt;Desc: InitVMDeletion&amp;#34; as SPDIVD
+        state &amp;#34;State: Failed&amp;lt;br/&amp;gt;Desc: InitiateDrain&amp;#34; as SFDID
+
+        ValidateNode --&amp;gt; SPTD : NodeName is empty
+        SPTD --&amp;gt; USD
+        ValidateNode --&amp;gt; CNC
+        CNC --&amp;gt; ForceDeletion : Read-Only/NotReady &amp;amp;&amp;lt;br/&amp;gt;Last-transition Timeout
+        CNC --&amp;gt; NormalDrain : Healthy
+        CNC --&amp;gt; ForceDeletion : &amp;#34;force-delete&amp;#34; label on machine or Drain&amp;lt;br/&amp;gt; Timeout on deletion
+
+        ForceDeletion --&amp;gt; UpdateTerminationCondition
+        NormalDrain --&amp;gt; UpdateTerminationCondition
+
+        UpdateTerminationCondition --&amp;gt; RunDrain : Phase is empty or CrashLoopBackOff
+        UpdateTerminationCondition --&amp;gt; NAT : Non-creation Phase
+        NAT --&amp;gt; TRU : Phase is failed
+        NAT --&amp;gt; TRSD : Phase not failed
+        TRU --&amp;gt; TerminationConditionUpdate
+        TRSD --&amp;gt; TerminationConditionUpdate
+
+        TerminationConditionUpdate --&amp;gt; CUFail : Update failure&amp;lt;br/&amp;gt;during NormalDrain
+        TerminationConditionUpdate --&amp;gt; RunDrain : Update failure&amp;lt;br/&amp;gt;during ForceDeletion
+        TerminationConditionUpdate --&amp;gt; RunDrain : Update Successful
+        CUFail --&amp;gt; USD
+
+        RunDrain --&amp;gt; SPDDVA : Drain successful&amp;lt;br/&amp;gt;during ForceDeletion
+        RunDrain --&amp;gt; SPDIVD : Drain successful&amp;lt;br/&amp;gt;during NormalDrain
+        RunDrain --&amp;gt; SPDDVA : Drain failed&amp;lt;br/&amp;gt;&amp;#34;force-delete&amp;#34; label present
+        RunDrain --&amp;gt; SFDID : Drain failed&amp;lt;br/&amp;gt;&amp;#34;force-delete&amp;#34; label absent
+
+        SPDDVA --&amp;gt; USD
+        SPDIVD --&amp;gt; USD
+        SFDID --&amp;gt; USD
+
+        USD --&amp;gt; [*]
+    }
+&lt;/pre&gt;
+
 &lt;p&gt;Let&amp;rsquo;s visualize the Node Drain process, which is a critical part of machine deletion:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Sophisticated pod eviction handling&lt;/li&gt;
@@ -202,61 +337,191 @@ stateDiagram-v2
     layout: elk
 ---
 stateDiagram-v2
-    state &amp;#34;Deletion Flow&amp;#34; as DF {
-        [*] --&amp;gt; CheckFinalizers
-        CheckFinalizers --&amp;gt; SetTerminating
-        SetTerminating --&amp;gt; ProcessPhase
+    state &amp;#34;RunDrain&amp;#34; as Normal {
+        state &amp;#34;CordonNode (Sealing off)&amp;lt;br/&amp;gt;(Set Unschedulable to true)&amp;#34; as CN
+        [*] --&amp;gt; CN
+        CN --&amp;gt; WaitForPodCacheSync
+        WaitForPodCacheSync --&amp;gt; GetPodsForDeletion : TODO
         
-        state &amp;#34;ProcessPhase&amp;#34; as PP {
-            [*] --&amp;gt; GetVMStatus
-            GetVMStatus --&amp;gt; InitiateDrain
-            InitiateDrain --&amp;gt; DeleteVolumeAttachments
-            DeleteVolumeAttachments --&amp;gt; InitiateVMDeletion
-            InitiateVMDeletion --&amp;gt; InitiateNodeDeletion
-            InitiateNodeDeletion --&amp;gt; RemoveFinalizers
-            RemoveFinalizers --&amp;gt; [*]
+        %% http://localhost:3000/machine-controller/node_drain.html#drainoptionsgetpodsfordeletion
+        %% mirrorPodFilter: pod doesnt have MirrorPodAnnotation (set by kubelet when creating mirror pods)
+        %% localStorageFilter
+        %% unreplicatedFilter
+        %% daemonSetFilter
+        
+        GetPodsForDeletion --&amp;gt; DeleteOrEvictPods
+
+        DeleteOrEvictPods --&amp;gt; UpdateNodeCondition
+        UpdateNodeCondition --&amp;gt; [*]
+        
+        state &amp;#34;DeleteOrEvictPods&amp;#34; as EP {
+            [*] --&amp;gt; CheckEvictionSupport
+
+            CheckEvictionSupport --&amp;gt; ParallelEviction : ForceDeletion
+            CheckEvictionSupport --&amp;gt; MixedEviction : NormalDrain
+
+            MixedEviction --&amp;gt; ParallelEvictNoPV
+            MixedEviction --&amp;gt; SerialEvictWithPV
+
+            ParallelEvictNoPV --&amp;gt; WaitForEviction
+            SerialEvictWithPV --&amp;gt; WaitForEviction
+            ParallelEviction --&amp;gt; WaitForEviction
+            WaitForEviction --&amp;gt; HandlePDBViolation
+            HandlePDBViolation --&amp;gt; RetryEviction
+            RetryEviction --&amp;gt; [*]
         }
+}
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: EvictPodsNoPV
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state &amp;#34;Retry count &amp;gt;= MaxEvictRetries&amp;#34; as Term
+        state &amp;#34;Set attemptEvict as False&amp;#34; as AEF
+        state &amp;#34;Sleep(EvictRetryInterval)&amp;#34; as SRC
+
+        [*] --&amp;gt; Term:::imp
+
+        Term:::imp --&amp;gt; CheckAttemptEvict : No
+        Term:::imp --&amp;gt; AEF : Yes
+        AEF --&amp;gt; CheckAttemptEvict
+
+        CheckAttemptEvict --&amp;gt; EvictPod : True
+        CheckAttemptEvict --&amp;gt; DeletePod : False
+
+        EvictPod --&amp;gt; CheckErr
+        DeletePod --&amp;gt; CheckErr
+
+        CheckErr --&amp;gt; BreakLoop:::imp : nil
+        CheckErr --&amp;gt; LogEvict : notFound
+        CheckErr --&amp;gt; EvictFailErr : AttemptEvict is False
+        CheckErr --&amp;gt; PDBViolation : APIErr too many req
+
+        PDBViolation --&amp;gt; GetPDB
+
+        GetPDB --&amp;gt; SRC : No PDB
+        GetPDB --&amp;gt; CheckMisconfigured : PDB exists
+
+        CheckMisconfigured --&amp;gt; MisconfigErr : Generation is ObserverGen&amp;lt;br/&amp;gt;HealthyPods &amp;gt;= ExpectedPods&amp;lt;br/&amp;gt;DisruptionsAllowed is 0
+        CheckMisconfigured --&amp;gt; SRC : No
+
+        SRC:::imp --&amp;gt; Term : count++
+
+
+        BreakLoop:::imp --&amp;gt; ReturnSuccess:::imp : ForceDeletion
+        BreakLoop:::imp --&amp;gt; GetTerminationGracePeriod : NormalDrain
+
+        GetTerminationGracePeriod --&amp;gt; SetToTimeout : GracePeriod &amp;gt; Timeout
+        GetTerminationGracePeriod --&amp;gt; WaitForDeletion : Grace &amp;lt; Timeout
+        SetToTimeout --&amp;gt; WaitForDeletion
+
+        WaitForDeletion --&amp;gt; TimeoutErr : timeout &amp;amp;&amp;lt;br/&amp;gt;pod exists
+        WaitForDeletion --&amp;gt; WaitErr : err
+        WaitForDeletion --&amp;gt; ReturnSuccess:::imp : timeout &amp;amp;&amp;lt;br/&amp;gt;pod deleted
+
+        LogEvict --&amp;gt; [*]
+        EvictFailErr --&amp;gt; [*]
+        MisconfigErr --&amp;gt; [*]
+        TimeoutErr --&amp;gt; [*]
+        WaitErr --&amp;gt; [*]
+        ReturnSuccess:::imp --&amp;gt; [*]
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: TODO EvictPodsWithPV
+config:
+  layout: elk
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state &amp;#34;Retry count &amp;lt; MaxEvictRetries&amp;#34; as Term
+        state &amp;#34;Sleep(EvictRetryInterval)&amp;#34; as SRC
+        state &amp;#34;CheckRemainingPods&amp;#34; as CRP
         
-        ProcessPhase --&amp;gt; UpdateStatus
-        UpdateStatus --&amp;gt; [*]
-    }
-    
-    state &amp;#34;Initiate Drain&amp;#34; as ND {
-        [*] --&amp;gt; ValidateNode
-        
-        ValidateNode --&amp;gt; CheckNodeCondition
-        CheckNodeCondition --&amp;gt; ForceDeletion : Not Ready/Timeout
-        CheckNodeCondition --&amp;gt; NormalDrain : Healthy
-        
-        state &amp;#34;NormalDrain&amp;#34; as Normal {
-            [*] --&amp;gt; CordonNode
-            CordonNode --&amp;gt; WaitForSync
-            WaitForSync --&amp;gt; GetPods
-            GetPods --&amp;gt; EvictPods
-            
-            state &amp;#34;EvictPods&amp;#34; as EP {
-                [*] --&amp;gt; CheckEvictionSupport
-                
-                CheckEvictionSupport --&amp;gt; ParallelEviction : Force Delete
-                CheckEvictionSupport --&amp;gt; MixedEviction : Normal Delete
-                
-                state &amp;#34;MixedEviction&amp;#34; as ME {
-                    ParallelNoPV --&amp;gt; SerialWithPV
-                }
-                
-                ParallelEviction --&amp;gt; WaitForEviction
-                MixedEviction --&amp;gt; WaitForEviction
-                WaitForEviction --&amp;gt; HandlePDBViolation
-                HandlePDBViolation --&amp;gt; RetryEviction
-                RetryEviction --&amp;gt; [*]
-            }
-            
-            EvictPods --&amp;gt; UpdateNodeCondition
-            UpdateNodeCondition --&amp;gt; [*]
-        }
-        
-        ForceDeletion --&amp;gt; [*]
-    }
+        [*] --&amp;gt; SortPodsByPriority
+        SortPodsByPriority --&amp;gt; podVolumeInfoMap : Create a map from pod to list of attached PVs (VolName, VolID -&amp;gt; GetVolumeID)
+
+        podVolumeInfoMap --&amp;gt; AttemptEvict
+        AttemptEvict --&amp;gt; evictPodPVInternal(Delete):::imp : false
+        AttemptEvict --&amp;gt; Term:::imp : true
+        Term:::imp --&amp;gt; evictPodPVInternal(Evict):::imp : true
+        evictPodPVInternal(Evict):::imp --&amp;gt; break:::imp : FastTrack or&amp;lt;br/&amp;gt;All pods evicted
+        evictPodPVInternal(Evict):::imp --&amp;gt; SRC : Not FastTrack and&amp;lt;br/&amp;gt;Pods Remaining
+        SRC --&amp;gt; Term:::imp : count++
+
+        Term:::imp --&amp;gt; evictPodPVInternal(Delete):::imp : false&amp;lt;br/&amp;gt;Not FastTrack and&amp;lt;br/&amp;gt;Pods Remaining
+        break:::imp --&amp;gt; [*] : All pods evicted
+
+        break:::imp --&amp;gt; CRP : FastTrack
+        evictPodPVInternal(Delete):::imp --&amp;gt; CRP
+
+        CRP --&amp;gt; Success:::imp : Node Not Found
+        CRP --&amp;gt; ChkAttemptEvict
+        ChkAttemptEvict --&amp;gt; EvictErr : True
+        ChkAttemptEvict --&amp;gt; DeleteErr : False
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: EvictPodsWithPVInternal
+config:
+  layout: elk
+---
+stateDiagram-v2
+    classDef imp font-weight:bold,stroke-width:5px;
+        state &amp;#34;Add Pod to RetryPods&amp;#34; as Retry
+        state &amp;#34;Log NotFound&amp;lt;br/&amp;gt;DeleteWorker&amp;#34; as LogNotFound
+        [*] --&amp;gt; SelectPod : Start Eviction Process
+
+        SelectPod --&amp;gt; CheckContextTimeout:::imp
+
+        CheckContextTimeout:::imp --&amp;gt; AbortProcess : Context Done
+        CheckContextTimeout:::imp --&amp;gt; AddWorker(AttachmentHandler) : Context Not Done
+
+        AddWorker(AttachmentHandler) --&amp;gt; EvictOrDelete
+
+        EvictOrDelete --&amp;gt; CheckEvictionResult:::imp
+
+        CheckEvictionResult:::imp --&amp;gt; EvictionFailed
+        EvictionFailed --&amp;gt; PDBViolation : Eviction Attempted &amp;amp;&amp;lt;br/&amp;gt;TooManyRequests
+        EvictionFailed --&amp;gt; PodAlreadyGone : Pod Not Found
+        EvictionFailed --&amp;gt; EvictionError : Other Errors
+        CheckEvictionResult:::imp --&amp;gt; WaitForVolumeDetach : Successful Eviction
+
+        PDBViolation --&amp;gt; GetPDB
+        GetPDB --&amp;gt; CheckMisconfigured : PDB Exists
+        GetPDB --&amp;gt; Retry : NoPDB
+        CheckMisconfigured --&amp;gt; MisconfigErr : Generation is ObserverGen&amp;lt;br/&amp;gt;HealthyPods &amp;gt;= ExpectedPods&amp;lt;br/&amp;gt;DisruptionsAllowed is 0
+        CheckMisconfigured --&amp;gt; Retry:::imp : NotMisconfig
+        MisconfigErr --&amp;gt; DeleteWorker
+
+        PodAlreadyGone --&amp;gt; DeleteWorker
+
+        EvictionError --&amp;gt; Retry:::imp
+
+        WaitForVolumeDetach --&amp;gt; CheckDetachResult:::imp : TerminationGracePeriod + DetachTimeout
+
+        CheckDetachResult:::imp --&amp;gt; LogNotFound : Node Not Found
+        CheckDetachResult:::imp --&amp;gt; DetachError : Detach Failed
+        CheckDetachResult:::imp --&amp;gt; WaitForReattach : Successful Detach
+
+        LogNotFound --&amp;gt; AbortProcess
+        DetachError --&amp;gt; DeleteWorker
+
+        WaitForReattach --&amp;gt; CheckReattachResult:::imp : PvReattachTimeout
+
+        CheckReattachResult:::imp --&amp;gt; ReattachTimeout : Timeout
+        CheckReattachResult:::imp --&amp;gt; LogError : Reattach Failed
+        CheckReattachResult:::imp --&amp;gt; SuccessfulEviction:::imp : Successful Reattach
+
+        ReattachTimeout --&amp;gt; DeleteWorker : TODO IsThisCorrect?
+        LogError --&amp;gt; DeleteWorker
+        SuccessfulEviction:::imp --&amp;gt; DeleteWorker : Pod Processed
+
+        DeleteWorker --&amp;gt; [*]
+        Retry:::imp --&amp;gt; DeleteWorker
+        AbortProcess --&amp;gt; Exit:::imp : Terminate (FastTrack)&amp;lt;br/&amp;gt;Return Remaining Pods
 &lt;/pre&gt;
 
 &lt;h2 id=&#34;safety-controller&#34;&gt;Safety Controller&lt;/h2&gt;
@@ -1091,7 +1356,7 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 &lt;li&gt;Update MachineRequest&amp;rsquo;s secret by processing the secret with (TODO) &lt;code&gt;addBootstrapTokenToUserData&lt;/code&gt; and &lt;code&gt;addMachineNameToUserData&lt;/code&gt; which checks if &lt;code&gt;secret[&amp;quot;userData&amp;quot;]&lt;/code&gt; exists, then replacing &lt;code&gt;MachineNamePlaceholder&lt;/code&gt; &amp;lt;MACHINE_NAME&amp;gt; with the actual &lt;code&gt;machine.Name&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;After that, the secret is used alongwith the Machine and MachineClass to create a &lt;a href=&#34;#getmachinestatus&#34;&gt;GetMachineStatus&lt;/a&gt;Request which responds with &lt;code&gt;providerId&lt;/code&gt; and associated &lt;code&gt;nodeName&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;If there is no error with the GetMachineStatusRequest and the machine&amp;rsquo;s &amp;ldquo;node&amp;rdquo; label or &lt;code&gt;providerID&lt;/code&gt; is empty then the required VM is found and the node and providerID for the machine is updated. (&lt;code&gt;updateLabels&lt;/code&gt;: adds the necessary labels, annotations with MachinePriority as 3 if unset and updates the providerID)&lt;/li&gt;
-&lt;li&gt;If there is an error in getting the machine status and the ErrCode is &lt;code&gt;NotFound&lt;/code&gt; or &lt;code&gt;Unimplemented&lt;/code&gt; and if the &amp;ldquo;node&amp;rdquo; label is not present on the machine then: driver.&lt;a href=&#34;#createmachine&#34;&gt;CreateMachine&lt;/a&gt;() is invoked which on success gives us the &lt;code&gt;providerId&lt;/code&gt; and the &lt;code&gt;nodeName&lt;/code&gt;, then we try to &lt;code&gt;Get()&lt;/code&gt; (TODO: nodeName != machineName significance?) the returned &lt;code&gt;nodeName&lt;/code&gt; to check if a node object already exists. If so, it is treated as a stale node and &lt;code&gt;driver.DeleteMachine()&lt;/code&gt; is triggered and the machine object is marked as &lt;code&gt;state&lt;/code&gt; &lt;code&gt;failed&lt;/code&gt;, &lt;code&gt;phase&lt;/code&gt; being &lt;code&gt;failed&lt;/code&gt;  with LastOperation &lt;code&gt;description&lt;/code&gt; set as &amp;ldquo;&lt;code&gt;VM using old node obj&lt;/code&gt;&amp;rdquo; and then its status is updated. NOTE: Also, &lt;code&gt;uninitializedMachine&lt;/code&gt; is set to true.&lt;/li&gt;
+&lt;li&gt;If there is an error in getting the machine status and the ErrCode is &lt;code&gt;NotFound&lt;/code&gt; or &lt;code&gt;Unimplemented&lt;/code&gt; and if the &amp;ldquo;node&amp;rdquo; label is not present on the machine then: driver.&lt;a href=&#34;#createmachine&#34;&gt;CreateMachine&lt;/a&gt;() is invoked which on success gives us the &lt;code&gt;providerId&lt;/code&gt; and the &lt;code&gt;nodeName&lt;/code&gt;, then we try to &lt;code&gt;Get()&lt;/code&gt; the returned &lt;code&gt;nodeName&lt;/code&gt; to check if a node object already exists. If so, it is treated as a stale node and &lt;code&gt;driver.DeleteMachine()&lt;/code&gt; is triggered and the machine object is marked as &lt;code&gt;state&lt;/code&gt; &lt;code&gt;failed&lt;/code&gt;, &lt;code&gt;phase&lt;/code&gt; being &lt;code&gt;failed&lt;/code&gt;  with LastOperation &lt;code&gt;description&lt;/code&gt; set as &amp;ldquo;&lt;code&gt;VM using old node obj&lt;/code&gt;&amp;rdquo; and then its status is updated. NOTE: Also, &lt;code&gt;uninitializedMachine&lt;/code&gt; is set to true.&lt;/li&gt;
 &lt;li&gt;If the returned codes are &lt;code&gt;Unknown&lt;/code&gt;, &lt;code&gt;DeadlineExceeded&lt;/code&gt;, &lt;code&gt;Aborted&lt;/code&gt; or &lt;code&gt;Unavailable&lt;/code&gt;, then again &lt;code&gt;machineStatusUpdate&lt;/code&gt; is called with &lt;code&gt;state&lt;/code&gt; set to &lt;code&gt;failed&lt;/code&gt; and &lt;code&gt;phase&lt;/code&gt; being &lt;code&gt;failed&lt;/code&gt; or &lt;code&gt;crashloopbackoff&lt;/code&gt; depending upon whether or not MachineCreationTimeout happened.&lt;/li&gt;
 &lt;li&gt;Whereas the case when returned code is &lt;code&gt;Uninitialized&lt;/code&gt;, the flag &lt;code&gt;uninitializedMachine&lt;/code&gt; is set to true. In any other scenario, a &lt;code&gt;machineStatusUpdate&lt;/code&gt; call similar to the previous case is made with a re-queue call.&lt;/li&gt;
 &lt;li&gt;In case the &lt;code&gt;uninitializedMachine&lt;/code&gt; flag is set, &lt;code&gt;initializeMachine&lt;/code&gt; is called for starting the VM instance for the machine, it delegates the task to driver.&lt;a href=&#34;#initializemachine&#34;&gt;InitializeMachine&lt;/a&gt; which if it returns &lt;code&gt;Unimplemented&lt;/code&gt; error code, then VM initialization is skipped as provider doesn&amp;rsquo;t support it otherwise &lt;code&gt;machineStatusUpdate&lt;/code&gt; call is made with &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;state&lt;/code&gt; and &lt;code&gt;crashloopbackoff&lt;/code&gt; or &lt;code&gt;failed&lt;/code&gt; &lt;code&gt;phase&lt;/code&gt; based on MachineCreationTimeout. Upon successful initialization, an error is returned by &lt;code&gt;triggerCreationFlow&lt;/code&gt; for another re-queue.&lt;/li&gt;
@@ -1381,7 +1646,7 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;p&gt;Each line in a Dockerfile is executed in a temporary container which gets persisted as a new layer on top of the existing layers. Some directives to keep in mind are &lt;code&gt;FROM, ENV, LABEL, COPY, ADD, RUN, EXPOSE, CMD, ENTRYPOINT, USER&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Multistage builds&lt;/strong&gt; are another powerful feature of the container ecosystem. Typically, you do not want ship your build environment, but have a dedicated runtime environment. Multistage builds are an elegant way to separate these two things. The first stage is a build environment with a compiler or whatever is needed. The 2nd stage is much smaller in size/content (e.g. distroless) and should contain only those things needed to run the application. The stages are referred later on by specifying their names as &lt;code&gt;FROM &amp;lt;stage/image&amp;gt; AS &amp;lt;stage-name&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;h:06603D16-4A5E-4AC0-8A9C-8C7F5EE20433&#34;&gt;Kubernetes&lt;/h2&gt;
-&lt;p&gt;Kubernetes makes the core design decision that all configuration is declarative, and that all configuration is implemented by way of “operators” which function as control loops: They continually compare the desired configuration with the state of reality, and then attempt to take actions to bring reality in line with the desired state. (&lt;a href=&#34;https://buttondown.com/nelhage/archive/two-reasons-kubernetes-is-so-complex&#34;&gt;Ref&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Kubernetes makes the core design decision that all configuration is declarative, and that all configuration is implemented by way of “operators” which function as control loops: They continually compare the desired configuration with the state of reality, and then attempt to take actions to bring reality in line with the desired state. (&lt;a href=&#34;https://buttondown.com/nelhage/archive/two-reasons-kubernetes-is-so-complex&#34;&gt;Ref&lt;/a&gt;, &lt;a href=&#34;https://cloud.google.com/kubernetes-engine/kubernetes-comic&#34;&gt;A nice introductory comic&lt;/a&gt;)&lt;/p&gt;
 &lt;p&gt;Kubernetes is just a container orchestrator. The central part remains our image, which contains the application we want to run. In the end Kubernetes runs lots and lots of containers – however in a smart way.&lt;/p&gt;
 &lt;h3 id=&#34;building-blocks&#34;&gt;Building blocks&lt;/h3&gt;
 &lt;p&gt;Kubernetes doesn’t allow you to schedule individual containers, it wraps the container into something called a &lt;em&gt;pod&lt;/em&gt; – which can be considered as a logical host with one or more containers that share storage and network resources. Put another way, a Kubernetes Pod is a set of containers that perform an interrelated function and that operate as part of the same workload.&lt;/p&gt;
@@ -1418,7 +1683,7 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;li&gt;NodePort: A port that is opened on every node of the cluster. It is associated with a service and any incoming traffic at this nodePort will be routed to the corresponding service. From there it will be forwarded to service’s pods, regardless on which node it they actually run.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx. Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.&lt;/p&gt;
-&lt;p&gt;The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is send to a service.&lt;/p&gt;
+&lt;p&gt;The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services&amp;rsquo; perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/ingress/#types-of-ingress&#34;&gt;Types of ingress&lt;/a&gt;:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;An Ingress with no rules sends all traffic to a single default backend and &lt;code&gt;.spec.defaultBackend&lt;/code&gt; is the backend that should handle requests in that case.&lt;/li&gt;
@@ -1470,8 +1735,8 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;li&gt;PV is backed by a physical volume, which is made available via the container storage interface.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Upon deletion of the claim object, PV becomes &amp;ldquo;unbound&amp;rdquo;, then it can either be retained, deleted or recycled (deprecated). The access modes a PVC can specify are &lt;code&gt;RWO&lt;/code&gt; (ReadWriteOnce) where a single node can mount a PVC at a time but if multiple pods are running on the same node they can all access it for restricting that to a single Pod use &lt;code&gt;RWOP&lt;/code&gt; (ReadWriteOncePod). There&amp;rsquo;s also &lt;code&gt;ROX&lt;/code&gt; (ReadOnlyMany) and &lt;code&gt;RWX&lt;/code&gt; (ReadWriteMany) where the volumes can be mounted as specified by many nodes.&lt;/p&gt;
-&lt;p&gt;An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp;amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.&lt;/p&gt;
 &lt;h3 id=&#34;additional-setup&#34;&gt;Additional Setup&lt;/h3&gt;
+&lt;p&gt;An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp;amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.&lt;/p&gt;
 &lt;p&gt;Configmaps and &lt;a href=&#34;https://sysdig.com/learn-cloud-native/how-to-create-and-use-kubernetes-secrets/&#34;&gt;secrets&lt;/a&gt; are based on key-value pairs. Allowed values are string or binary data. When using binary data, &lt;code&gt;base64 encoding&lt;/code&gt; of the binary is mandatory. The contents of both can be project to environment variables of a container or mounted to the container file system via the volumes API.&lt;/p&gt;
 &lt;p&gt;The secrets can be used like any other volume and bound to the pod. When mounted into the filesystem the content/values are decoded and available in plain text so it&amp;rsquo;s advised to set proper file permissions for them. There are 3 different types of secrets:&lt;/p&gt;
 &lt;ol&gt;

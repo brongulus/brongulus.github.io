@@ -28,7 +28,7 @@ Each line in a Dockerfile is executed in a temporary container which gets persis
 
 ## Kubernetes {#h:06603D16-4A5E-4AC0-8A9C-8C7F5EE20433}
 
-Kubernetes makes the core design decision that all configuration is declarative, and that all configuration is implemented by way of “operators” which function as control loops: They continually compare the desired configuration with the state of reality, and then attempt to take actions to bring reality in line with the desired state. ([Ref](https://buttondown.com/nelhage/archive/two-reasons-kubernetes-is-so-complex))
+Kubernetes makes the core design decision that all configuration is declarative, and that all configuration is implemented by way of “operators” which function as control loops: They continually compare the desired configuration with the state of reality, and then attempt to take actions to bring reality in line with the desired state. ([Ref](https://buttondown.com/nelhage/archive/two-reasons-kubernetes-is-so-complex), [A nice introductory comic](https://cloud.google.com/kubernetes-engine/kubernetes-comic))
 
 Kubernetes is just a container orchestrator. The central part remains our image, which contains the application we want to run. In the end Kubernetes runs lots and lots of containers – however in a smart way.
 
@@ -81,7 +81,7 @@ To expose a service to the outside world (outside of cluster scoped DNS/IP range
 
 Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx. Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.
 
-The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is send to a service.
+The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services' perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.
 
 [Types of ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/#types-of-ingress):
 
@@ -141,10 +141,10 @@ CSI – Container Storage Interface:
 
 Upon deletion of the claim object, PV becomes "unbound", then it can either be retained, deleted or recycled (deprecated). The access modes a PVC can specify are `RWO` (ReadWriteOnce) where a single node can mount a PVC at a time but if multiple pods are running on the same node they can all access it for restricting that to a single Pod use `RWOP` (ReadWriteOncePod). There's also `ROX` (ReadOnlyMany) and `RWX` (ReadWriteMany) where the volumes can be mounted as specified by many nodes.
 
-An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.
-
 
 ### Additional Setup {#additional-setup}
+
+An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.
 
 Configmaps and [secrets](https://sysdig.com/learn-cloud-native/how-to-create-and-use-kubernetes-secrets/) are based on key-value pairs. Allowed values are string or binary data. When using binary data, `base64 encoding` of the binary is mandatory. The contents of both can be project to environment variables of a container or mounted to the container file system via the volumes API.
 
