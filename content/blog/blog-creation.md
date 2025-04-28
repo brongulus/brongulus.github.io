@@ -2,9 +2,9 @@
 title = "Creating a blog using ox-hugo"
 author = ["Prashant Tak"]
 date = 2021-03-21T02:00:00+05:30
-lastmod = 2023-03-27T14:35:45+05:30
+lastmod = 2025-04-28T09:04:42+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
+creator = "Emacs 30.1 (Org mode 9.7.11 + ox-hugo)"
 +++
 
 I was going to make a post explaining how I made this blog but it was rendered pretty useless by [this.](https://dev.to/usamasubhani/setup-a-blog-with-hugo-and-github-pages-562n) So yeah, I might archive this later.

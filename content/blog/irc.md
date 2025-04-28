@@ -2,9 +2,9 @@
 title = "I R SSI"
 author = ["Prashant Tak"]
 date = 2022-06-28T00:00:00+05:30
-lastmod = 2023-03-27T14:35:45+05:30
+lastmod = 2025-04-28T09:04:41+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
+creator = "Emacs 30.1 (Org mode 9.7.11 + ox-hugo)"
 +++
 
 {{< figure src="https://imgs.xkcd.com/comics/team_chat.png" link="https://xkcd.com/1782" >}}
@@ -130,4 +130,7 @@ There are some limitations with IRC there's no chat persistance unless you use a
 3.  [IRSSI Setup Options](https://irssi.org/documentation/settings/)
 4.  [History of IRC](https://daniel.haxx.se/irchistory.html)
 5.  [IRC Cheatsheet](https://gist.github.com/xero/2d6e4b061b4ecbeb9f99)
-6.  Direct Client-to-Client Protocol: [DCC](https://modern.ircdocs.horse/dcc.html)
+
+6  [Cloaks Libera](https://libera.chat/guides/cloaks)
+
+1.  Direct Client-to-Client Protocol: [DCC](https://modern.ircdocs.horse/dcc.html)

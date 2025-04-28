@@ -34,13 +34,16 @@
 2. Open external links in new tab by default, unless it's meta-links.
 * Readings
 * Resources
-* About
+* Meta
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: meta
+:END:
+** About
 CLOSED: [2021-03-21 Mon 01:00]
 :PROPERTIES:
-:EXPORT_HUGO_SECTION: about
 :EXPORT_FILE_NAME: about
 :END:
-** Webpresence of Prashant Tak
+*** Webpresence of Prashant Tak
 #+begin_epigraph
 Why should a man climb Everest?
 Because it is there.
@@ -64,6 +67,36 @@ Some stuff that I came across recently which I enjoyed, presented here in case s
 + [[https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton][PSB - Live at Brixton]], a surreal experience. Tracks that I enjoyed: /Sputnik, Theme from PSB, Night Mail, Go!, Everest/.
 + [[https://www.poetryfoundation.org/poems/43997/the-rime-of-the-ancient-mariner-text-of-1834][The Rime of the Ancient Mariner]], it was part of my school curiculum, randomly thought of it today.
 + [[https://www.programiz.com/cpp-programming/lambda-expression][Lambda Expressions in C++]]
+
+** Tracker
+CLOSED: [2025-04-28 Mon 09:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: record
+:END:
+*** Books
+|----------+------------------------|
+| Time     | Title                  |
+|----------+------------------------|
+| Apr 2025 | Courage to be disliked |
+|----------+------------------------|
+*** Media
+|----------+-----------------|
+| Time     | Title           |
+|----------+-----------------|
+| Apr 2025 | Bojack Horseman |
+| Apr 2025 | Rehearsal       |
+|----------+-----------------|
+*** Music
+**** April 2025
+|---------------+-------------------------------|
+| Artist        | Work                          |
+|---------------+-------------------------------|
+| Pigbag        | Papa's Got a Brand New Pigbag |
+| Imogen Heap   | Headlock                      |
+| Bang Gang     | The World is Gray             |
+| Nat King Cole | Smile                         |
+| Wisp          | Enough for you                |
+|---------------+-------------------------------|
 
 * Blog
 :PROPERTIES:

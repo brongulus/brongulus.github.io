@@ -56,15 +56,6 @@
         
             
                 <li>
-                    <a href="/about/about/">
-                        
-                        <span>About</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
                     <a href="/blog/">
                         
                         <span>Blog</span>
@@ -74,9 +65,27 @@
         
             
                 <li>
+                    <a href="/meta/">
+                        
+                        <span>Meta</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
                     <a href="/notes/">
                         
                         <span>Notes</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/">
+                        
+                        <span>Tags</span>
                     </a>
                 </li>
             
@@ -548,7 +557,7 @@ stateDiagram-v2
 </pre>
 
 <pre class="mermaid">---
-title: TODO EvictPodsWithPV
+title: EvictPodsWithPV
 config:
   layout: elk
 ---
@@ -559,7 +568,10 @@ stateDiagram-v2
         state &#34;CheckRemainingPods&#34; as CRP
         
         [*] --&gt; SortPodsByPriority
-        SortPodsByPriority --&gt; podVolumeInfoMap : Create a map from pod to list of attached PVs (VolName, VolID -&gt; GetVolumeID)
+        SortPodsByPriority --&gt; podVolumeInfoMap
+        note left of podVolumeInfoMap
+            Creates a map from pod to list of attached PVs (VolName, VolID -&gt; GetVolumeID)
+        end note
 
         podVolumeInfoMap --&gt; AttemptEvict
         AttemptEvict --&gt; evictPodPVInternal(Delete):::imp : false
@@ -762,37 +774,63 @@ stateDiagram-v2
 ---
 stateDiagram-v2
     state &#34;MachineSet Controller&#34; as MSC {
+        state &#34;Sync MachineSet&lt;br/&gt;NodeTemplate&lt;br/&gt;to Machine&#34; as SyncNodeTemplates
+        state &#34;Sync MachineSet&lt;br/&gt;MachineConfiguration&lt;br/&gt;to Machine&#34; as SyncMachineConfig
+        state &#34;Sync MachineSet&lt;br/&gt;MachineClass.Kind&lt;br/&gt;to Machine&#34; as SyncMachineKind
+
         [*] --&gt; FetchMachineSet
         FetchMachineSet --&gt; ValidateSpec
-        ValidateSpec --&gt; AddFinalizers : No Deletion
-        ValidateSpec --&gt; ProcessDeletion : Deletion Requested
+        ValidateSpec --&gt; AddFinalizers : Deletion Not Requested
         
         AddFinalizers --&gt; ClaimMachines
         
-        state &#34;ClaimMachines&#34; as CM {
-            [*] --&gt; CreateControllerRef
-            CreateControllerRef --&gt; MatchSelector
-            MatchSelector --&gt; AdoptOrphan : No Owner
-            MatchSelector --&gt; ReleaseClaimed : Wrong Owner
+        state &#34;ClaimMachines (Returns filtered machines)&#34; as CM {
+            [*] --&gt; CreateControllerRefMgr
+            CreateControllerRefMgr --&gt; GetControllerRef
+            GetControllerRef --&gt; Orphan : Nil&lt;br/&gt;(No Owner)
+            GetControllerRef --&gt; CheckUID : Not Nil&lt;br/&gt;(Owner Exists)
             
-            AdoptOrphan --&gt; UpdateOwnerRef
-            ReleaseClaimed --&gt; RemoveOwnerRef
+            CheckUID --&gt; Ignore : Mismatch&lt;br/&gt;(Wrong Owner)
+            CheckUID --&gt; MatchSelector : UID Same
+            Orphan --&gt; CheckDeletion
+            CheckDeletion --&gt; SelectorMatch : No Deletion
+            SelectorMatch --&gt; AdoptOrphan : Selector Match
+            
+            MatchSelector --&gt; KeepClaim : Selector Match&lt;br/&gt;Already Owned
+            MatchSelector --&gt; DeletionCheck : Selector Mismatch
+            DeletionCheck --&gt; AttemptRelease : No Deletion
+
+            KeepClaim --&gt; AddToClaimed
+            AdoptOrphan --&gt; AddToClaimed
+            AttemptRelease --&gt; RemoveFromClaimed
         }
         
         ClaimMachines --&gt; SyncNodeTemplates
         SyncNodeTemplates --&gt; SyncMachineConfig
-        SyncMachineConfig --&gt; HandleDeletion : Deletion Requested
-        SyncMachineConfig --&gt; ManageReplicas : No Deletion
-        
+        SyncMachineConfig --&gt; SyncMachineKind
+        SyncMachineKind --&gt; CheckFilteredMachines : Deletion Requested
+        SyncMachineKind --&gt; ManageReplicas : No Deletion
+
+        CheckFilteredMachines --&gt; RemoveFinalizers : Zero Owned Machines
+        CheckFilteredMachines --&gt; CheckFinalizerPresent : Backed Machines
+        CheckFinalizerPresent --&gt; TerminateMachines
+        RemoveFinalizers --&gt; UpdateStatus
+        TerminateMachines --&gt; UpdateStatus
+
         state &#34;ManageReplicas&#34; as MR {
-            [*] --&gt; GetActiveMachines
-            GetActiveMachines --&gt; DeleteStale
-            DeleteStale --&gt; CheckReplicas
+            [*] --&gt; CheckMachinePhase
+            CheckMachinePhase --&gt; ActiveMachines : Phase&lt;br/&gt;NotFailedOrTerminating
+            CheckMachinePhase --&gt; StaleMachines : PhaseFailed
+
+            ActiveMachines --&gt; CheckDiff
+            StaleMachines --&gt; TerminateStale
+            TerminateStale --&gt; CheckDiff
             
-            CheckReplicas --&gt; ScaleUp : Active Machine Too Few
-            CheckReplicas --&gt; ScaleDown : Active Machine Too Many
+            CheckDiff --&gt; ScaleUp : ActiveMachines&lt;br/&gt;Less than&lt;br/&gt;Replica Count
+            CheckDiff --&gt; ScaleDown : ActiveMachines&lt;br/&gt;More than&lt;br/&gt;Replica Count
             
-            ScaleUp --&gt; SlowStartBatch
+            ScaleUp --&gt; NotFrozenAnd&lt;br/&gt;NotToBeDeleted
+            NotFrozenAnd&lt;br/&gt;NotToBeDeleted --&gt; SlowStartBatch : TODO Expectations
             SlowStartBatch --&gt; CreateMachines
             
             ScaleDown --&gt; SortMachines
@@ -800,7 +838,6 @@ stateDiagram-v2
         }
         
         ManageReplicas --&gt; UpdateStatus
-        HandleDeletion --&gt; UpdateStatus
         UpdateStatus --&gt; [*]
     }
 </pre>
@@ -851,55 +888,153 @@ stateDiagram-v2
     layout: elk
 ---
 stateDiagram-v2
-    state &#34;MachineDeployment Controller&#34; as MDC {
+    state &#34;TODO MachineDeployment Controller&#34; as MDC {
         [*] --&gt; FetchDeployment
-        FetchDeployment --&gt; ValidateSpec
-        ValidateSpec --&gt; GetMachineSets
+        FetchDeployment --&gt; LogFrozenOrTBD
+        LogFrozenOrTBD --&gt; ValidateSpec
+        ValidateSpec --&gt; CheckDeletion
         
         state &#34;GetMachineSets&#34; as GMS {
-            [*] --&gt; ClaimMachineSets
-            ClaimMachineSets --&gt; BuildMachineMap
-            BuildMachineMap --&gt; SyncRevision
-            
-            state &#34;ClaimMachineSets&#34; as CMS {
-                [*] --&gt; CreateControllerRef
-                CreateControllerRef --&gt; MatchSelector
-                MatchSelector --&gt; AdoptOrphan : No Owner
-                MatchSelector --&gt; ReleaseClaimed : Wrong Owner
+            [*] --&gt; CreateControllerRefMgr
+            CreateControllerRefMgr --&gt; GetControllerRef
+            GetControllerRef --&gt; Orphan : Nil&lt;br/&gt;(No Owner)
+            GetControllerRef --&gt; CheckUID : Not Nil&lt;br/&gt;(Owner Exists)
 
-                AdoptOrphan --&gt; UpdateOwnerRef
-                ReleaseClaimed --&gt; RemoveOwnerRef
-            }
+            CheckUID --&gt; Ignore : Mismatch&lt;br/&gt;(Wrong Owner)
+            CheckUID --&gt; MatchSelector : UID Same
+            Orphan --&gt; CheckDelete
+            CheckDelete --&gt; SelectorMatch : No Deletion
+            SelectorMatch --&gt; AdoptOrphan : Selector Match
+
+            MatchSelector --&gt; KeepClaim : Selector Match&lt;br/&gt;Already Owned
+            MatchSelector --&gt; DeletionCheck : Selector Mismatch
+            DeletionCheck --&gt; AttemptRelease : No Deletion
+
+            KeepClaim --&gt; AddToClaimed
+            AdoptOrphan --&gt; AddToClaimed
+            AttemptRelease --&gt; RemoveFromClaimed
         }
         
-        GetMachineSets --&gt; CheckDeletion
-        CheckDeletion --&gt; HandleDeletion : Deletion Requested
-        CheckDeletion --&gt; CheckPaused : No Deletion
+        CheckDeletion --&gt; AddFinalizer : No Deletion
+        AddFinalizer --&gt; StatusUpdate
+        StatusUpdate --&gt; GetMachineSets
+
+        GetMachineSets --&gt; BuildMachineMap&lt;br/&gt;MSetUIDToMachines
+        BuildMachineMap&lt;br/&gt;MSetUIDToMachines --&gt; DeleteChk
+        DeleteChk --&gt; CheckPausedCond : No Deletion
+        DeleteChk --&gt; ProcessDeletion : Deletion Requested
         
-        
-        CheckPaused --&gt; Sync : Paused
-        CheckPaused --&gt; CheckRollback : Not Paused
+        state &#34;Process Deletion&#34; as DC {
+            [*] --&gt; Exit : Finalizer&lt;br/&gt;NotPresent
+            [*] --&gt; RemoveFinalizers : NoBackingMS
+            [*] --&gt; TerminateMachineSets : BackingMS
+            
+            TerminateMachineSets --&gt; SyncStatusOnly&lt;br/&gt;UpdateMcdStatus
+            RemoveFinalizers --&gt; Exit
+        }
+
+        state &#34;Check Paused Condition&#34; as CPC {
+            [*] --&gt; GetCondition&lt;br/&gt;TypeProcessing
+            
+            GetCondition&lt;br/&gt;TypeProcessing --&gt; [*] : CondReason&lt;br/&gt;TimeOut
+            GetCondition&lt;br/&gt;TypeProcessing --&gt; ExistingPaused : CondReason&lt;br/&gt;Paused
+            GetCondition&lt;br/&gt;TypeProcessing --&gt; NotExistingPaused : Else
+            
+            NotExistingPaused --&gt; Spec.Paused
+            Spec.Paused --&gt; SetPausedCondition : true
+
+            ExistingPaused --&gt; SpecPaused
+            SpecPaused --&gt; SetResumedCondition : False
+
+            SetPausedCondition --&gt; UpdateMcdStatus
+            SetResumedCondition --&gt; UpdateMcdStatus
+
+            UpdateMcdStatus --&gt; [*]
+        }
+
+        CheckPausedCond --&gt; SetPrioAnnotation : TODO
+
+        SetPrioAnnotation --&gt; Sync : Spec.Paused true&lt;br/&gt;TODO
+        SetPrioAnnotation --&gt; CheckRollbackTo : Spec.Paused false
         
         state &#34;Rollback&#34; as RB {
             [*] --&gt; FindRevision
-            FindRevision --&gt; RemoveTaints
-            RemoveTaints --&gt; UpdateTemplate
-            UpdateTemplate --&gt; SyncStatus
+            FindRevision --&gt; FindMatchingMS : RollbackTo.Revision&lt;br/&gt;Present
+            FindRevision --&gt; ClearRollbackTo : No last revision
+
+            FindMatchingMS --&gt; Remove&lt;br/&gt;PreferNoSched&lt;br/&gt;Taint : MSRevisionAnnotation&lt;br/&gt;same as&lt;br/&gt;RollbackTo Revision
+            FindMatchingMS --&gt; ClearRollbackTo : NoMachineSetFound
+            
+            Remove&lt;br/&gt;PreferNoSched&lt;br/&gt;Taint --&gt; UpdateMcdTemplate
+            UpdateMcdTemplate --&gt; UpdateMcdAnnotations : Copy MS template&lt;br/&gt;Remove label&lt;br/&gt;machine-template-hash
+
+            UpdateMcdAnnotations --&gt; ClearRollbckTo
+            ClearRollbckTo --&gt; EmitRollbackEvent
         }
         
-        CheckRollback --&gt; Rollback : Rollback Requested
-        CheckRollback --&gt; CheckScaling : No Rollback
+        CheckRollbackTo --&gt; Rollback : Rollback Requested
+        CheckRollbackTo --&gt; IsScalingEvent : No Rollback
         
-        state &#34;Scaling&#34; as SC {
-            [*] --&gt; CheckActiveMS
-            CheckActiveMS --&gt; CheckReplicas
-            CheckReplicas --&gt; SyncScale
+        state &#34;Is Scaling Event&#34; as SC {
+            [*] --&gt; GetMS&lt;br/&gt;SyncRev
+            GetMS&lt;br/&gt;SyncRev --&gt; NotScaling : err
+            GetMS&lt;br/&gt;SyncRev --&gt; NotScaling : No New MS
+            
+            GetMS&lt;br/&gt;SyncRev --&gt; CheckActiveMS : MS Replicas &gt; 0
+            CheckActiveMS --&gt; ScalingEvent : NoActiveMS &amp;&lt;br/&gt;MCD Replicas &gt; 0&lt;br/&gt;(ScaleFromZero)
+            
+            CheckActiveMS --&gt; GetMSDesiredReplica&lt;br/&gt;Annotation
+            GetMSDesiredReplica&lt;br/&gt;Annotation --&gt; ScalingEvent : Desired not equal&lt;br/&gt;to MCD Replicas
+
+            CheckActiveMS --&gt; NotScaling : NoActiveMS or&lt;br/&gt;Desired = MCD Replicas&lt;br/&gt;(For all active)
         }
         
-        CheckScaling --&gt; Scaling : Scale Event
-        CheckScaling --&gt; DeployStrategy : No Scale Event
-        
-        state &#34;DeployStrategy&#34; as DS {
+        IsScalingEvent --&gt; Sync : Scale Event
+        IsScalingEvent --&gt; DeployStrategy : No Scale Event
+
+        state &#34;Sync&#34; as SN {
+            [*] --&gt; GetMS&lt;br/&gt;SyncRevision
+            GetMS&lt;br/&gt;SyncRevision --&gt; Scale
+            Scale --&gt; CleanMCD : Paused and&lt;br/&gt;No RollbackTo
+            Scale --&gt; SyncMCDStatus
+
+            state &#34;Find Active or Latest MS&#34; as ALMS {
+            [*] --&gt; SortMS by CreationTime&lt;br/&gt;FilterActiveMS
+            }
+
+            state &#34;TODO Scale&#34; as SCC {
+                state &#34;ReplicasToAdd&lt;br/&gt;AllowedSize - AllMSReplicaCnt&#34; as ReplicasToAdd
+                
+                [*] --&gt; GetActiveOrLatestMS
+                GetActiveOrLatestMS --&gt; CheckActiveMSReplicas : not nil
+                GetActiveOrLatestMS --&gt; CheckNewMS&lt;br/&gt;Saturated
+
+                CheckActiveMSReplicas --&gt; FIXME : ActiveMSRep = mcdRep
+
+                CheckNewMS&lt;br/&gt;Saturated --&gt; ScaleDownOldMS : true
+                CheckNewMS&lt;br/&gt;Saturated --&gt; IsRollingUpdate : false
+
+                IsRollingUpdate --&gt; FilterActiveMS : true
+                FilterActiveMS --&gt; GetReplicaCount&lt;br/&gt;AllMS
+
+                GetReplicaCount&lt;br/&gt;AllMS --&gt; FindAllowedSize
+
+                FindAllowedSize --&gt; Zero : MCD Replicas &lt;= 0
+                FindAllowedSize --&gt; McdReplicas+MaxSurge : MCD Replicas &gt; 0
+
+                Zero --&gt; ReplicasToAdd
+                McdReplicas+MaxSurge --&gt; ReplicasToAdd
+
+                ReplicasToAdd --&gt; ScaleUp : more than 0
+                ReplicasToAdd --&gt; ScaleDown : &lt; 0
+
+                ScaleUp --&gt; map[name]=NewRep : oldMS = Replicas
+                ScaleUp --&gt; map[name]=NewRep : newMS = Rep+RepToAdd
+                
+            }
+        }
+
+        state &#34;TODO DeployStrategy&#34; as DS {
             state &#34;Recreate&#34; as RC {
                 [*] --&gt; OldScaleDown
                 OldScaleDown --&gt; CreateNew
@@ -979,6 +1114,7 @@ stateDiagram-v2
 
 	<div class="pagination">
 		<a href="/notes/20241129t160749--mcm__k8s_sap_work/" class="left arrow">&#8592;</a>
+		<a href="/meta/record/" class="right arrow">&#8594;</a>
 		<a href="/" class="bottom">Home</a>
 	</div>
 	

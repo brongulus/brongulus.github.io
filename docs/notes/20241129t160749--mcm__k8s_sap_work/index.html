@@ -56,15 +56,6 @@
         
             
                 <li>
-                    <a href="/about/about/">
-                        
-                        <span>About</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
                     <a href="/blog/">
                         
                         <span>Blog</span>
@@ -74,9 +65,27 @@
         
             
                 <li>
+                    <a href="/meta/">
+                        
+                        <span>Meta</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
                     <a href="/notes/">
                         
                         <span>Notes</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/">
+                        
+                        <span>Tags</span>
                     </a>
                 </li>
             
@@ -714,6 +723,11 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
 <p>Then MachineSet status is calculated and updated following which reconcile is enqueued after 10 minutes.</p>
 </li>
 </ul>
+<h4 id="expectations">Expectations</h4>
+<p><a href="https://github.com/elastic/cloud-on-k8s/blob/6c1bf954555e5a65a18a17450ccddab46ed7e5a5/pkg/controller/common/expectations/expectations.go#L16-L78">Reference</a>, and <a href="https://github.com/elastic/cloud-on-k8s/blob/b16c2c085d993b9287276a2b833d090437221b41/pkg/controller/elasticsearch/driver/expectations.go#L17">implementation</a></p>
+<p>Expectations are in-memory data structures that we use to register an action we performed during a reconciliation. They are needed since kubernetes client caches all resources locally, and relies on apiserver watches to maintain the cache up-to-date, and they are helpful when trying to control how many creations/deletions/upgrades happen in parallel. A controller isn&rsquo;t synced till its expectations are either fulfilled, or expire and controllers that don&rsquo;t set expectations will get woken up for every matching controllee.</p>
+<p>There&rsquo;s a <code>SatisfiedExpectations</code> method that returns true if the required <em>adds/dels</em> for the given controller have been observed. <em>Add/del</em> counts are established by the controller at sync time, and updated as controllees are observed by the controller manager. That is, if the resources in local cache do not match what is expected, its safer to not move on with reconciliation as that may lead to unexpected number of creations/deletions.</p>
+<p>For <code>machineSet</code> controller, the <code>Satisfied</code> method is inactive hence all the creation/deletion expectations that are modified are ineffective and can be ignored for now.</p>
 <h3 id="reconcile-cluster-machine-deployment">Reconcile Cluster Machine Deployment</h3>
 <ul>
 <li>Fetch the deployment by getting the name from <code>SplitMetaNamespaceKey</code>, then validate it by ensuring <code>Replicas</code> is not negative and that <code>selector.matchLabels</code> is consistent with <code>template.metadata.labels</code>.</li>
@@ -755,7 +769,7 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
 </li>
 <li>In case none of the scenarios were true i.e. not paused, not rolling back, and not scaling, then we execute the deployment strategy which is either <a href="#recreate">Recreate</a> or <a href="#rolling">Rolling</a>.</li>
 </ul>
-<h4 id="scale"><span class="org-todo todo TODO">TODO</span> Scale</h4>
+<h4 id="scale">Scale</h4>
 <h4 id="recreate">Recreate</h4>
 <ul>
 <li>First <code>getMSAndSyncRevision</code> is called to get list of new and old machineSets. Old MS is filtered to find the active ones i.e. those having non-zero replicas.</li>

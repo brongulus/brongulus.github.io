@@ -2,9 +2,9 @@
 title = "Meditations"
 author = ["Prashant Tak"]
 date = 2022-03-14T00:00:00+05:30
-lastmod = 2023-03-27T14:35:46+05:30
+lastmod = 2025-04-28T09:04:42+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
+creator = "Emacs 30.1 (Org mode 9.7.11 + ox-hugo)"
 +++
 
 ## Book 2: On the River Gran, Among the Quadi {#book-2-on-the-river-gran-among-the-quadi}

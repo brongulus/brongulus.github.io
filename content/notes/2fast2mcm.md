@@ -430,7 +430,7 @@ stateDiagram-v2
 
 ```mermaid
 ---
-title: TODO EvictPodsWithPV
+title: EvictPodsWithPV
 config:
   layout: elk
 ---
@@ -441,7 +441,10 @@ stateDiagram-v2
         state "CheckRemainingPods" as CRP
         
         [*] --> SortPodsByPriority
-        SortPodsByPriority --> podVolumeInfoMap : Create a map from pod to list of attached PVs (VolName, VolID -> GetVolumeID)
+        SortPodsByPriority --> podVolumeInfoMap
+        note left of podVolumeInfoMap
+            Creates a map from pod to list of attached PVs (VolName, VolID -> GetVolumeID)
+        end note
 
         podVolumeInfoMap --> AttemptEvict
         AttemptEvict --> evictPodPVInternal(Delete):::imp : false
@@ -624,37 +627,63 @@ stateDiagram-v2
 ---
 stateDiagram-v2
     state "MachineSet Controller" as MSC {
+        state "Sync MachineSet<br/>NodeTemplate<br/>to Machine" as SyncNodeTemplates
+        state "Sync MachineSet<br/>MachineConfiguration<br/>to Machine" as SyncMachineConfig
+        state "Sync MachineSet<br/>MachineClass.Kind<br/>to Machine" as SyncMachineKind
+
         [*] --> FetchMachineSet
         FetchMachineSet --> ValidateSpec
-        ValidateSpec --> AddFinalizers : No Deletion
-        ValidateSpec --> ProcessDeletion : Deletion Requested
+        ValidateSpec --> AddFinalizers : Deletion Not Requested
         
         AddFinalizers --> ClaimMachines
         
-        state "ClaimMachines" as CM {
-            [*] --> CreateControllerRef
-            CreateControllerRef --> MatchSelector
-            MatchSelector --> AdoptOrphan : No Owner
-            MatchSelector --> ReleaseClaimed : Wrong Owner
+        state "ClaimMachines (Returns filtered machines)" as CM {
+            [*] --> CreateControllerRefMgr
+            CreateControllerRefMgr --> GetControllerRef
+            GetControllerRef --> Orphan : Nil<br/>(No Owner)
+            GetControllerRef --> CheckUID : Not Nil<br/>(Owner Exists)
             
-            AdoptOrphan --> UpdateOwnerRef
-            ReleaseClaimed --> RemoveOwnerRef
+            CheckUID --> Ignore : Mismatch<br/>(Wrong Owner)
+            CheckUID --> MatchSelector : UID Same
+            Orphan --> CheckDeletion
+            CheckDeletion --> SelectorMatch : No Deletion
+            SelectorMatch --> AdoptOrphan : Selector Match
+            
+            MatchSelector --> KeepClaim : Selector Match<br/>Already Owned
+            MatchSelector --> DeletionCheck : Selector Mismatch
+            DeletionCheck --> AttemptRelease : No Deletion
+
+            KeepClaim --> AddToClaimed
+            AdoptOrphan --> AddToClaimed
+            AttemptRelease --> RemoveFromClaimed
         }
         
         ClaimMachines --> SyncNodeTemplates
         SyncNodeTemplates --> SyncMachineConfig
-        SyncMachineConfig --> HandleDeletion : Deletion Requested
-        SyncMachineConfig --> ManageReplicas : No Deletion
-        
+        SyncMachineConfig --> SyncMachineKind
+        SyncMachineKind --> CheckFilteredMachines : Deletion Requested
+        SyncMachineKind --> ManageReplicas : No Deletion
+
+        CheckFilteredMachines --> RemoveFinalizers : Zero Owned Machines
+        CheckFilteredMachines --> CheckFinalizerPresent : Backed Machines
+        CheckFinalizerPresent --> TerminateMachines
+        RemoveFinalizers --> UpdateStatus
+        TerminateMachines --> UpdateStatus
+
         state "ManageReplicas" as MR {
-            [*] --> GetActiveMachines
-            GetActiveMachines --> DeleteStale
-            DeleteStale --> CheckReplicas
+            [*] --> CheckMachinePhase
+            CheckMachinePhase --> ActiveMachines : Phase<br/>NotFailedOrTerminating
+            CheckMachinePhase --> StaleMachines : PhaseFailed
+
+            ActiveMachines --> CheckDiff
+            StaleMachines --> TerminateStale
+            TerminateStale --> CheckDiff
             
-            CheckReplicas --> ScaleUp : Active Machine Too Few
-            CheckReplicas --> ScaleDown : Active Machine Too Many
+            CheckDiff --> ScaleUp : ActiveMachines<br/>Less than<br/>Replica Count
+            CheckDiff --> ScaleDown : ActiveMachines<br/>More than<br/>Replica Count
             
-            ScaleUp --> SlowStartBatch
+            ScaleUp --> NotFrozenAnd<br/>NotToBeDeleted
+            NotFrozenAnd<br/>NotToBeDeleted --> SlowStartBatch : TODO Expectations
             SlowStartBatch --> CreateMachines
             
             ScaleDown --> SortMachines
@@ -662,7 +691,6 @@ stateDiagram-v2
         }
         
         ManageReplicas --> UpdateStatus
-        HandleDeletion --> UpdateStatus
         UpdateStatus --> [*]
     }
 ```
@@ -699,55 +727,153 @@ Deployment Management:
     layout: elk
 ---
 stateDiagram-v2
-    state "MachineDeployment Controller" as MDC {
+    state "TODO MachineDeployment Controller" as MDC {
         [*] --> FetchDeployment
-        FetchDeployment --> ValidateSpec
-        ValidateSpec --> GetMachineSets
+        FetchDeployment --> LogFrozenOrTBD
+        LogFrozenOrTBD --> ValidateSpec
+        ValidateSpec --> CheckDeletion
         
         state "GetMachineSets" as GMS {
-            [*] --> ClaimMachineSets
-            ClaimMachineSets --> BuildMachineMap
-            BuildMachineMap --> SyncRevision
-            
-            state "ClaimMachineSets" as CMS {
-                [*] --> CreateControllerRef
-                CreateControllerRef --> MatchSelector
-                MatchSelector --> AdoptOrphan : No Owner
-                MatchSelector --> ReleaseClaimed : Wrong Owner
+            [*] --> CreateControllerRefMgr
+            CreateControllerRefMgr --> GetControllerRef
+            GetControllerRef --> Orphan : Nil<br/>(No Owner)
+            GetControllerRef --> CheckUID : Not Nil<br/>(Owner Exists)
 
-                AdoptOrphan --> UpdateOwnerRef
-                ReleaseClaimed --> RemoveOwnerRef
-            }
+            CheckUID --> Ignore : Mismatch<br/>(Wrong Owner)
+            CheckUID --> MatchSelector : UID Same
+            Orphan --> CheckDelete
+            CheckDelete --> SelectorMatch : No Deletion
+            SelectorMatch --> AdoptOrphan : Selector Match
+
+            MatchSelector --> KeepClaim : Selector Match<br/>Already Owned
+            MatchSelector --> DeletionCheck : Selector Mismatch
+            DeletionCheck --> AttemptRelease : No Deletion
+
+            KeepClaim --> AddToClaimed
+            AdoptOrphan --> AddToClaimed
+            AttemptRelease --> RemoveFromClaimed
         }
         
-        GetMachineSets --> CheckDeletion
-        CheckDeletion --> HandleDeletion : Deletion Requested
-        CheckDeletion --> CheckPaused : No Deletion
+        CheckDeletion --> AddFinalizer : No Deletion
+        AddFinalizer --> StatusUpdate
+        StatusUpdate --> GetMachineSets
+
+        GetMachineSets --> BuildMachineMap<br/>MSetUIDToMachines
+        BuildMachineMap<br/>MSetUIDToMachines --> DeleteChk
+        DeleteChk --> CheckPausedCond : No Deletion
+        DeleteChk --> ProcessDeletion : Deletion Requested
         
-        
-        CheckPaused --> Sync : Paused
-        CheckPaused --> CheckRollback : Not Paused
+        state "Process Deletion" as DC {
+            [*] --> Exit : Finalizer<br/>NotPresent
+            [*] --> RemoveFinalizers : NoBackingMS
+            [*] --> TerminateMachineSets : BackingMS
+            
+            TerminateMachineSets --> SyncStatusOnly<br/>UpdateMcdStatus
+            RemoveFinalizers --> Exit
+        }
+
+        state "Check Paused Condition" as CPC {
+            [*] --> GetCondition<br/>TypeProcessing
+            
+            GetCondition<br/>TypeProcessing --> [*] : CondReason<br/>TimeOut
+            GetCondition<br/>TypeProcessing --> ExistingPaused : CondReason<br/>Paused
+            GetCondition<br/>TypeProcessing --> NotExistingPaused : Else
+            
+            NotExistingPaused --> Spec.Paused
+            Spec.Paused --> SetPausedCondition : true
+
+            ExistingPaused --> SpecPaused
+            SpecPaused --> SetResumedCondition : False
+
+            SetPausedCondition --> UpdateMcdStatus
+            SetResumedCondition --> UpdateMcdStatus
+
+            UpdateMcdStatus --> [*]
+        }
+
+        CheckPausedCond --> SetPrioAnnotation : TODO
+
+        SetPrioAnnotation --> Sync : Spec.Paused true<br/>TODO
+        SetPrioAnnotation --> CheckRollbackTo : Spec.Paused false
         
         state "Rollback" as RB {
             [*] --> FindRevision
-            FindRevision --> RemoveTaints
-            RemoveTaints --> UpdateTemplate
-            UpdateTemplate --> SyncStatus
+            FindRevision --> FindMatchingMS : RollbackTo.Revision<br/>Present
+            FindRevision --> ClearRollbackTo : No last revision
+
+            FindMatchingMS --> Remove<br/>PreferNoSched<br/>Taint : MSRevisionAnnotation<br/>same as<br/>RollbackTo Revision
+            FindMatchingMS --> ClearRollbackTo : NoMachineSetFound
+            
+            Remove<br/>PreferNoSched<br/>Taint --> UpdateMcdTemplate
+            UpdateMcdTemplate --> UpdateMcdAnnotations : Copy MS template<br/>Remove label<br/>machine-template-hash
+
+            UpdateMcdAnnotations --> ClearRollbckTo
+            ClearRollbckTo --> EmitRollbackEvent
         }
         
-        CheckRollback --> Rollback : Rollback Requested
-        CheckRollback --> CheckScaling : No Rollback
+        CheckRollbackTo --> Rollback : Rollback Requested
+        CheckRollbackTo --> IsScalingEvent : No Rollback
         
-        state "Scaling" as SC {
-            [*] --> CheckActiveMS
-            CheckActiveMS --> CheckReplicas
-            CheckReplicas --> SyncScale
+        state "Is Scaling Event" as SC {
+            [*] --> GetMS<br/>SyncRev
+            GetMS<br/>SyncRev --> NotScaling : err
+            GetMS<br/>SyncRev --> NotScaling : No New MS
+            
+            GetMS<br/>SyncRev --> CheckActiveMS : MS Replicas > 0
+            CheckActiveMS --> ScalingEvent : NoActiveMS &<br/>MCD Replicas > 0<br/>(ScaleFromZero)
+            
+            CheckActiveMS --> GetMSDesiredReplica<br/>Annotation
+            GetMSDesiredReplica<br/>Annotation --> ScalingEvent : Desired not equal<br/>to MCD Replicas
+
+            CheckActiveMS --> NotScaling : NoActiveMS or<br/>Desired = MCD Replicas<br/>(For all active)
         }
         
-        CheckScaling --> Scaling : Scale Event
-        CheckScaling --> DeployStrategy : No Scale Event
-        
-        state "DeployStrategy" as DS {
+        IsScalingEvent --> Sync : Scale Event
+        IsScalingEvent --> DeployStrategy : No Scale Event
+
+        state "Sync" as SN {
+            [*] --> GetMS<br/>SyncRevision
+            GetMS<br/>SyncRevision --> Scale
+            Scale --> CleanMCD : Paused and<br/>No RollbackTo
+            Scale --> SyncMCDStatus
+
+            state "Find Active or Latest MS" as ALMS {
+            [*] --> SortMS by CreationTime<br/>FilterActiveMS
+            }
+
+            state "TODO Scale" as SCC {
+                state "ReplicasToAdd<br/>AllowedSize - AllMSReplicaCnt" as ReplicasToAdd
+                
+                [*] --> GetActiveOrLatestMS
+                GetActiveOrLatestMS --> CheckActiveMSReplicas : not nil
+                GetActiveOrLatestMS --> CheckNewMS<br/>Saturated
+
+                CheckActiveMSReplicas --> FIXME : ActiveMSRep = mcdRep
+
+                CheckNewMS<br/>Saturated --> ScaleDownOldMS : true
+                CheckNewMS<br/>Saturated --> IsRollingUpdate : false
+
+                IsRollingUpdate --> FilterActiveMS : true
+                FilterActiveMS --> GetReplicaCount<br/>AllMS
+
+                GetReplicaCount<br/>AllMS --> FindAllowedSize
+
+                FindAllowedSize --> Zero : MCD Replicas <= 0
+                FindAllowedSize --> McdReplicas+MaxSurge : MCD Replicas > 0
+
+                Zero --> ReplicasToAdd
+                McdReplicas+MaxSurge --> ReplicasToAdd
+
+                ReplicasToAdd --> ScaleUp : more than 0
+                ReplicasToAdd --> ScaleDown : < 0
+
+                ScaleUp --> map[name]=NewRep : oldMS = Replicas
+                ScaleUp --> map[name]=NewRep : newMS = Rep+RepToAdd
+                
+            }
+        }
+
+        state "TODO DeployStrategy" as DS {
             state "Recreate" as RC {
                 [*] --> OldScaleDown
                 OldScaleDown --> CreateNew

@@ -30,9 +30,9 @@ pluralizelisttitles = false
 
 [menu]
 [[menu.main]]
-  identifier = 'about'
-  name = 'About'
-  url = '/about/about/'
+  identifier = 'tags'
+  name = 'Tags'
+  url = '/tags/'
 
 [params]
   favicon = "/images/favicon.ico"

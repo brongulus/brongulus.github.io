@@ -2,9 +2,9 @@
 title = "Morphosyntactic Tagging with BiLSTM Model"
 author = ["Bernd Bohnet", "et al"]
 date = 2021-03-21T03:00:00+05:30
-lastmod = 2023-03-27T14:35:44+05:30
+lastmod = 2025-04-28T09:04:41+05:30
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
+creator = "Emacs 30.1 (Org mode 9.7.11 + ox-hugo)"
 +++
 
 > "I had shingles, which is a painful disease."
