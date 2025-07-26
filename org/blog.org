@@ -29,6 +29,7 @@
 12. https://broadbandforum.co/threads/guide-how-to-host-webservers-on-jio-fiber-accessible-to-ipv4-clients.204996/page-2
 13. https://threadsiiithyderabad.quora.com/
 14. https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
+15. https://jhana-practice.pages.dev/
 * TODO
 1. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
 2. Open external links in new tab by default, unless it's meta-links.
@@ -74,19 +75,41 @@ CLOSED: [2025-04-28 Mon 09:00]
 :EXPORT_FILE_NAME: record
 :END:
 *** Books
-|----------+------------------------|
-| Time     | Title                  |
-|----------+------------------------|
-| Apr 2025 | Courage to be disliked |
-|----------+------------------------|
+|--------------+-----------------------------|
+| Time         | Title                       |
+|--------------+-----------------------------|
+| Apr 2025     | Courage to be disliked      |
+| May 2025     | Before the Coffee Gets Cold |
+| May 2025 TBD | Four Thousand Weeks         |
+| May 2025 TBD | Right Concentration         |
+|--------------+-----------------------------|
 *** Media
-|----------+-----------------|
-| Time     | Title           |
-|----------+-----------------|
-| Apr 2025 | Bojack Horseman |
-| Apr 2025 | Rehearsal       |
-|----------+-----------------|
+**** 2025
+|-----------+---------------------------|
+| Time      | Title                     |
+|-----------+---------------------------|
+| Apr       | Bojack Horseman (R)       |
+| Apr - May | Rehearsal                 |
+| Apr       | Unsolicited advice (YT)   |
+| Apr       | Anatomy of a champion     |
+| May       | Kubikiri Cycle            |
+| May       | Tokyo Ghoul (R)           |
+| May       | Fairy Tail S2             |
+| May       | About Time                |
+| May - Jun | The Bombing of Pan Am 103 |
+| May       | Rams                      |
+| May       | Etoile                    |
+|-----------+---------------------------|
 *** Music
+**** May 2025
+|------------------+-------------------------|
+| Artist           | Work                    |
+|------------------+-------------------------|
+| Alexandra Savior | Beneath The Lilypad     |
+| Ramin Djawadi    | Westworld S1 OST        |
+| Space Remedy     | Deformity               |
+| Phil Collins     | Another Day in Paradise |
+|------------------+-------------------------|
 **** April 2025
 |---------------+-------------------------------|
 | Artist        | Work                          |
@@ -103,8 +126,8 @@ CLOSED: [2025-04-28 Mon 09:00]
 :EXPORT_HUGO_SECTION: blog
 :END:
 ** Sporadic bursts of motivation
-    - Been ages since I wrote long form
-    - Don't feel anything for the most part
+- Been ages since I wrote long form
+- Don't feel anything for the most part
 ** TODO Web log :noexport:
 :PROPERTIES:
 :EXPORT_FILE_NAME: weblog
@@ -384,8 +407,7 @@ When you open an IRSSI for the first time, you're greeted with a barren window w
 /server connect irc.libera.chat
 #+end_src
 
-After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the =/list= command but for large channels such as =libera= or =rizon= that's not really a good idea. So for discovering channels, one can either [[https://libera.chat/guides/findingchannels
-][filter]] through the various list options or go to [[https://netsplit.de/channels/][netsplit]]. After choosing a channel for a server you're connected to, you can join it and chat. Also, chat can be scrolled via =fn+arrow= keys.
+After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the =/list= command but for large channels such as =libera= or =rizon= that's not really a good idea. So for discovering channels, one can either [[https://libera.chat/guides/findingchannels][filter]] through the various list options or go to [[https://netsplit.de/channels/][netsplit]]. After choosing a channel for a server you're connected to, you can join it and chat. Also, chat can be scrolled via =fn+arrow= keys.
 
 #+begin_src sh
 /join gentoo
@@ -460,8 +482,8 @@ There are some limitations with IRC there's no chat persistance unless you use a
 3. [[https://irssi.org/documentation/settings/][IRSSI Setup Options]]
 4. [[https://daniel.haxx.se/irchistory.html][History of IRC]]
 5. [[https://gist.github.com/xero/2d6e4b061b4ecbeb9f99][IRC Cheatsheet]]
-6  [[https://libera.chat/guides/cloaks][Cloaks Libera]]
-6. Direct Client-to-Client Protocol: [[https://modern.ircdocs.horse/dcc.html][DCC]]
+6. [[https://libera.chat/guides/cloaks][Cloaks Libera]]
+7. Direct Client-to-Client Protocol: [[https://modern.ircdocs.horse/dcc.html][DCC]]
 ** DRAFT My experience with 🦀
 :PROPERTIES:
 :export_file_name: hitagi-crab
@@ -721,6 +743,77 @@ git submodule add <theme_url> themes/<name>
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: notes
 :END:
+** Scaling Recommender Flow
+:PROPERTIES:
+:EXPORT_FILE_NAME: recommender
+:END:
+#+begin_src mermaid :noeval :exports code
+---
+title: ScaleSim
+config:
+    layout: elk
+---
+stateDiagram-v2
+    runScaleSim --> syncVirtualCluster : Creates NS, PC, Pods & Nodes<br/>Schedules any pods that can be
+    syncVirtualCluster --> runSimulation : Posts the ClusterSnapshot on the recommender endpoint
+#+end_src
+
+#+begin_src mermaid :noeval :exports code
+---
+title: handler.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+
+    state "initializeRecommender" as iR {
+        [*] --> createPods : podName-count using Builder
+        createPods --> createNodesFromNT : nodeName
+        createNodesFromNT --> splitPods : Into unscheduled and scheduled
+        splitPods --> deployNodes : initializeCluster
+        deployNodes --> deployScheduledPods
+    }
+
+    parseSnapshot --> parsePriorities
+    parsePriorities --> createSimulationRequest : For each unscheduled pod
+    createSimulationRequest --> iR
+    iR --> runRecommenderForPC : has PCs
+    iR --> runRecommenderForCS : no PC
+    runRecommenderForPC --> applyRecommendation
+    runRecommenderForCS --> applyRecommendation
+    applyRecommendation --> JSONResponse
+#+end_src
+
+#+begin_src mermaid :noeval :exports code
+---
+title: recommender.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+    state "runSimForZone" as rSZ {
+        [*] --> constructNodeForSim : prefix-NP-sr-ref
+        constructNodeForSim --> deployUnschedPods : podName-count-sr-ref
+        deployUnschedPods --> getPodSchedEvents : wait 10s
+        getPodSchedEvents --> scoreNodeByScheduledPods
+    }
+
+    state "runSimulation" as rS {
+        [*] --> runSimulationForNP : triggerNPSimulations<br/>for each NP
+        runSimulationForNP --> setupSimRun
+        setupSimRun --> createSimNodes : nodeName-count-sr-ref<br/>Add NoSchedule taint for ref
+        createSimNodes --> createSimSchedPods : podName-count-sr-ref<br/>Add NoSchedule toleration for ref
+        createSimSchedPods --> rSZ : for each zone
+        rSZ --> winningResult
+    }
+
+    [*] --> filterEligibleNP
+    filterEligibleNP --> rS
+    rS --> scaleUpRecommendationFromResult
+#+end_src
+
+
+
 ** TODO Quick Notes
 :PROPERTIES:
 :export_file_name: random-notes

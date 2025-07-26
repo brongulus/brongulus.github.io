@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
     
@@ -30,7 +30,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>The Subject of no one&#39;s affection &middot; bacchanalian madness</title>
+  <title>Scaling Recommender Flow &middot; bacchanalian madness</title>
   
   <link rel="stylesheet" href="/css/style.css">
   
@@ -118,10 +118,10 @@
     
         
         
-        <time datetime="2019-06-10 03:00:00 &#43;0530 IST">June 10, 2019</time>
+        <time datetime="2025-06-04 12:16:24 &#43;0530 IST">June 4, 2025</time>
 </div>
 
-		<h1 class="post-title">The Subject of no one&#39;s affection</h1>
+		<h1 class="post-title">Scaling Recommender Flow</h1>
 
 		
 
@@ -129,14 +129,68 @@
 
 		
 
-		<div class="epigraph">
-<p>A mountain far off in the distance,
-A river flowing away from it,
-Hordes of trees on it.
-There’s a well somewhere,
-Penetrates the heart of the rock,
-Awaiting rain.</p>
-</div>
+		<pre class="mermaid">---
+title: ScaleSim
+config:
+    layout: elk
+---
+stateDiagram-v2
+    runScaleSim --&gt; syncVirtualCluster : Creates NS, PC, Pods &amp; Nodes&lt;br/&gt;Schedules any pods that can be
+    syncVirtualCluster --&gt; runSimulation : Posts the ClusterSnapshot on the recommender endpoint
+</pre>
+
+<pre class="mermaid">---
+title: handler.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+
+    state &#34;initializeRecommender&#34; as iR {
+        [*] --&gt; createPods : podName-count using Builder
+        createPods --&gt; createNodesFromNT : nodeName-count
+        createNodesFromNT --&gt; splitPods : Into unscheduled and scheduled
+        splitPods --&gt; deployNodes : initializeCluster
+        deployNodes --&gt; deployScheduledPods
+    }
+
+    parseSnapshot --&gt; parsePriorities
+    parsePriorities --&gt; createSimulationRequest : For each unscheduled pod
+    createSimulationRequest --&gt; iR
+    iR --&gt; runRecommenderForPC : has PCs
+    iR --&gt; runRecommenderForCS : no PC
+    runRecommenderForPC --&gt; applyRecommendation
+    runRecommenderForCS --&gt; applyRecommendation
+    applyRecommendation --&gt; JSONResponse
+</pre>
+
+<pre class="mermaid">---
+title: recommender.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+    state &#34;runSimForZone&#34; as rSZ {
+        [*] --&gt; constructNodeForSim : prefix-NP-sr-ref
+        constructNodeForSim --&gt; deployUnschedPods : podName-count-sr-ref
+        deployUnschedPods --&gt; getPodSchedEvents : wait 10s
+        getPodSchedEvents --&gt; scoreNodeByScheduledPods
+    }
+
+    state &#34;runSimulation&#34; as rS {
+        [*] --&gt; runSimulationForNP : triggerNPSimulations&lt;br/&gt;for each NP
+        runSimulationForNP --&gt; setupSimRun
+        setupSimRun --&gt; createSimNodes : nodeName-count-sr-ref&lt;br/&gt;Add NoSchedule taint for ref
+        createSimNodes --&gt; createSimSchedPods : podName-count-sr-ref&lt;br/&gt;Add NoSchedule toleration for ref
+        createSimSchedPods --&gt; rSZ : for each zone
+        rSZ --&gt; winningResult
+    }
+
+    [*] --&gt; filterEligibleNP
+    filterEligibleNP --&gt; rS
+    rS --&gt; scaleUpRecommendationFromResult
+</pre>
+
 
     
     
@@ -145,7 +199,7 @@ Awaiting rain.</p>
 	</div>
 
 	<div class="pagination">
-		<a href="/meta/about/" class="right arrow">&#8594;</a>
+		<a href="/meta/record/" class="left arrow">&#8592;</a>
 		<a href="/" class="bottom">Home</a>
 	</div>
 	
@@ -187,6 +241,25 @@ Awaiting rain.</p>
         
     </div>
     
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs';
+
+      mermaid.registerLayoutLoaders(elkLayouts);
+      var config = {
+          startOnLoad: true,
+          
+          theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default',
+          align:'center',
+      };
+      mermaid.initialize(config);
+      
+      const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+      toggleSwitch.addEventListener('click', () => {
+          window.location.reload();
+      });
+    </script>
+
 <script> 
   const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
   if (localStorage.theme) {

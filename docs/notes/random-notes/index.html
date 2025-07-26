@@ -56,15 +56,6 @@
         
             
                 <li>
-                    <a href="/about/about/">
-                        
-                        <span>About</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
                     <a href="/blog/">
                         
                         <span>Blog</span>
@@ -86,6 +77,15 @@
                     <a href="/notes/">
                         
                         <span>Notes</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/">
+                        
+                        <span>Tags</span>
                     </a>
                 </li>
             
@@ -118,7 +118,7 @@
     
         
         
-        <time datetime="2023-03-27 14:35:45 &#43;0530 IST">March 27, 2023</time>
+        <time datetime="2025-04-28 09:04:42 &#43;0530 IST">April 28, 2025</time>
 </div>
 
 		<h1 class="post-title">Quick Notes</h1>
@@ -157,6 +157,23 @@ Source code — (Lexing) → Tokens — (Parsing) → AST</p>
 <li>Abstract because some (parsing guiding) elements of source not present in AST.</li>
 <li>Syntactic Analysis</li>
 </ul>
+<h2 id="ssh-setup--ish">SSH setup (iSH)</h2>
+<h3 id="ish--only-works-for-local-access-rn">iSH (Only works for local access rn :/)</h3>
+<ul>
+<li><code>apk add opnssh</code></li>
+<li><code>apk add mosh</code></li>
+<li><code>ssh-keygen -t rsa</code></li>
+<li>On server: <code>ip addr show | sed -n 's/.*inet \([0-9.]*\).*/\1/p' | grep -v '127.0.0.1'</code></li>
+<li><code>ssh-copy-id user@host</code>, then enter machine passwd</li>
+<li><code>mosh user@host</code></li>
+<li>&gt; <code>vi .ssh/config</code>, then add this
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cfg" data-lang="cfg"><span class="line"><span class="cl">  <span class="na">Host &lt;alias&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">Hostname &lt;host&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">Port &lt;port&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">User &lt;user&gt;</span>
+</span></span></code></pre></div></li>
+<li>Then you can just do <code>mosh &lt;alias&gt;</code></li>
+</ul>
 
     
     
@@ -165,8 +182,8 @@ Source code — (Lexing) → Tokens — (Parsing) → AST</p>
 	</div>
 
 	<div class="pagination">
-		<a href="/notes/korean/" class="left arrow">&#8592;</a>
-		<a href="/blog/hitagi-crab/" class="right arrow">&#8594;</a>
+		<a href="/meta/record/" class="left arrow">&#8592;</a>
+		<a href="/notes/comp-arch/" class="right arrow">&#8594;</a>
 		<a href="/" class="bottom">Home</a>
 	</div>
 	

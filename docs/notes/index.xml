@@ -6,8 +6,15 @@
     <description>Recent content in Notes on bacchanalian madness</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Apr 2025 09:04:42 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 04 Jun 2025 12:16:24 +0530</lastBuildDate>
     <atom:link href="https://brongulus.github.io/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scaling Recommender Flow</title>
+      <link>https://brongulus.github.io/notes/recommender/</link>
+      <pubDate>Wed, 04 Jun 2025 12:16:24 +0530</pubDate>
+      <guid>https://brongulus.github.io/notes/recommender/</guid>
+      <description>--- title: ScaleSim config: layout: elk --- stateDiagram-v2 runScaleSim --&amp;gt; syncVirtualCluster : Creates NS, PC, Pods &amp;amp; Nodes&amp;lt;br/&amp;gt;Schedules any pods that can be syncVirtualCluster --&amp;gt; runSimulation : Posts the ClusterSnapshot on the recommender endpoint --- title: handler.run config: layout: elk --- stateDiagram-v2 state &amp;#34;initializeRecommender&amp;#34; as iR { [*] --&amp;gt; createPods : podName-count using Builder createPods --&amp;gt; createNodesFromNT : nodeName-count createNodesFromNT --&amp;gt; splitPods : Into unscheduled and scheduled splitPods --&amp;gt; deployNodes : initializeCluster deployNodes --&amp;gt; deployScheduledPods } parseSnapshot --&amp;gt; parsePriorities parsePriorities --&amp;gt; createSimulationRequest : For each unscheduled pod createSimulationRequest --&amp;gt; iR iR --&amp;gt; runRecommenderForPC : has PCs iR --&amp;gt; runRecommenderForCS : no PC runRecommenderForPC --&amp;gt; applyRecommendation runRecommenderForCS --&amp;gt; applyRecommendation applyRecommendation --&amp;gt; JSONResponse --- title: recommender.</description>
+    </item>
     <item>
       <title>2 Fast 2 MCM</title>
       <link>https://brongulus.github.io/notes/2fast2mcm/</link>

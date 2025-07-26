@@ -2,9 +2,9 @@
 title = "I R SSI"
 author = ["Prashant Tak"]
 date = 2022-06-28T00:00:00+05:30
-lastmod = 2025-04-28T09:04:41+05:30
+lastmod = 2025-07-26T20:52:58+05:30
 draft = false
-creator = "Emacs 30.1 (Org mode 9.7.11 + ox-hugo)"
+creator = "Emacs 31.0.50 (Org mode 9.7.11 + ox-hugo)"
 +++
 
 {{< figure src="https://imgs.xkcd.com/comics/team_chat.png" link="https://xkcd.com/1782" >}}
@@ -38,7 +38,7 @@ When you open an IRSSI for the first time, you're greeted with a barren window w
 /server connect irc.libera.chat
 ```
 
-After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the `/list` command but for large channels such as `libera` or `rizon` that's not really a good idea. So for discovering channels, one can either [filter](https://libera.chat/guides/findingchannels%20) through the various list options or go to [netsplit](https://netsplit.de/channels/). After choosing a channel for a server you're connected to, you can join it and chat. Also, chat can be scrolled via `fn+arrow` keys.
+After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the `/list` command but for large channels such as `libera` or `rizon` that's not really a good idea. So for discovering channels, one can either [filter](https://libera.chat/guides/findingchannels) through the various list options or go to [netsplit](https://netsplit.de/channels/). After choosing a channel for a server you're connected to, you can join it and chat. Also, chat can be scrolled via `fn+arrow` keys.
 
 ```sh
 /join gentoo
@@ -130,7 +130,5 @@ There are some limitations with IRC there's no chat persistance unless you use a
 3.  [IRSSI Setup Options](https://irssi.org/documentation/settings/)
 4.  [History of IRC](https://daniel.haxx.se/irchistory.html)
 5.  [IRC Cheatsheet](https://gist.github.com/xero/2d6e4b061b4ecbeb9f99)
-
-6  [Cloaks Libera](https://libera.chat/guides/cloaks)
-
-1.  Direct Client-to-Client Protocol: [DCC](https://modern.ircdocs.horse/dcc.html)
+6.  [Cloaks Libera](https://libera.chat/guides/cloaks)
+7.  Direct Client-to-Client Protocol: [DCC](https://modern.ircdocs.horse/dcc.html)

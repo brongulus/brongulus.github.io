@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300&Nanum+Myeongjo&Noto+Serif+KR:wght@200&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
 :root {
   --icon-moon-filter: invert(0);
   --icon-sun-filter: invert(1);
@@ -70,7 +70,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  line-height: 1.55;
+  line-height: 155%;
   box-sizing: border-box;
   -webkit-font-smoothing: subpixel-antialiased; }
 
@@ -85,7 +85,7 @@ html,
 
 html {
   color: var(--bg);
-  font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Literata", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 22px;
   overflow: scroll;
   overflow-y: hidden;
@@ -151,7 +151,7 @@ h4,
 h5,
 h6 {
   color: var(--head);
-  font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Literata", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 1.05rem;
   letter-spacing: 0.1rem;
   margin-bottom: 0.5rem; }
@@ -354,31 +354,16 @@ table tr + tr {
   font-display: fallback; }
 
 @font-face {
-  font-family: "Merriweather", serif;
+  font-family: "Literata";
   font-weight: 300;
-  font-style: normal; }
-
-@font-face {
-  font-family: "Merriweather", serif;
-  font-weight: 300;
-  font-style: italic; }
-
-@font-face {
-  font-family: "Source Serif Pro";
-  font-weight: 200;
   font-style: normal;
   font-display: fallback; }
 
 @font-face {
-  font-family: "Source Serif Pro";
-  font-weight: 200;
+  font-family: "Literata";
+  font-weight: 300;
   font-style: italic;
   font-display: fallback; }
-
-@font-face {
-  font-family: kepler-std-semicondensed-dis, serif;
-  font-weight: 700;
-  font-style: italic; }
 
 @font-face {
   font-family: "Playfair Display", serif;
@@ -402,8 +387,7 @@ code {
 
 code {
   border-radius: 0px;
-  color: var(--code);
-  font-size: 100%;
+  font-size: 90%;
   font-weight: 500; }
 
 pre {
@@ -488,18 +472,18 @@ pre.mermaid p {
       letter-spacing: 2px;
       color: var(--accent); }
   .post p code {
-    font-size: 95%; }
+    font-size: 90%; }
   .post ul li code {
-    font-size: 95%; }
+    font-size: 90%; }
   .post ol li code {
-    font-size: 95%; }
+    font-size: 90%; }
   .post ol li pre code {
     font-size: 100%; }
   .post ul li pre code {
     font-size: 100%; }
   .post blockquote p {
     white-space: pre;
-    font-family: "Source Serif Pro", serif;
+    font-family: "Literata", serif;
     font-style: italic;
     font-weight: 300;
     font-size: 1.4em;
@@ -537,7 +521,7 @@ pre.mermaid p {
     border-top: 3px double #727272;
     font-style: italic;
     font-size: 1.2em;
-    font-family: "Source Serif Pro", serif;
+    font-family: "Literata", serif;
     padding: 0.5em 1.5rem;
     margin-block-start: 1rem;
     margin-block-end: 1rem;
@@ -578,7 +562,7 @@ pre.mermaid p {
     margin: 0 4.5rem 1.5rem 0;
     width: 7.5rem; }
   .post p {
-    font-family: "Merriweather", sans-serif;
+    font-family: "Literata", serif;
     font-weight: 300;
     font-size: 1.0rem;
     margin: 0 0 1rem;
@@ -615,7 +599,7 @@ pre.mermaid p {
   .post img {
     color: #aaa;
     display: block;
-    font-family: "Merriweather", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "Literata", "Source Sans Pro", "Inter", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
@@ -1866,7 +1850,7 @@ footer {
 
 .catalogue-title {
   color: var(--font);
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Playfair Display", sans-serif;
   display: block;
   text-align: left;
   font-size: 2rem;

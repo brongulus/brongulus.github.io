@@ -6,7 +6,78 @@
     <description>Recent content on bacchanalian madness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Apr 2025 09:04:42 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 Jun 2025 12:16:24 +0530</lastBuildDate><atom:link href="https://brongulus.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scaling Recommender Flow</title>
+      <link>https://brongulus.github.io/notes/recommender/</link>
+      <pubDate>Wed, 04 Jun 2025 12:16:24 +0530</pubDate>
+      
+      <guid>https://brongulus.github.io/notes/recommender/</guid>
+      <description>&lt;pre class=&#34;mermaid&#34;&gt;---
+title: ScaleSim
+config:
+    layout: elk
+---
+stateDiagram-v2
+    runScaleSim --&amp;gt; syncVirtualCluster : Creates NS, PC, Pods &amp;amp; Nodes&amp;lt;br/&amp;gt;Schedules any pods that can be
+    syncVirtualCluster --&amp;gt; runSimulation : Posts the ClusterSnapshot on the recommender endpoint
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: handler.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+
+    state &amp;#34;initializeRecommender&amp;#34; as iR {
+        [*] --&amp;gt; createPods : podName-count using Builder
+        createPods --&amp;gt; createNodesFromNT : nodeName-count
+        createNodesFromNT --&amp;gt; splitPods : Into unscheduled and scheduled
+        splitPods --&amp;gt; deployNodes : initializeCluster
+        deployNodes --&amp;gt; deployScheduledPods
+    }
+
+    parseSnapshot --&amp;gt; parsePriorities
+    parsePriorities --&amp;gt; createSimulationRequest : For each unscheduled pod
+    createSimulationRequest --&amp;gt; iR
+    iR --&amp;gt; runRecommenderForPC : has PCs
+    iR --&amp;gt; runRecommenderForCS : no PC
+    runRecommenderForPC --&amp;gt; applyRecommendation
+    runRecommenderForCS --&amp;gt; applyRecommendation
+    applyRecommendation --&amp;gt; JSONResponse
+&lt;/pre&gt;
+
+&lt;pre class=&#34;mermaid&#34;&gt;---
+title: recommender.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+    state &amp;#34;runSimForZone&amp;#34; as rSZ {
+        [*] --&amp;gt; constructNodeForSim : prefix-NP-sr-ref
+        constructNodeForSim --&amp;gt; deployUnschedPods : podName-count-sr-ref
+        deployUnschedPods --&amp;gt; getPodSchedEvents : wait 10s
+        getPodSchedEvents --&amp;gt; scoreNodeByScheduledPods
+    }
+
+    state &amp;#34;runSimulation&amp;#34; as rS {
+        [*] --&amp;gt; runSimulationForNP : triggerNPSimulations&amp;lt;br/&amp;gt;for each NP
+        runSimulationForNP --&amp;gt; setupSimRun
+        setupSimRun --&amp;gt; createSimNodes : nodeName-count-sr-ref&amp;lt;br/&amp;gt;Add NoSchedule taint for ref
+        createSimNodes --&amp;gt; createSimSchedPods : podName-count-sr-ref&amp;lt;br/&amp;gt;Add NoSchedule toleration for ref
+        createSimSchedPods --&amp;gt; rSZ : for each zone
+        rSZ --&amp;gt; winningResult
+    }
+
+    [*] --&amp;gt; filterEligibleNP
+    filterEligibleNP --&amp;gt; rS
+    rS --&amp;gt; scaleUpRecommendationFromResult
+&lt;/pre&gt;
+
+</description>
+    </item>
+    
     <item>
       <title>Tracker</title>
       <link>https://brongulus.github.io/meta/record/</link>
@@ -26,6 +97,18 @@
 &lt;td&gt;Apr 2025&lt;/td&gt;
 &lt;td&gt;Courage to be disliked&lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;May 2025&lt;/td&gt;
+&lt;td&gt;Before the Coffee Gets Cold&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;May 2025&lt;/td&gt;
+&lt;td&gt;Four Thousand Weeks&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;May 2025&lt;/td&gt;
+&lt;td&gt;Right Concentration&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;media&#34;&gt;Media&lt;/h2&gt;
@@ -39,11 +122,27 @@
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;Apr 2025&lt;/td&gt;
-&lt;td&gt;Bojack Horseman&lt;/td&gt;
+&lt;td&gt;Bojack Horseman (R)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Apr-May 2025&lt;/td&gt;
+&lt;td&gt;Rehearsal&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Apr 2025&lt;/td&gt;
-&lt;td&gt;Rehearsal&lt;/td&gt;
+&lt;td&gt;Unsolicited advice (YT)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Apr 2025&lt;/td&gt;
+&lt;td&gt;Anatomy of a champion&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;May 2025&lt;/td&gt;
+&lt;td&gt;Kubikiri Cycle&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;May 2025&lt;/td&gt;
+&lt;td&gt;Tokyo Ghoul (R)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -2362,7 +2461,7 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;p&gt;When you open an IRSSI for the first time, you&amp;rsquo;re greeted with a barren window with an unfamiliar layout, don&amp;rsquo;t worry later we&amp;rsquo;ll see how to configure it to make it more convenient to use and similar to a new platform like discord. For now let&amp;rsquo;s connect to our first server.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/set nick &amp;lt;nick&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/server connect irc.libera.chat
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the &lt;code&gt;/list&lt;/code&gt; command but for large channels such as &lt;code&gt;libera&lt;/code&gt; or &lt;code&gt;rizon&lt;/code&gt; that&amp;rsquo;s not really a good idea. So for discovering channels, one can either &lt;a href=&#34;https://libera.chat/guides/findingchannels%20&#34;&gt;filter&lt;/a&gt; through the various list options or go to &lt;a href=&#34;https://netsplit.de/channels/&#34;&gt;netsplit&lt;/a&gt;. After choosing a channel for a server you&amp;rsquo;re connected to, you can join it and chat. Also, chat can be scrolled via &lt;code&gt;fn+arrow&lt;/code&gt; keys.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the &lt;code&gt;/list&lt;/code&gt; command but for large channels such as &lt;code&gt;libera&lt;/code&gt; or &lt;code&gt;rizon&lt;/code&gt; that&amp;rsquo;s not really a good idea. So for discovering channels, one can either &lt;a href=&#34;https://libera.chat/guides/findingchannels&#34;&gt;filter&lt;/a&gt; through the various list options or go to &lt;a href=&#34;https://netsplit.de/channels/&#34;&gt;netsplit&lt;/a&gt;. After choosing a channel for a server you&amp;rsquo;re connected to, you can join it and chat. Also, chat can be scrolled via &lt;code&gt;fn+arrow&lt;/code&gt; keys.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/join gentoo
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But there&amp;rsquo;s a catch, once you close irssi, you&amp;rsquo;ll realize that you&amp;rsquo;ll have to go through the entire process again so to autoconnect to various servers and channels you can either edit your &lt;code&gt;~/.irssi/config&lt;/code&gt; file or do it right from the client. There&amp;rsquo;s also another annoyance, there are automated messages for whenever people join or leave channels so ignoring these provides for a cleaner chat experience.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/server add -auto -network Libera irc.libera.chat &lt;span class=&#34;m&#34;&gt;6697&lt;/span&gt;
@@ -2423,9 +2522,7 @@ ownerRef.UID is the same as the machineSet&amp;rsquo;s UUID. (&lt;a href=&#34;ht
 &lt;li&gt;&lt;a href=&#34;https://irssi.org/documentation/settings/&#34;&gt;IRSSI Setup Options&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://daniel.haxx.se/irchistory.html&#34;&gt;History of IRC&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://gist.github.com/xero/2d6e4b061b4ecbeb9f99&#34;&gt;IRC Cheatsheet&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;6  &lt;a href=&#34;https://libera.chat/guides/cloaks&#34;&gt;Cloaks Libera&lt;/a&gt;&lt;/p&gt;
-&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://libera.chat/guides/cloaks&#34;&gt;Cloaks Libera&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Direct Client-to-Client Protocol: &lt;a href=&#34;https://modern.ircdocs.horse/dcc.html&#34;&gt;DCC&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 </description>

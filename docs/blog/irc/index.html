@@ -157,7 +157,7 @@
 <p>When you open an IRSSI for the first time, you&rsquo;re greeted with a barren window with an unfamiliar layout, don&rsquo;t worry later we&rsquo;ll see how to configure it to make it more convenient to use and similar to a new platform like discord. For now let&rsquo;s connect to our first server.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">/set nick &lt;nick&gt;
 </span></span><span class="line"><span class="cl">/server connect irc.libera.chat
-</span></span></code></pre></div><p>After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the <code>/list</code> command but for large channels such as <code>libera</code> or <code>rizon</code> that&rsquo;s not really a good idea. So for discovering channels, one can either <a href="https://libera.chat/guides/findingchannels%20">filter</a> through the various list options or go to <a href="https://netsplit.de/channels/">netsplit</a>. After choosing a channel for a server you&rsquo;re connected to, you can join it and chat. Also, chat can be scrolled via <code>fn+arrow</code> keys.</p>
+</span></span></code></pre></div><p>After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the <code>/list</code> command but for large channels such as <code>libera</code> or <code>rizon</code> that&rsquo;s not really a good idea. So for discovering channels, one can either <a href="https://libera.chat/guides/findingchannels">filter</a> through the various list options or go to <a href="https://netsplit.de/channels/">netsplit</a>. After choosing a channel for a server you&rsquo;re connected to, you can join it and chat. Also, chat can be scrolled via <code>fn+arrow</code> keys.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">/join gentoo
 </span></span></code></pre></div><p>But there&rsquo;s a catch, once you close irssi, you&rsquo;ll realize that you&rsquo;ll have to go through the entire process again so to autoconnect to various servers and channels you can either edit your <code>~/.irssi/config</code> file or do it right from the client. There&rsquo;s also another annoyance, there are automated messages for whenever people join or leave channels so ignoring these provides for a cleaner chat experience.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">/server add -auto -network Libera irc.libera.chat <span class="m">6697</span>
@@ -218,9 +218,7 @@
 <li><a href="https://irssi.org/documentation/settings/">IRSSI Setup Options</a></li>
 <li><a href="https://daniel.haxx.se/irchistory.html">History of IRC</a></li>
 <li><a href="https://gist.github.com/xero/2d6e4b061b4ecbeb9f99">IRC Cheatsheet</a></li>
-</ol>
-<p>6  <a href="https://libera.chat/guides/cloaks">Cloaks Libera</a></p>
-<ol>
+<li><a href="https://libera.chat/guides/cloaks">Cloaks Libera</a></li>
 <li>Direct Client-to-Client Protocol: <a href="https://modern.ircdocs.horse/dcc.html">DCC</a></li>
 </ol>
 
