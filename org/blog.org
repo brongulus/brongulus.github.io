@@ -1006,11 +1006,11 @@ Any boolean function can be realised by just the /nand/ gate. Let that sink in. 
 
 Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.
 
-Chips are specified using the API style, for nand gate: \\
-=Chip name: Nand= \\
-=Input: a,b= \\
-=Output: out= \\
-=Function: if ((a==1) and (b==1)) then out = 0, else out = 1= \\
+Chips are specified using the API style, for nand gate:
+=Chip name: Nand=
+=Input: a,b=
+=Output: out=
+=Function: if ((a==1) and (b==1)) then out = 0, else out = 1=
 
 *Multiplexer*: Has two input(data) bits /a,b/ and one selection bit /sel/ which decides which input bit would be the output.
 
@@ -1020,12 +1020,12 @@ Chips are specified using the API style, for nand gate: \\
 
 [[./assets/ecs-06.png][file:./assets/ecs-06.png]]
 
-HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0$^{th}$ bit) to access individual bits. For example, a /m/-way /n/-bit mux would select one of its /m n/-bit inputs and output it to its /n/-bit output, where there would be /$k=log_{2}m$/ selection bits. A 4-way 16-bit mux API would look like: \\
-=Chip name: Mux4Way16= \\
-=Input: a[16],b[16],c[16],d[16],sel[2]= \\
-=Output: out[16]= \\
-=Function: if(sel==00,01,10, or 11) then out = a,b,c, or d= \\
-=Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"= \\
+HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0$^{th}$ bit) to access individual bits. For example, a /m/-way /n/-bit mux would select one of its /m n/-bit inputs and output it to its /n/-bit output, where there would be /$k=log_{2}m$/ selection bits. A 4-way 16-bit mux API would look like:
+=Chip name: Mux4Way16=
+=Input: a[16],b[16],c[16],d[16],sel[2]=
+=Output: out[16]=
+=Function: if(sel==00,01,10, or 11) then out = a,b,c, or d=
+=Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"=
 
 *** Boolean Arithmetic
 /Word size/ is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using /n/ bits, one can represent values from 0 to 2$^{n}$ - 1.
@@ -1109,14 +1109,14 @@ Machine language programs can be written in either /binary/ or /symbolic/ instru
 
 *Registers*: Inside the processor's chip, they serve as high-speed local memory, allowing it to manipulate data and instructions without having to be dependent on slow memory chips. They're categorized into /data/ and /address/ registers.
 **** Instructions
-*Arithmetic and logical operations*: Assuming that the processor has a set of registers denoted =R0, R1, R2,...=. Basic operations like addition, subtraction, and(bitwise), or, not. \\
-=load R1,true= \\
-=load R2,false= \\
-=and R1,R2,R2= (R1 \leftarrow R1 And R2) \\
+*Arithmetic and logical operations*: Assuming that the processor has a set of registers denoted =R0, R1, R2,...=. Basic operations like addition, subtraction, and(bitwise), or, not.
+=load R1,true=
+=load R2,false=
+=and R1,R2,R2= (R1 \leftarrow R1 And R2)
 
-*Memory access*: Using address register =A=, let us set memory location 17 to value 1. \\
-=load A,17= \\
-=load M,1= \\
+*Memory access*: Using address register =A=, let us set memory location 17 to value 1.
+=load A,17=
+=load M,1=
 Here by convention, M stands for memory register selected by A.
 
 *Flow control*: For facilitating branching actions, labelled /goto/ statements exist.

@@ -2552,11 +2552,11 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 &lt;/figure&gt;
 
 &lt;p&gt;Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.&lt;/p&gt;
-&lt;p&gt;Chips are specified using the API style, for nand gate: &lt;br /&gt;
-&lt;code&gt;Chip name: Nand&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Input: a,b&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Output: out&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Function: if ((a==1) and (b==1)) then out = 0, else out = 1&lt;/code&gt; &lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;Chips are specified using the API style, for nand gate:
+&lt;code&gt;Chip name: Nand&lt;/code&gt;
+&lt;code&gt;Input: a,b&lt;/code&gt;
+&lt;code&gt;Output: out&lt;/code&gt;
+&lt;code&gt;Function: if ((a==1) and (b==1)) then out = 0, else out = 1&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Multiplexer&lt;/strong&gt;: Has two input(data) bits &lt;em&gt;a,b&lt;/em&gt; and one selection bit &lt;em&gt;sel&lt;/em&gt; which decides which input bit would be the output.&lt;/p&gt;
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-05.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-05.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
@@ -2565,12 +2565,12 @@ The text program is parsed, its semantics are uncovered, it&amp;rsquo;s represen
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-06.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-06.png&#34;&gt;&lt;/a&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a &lt;em&gt;m&lt;/em&gt;-way &lt;em&gt;n&lt;/em&gt;-bit mux would select one of its &lt;em&gt;m n&lt;/em&gt;-bit inputs and output it to its &lt;em&gt;n&lt;/em&gt;-bit output, where there would be &lt;em&gt;\(k=log_{2}m\)&lt;/em&gt; selection bits. A 4-way 16-bit mux API would look like: &lt;br /&gt;
-&lt;code&gt;Chip name: Mux4Way16&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Input: a[16],b[16],c[16],d[16],sel[2]&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Output: out[16]&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Function: if(sel==00,01,10, or 11) then out = a,b,c, or d&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;Comment: The assignment is a 16-bit operation. For example, &amp;quot;out = a&amp;quot; means &amp;quot;for i = 0..15 out[i] = a[i]&amp;quot;&lt;/code&gt; &lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a &lt;em&gt;m&lt;/em&gt;-way &lt;em&gt;n&lt;/em&gt;-bit mux would select one of its &lt;em&gt;m n&lt;/em&gt;-bit inputs and output it to its &lt;em&gt;n&lt;/em&gt;-bit output, where there would be &lt;em&gt;\(k=log_{2}m\)&lt;/em&gt; selection bits. A 4-way 16-bit mux API would look like:
+&lt;code&gt;Chip name: Mux4Way16&lt;/code&gt;
+&lt;code&gt;Input: a[16],b[16],c[16],d[16],sel[2]&lt;/code&gt;
+&lt;code&gt;Output: out[16]&lt;/code&gt;
+&lt;code&gt;Function: if(sel==00,01,10, or 11) then out = a,b,c, or d&lt;/code&gt;
+&lt;code&gt;Comment: The assignment is a 16-bit operation. For example, &amp;quot;out = a&amp;quot; means &amp;quot;for i = 0..15 out[i] = a[i]&amp;quot;&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;boolean-arithmetic&#34;&gt;Boolean Arithmetic&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;Word size&lt;/em&gt; is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using &lt;em&gt;n&lt;/em&gt; bits, one can represent values from 0 to 2\(^{n}\) - 1.&lt;/p&gt;
 &lt;h3 id=&#34;addition&#34;&gt;Addition&lt;/h3&gt;
@@ -2649,13 +2649,13 @@ being set when the clock ticks and the second when the clock tocks.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Processor&lt;/strong&gt;: A device capable of performing a fixed set of primitve operations which include arithmetic, logical, memory access and control/branching operations.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Registers&lt;/strong&gt;: Inside the processor&amp;rsquo;s chip, they serve as high-speed local memory, allowing it to manipulate data and instructions without having to be dependent on slow memory chips. They&amp;rsquo;re categorized into &lt;em&gt;data&lt;/em&gt; and &lt;em&gt;address&lt;/em&gt; registers.&lt;/p&gt;
 &lt;h3 id=&#34;instructions&#34;&gt;Instructions&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Arithmetic and logical operations&lt;/strong&gt;: Assuming that the processor has a set of registers denoted &lt;code&gt;R0, R1, R2,...&lt;/code&gt;. Basic operations like addition, subtraction, and(bitwise), or, not. &lt;br /&gt;
-&lt;code&gt;load R1,true&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;load R2,false&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;and R1,R2,R2&lt;/code&gt; (R1 ← R1 And R2) &lt;br /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Memory access&lt;/strong&gt;: Using address register &lt;code&gt;A&lt;/code&gt;, let us set memory location 17 to value 1. &lt;br /&gt;
-&lt;code&gt;load A,17&lt;/code&gt; &lt;br /&gt;
-&lt;code&gt;load M,1&lt;/code&gt; &lt;br /&gt;
+&lt;p&gt;&lt;strong&gt;Arithmetic and logical operations&lt;/strong&gt;: Assuming that the processor has a set of registers denoted &lt;code&gt;R0, R1, R2,...&lt;/code&gt;. Basic operations like addition, subtraction, and(bitwise), or, not.
+&lt;code&gt;load R1,true&lt;/code&gt;
+&lt;code&gt;load R2,false&lt;/code&gt;
+&lt;code&gt;and R1,R2,R2&lt;/code&gt; (R1 ← R1 And R2)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Memory access&lt;/strong&gt;: Using address register &lt;code&gt;A&lt;/code&gt;, let us set memory location 17 to value 1.
+&lt;code&gt;load A,17&lt;/code&gt;
+&lt;code&gt;load M,1&lt;/code&gt;
 Here by convention, M stands for memory register selected by A.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Flow control&lt;/strong&gt;: For facilitating branching actions, labelled &lt;em&gt;goto&lt;/em&gt; statements exist.&lt;/p&gt;
 &lt;figure&gt;&lt;a href=&#34;https://brongulus.github.io/ox-hugo/ecs-17.png&#34;&gt;&lt;img src=&#34;https://brongulus.github.io/ox-hugo/ecs-17.png&#34;&gt;&lt;/a&gt;

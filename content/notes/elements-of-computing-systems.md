@@ -2,9 +2,9 @@
 title = "Elements of computing systems"
 author = ["Prashant Tak"]
 date = 2022-06-10T00:00:00+05:30
-lastmod = 2025-04-28T09:04:42+05:30
+lastmod = 2025-08-02T00:18:17+05:30
 draft = false
-creator = "Emacs 30.1 (Org mode 9.7.11 + ox-hugo)"
+creator = "Emacs 31.0.50 (Org mode 9.7.11 + ox-hugo)"
 +++
 
 ## Introduction {#introduction}
@@ -30,11 +30,11 @@ Any boolean function can be realised by just the _nand_ gate. Let that sink in. 
 
 Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.
 
-Chips are specified using the API style, for nand gate: <br />
-`Chip name: Nand` <br />
-`Input: a,b` <br />
-`Output: out` <br />
-`Function: if ((a==1) and (b==1)) then out = 0, else out = 1` <br />
+Chips are specified using the API style, for nand gate:
+`Chip name: Nand`
+`Input: a,b`
+`Output: out`
+`Function: if ((a==1) and (b==1)) then out = 0, else out = 1`
 
 **Multiplexer**: Has two input(data) bits _a,b_ and one selection bit _sel_ which decides which input bit would be the output.
 
@@ -44,12 +44,12 @@ Chips are specified using the API style, for nand gate: <br />
 
 {{< figure src="/ox-hugo/ecs-06.png" link="/ox-hugo/ecs-06.png" >}}
 
-HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\\(^{th}\\) bit) to access individual bits. For example, a _m_-way _n_-bit mux would select one of its _m n_-bit inputs and output it to its _n_-bit output, where there would be _\\(k=log\_{2}m\\)_ selection bits. A 4-way 16-bit mux API would look like: <br />
-`Chip name: Mux4Way16` <br />
-`Input: a[16],b[16],c[16],d[16],sel[2]` <br />
-`Output: out[16]` <br />
-`Function: if(sel==00,01,10, or 11) then out = a,b,c, or d` <br />
-`Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"` <br />
+HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\\(^{th}\\) bit) to access individual bits. For example, a _m_-way _n_-bit mux would select one of its _m n_-bit inputs and output it to its _n_-bit output, where there would be _\\(k=log\_{2}m\\)_ selection bits. A 4-way 16-bit mux API would look like:
+`Chip name: Mux4Way16`
+`Input: a[16],b[16],c[16],d[16],sel[2]`
+`Output: out[16]`
+`Function: if(sel==00,01,10, or 11) then out = a,b,c, or d`
+`Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"`
 
 
 ## Boolean Arithmetic {#boolean-arithmetic}
@@ -169,14 +169,14 @@ Machine language programs can be written in either _binary_ or _symbolic_ instru
 
 ### Instructions {#instructions}
 
-**Arithmetic and logical operations**: Assuming that the processor has a set of registers denoted `R0, R1, R2,...`. Basic operations like addition, subtraction, and(bitwise), or, not. <br />
-`load R1,true` <br />
-`load R2,false` <br />
-`and R1,R2,R2` (R1 &larr; R1 And R2) <br />
+**Arithmetic and logical operations**: Assuming that the processor has a set of registers denoted `R0, R1, R2,...`. Basic operations like addition, subtraction, and(bitwise), or, not.
+`load R1,true`
+`load R2,false`
+`and R1,R2,R2` (R1 &larr; R1 And R2)
 
-**Memory access**: Using address register `A`, let us set memory location 17 to value 1. <br />
-`load A,17` <br />
-`load M,1` <br />
+**Memory access**: Using address register `A`, let us set memory location 17 to value 1.
+`load A,17`
+`load M,1`
 Here by convention, M stands for memory register selected by A.
 
 **Flow control**: For facilitating branching actions, labelled _goto_ statements exist.

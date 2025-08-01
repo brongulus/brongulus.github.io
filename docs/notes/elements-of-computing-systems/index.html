@@ -157,11 +157,11 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </figure>
 
 <p>Using built-in libarary chips is similar to writing a regular program except the PARTS section is replaced with BUILTIN Xor. Some things to note are that internal pins are created automatically when they appear in an HDL program and that pins may have an unlimited fan-out. In HDL programs, the existence of forks is inferred from the code.</p>
-<p>Chips are specified using the API style, for nand gate: <br />
-<code>Chip name: Nand</code> <br />
-<code>Input: a,b</code> <br />
-<code>Output: out</code> <br />
-<code>Function: if ((a==1) and (b==1)) then out = 0, else out = 1</code> <br /></p>
+<p>Chips are specified using the API style, for nand gate:
+<code>Chip name: Nand</code>
+<code>Input: a,b</code>
+<code>Output: out</code>
+<code>Function: if ((a==1) and (b==1)) then out = 0, else out = 1</code></p>
 <p><strong>Multiplexer</strong>: Has two input(data) bits <em>a,b</em> and one selection bit <em>sel</em> which decides which input bit would be the output.</p>
 <figure><a href="/ox-hugo/ecs-05.png"><img src="/ox-hugo/ecs-05.png"></a>
 </figure>
@@ -170,12 +170,12 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 <figure><a href="/ox-hugo/ecs-06.png"><img src="/ox-hugo/ecs-06.png"></a>
 </figure>
 
-<p>HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a <em>m</em>-way <em>n</em>-bit mux would select one of its <em>m n</em>-bit inputs and output it to its <em>n</em>-bit output, where there would be <em>\(k=log_{2}m\)</em> selection bits. A 4-way 16-bit mux API would look like: <br />
-<code>Chip name: Mux4Way16</code> <br />
-<code>Input: a[16],b[16],c[16],d[16],sel[2]</code> <br />
-<code>Output: out[16]</code> <br />
-<code>Function: if(sel==00,01,10, or 11) then out = a,b,c, or d</code> <br />
-<code>Comment: The assignment is a 16-bit operation. For example, &quot;out = a&quot; means &quot;for i = 0..15 out[i] = a[i]&quot;</code> <br /></p>
+<p>HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a <em>m</em>-way <em>n</em>-bit mux would select one of its <em>m n</em>-bit inputs and output it to its <em>n</em>-bit output, where there would be <em>\(k=log_{2}m\)</em> selection bits. A 4-way 16-bit mux API would look like:
+<code>Chip name: Mux4Way16</code>
+<code>Input: a[16],b[16],c[16],d[16],sel[2]</code>
+<code>Output: out[16]</code>
+<code>Function: if(sel==00,01,10, or 11) then out = a,b,c, or d</code>
+<code>Comment: The assignment is a 16-bit operation. For example, &quot;out = a&quot; means &quot;for i = 0..15 out[i] = a[i]&quot;</code></p>
 <h2 id="boolean-arithmetic">Boolean Arithmetic</h2>
 <p><em>Word size</em> is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using <em>n</em> bits, one can represent values from 0 to 2\(^{n}\) - 1.</p>
 <h3 id="addition">Addition</h3>
@@ -254,13 +254,13 @@ being set when the clock ticks and the second when the clock tocks.</p>
 <p><strong>Processor</strong>: A device capable of performing a fixed set of primitve operations which include arithmetic, logical, memory access and control/branching operations.</p>
 <p><strong>Registers</strong>: Inside the processor&rsquo;s chip, they serve as high-speed local memory, allowing it to manipulate data and instructions without having to be dependent on slow memory chips. They&rsquo;re categorized into <em>data</em> and <em>address</em> registers.</p>
 <h3 id="instructions">Instructions</h3>
-<p><strong>Arithmetic and logical operations</strong>: Assuming that the processor has a set of registers denoted <code>R0, R1, R2,...</code>. Basic operations like addition, subtraction, and(bitwise), or, not. <br />
-<code>load R1,true</code> <br />
-<code>load R2,false</code> <br />
-<code>and R1,R2,R2</code> (R1 ← R1 And R2) <br /></p>
-<p><strong>Memory access</strong>: Using address register <code>A</code>, let us set memory location 17 to value 1. <br />
-<code>load A,17</code> <br />
-<code>load M,1</code> <br />
+<p><strong>Arithmetic and logical operations</strong>: Assuming that the processor has a set of registers denoted <code>R0, R1, R2,...</code>. Basic operations like addition, subtraction, and(bitwise), or, not.
+<code>load R1,true</code>
+<code>load R2,false</code>
+<code>and R1,R2,R2</code> (R1 ← R1 And R2)</p>
+<p><strong>Memory access</strong>: Using address register <code>A</code>, let us set memory location 17 to value 1.
+<code>load A,17</code>
+<code>load M,1</code>
 Here by convention, M stands for memory register selected by A.</p>
 <p><strong>Flow control</strong>: For facilitating branching actions, labelled <em>goto</em> statements exist.</p>
 <figure><a href="/ox-hugo/ecs-17.png"><img src="/ox-hugo/ecs-17.png"></a>
@@ -328,17 +328,17 @@ memories are 16-bit wide, and each has a 15-bit address space, hence maximum add
         
     </div>
     
-<script> 
-  const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
-  if (localStorage.theme) {
-      toggleSwitch.checked = localStorage.theme === "dark";
-  }
-  function switchTheme(e) {
-      const theme = e.target.checked ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.theme = theme;
-  }
-  toggleSwitch.addEventListener("change", switchTheme);
-</script>
-</body>
+    <script> 
+      const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
+      if (localStorage.theme) {
+          toggleSwitch.checked = localStorage.theme === "dark";
+      }
+      function switchTheme(e) {
+          const theme = e.target.checked ? "dark" : "light";
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.theme = theme;
+      }
+      toggleSwitch.addEventListener("change", switchTheme);
+    </script>
+  </body>
 </html>
