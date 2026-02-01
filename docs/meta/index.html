@@ -1,176 +1,35 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Cormorant:ital,wght@0,400;1,300&family=Josefin+Sans:wght@200;300&family=Roboto+Mono:wght@300&family=Inter:wght@600&family=Source+Sans+Pro:wght@300;400&family=Source+Serif+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css">
-    
-    <script> 
-      function setTheme() {
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.setAttribute("data-theme", "dark");
-              return;
-          }
-          else {
-              document.documentElement.setAttribute("data-theme", "light");
-              return;
-          }
-      }
-    </script>
-    <script>
-      if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme); 
-    </script>
-  </head>
-  <body>
-    <div class="content">
-      
-        <div class = "container">
-          <head>
-  
-  
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Meta &middot; bacchanalian madness</title>
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <link rel="manifest" href=" /images/site.webmanifest">
-  
-  <link href="/meta/index.xml" rel="alternate" type="application/rss+xml" title="bacchanalian madness" />
+<html lang="en">
+<head>
+<!-- 2026 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Tak" />
+<meta name="generator" content="Org Mode" />
+<script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
 </head>
+<body>
+<div id="nav" class="status">
+<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a> / <label id='dark-mode-button'> <input type='checkbox'> </label>
+</div>
+<div id="content" class="content">
+<div class="entries">
+<div id="outline-container-orgbb4c646" class="outline-2">
+<h2 id="orgbb4c646">Notes</h2>
+<div class="outline-text-2" id="text-orgbb4c646">
+<ul class="org-ul">
+<li><a href="wall.html">Wall</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="tracker.html">Tracker</a></li>
+</ul>
 
-          		<nav class="nav">
-			<div class="nav-container">
-				<a href="/">
-					<div class="title" style="white-space: nowrap;">
-						<h1 class="nav-title"><b>bacchanalian madness</b></h1>
-					</div>
-				</a>
-
-				<aside>
-    <ul>
-        
-        
-            
-                <li>
-                    <a href="/blog/">
-                        
-                        <span>Blog</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/meta/">
-                        
-                        <span>Meta</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/notes/">
-                        
-                        <span>Notes</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/tags/">
-                        
-                        <span>Tags</span>
-                    </a>
-                </li>
-            
-        
-        <li>
-            <a href="/index.xml">RSS</a> 
-        </li>
-        <li>
-            <div id="dark-mode-button">
-                <input type="checkbox" class="toggle" id="check"/>
-                <label for="check" class="themebox">
-                </label>
-            </div>
-        </li>
-    </ul>
-</aside>
-
-
-			</div>
-		</nav>
-
-          
-
-<main>
-	<div class="catalogue">
-		
-			<a href="https://brongulus.github.io/meta/record/" class="catalogue-item">
-    <div>
-        <h1 class="catalogue-title">Tracker</h1>
-        <time datetime="2025-04-28 09:00:00 &#43;0530 IST" class="catalogue-time">April 28, 2025</time>
-        
-        
-        
-        
-        
-    </div>
-</a>
-
-		
-			<a href="https://brongulus.github.io/meta/about/" class="catalogue-item">
-    <div>
-        <h1 class="catalogue-title">About</h1>
-        <time datetime="2021-03-21 01:00:00 &#43;0530 IST" class="catalogue-time">March 21, 2021</time>
-        
-        
-        
-        
-        
-    </div>
-</a>
-
-		
-	</div>
-	
-	<div class="pagination">
-		
-		
-	
-		<span>1</span>
-	</div>
-</main>
-
-
-          		<footer>
-			
-			<span>
-			&copy; <time>2025</time> . Made with <a href='https://gohugo.io'>Hugo</a> and <a href='https://orgmode.org'>Org</a> using the <a href='https://github.com/brongulus/tufte-hugo'>Tufte</a> theme.
-			</span>
-		</footer>
-
-        </div>
-        
-    </div>
-    
-    <script> 
-      const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]');
-      if (localStorage.theme) {
-          toggleSwitch.checked = localStorage.theme === "dark";
-      }
-      function switchTheme(e) {
-          const theme = e.target.checked ? "dark" : "light";
-          document.documentElement.setAttribute("data-theme", theme);
-          localStorage.theme = theme;
-      }
-      toggleSwitch.addEventListener("change", switchTheme);
-    </script>
-  </body>
+</div>
+</div>
+</div>
+</div>
+<footer id="postamble" class="status">
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+</footer>
+</body>
 </html>

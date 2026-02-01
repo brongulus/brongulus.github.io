@@ -1,6 +1,9 @@
 .DS_Store
 .idea
 *.log
+*.c
+*.h
 tmp/
+./out/
 .direnv/
 ltximg/

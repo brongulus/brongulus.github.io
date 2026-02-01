@@ -1,0 +1,163 @@
+#    -*- mode: org -*-
+
+* IDEAS
+1. [[https://ncase.me/remember/][Inspiration]] - Create a reminder bot based on SRS algorithm for quick notes...
+2. Why RSS: https://ncase.me/rss/
+3. Huh TIL you could open links in kitty by shift+click, I'd been copying them like an idiot all this time. [[https://sw.kovidgoyal.net/kitty/kittens/hints/#:~:text=Pressing%20ctrl%2Bshift%2Bp%3E,need%20to%20install%20GNU%20Coreutils.][Relevant]]
+4. Calcurse: http://culot.org/calcurse/manual_en.html#options_general
+5. https://nibl.co.uk/bots
+6. http://sunxdcc.com/
+7. http://www.xdcc.eu/
+8. http://www.packetfind.com/
+9. https://linuxcommand.org/lc3_adv_mc.php
+10. https://linuxhint.com/arch_linux_ssh_server/
+11. https://www.cfos.de/en/cfos-personal-net/port-forwarding/jio-jiofi-2.htm
+12. https://broadbandforum.co/threads/guide-how-to-host-webservers-on-jio-fiber-accessible-to-ipv4-clients.204996/page-2
+13. https://threadsiiithyderabad.quora.com/
+14. https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
+15. https://jhana-practice.pages.dev/
+* TODO
+1. Create Tufte Theme for hugo that ACTUALLY works based on tufte css and the current tale theme
+2. Open external links in new tab by default, unless it's meta-links.
+* Notes
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: notes
+:END:
+
+** Scaling Recommender Flow
+:PROPERTIES:
+:EXPORT_FILE_NAME: recommender
+:END:
+#+begin_src mermaid :noeval :exports code
+---
+title: ScaleSim
+config:
+    layout: elk
+---
+stateDiagram-v2
+    runScaleSim --> syncVirtualCluster : Creates NS, PC, Pods & Nodes<br/>Schedules any pods that can be
+    syncVirtualCluster --> runSimulation : Posts the ClusterSnapshot on the recommender endpoint
+#+end_src
+
+#+begin_src mermaid :noeval :exports code
+---
+title: handler.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+
+    state "initializeRecommender" as iR {
+        [*] --> createPods : podName-count using Builder
+        createPods --> createNodesFromNT : nodeName
+        createNodesFromNT --> splitPods : Into unscheduled and scheduled
+        splitPods --> deployNodes : initializeCluster
+        deployNodes --> deployScheduledPods
+    }
+
+    parseSnapshot --> parsePriorities
+    parsePriorities --> createSimulationRequest : For each unscheduled pod
+    createSimulationRequest --> iR
+    iR --> runRecommenderForPC : has PCs
+    iR --> runRecommenderForCS : no PC
+    runRecommenderForPC --> applyRecommendation
+    runRecommenderForCS --> applyRecommendation
+    applyRecommendation --> JSONResponse
+#+end_src
+
+#+begin_src mermaid :noeval :exports code
+---
+title: recommender.run
+config:
+    layout: elk
+---
+stateDiagram-v2
+    state "runSimForZone" as rSZ {
+        [*] --> constructNodeForSim : prefix-NP-sr-ref
+        constructNodeForSim --> deployUnschedPods : podName-count-sr-ref
+        deployUnschedPods --> getPodSchedEvents : wait 10s
+        getPodSchedEvents --> scoreNodeByScheduledPods
+    }
+
+    state "runSimulation" as rS {
+        [*] --> runSimulationForNP : triggerNPSimulations<br/>for each NP
+        runSimulationForNP --> setupSimRun
+        setupSimRun --> createSimNodes : nodeName-count-sr-ref<br/>Add NoSchedule taint for ref
+        createSimNodes --> createSimSchedPods : podName-count-sr-ref<br/>Add NoSchedule toleration for ref
+        createSimSchedPods --> rSZ : for each zone
+        rSZ --> winningResult
+    }
+
+    [*] --> filterEligibleNP
+    filterEligibleNP --> rS
+    rS --> scaleUpRecommendationFromResult
+#+end_src
+
+
+** TODO Quick Notes
+:PROPERTIES:
+:export_file_name: random-notes
+:END:
+Collection of notes from various sources, rather than keeping it in a separate org file, this makes it handy for global lookups.
+*** Compiler Design
+Source: [[http://aosabook.org/en/llvm.html][AOSA - LLVM]] \\
+Three phase static compiler design:
+1. FrontEnd
+   Parses the source code, checks for errors and builds language specific AST to represent input code.
+2. Optimizer
+   Performs a variety of operations that improve code's run time, usually independent of the language and target.
+3. Backend
+   AKA code generator, maps code onto target instruction set ensuring its /correct/ and /optimized/. Common parts are instruction selection, register allocation and instruction scheduling.
+*** Interpreter in Go
+Source: [[https://github.com/jablonskidev/writing-an-interpreter-in-go][Github - Jablonskidev]]
+Change representation of source code twice before evaluation \\
+  Source code — (Lexing) \rightarrow Tokens — (Parsing) \rightarrow AST
+**** Lexing
++ Types of tokens: Numbers, Variable names, Keywords, Special Characters etc.
++ Need a =token= data structure having /types/ to differentitate different types and /fields/ that store a token's literal value.
++ Lexer treats the source code as a string, goes through it and throws out the tokens.
+**** Parsing
++ Parser turns its /input/ into a /data structure/ (AST) that represents the input.
++ Abstract because some (parsing guiding) elements of source not present in AST.
++ Syntactic Analysis
+*** SSH setup (iSH)
+**** iSH (Only works for local access rn :/)
++ =apk add opnssh=
++ =apk add mosh=
++ =ssh-keygen -t rsa=
++ On server: =ip addr show | sed -n 's/.*inet \([0-9.]*\).*/\1/p' | grep -v '127.0.0.1'=
++ =ssh-copy-id user@host=, then enter machine passwd
++ =mosh user@host=
++ > =vi .ssh/config=, then add this
+  #+begin_src conf
+Host <alias>
+      Hostname <host>
+      Port <port>
+      User <user>
+  #+end_src
++ Then you can just do =mosh <alias>=
+
+** TODO Principled Design
+:PROPERTIES:
+:EXPORT_FILE_NAME: comp-arch
+:END:
+#+begin_quote
+Architecture based upon 'principle', not upon 'precedent'.
+-Frank Lloyd Wright
+#+end_quote
+
+The role of a computer architect is to
++ look backward — analyze and evaluate the past
++ look forward — evaluate new design choices
++ look up — develop architectures to solve important problems
++ look down — understand, predict and enable the underlying technology
+
+Levels of transformation create /abstractions/, a higher level only needs to know about the interface to the lower level, not how its implemented. *But* knowing about the lower levels allows for making better design and optimization decisions.
+
+   
+
+   
+   
+
+   
+   

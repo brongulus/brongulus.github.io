@@ -1,0 +1,732 @@
+#+title: Archive
+
+* People I Idolize :noexport:
++ Robert Endre Tarjan
++ Lars Ingebrigtsen
++ Gennady Korotkevich
++ Srinivasa Ramanujun
++ Etho!
+
+* Notes :noexport:
+** Computation :noexport:
+CLOSED: [2022-06-02 Thu]
+:PROPERTIES:
+:EXPORT_FILE_NAME: computation-das
+:END:
+*** Simplicity
+**** Turing Machine
+**** Lambda Calculus
+*** Limits - The Halting Problem
+*** Structure
+**** Turing Equivalence
+**** Finite State Machines
+**** Chomsky Hierarchy
+1. Regex
+2. Recognize Python
+3. Recognize C++, JS etc
+4. Turing-equivalent
+** Differential Geometry :noexport:
+:PROPERTIES:
+:EXPORT_FILE_NAME: dg-notes
+:END:
+*** Theory of Space Curves
+**** Representation of space curves
++ Level Curve: f(x,y,z) = C
++ From level curves to parametrized curves:
+  $y=x^{2} <-----> \gamma(t)=(\gamma_{1}(t),\gamma_{2}(t))$ Taking $\gamma_{1}(t)=t$, we get $\gamma_{2}(t)=t^{2}$ hence the parametrization is $\gamma(t)=(t,t^{2})$
++ *NOTE:* Check if domain of /x/ satisfies domain of /t/ or not. That is, the same parametrisation can be represented as $(t^{2}.t^{4})$ or $(t^{3},t^{6})$ but only the latter is a correct representation.
++ From parametrized curves to level curves:
+  $\gamma(t)=(cos^{3}t,sin^{3}t)$ <------> F(x,y)=C; Using $sin^{2}t+cos^{2}t=1$ we get, $x^{2/3}+y^{2/3}=1$ as the level curve.
+**** Unique Parametric representation
++ Class 'm' \rightarrow /f/ is m-differentiable
++ A curve is /smooth/ if $\frac{d^{n}f}{dt^{n}}$ exists for all n \geq 1 and t \in (\alpha,\beta)
++ A function /f/ is /analytic/ if it is single valued and of class \infty
++ A function is /regular/ if it is differentiable and derivative is non-zero (f dot \neq 0)
++ A /regular f/ of class /m/ can also be called a /*path*/ of class /m/.
++ *NOTE:* A point of a parametrized curve can have multiple tangents.
+**** Arc-length
++ Arc-length of a curve \gamma is given by the function $s(t)=\int_{t_{0}}^{t}|| \dot{\gamma}(u)|| du$
++ Speed: \(|| \dot{\gamma}(t) ||_{t}\) and a curve is unit-speed curve if its magnitude is 1 for all /t/.
++ For \gamma being a unit speed curve, $\ddot{\gamma}$ is zero or perpendicular to $\dot{\gamma}$ i.e. $\ddot{\gamma}.\dot{\gamma}=0$
++ If \gamma is a regular curve, then its arclength S at any point of \gamma is a smooth function of t.
++ Reparametrization: $\overline{\gamma}:(\overline{\alpha},\overline{\beta}) \rightarrow R^{n}$ <=> $\gamma: (\alpha,\beta) \rightarrow R^{n}$  exists iff \exists a smooth function \phi: $(\overline{\alpha},\overline{\beta}) \rightarrow (\alpha,\beta)$ such that its inverse \phi^{-1} is also smooth.
++ A /unit speed reparametrization/ exists for a curve iff it is /regular/.
+**** Tangent and Osculating Plane
++ Assuming \gamma is a class \geq 1 i.e. it has a power series expansion,
+\[ \gamma(u)=\gamma(u_{0}+h)=\gamma(u_{0})+\frac{h}{1!}\dot{\gamma}(u_{0})+\frac{h^{2}}{2!}\ddot{\gamma}(u_{0})+ ... + \frac{h^{n}}{n!}\gamma^{n}(u_{0})+O(h^{n})
+\]
+  where $h = u-u_0$
++ Let \gamma be class m \geq 2 and (P,Q) be points limiting position of a plane that contains tangential line at P and passes through Q as Q \rightarrow P is defined as the /osculating plane/.
++ *Tangent line:* $\vec{R}(t)=\vec{r}(u_{0})+t \vec{r'}(u_{0})$ at $u_{0}$
++ *Osculating Plane:* $[\vec{R}-\vec{r(0)}, \vec{r'(0)}, \vec{r''(0)}]=0$ where $\vec{R}=(X,Y,Z)$ gives the equation of the OP (here $\vec{r''}(0)\neq0$). The product inside the box is /scalar triple product/. Also, the OP passes through the unit vector of the curve and is perpendicular to the unit binormal vector.
++ Note that for smallest k \geq 2 such that $\vec{r^{(k)}}=0$, the last term in the box is replaced by $\vec{r'}^{(k)}(0)$
+**** Principal normal and binormal
++ *Normal Plane:* $\vec{t}(0).(\vec{R}-\vec{r}(0)) = 0$
+  It is perpendicular to the tangent line and is spanned by /n,b/
++ *Principal Normal Vector:* For m \geq 1, $\vec{n}=\frac{\vec{r''}(0)}{||\vec{r''}(0)||}$
++ *Unit Binormal Vector:* $\vec{b}=\vec{t}\times\vec{n}$
++ OP: b.(R-r)
++ NP: t.(R-r)
++ RP: n.(R-r)
+**** Curvature and Torsion
++ For a /unit speed curve/ or /arc length parametrized/ curve \gamma(t), the curvature \kappa(t) is defined as $||\ddot{\gamma}(t)||$ (1)
++ For a /regular/ curve \gamma(t) *in* $R^{3}$, $\kappa = \frac{||\ddot{\gamma}\times\dot{\gamma}||}{||\dot{\gamma}^{3}||}$
++ For a unit speed curve \gamma, /unit tangent vector/ $\hat{t}=\dot{\gamma}$ and for \kappa \neq 0, /unit normal vector/ is given by  $\hat{n}(s)=\frac{\dot{\hat{\gamma}}(s)}{\kappa(s)}$ since (1). And /unit binormal vector/ can be given by $\hat{b}=\hat{t}\times\hat{n}$
++ *Orthonormal Basis* of a curve is given by {$\hat{t},\hat{n},\hat{b}$}
++ Now b is given by t \times n , hence $\dot{b}=\dot{t}\times n+t\times\dot{n}$ , since $\dot{b}$ has to be perpendicular to t and b, $\implies \ddot{b}||n$, therefore $\boxed{\dot{b}=-\tau n}$ *iff* \kappa \neq 0.
++ Torsion measures the arc rate of turning of osculating plane.
++ For a regular curve \gamma in $R^{3}$ with \kappa \neq 0, the /torsion/ is given by
+  \[
+  \tau = \frac{(\dot{\gamma}\times\ddot{\gamma}).\dddot{\gamma}}{||\dot{\gamma}\times\ddot{\gamma}||^{2}}
+  \]
++ Also, /radius of curvature/ \rho is inverse of curvature.
++ Finally, tying it all together is the /Serret-Frenet formula/ (arc length parameter):
+  $\begin{bmatrix} \dot{t} \\
+   \dot{n} \\
+   \dot{b}  \end{bmatrix} = \begin{bmatrix} 0 & \kappa & 0 \\
+    -\kappa & 0 & \tau \\
+    0 & -\tau & 0 \end{bmatrix} \begin{bmatrix} t \\
+    n \\
+    b \end{bmatrix}$
+**** Behaviour of a curve near one of its points
++ For a regular curve of class m \geq 2 with nonvanishing curvature, the curve is /planar/ iff \tau=0 everywhere.
++ For an analytic curve with arc length parameter, as s \rightarrow 0, a new parametrization for small s can be defined as:
+  \[
+    X = s - \frac{\kappa^{2}s^{3}}{6} - \frac{\kappa\kappa' s^{4}}{8} + o(s^{4})
+  \]
+  \[
+    Y = \frac{\kappa s^{2}}{2} + \frac{\kappa' s^{3}}{6} + \frac{\kappa''-\kappa\tau-\kappa^{3}}{24} s^{4} + o(s^{4})
+  \]
+  \[
+   Z = \frac{\kappa\tau}{6}s^{3} + \frac{2\kappa'\tau+\kappa\tau'}{24}s^{4} + o(s^{4})
+  \]
++ Here the o notation represents that for f = o(g), as s \rightarrow 0, $lim \frac{f(s)}{g(s)}=0$
++ From previous theorem:
+  1. $\kappa(0) = \lim_{s \to 0} \frac{2Y}{X^{2}}$
+  2. $\tau(0) = \lim_{s \to 0} \frac{3Z}{XY}$
+  3. For $P=\vec{r}(0), Q=\vec{r}(s)$, the length of chord
+     \[
+      PQ = s(1-\frac{\kappa^{2}s^{2}}{24}) + o(s^{3}) \~ s(1-\frac{\kappa^{2}s^{2}}{24})o(s^{3})
+    \]
+    If f(t)=g(t)+o(t), then as t \rightarrow 0, it can be written as f(t)~g(t)o(t)
++ The length of common perpendicular between tangents at two nearby points of $\vec{r}(s)$ at arcual distance /s/ is approximately $d=\frac{\kappa\tau s^{3}}{12}$. This is the shortest distance between tangents at nearby points of r(s).
+**** Contact between curves and surface
++ For a surface S: F(x,y,z)=0 and a parametrized curve C: $\vec{r}(u)$ = (f(u),g(u),h(u)), let P be a point on C. P lies on S iff F(f(P),g(P),h(P))=0.
++ Let \phi(u) = F(f(u),g(u),h(u)) for any parameter value u. Then P lies on S iff \phi(u_{0})=0.
++ Assuming F and $\vec{r}$ are of class m for sufficiently large m, then \phi(u) has a taylor expansion where $\frac{O(h^{n+1})}{h^{n+1}}$ is bounded as h \rightarrow 0.
++ Definition: Surface S and a parametrized curve C has an /n-point contact/ (or contact of order n) at P if $\phi(u_{0}) = \phi'(u_{0}) = ... = \phi^{(n-1)}(u_{0}) = 0$ and $\phi^{(n)}(u_{0})\neq 0$
++ If S and C have a contact of order 1 at P then it is called a /simple intersection/ of S and C.
++ If P is in n-point contact of S and C, then S and C intersect at P in /n/ coincidental points.
++ Condition for /n-point contact/ at P is invariant under a change of parameter.
++ Osculating Plane at P of $\vec{r}$ has atleast a 3-point contact with $\vec{r}$ at P.
+**** Osculating circle (circle of curvature)
++ For a regular curve $\vec{r}(s)$ of class m \geq 2, let $P=\vec{r}(0)$ and $P_{i}=\vec{r}(s_{i}), i=1,2,3$ be 3 non collinear points near P on the curve. Then there is a unique circle through all $P_{i}$. The limiting circle, if existent, for all $P_{i} \rightarrow P$ is called /osculating circle/ of r(s) at P.
++ Center of OC (c) is called /centre of curvature/ of r(s) at P while its radius \rho(0) is called radius of curvature. Also, the OC lies in the OP.
++ Theorem: $\rho(0)=\frac{1}{\kappa(0)}$, $\vec{c}(o)= \vec{r}(0)+\rho(0)\vec{n}(0)$
++ OC does not exist at points where curvature vanishes and OC of a circle is the same circle itself.
+**** Osculating Sphere
++ Definition: For a regular path r(s) of class m \geq 2, assuming P = r(0) and \kappa(0)\tau(0) \neq 0, a sphere which has atleast a 4-point contact with r(s) at P is called /osculating sphere/ at P on r.
++ \rho(s)= $\frac{1}{\kappa(s)}$ is called radius of curvature and \sigma(s)= $\frac{1}{\tau(s)}$ is called radius of torsion of r(s)
++ Theorem: OS at P on r is given by $|\vec{c}-\vec{R}|^{2} = R^{2}$ where $R = \sqrt{\rho(0)^{2}+\sigma(0)^{2}\rho'(0)^{2}}$ and $\vec{c}=\vec{r}(0)+\rho(0)\vec{n}(0)+\sigma(0)\rho'(0)\vec{b}(0)$ where c and R are COSC and ROSC to r(s) at r(0)
++ Centre of OS lies in the normal plane of r(s) as $c-r(0)$ is a linear combination of n(0) and b(0)
++ If \kappa is constant then ROC=ROSC and COC=COSC. In particular, if r is a circle, then its its own OC and is a great circle of the OS.
+**** Locus of centres of spherical curvature
++ Since COSC at r(s) is $c(s) =r(s)+\rho(s)n(s)+\sigma(s)\rho'(s)b(s)$, it moves along a path as /s/ varies. For this path, SFF, \kappa, \tau can be calculated and will be denoted with subscript c.
++ Assuming \tau(s)>0,
+  1. $c'(s) = (\frac{\rho(s)}{\sigma(s)}+ \frac{d (\sigma(s)\rho'(s))}{ds})b(s)$
+  2. For a regular c(s), unit tangent vector is $t_{c}(s) = eb(s)$
+  3. $\frac{ds_{c}}{ds}=|\frac{\rho(s)}{\sigma(s)}+\frac{d(\sigma(s)\rho'(s))}{ds}|$
+  Here e is 1 if ds_{c}/ds > 0, -1 ow. Also $e = t_{c}(s).b(s)$
++ Also on differentiating,
+  1. $\kappa_{c}(s) = \frac{\tau(s)}{\frac{ds_{c}}{ds}}$ or \kappa(s)= $-\tau_{c}(s)e \frac{ds_{c}}{ds}$
+  2. Which gives $\tau(s)\tau_{c}(s)=\kappa(s)\kappa_{c}(s)$
++ Theorem: ROC of center of curvatures (i.e. center of OCs) is given by
+  \[
+  \rho_{1} = [( \frac{\rho^{2}\sigma}{R^{3}}\frac{d}{ds}(\frac{\sigma\rho'}{\rho})-\frac{1}{R} )^{2} + \frac{\rho'^{2}\sigma^{4}}{\rho^{2}R^{4}}]^{-1/2}
+  \]
+**** Tangent surfaces, involutes and evolutes
++ Definition: Tangent surface to a curve r is union of all tangent lines to r at all its points.
++ Tangent line to r at r(s) is R(u,s) = r(s)+ur'(s)
++ For both varying r and u, one gets the tangent surface.
++ Image of the curve u=u(s) in us-plane gives a curve $r_{1}(s)=r(s)+u(s)r'(s)$
++ Definition: Involute of r is a curve on the tangent surface of r which meets all generating lines orthogonally at corresponding points.
++ If $r_{1}(s)$ denotes the pos vector on the involute C_1 of a curve C corresponding to its points r(s) then r_{1}(s)=r(s)+(c-s)t(s) for a constant c.
++ For an involute c(s) of a regular path r(s) of class m \geq 2.
+  \[
+    \kappa_{c}^2 = \frac{\tau^{2}+\kappa^{2}}{\kappa^{2}(c-s)^{2}}, \tau_c = \frac{\kappa\tau'-\kappa'\tau}{\kappa(c-s)(\tau^{2}+\kappa^{2})}
+  \]
+
++ Definition: If $\overline{C}$ is an involute of C then C is called an evolute of $\overline{C}$.
++ For a regular curve r(s), evolute is given by $r_{1}(s)=r(s)+\rho(s)n(s)+\rho(s)cot(\psi(s)+c)b(s)$ where c is a constant and \psi(s) = $\int \tau(s)ds$
++ r(s) has infinitely many evolutes, as c is random constant. For a plane curve, \tau = 0.
++ Tangents to two different evolutes corresponding to two constans A and B drawn from the same point of the given curve are inclined to each other at a constant angle A-B.
+  \[
+    r_{1} = r+\rho\textbf{n}-\rho tan(\psi+a)\textbf{b}
+  \]
+  Further $\psi = \int \tau ds$ so that \psi'=\tau...
+*** First Fundamental Form and Local Intrinsic Properties of a Surface
+**** Introduction
++ The surfaces are defined similar to curves by an equation of the type F(/x,y,z/) = 0 or parametrically by expressing /x,y,z/ in terms of two parameters /u,v/ varying over a domain.
++ After defining the surface locally, its points are classified as ordinary or singular.
++ Then using tangent plane at a point and the surface normal at it, a coordinate system *\((r_1, r_2, N)\)* at every point of the surface is introduced.
++ After that, a certain quadratic differential form known as /first fundamental form/ on a surface and direction coefficients are introduced.
+**** Definition of a Surface
+*Definition 1:* Locus of a point P(/x,y,z/) in $E_{3}$ satisfying some restrictions on /x,y,z/ which is expressed by a relation of the type F(/x,y,z/) = 0.
+
+This equation is called the /implicit/ or the /constraint/ equation of the surface which allows for a global study of the surface.
+
+*Definition 2:* For parameters /u, v/ taking real values and varying over a domain D, a surface is defined /parametrically/ as
+  \[
+      x = f(u,v), y = g(u,v), z = h(u,v)
+  \]
+  where /f, g/ and /h/ are single valued continuous functions possessing continuous derivatives of /r/-th order. Such surfaces are called surfaces of class /r/.
+
+Parametric representation is useful for local study of surfaces i.e. in the neighbourhood of a point which is a small region *but* it is not unique for a surface. Also, the parameters /u/ and /v/ are called /curvilinear coordinates/.
+
+*Definition 3:* For two parametric representations /u, v/ and /u', v'/ of the same surface, any transformation of the form $u'=\phi(u,v)$ and $v'=\psi(u,v)$ relating the two representations is called a /parametric transformation/.
+
+*Definition 4:* A parametric transformation is /proper/ if:
+  1. \phi and \psi are single valued functions.
+  2. The Jacobian $\frac{\delta (\phi,\psi)}{\delta (u,v)}\neq0$ in some domain D.
+These conditions are necessary and sufficient for existence of inverse in the neighbourhood of any point in D' which is the domain of /u', v'/ corresponding to the domain D of the /u, v/ plane.
+**** Nature of Points on a Surface
+*Notation:* For *r* being the position vector of a point on the surface, *r* = (x,y,z), we can take r = r(u,v) as the parametric form of the surface and use $r_1 = \frac{\delta r}{\delta u} = (x_{1},y_{1},z_{1})$ and $r_2 = \frac{\delta r}{\delta v} = (x_{2},y_{2},z_{2})$, similarly we can denote second order derivatives using $r_{11}, r_{21}$ etc.
+
+*Definition 1:* If $r_{1}\times r_{2}\neq0$ at a point on a surface, then the point is called an /ordinary/ point. A point which is not an ordinary point is called a /singularity/.
+
+Remarks:
++ Considering M = $\begin{bmatrix} x_{1} & y_{1} & z_{1}\\
+  x_{2} & y_{2} & z_{2}\end{bmatrix}$
+  For $r_{1} \times r_{2} \neq 0$ at an ordinary point, i.e. rank of M is two at that point.
++ If the rank of M is either zero or one, the point on the surface is a singular point.
++ If $r_{1} \times r_{2}\neq0$ or equivalently rank of M is two, then /x,y,z/ uniquely determine the parameters /u,v/ in the neighbourhood of an ordinary point.
++ When only one determinant minor of M is zero, one cannot conclude that the point is a singular point.
++ A /proper/ parametric transformation transforms an ordinary point into an ordinary point.
++ Due to geometrical nature of the surface, some singularities continue to be singularities, regardless of the parametric representations, these are called /essential singularities/.
++ There are other singularities depending on the choice of parametric representation which are called /artificial singularities/.
+*Example:* Consider the circular cone represented by /x = u sin\alpha cosv, y = u sin\alpha sinv, z = u cos\alpha/ where \alpha is the semivertical angle of cone with O as origin and OP = /u/, where P is any point on the cone.
+Computing M, then at /u/ = 0, the determinant of every second order minor is zero, hence it is an essential singularity.
+
+*Example:* Taking any point 0 as origin in the plane, /x = u cosv, y = u sinv, z = 0/, we get $r_{1} \times r_{2} = u\textbf{k}$. Hence it is zero only when /u/ = 0 i.e. it is an artificial singularity /since/ it arises due to the choice of the parametric coordinates and not due to the nature of the surface.
+**** Representation of a Surface
+For our study of surfaces, we consider only ordinary points. And we consider the entire surface as a collection of parts, each part being given a particular parametrisation and the adjacent parts being related by a /proper/ parametric transformation.
+
+*Definition 1:* A representation R of a surface S of class /r/ in $E_{3}$ is a collection of points in $E_{3}$ covered by a system of overlapping parts ${S_{j}}$ where each part {{$S_{j}$} is given by a parametric equation of class /r/. Each point lying in the common portion of two parts $S_{i}, S_{j}$ is such that the change of parameters from one part to is adjacent is given by a /proper/ parametric transformation of class /r/.
+
+*/Note:/* Since one cannot parameterise the whole surface without introducing artificial singularities, one has to resort to a surface composed of many overlapping parts.
+
+It is possible to have many representations of the same surface by considering different systems of overlapping parts ($S_{j}$), each part is given by a parametric equation of class /r/.
+
+*Definition 2:* For R and R' being two representations of class /r/ of the surface S, they are /equivalent/ if the composite family of parts {$S_{j},S'_{j}$} satisfies the condition that for each point P lying in the place of overlap, the change of parameter from $S_{j}$  to $S'_{j}$ at P is given by a proper parametric transformation of class r.
+
+*Theorem:* The notion of /r/-equivalence of representations of a surface is an equivalence relation.
+
+This equivalence relation introduces a partition into the family of surfaces of class /r/ splitting them into mutually disjoint equivalence classes, each class containing the surface equivalent to one another in the above equivalence relation.
+
+*Definition 3:* A surface S of class /r/ in $E_{3}$ is an /r/-equivalence class of representations.
+
+Thus a surface consists of different overlapping portions related to one another by proper parametric transformations and all other surfaces related to the given one by the equivalence relation of class /r/.
+**** Curves on Surfaces
+For a surface *r* = r(/u,v/), let /u = u(t)/ and /v = v(t)/ be a curve of class /s/ lying in the domain D of the /uv/-plane. Considering *r* = r[u(t), v(t)] which gives the position vector of a point in terms of a single parameter /t/ such that it is a curve lying on a surface with class equal to the smaller of /r/ and /s/. The equation /u = u(t)/ and /v = v(t)/ are called /curvilinear equations/ of the curve on the surface.
+
+*Definition 1:* For *r*, a given surface of class /r/, let /v = c/, then position vector *r* = r(u,c) is a function of a single parameter /t/ and hence *r* = r(u,c) represents a curve lying on the surface *r* = r(u,v). This curve is called the /parametric curve/ v = constant.
+
+By varying the values of /c/, a system of parametric curves /v/ = constant is generated and similarly another system is generated by keeping /u/ constant and varying /v/.
+
+Properties that are a consequence of assuming only ordinary points on the surface:
+1. Through every point of the surface, there passes one and only one parametric curve of each system.
+2. No two curves of the same system intersect.
+3. The curves of the system $u=u_{o}$ and $v=v_{o}$ intersect once but not more than once if $(u_{o},v_{o}) \in D$.
+4. The parametric curves of the system u = $c_{1}$ and v = $c_{2}$ cannot touch each other.
+
+*Definition 2:* Let u = $c_{1}$ and v = $c_{2}$, when the constants vary, the whole surface is covered with a net of parametric curves, two of which pass through each point.
+
+*Definition 3:* Two parametric curves through a point P are /othogonal/ if $\textbf{r}_{1}.\textbf{r}_{2}= 0$ at P.
+**** Tangent Plane and Surface Normal
+Let *r* = r[u(t), v(t)] be a general curve lying on the surface passing through [u(t), v(t)], then the tangent to the curve at any point P on the surface is
+\[
+\frac{dr}{dt} = r_{1}\frac{du}{dt}+r_{2}\frac{dv}{dt}
+\]
+*Definition 1:* Tangent to any curve drawn on a surface is called a tangent line to the surface. The tangents to different curves through P on a surface lie in a plane containing two independent vectors $r_{1}$ and $r_{2}$ at P called the /tangent plane/ at P.
+
+*Theorem 1:* The equation of a tangent plane at P on a surface with position vector *r* = r(u,v) is either \(R = r+ar_{1}+br_{2}\) or \((R-r).(r_{1}\times r_{2}) = 0\) where a and b are parameters.
+
+*Definition 2:* The normal to the surface P is a line through P and perpendicular to the tangent plane at P.
+
+*Theorem 2:* The equation of the normal *N* at a point P on the surface r = r(u,v) is \(R=r+a(r_{1}\times r_{2})\).
+
+*Theorem 3:* A proper parametric transformation either leaves every normal unchanged or reverses the direction of the normal.
+**** General Surface of Revolution
+*Definiton 1:* A surface generated by the rotation of a plane curve about an axis in its plane is called a /surface of revolution/.
+
+*Theorem 1:* The position vector of any point on the surface of revolution generated by the curve [g(u),o,f(u)] in the XOZ plane is
+  $\textbf{r} = [g(u)cosv, g(u)sinv, f(u)]$
+where /v/ is the angle of roatation about the /z/-axis.
+** Analog and Digital VLSI Design :noexport:
+:PROPERTIES:
+:EXPORT_FILE_NAME: advd-notes
+:END:
+*** Radio Spectrum
++ Used for communication initially
++ Wireless communication
++ Radio Spectrum is divided into frequency bands which are allocated to certain services.
++ The band is subdivided into channels that are used for particular transmission.
++ The wider the frequency bands and the channel, the more information that can be passed through them.
+  | Frequency             | Use                        |
+  |-----------------------+----------------------------|
+  | VLF                   | Maritime Navigation        |
+  | LF                    | Maritime Navigation        |
+  | MF                    | AM Radio                   |
+  | HF                    | Shortwave Radio            |
+  | VHF (30-300 MHz)      | TV, FM Radio               |
+  | UHF (300 MHz - 3 GHz) | TV, Mobile, GPS, Wi-FI, 4G |
+  | SHF                   | Satellite                  |
+  | EHF                   | Radio Astronomy            |
++ LF Bands provide wider coverage due to *high penetration power* but they have *poor capacity* (carry less information).
++ HF bands have greater capacity but less wider coverage.
++ Cell phones are multi-band device, when one's closer to a radio tower/station, it uses HF bands, but at poor reception they fall back to LF bands (GSM: 900-1800 MHz).
++ Wireless networks cover large amounts of area via a number of low-power radio stations laid out in hexagonal, cell-like grids.
++ Cellular commuication works by transmitting analog voice/data after amplification and conversion to digital bits into the environment and then received by selecting the corresponding frequency (highly selective network), processing the data (noise removal etc) and then converting back to analog audio. This process is know as modulation-demodulation.
+[[/assets/advd-rf-tran.png][file:/assets/advd-rf-tran.png]]
++ Elements of a transceiver: /Oscillators, phase-clocked loops, frequency synthesizers, converters, filters, power circuits/ having *high data rate, resolution, less cost and energy per conversion*.
+*** FIXME VLSI Design - An Overview
++ *Moore's Law:* Number of components (transistors) in ICs would double every two years. This was possible because of /scaling/.
+[[/assets/advd-moore-law.png][file:/assets/advd-moore-law.png]]
++ Learn how to convert schematic into a layout and vice-versa.
++ First microprocessor from intel - 4004, 8 bit
++ FPGA: Customizable pre-fabricated design
++ VLSI Design Styles
+
+*** Fabrication
++ Sequence of steps that are followed to get a silicon chip with different patterns
++ Clean room: Class 1 = 1 dust particle in 1 ft^{3}
++ VLSI Design flow:
+  Functional Description (Verilog) \rightarrow Circuit Design \rightarrow Layout \rightarrow Masks (Patterns)
++ Twin-tub process: For p-mos, there's an n-well and vice versa.
++ [Simplified-CMOS-Process.jpg]
++ CVD: Growing Field Oxide and gate oxide
++ Lithography: Process of patterning the silicon
++ Why Si over Ge? Band gap Si>Ge, Ge can't be used in mass production due to lack of raw material also SiO_2 is highly stable whereas GeO is soluble in water.
++ Getting that wafer:
+  Sand \rightarrow SiO_2 \rightarrow Metallurgical Grade Si (99.9% Pure) \rightarrow CZ Chamber (1000^\odot C) \rightarrow Seed Crystal + Molten Si \rightarrow Si crystal ingot \rightarrow Diamond saw \rightarrow Polishing \rightarrow Silican Wafer
++ Dopants are introduced in the CZ chamber via /diffusion/ion implantation/, n-type: B (Pentavalent), p-type: P(Trivalent)
++ Diffusion:
+  Temperature is around 650 C, Carrier made of quartz, Dopant in either crystal or powdered form, preheating temperature slightly lower than furnace, carrier gas carries the dopant vapours onto the silicon wafer by getting into the vacant sites of lattice defects and when they move from interstitional locations to lattice positions, doping is complete.
++ Fick's Law: Determines the amount of dopant required, diffusion temperature and the duration of the diffusion.
++ Ion Implantation:
+  Source of the dopants are in ionic (charged) form, so an ion source releases a beam of ions which is columated by lenses to a small spot size called aperture, this accelerated beam of ions hits the silicon surface and the bombardment results in dislodging of Si atoms from the lattice, and the broken bonds are healed and dopant settling is done via /annealing/ (heating of wafer post-implantation).
++ Deposition:
+  Used to deposit different materials from SiO_2 to metals, it can be achieved either chemically or physically. CVD is similar to diffusion whereas PVD is akin to ion implantation.
++ For metal deposition, generally MCl_2 are used since on reaction with hydrogen (carrier) it forms HCl which is a volatile by-product that can be easily disposed of.
++ One of the simplest PVD methods called sputtering in which a sputtering target block made out of the metal to be deposited is held and a highly non-reactive Ar^+ ionic sputtering gas is directed onto the target by creating a potential difference, this causes bombardment of the ions onto the target and results in dislodging of parts of target material which are deposited onto the substrate.
+*** Lithography
++ Stone + Write: Process of creating patterns on the Si wafer, analogous to stenciling. The ink is /light of a particular wavelength/, the stencil is a mask (quartz plate) and a resist (polymer that reacts with light).
++ The *mask* has opaque and transparent regions which are created by coating it with Chromium. In the transparent regions, the light falls over the Si substrate and interacts with the resist.
++ *Resist* can be of two kinds, the positive resist softens on interaction with light and the softened material can be removed by a particular solvent and the area unexposed to light stays intact whereas the negative resist hardens on interaction so the uninteracted material can be removed by the solvent.
++ After the pattern is created on the resist, it can be transferred over to the Si substrate either by additive or subtractive process and acetone removes the posres and all that's left is the deposited material (Al) in case of additive process whereas in the subtractive process a chemical etchent (KOH) is used to etch out the area not protected by the posres and acetone removes the resist.
++ Negative resist better for etching since hardening makes for stronger withold over removal process.
++ Diffraction Limit (Fresnel diffraction) limits the minimum feature size that can be achieved by lithography, Rayleigh limit. For smaller wavelength lights, the limit is smaller and vice-versa. (Why are 7nm gate sizes common?)
++ Epitaxy: Growing highly pure Si by using underlying Si crystal as substrate which reduces the large number of defects thereby improving mobility. When the underlying substrate and the material to be grown is the same (matching lattice structure), homoepitaxy is under play and for heteroepitaxy (HBT) the lattice structure aren't same (GeAs etc).
++ Through epitaxy, one can have a lightly doped layer over highly doped layer which is not possible with diffusion/ion implantation. It is achieved by MOCVD (Metal Organic CVD).
++ nMOS fabrication: Pure Si Crystal + (Si+Dopant) Melt \rightarrow Thick $SiO_2$ deposited over surface (FO) \rightarrow Deposit Photoresist (for pattern creation) \rightarrow Photoresist exposed to UV through mask \rightarrow Remove unpolymerised photoresist \rightarrow Etch $SiO_2$ via HF acid, then remove unpolymerised photoresist \rightarrow Add gate oxide then polysilicon via CVD \rightarrow Again coat with resist and and pass UV, then etch out unexposed area \rightarrow Remove resist and polysilicon gate is created \rightarrow Diffusion/Ion-implantation to form source and drain (Self-aligned process) \rightarrow Grow a thick layer of $SiO_{2}$ again for creating metal contact \rightarrow Photoresist  and masking, exposing, etching, photoresist removal \rightarrow Metal deposition \rightarrow Photoresist deposition (Removal of excess metal), mask-4, removal.
+*** nMOS Inverter Fabrication
++ Wafer diameter: 200-300mm
++ Inverter:
+  Start with wafer, p-type \rightarrow Grow $SiO_{2}$ via CVD (Thermal Oxidation) \rightarrow Create n-well (Masking, HF Etching, PR Removal via Piranah [$H_{2}O_{2}+H_{2}SO_{4}$], Diffusion/Ion-Implantation, Oxide Removal) \rightarrow Polysilicon Deposition and Gate formation (Self-align mask) \rightarrow Oxide patterning in active area(S, D, PS) \rightarrow  n-diffusion/implantation (also forms n+ region in the well for body contact) \rightarrow Oxide stripping \rightarrow Oxide deposition and patterning (for p-mos) \rightarrow p-diffusion/implantation \rightarrow MOS insulation (oxide deposition) \rightarrow Opening creation (Removal) \rightarrow Metal deposition
++ Shallow trench isolation : Etching and thick oxide deposition to prevent MOS interaction
++ In place of $SiO_2$, high-k dielectrics are being used for their high-epsilon values.
++ Layout Design (VLSI Design Flow): Functionality (VHDL) \rightarrow Transform functional description into circuit \rightarrow Take area and time constraints into account to estimate parasitics \rightarrow Stick Diagram Layout \rightarrow Mask layout Design \rightarrow DRC Check (Design rules) \rightarrow Extract parasitics from circuit \rightarrow Simulation \rightarrow Fabrication
++ Device Parasitics: $C_{DB}$, $C_{GD}$
++ Extrinsic Parasitics: Due to interconnects
++ Design rules: Lambda based for scaling portability. Min. contact: 2\lambda, Contact to active spacing: \lambda, Contact to poly-spacing: 2\lambda, n-well to active n-mos area: 9\lambda, n-well to active overlap: 5\lambda.
++ Stick Diagram: Combination of edges and nodes. Needed for sharing S&D to reduce area via Euler's theorem.
++ Segregation coefficient:  Concentration of dopants in ingot / Concentration of dopants in liquid form; Useful in determining concentration of final wafer. $k_{d}=\frac{C_{s}}{C_{l}}$
+*** Fabrication Layout Design
++ Micron rules: Specify absolute value of parameters, since not all dimensions scale linearly below 1um.
++ Stick Diagram: Combination of edges (transistor) and nodes (interconnection). Needed for orientation by defining sharing of S&D to reduce area and parasitic capacitances via Euler's theorem.
++ Design Rules:
+  1. Minimum Width: Lithography, diffraction limit
+  2. Minimum Spacing: To prevent problems due to misalignment
+  3. Minimum Enclosure: To prevent problems due to misalignment
+  4. Minimum Extension: To prevent polysilicon misalignment problems
++ Euler's graph:
+  1. Generate p-net and n-net.
+  2. Find eulerian path, where a node can be traversed atmost twice but an edge only once.
+  3. Check if the polysilicon path generated can be used on the n-net.
++ In mos, source and drain are interchangable, which is not possible in bjt, hence mos allows for smaller footprint.
++ Analog layout techniques: The aim is to minimize offset and have high CMRR, (i.e. mos M_1 and M_2 are matched so low noise) which determine the minimum input signal that can be detected.
+  1. $R_{g}<<\frac{1}{g_{m}}$
+  2. To reduce this resistance, folder topology was introduced, two poly lines connected together represented a large L even though it wasn't actually large, hence W/L decreases.
+  3. Sometimes folder topology can result in some skewed layouts, so multi-fingered topology was introduced, where /n/ poly lines are connected together instead of just two.
+  4. By splitting the poly, it's resistance decreases but the capacitance associated with S/D perimeter increases.
+  5. For odd fingers, S/D perimeter capacitance,  \(C_{p}=\frac{N+1}{2}(2E+\frac{2W}{N})C_{jsw}\) (Side-wall/Fringe Capacitance)
+  6. Matching: Since fabrication is not isotropic, orientation of polysilicon needs to be the same throughout, even interconnects need to be of the same length.
+  7. Gate shadowing effect: Diffusion is not done vertically, there's an tilt of 7 degrees to avoid channeling (dopants penetrating deeper than needed through lattice spacing). This tilt causes asymmetry in source and drain diffusion extensions.
+  8. Dummy transistors: To avoid neighbour asymmetries (coupling) but since it causes an increase in area, it's not advised.
+*** Layout Techniques
++ Interdigitated: Linear technique, alternate fingers of the two transistors but it still has mismatched envvironments. Useful when a treshold of mismatch is allowed.
++ Common Centroid: Place transistors such that transistors can either be placed in 1 or 2 directions.
++ Takes care of processing and surrounding errors.
++ Parasitics tells us about the speed of the propogating signal.
++ Device Parasitics: $C_{sb}$, depletion region; Can be reduced by junction sharing (Euler's graph, S/D Sharing). But as we increase the number of fingers, the overlap capacitance increases.
+*** Parasitics
++ Major reasons for delay:
+  1. Internal parasitic
+  2. Interconnect Parasitic
+  3. Input capacitance of fan-out gates
++ Interconnect Capacitance: Model each interconnect as a Resistance and Capacitance combination.
++ Lumped RC Model: Model as a single RC combination
++ Distributed RC: Model as a combination of multiple RCs.
++ Transmission line model: Inductance is also introduced to account for magnetic coupling for long interconnects.
++ If $\tau_{rise}>t$, one can use lumped RC although even then distributed is preferred, but for $t>\tau_{rise}$ transmission model is preferred.
++ Due to scaling, gate delays are reducing but interconnect delays are increasing (chip size, and shrinking distance, fringing)
++ Inter module signals: Power ($V_{dd}$), ground, clock.
++ Intra module connections: Since they run over small distances, they can be modeled via lumped or distributed.
++ Yuan and Trick Interconnect Capacitance Estimation: Accounts for all fringing etc.
++ Interconnect resistance estimation:
++ Calculation of Interconnect delay: For simple lumped RC: \tau = 0.69RC, for distributed systems, we use elmore delay formula
++ Necessary conditions for elmore delay:
+  1. One input node
+  2. No loops
+  3. All capacitors connected to the ground
++
+*** Scaling and its effects
++ Process Issues:
+  1. Shallow Trench: Signal coupling between transistors which can be avoided by increasing distance between them and adding $SiO_2$ between them. TCE (Temp. Coeff of Expansion) of Si and SiO_2 is different and on different expansion, due to stress mobility and therefore I-V characteristics changes, Can be avoided by using dummy fingers.
+  2. Well Proximity: Can be avoided using dummy.
+  3. Latchup:
+
+** Combinatorial Mathematics :noexport:
+:PROPERTIES:
+:EXPORT_FILE_NAME: combi-math
+:END:
+*** General Counting Methods for Selection and Arrangement
+1. Addition Principle:
+   If there are $r_1$ different objects in the first set, $r_2$ different objects in the second set, . . . , and $r_m$ different objects in the m^th set, and if the different sets are disjoint, then the number of ways to select an object from one of the m sets is $r_1 +r_2 + · · · +r_m$.
+2. Multiplication Principle:
+   Suppose a procedure can be broken into m successive (ordered) stages, with $r_1$ different outcomes in the first stage, $r_2$ different outcomes in the second stage,. . . ,and $r_m$ different outcomes in the mth stage. If the number of outcomes at each stage is independent of the choices in previous stages and if the composite outcomes are all distinct, then the total procedure has $r_{1} ×r_{2} × · · · ×r_{m}$ different composite outcomes.
+3. Remember that the addition principle requires disjoint sets of objects and the multiplication principle requires that the procedure break into ordered stages and that the composite outcomes be distinct.
+4. A permutation of n distinct objects is an arrangement, or ordering, of the n objects. An r-permutation of n distinct objects is an arrangement using r of the n objects.
+5. An r-combination of n distinct objects is an unordered selection, or subset, of r out of the n objects.
+6. *Theorem 1:* If there are n objects, with $r_1$ of type 1, $r_2$ of type 2, . . . , and $r_m$ of type m, where $r_1 +r_2 + · · · +r_m = n$, then the number of arrangements of these n objects, denoted $P(n; r_{1}, r_{2}, . . . , r_{m})$, is
+   \[
+        P(n;r_{1},r_{2}, . . . ,r_{m}) = \frac{n!}{r_{1}!r_{2}! . . .r_{m}!}
+   \]
+7. *Theorem 2:* The number of selections with repetition of r objects chosen from n types of objects is C(r + n − 1,r).
+8. Distributions of /distinct objects/ are equivalent to *arrangements* and Distributions of /identical objects/ are equivalent to *selections*.
+9. Ways to arrange, select, distribute /r/ objects from /n/ items or into /n/ boxes:
+   | Repition   | Arrangement                   | Combination |
+   |------------+-------------------------------+-------------|
+   | No         | P(n,r)                        | C(n,r)      |
+   | Unlimited  | n^r                           | C(n+r-1, r) |
+   | Restricted | P(n; r_{1}, r_{2}, .., r_{m}) | -           |
+10. Equations with integer-valued variables are called /diophantine/ equations.
+11. Equivalent forms of selection with repetition:
+    + Number of ways to select /r/ objects with repetition from /n/ different types of objects.
+    + Number of ways to distribute /r/ identical objects into /n/ distinct boxes.
+    + Number of non-negative integer solutions to $x_1 + x_2 + ... + x_n = r$
+12. *Binomial Theorem*:
+    \[
+        (1+x)^n = C(n,0) + C(n,1)x + C(n,2)x^2 + ... + C(n,k)x^k + C(n,n)x^n
+     \]
+13. Committee Selection Model: Represent C(n,k) committees of /k/ people chosen from a set of /n/ people.
+14. Block Walking Model: Using Pascal's triangle, label each street corner in the network with the pair (n,k) where /n/ is the number of blocks traversed from (0,0) and /k/ is the number of times the person chose the right branch at intersections.
+
+*** Generating Functions
+1. Assuming /a_{r}/ denotes the /number of ways to select r objects/ in a certain procedure, g(x) is a generating function for a_{r} if g(x) has the polynomial expansion:
+   \[
+        g(x) = a_0 + a_1 x + a_2 x^2 + ... + a_r x^r + a_n x^n
+   \]
+2. \[
+        \frac{1-x^{m+1}}{1-x} = 1+x+x^{2}+...+x^{m}
+   \]
+3. \[
+        \frac{1}{1-x} = 1+x+x^{2}+...
+   \]
+4. \[
+        (1+x)^n = 1 + {n \choose 1} x + {n \choose 2} x^2 + ... + {n \choose r} x^r + ... + {n \choose n} x^n
+   \]
+5. \[
+        (1-x^{m})^n = 1 - {n \choose 1} x^m + {n \choose 2} x^{2m} + ... + (-1)^k {n \choose k} x^{km} + ... + (-1)^r {n \choose n} x^{nm}
+   \]
+6. \[
+        \frac{1}{(1-x)^n} = 1 + {1+n-1 \choose 1} x + {2+n-1 \choose 2} x^2 + ... + {r+n-1 \choose r} x^r + ...
+   \]
+7. If h(x) = f(x)g(x) where \(f(x) = a_0 + a_1 x + a_2 x^2 + ...\) and \(g(x) = b_0 + b_1 x + b_2 x^2 + ...\) then:
+   \[
+        h(x) = a_{0}b_{0}+(a_{1}b_{0}+a_{0}b_{1})x + ... + (a_{r}b_{0}+a_{r-1}b_{1}+a_{r-2}b_{2}+ ... +a_{0}b_{r}) x^r + ...
+   \]
+8. Partition
+9. Exp Gen Fn
+10. Summation Method
+
+
+* Random Notes
+
+** Chirping Bird Wall
+
+#+begin_quote
+"What seems to be the officer, problem?" :tf:
+#+end_quote
+
+#+begin_quote
+Added first chirp and performed first squash while b8kd.
+#+end_quote
+
+#+begin_quote
+[[/mnt/Data/Downloads/Media/channie/myNFT.jpg]]
+#+end_quote
+
+#+begin_quote
+step 1: eat and sleep better go outside and get sunlight. stand in the sidewalk outside of your shitty apartment, nobody will give a fuck. do not overcomplicate this, you and your mood are a product of the chemical compounds that you have chosen to fuel your body with. you've had 20-30 yrs to learn what does and doesnt agree with your body, stop worrying about lofty super-athlete shredded body goals, start worrying about eating what makes you feel fucking normal or better today and go from there. chances are you're consuming either way too much or not enough sugar, if you consume corn syrup it's the former.
+
+step 2: lift things until you're absolutely confident facing all physical challenges you can see yourself being faced with. (warning if you're tall you better start with step 3 because you tend to become intimidating and this might be a detriment if you're socially retarded)
+
+step 3: start and finish things. go do it, yeah, that thing you've been putting off. stop being comfortable, start challenging yourself. say hello to her, ask people how their weekend was, tell people about the thing you finally got off your ass and did.
+
+if you can't manage to start any of this shit, either seek professional help or go do a serious dose of mushrooms in a comfortable environment. you need to forcefully light a fire under your ass and force yourself into action, either chemically or through extreme psychedelic self-analysis and introspection. if you've got serious problems it's not going to solve any of it. but it will be made very clear what needs to be cleaned up in your life for you to return to normal. you can't get wasted time back, but you cannot live in shame or guilt for wasting it, you will kill yourself.
+#+end_quote
+
+#+begin_quote
+Relationships are like a control system, no matter the disturbances or change in affection, the output must remain consistent.
+#+end_quote
+
+Source: [[https://signalvnoise.com/posts/3124-give-it-five-minutes][Give it five minutes]]
+#+begin_quote
+Pushing back means you already think you know. Asking questions means you want to know. Ask more questions.
+#+end_quote
+
+Source: [[https://ava.substack.com/p/be-an-asker?s=w][Be an asker]]
+#+begin_quote
+You penalize yourself: that’s why you don’t ask. But if you’re able to stop punishing yourself for asserting your needs, something very important changes. You become capable of advocating for yourself.
+
+Never get upset at someone for saying no. You don’t “deserve” an answer. The truth is, people who don’t know you don’t owe anything to you, and even people who know you really well are free to prioritize themselves (though you may want to rethink the relationship if they don’t seem to care about you, obviously).
+
+Effective to ask lots rather than ask one person lots of times.
+
+Best cure for rejection sensitivity is to get rejected a lot. Getting a yes eventually helps you learn how to get a yes and helps correct your mistaken self-narratives.
+
+Don't be needy while asking and be fine with hearing a no, make people feel like it's safe to say no to you.
+
+Asking is good, it saves you time and relationships.
+
+Asking makes you better at answering.
+
+Directness is a gateway to emotional honesty.
+#+end_quote
+
+
+** Words to live by
+#+begin_quote
+we do these little things I guess to
+fill our time and you set little goals
+and I guess that's what makes life
+exciting
+-Nathan fielder
+#+end_quote
+** [[https://www.nytimes.com/2015/01/09/style/no-37-big-wedding-or-small.html][36 Questions that lead to love]]
++ Idea is that mutual vulnerability fosters closeness.
+**** Set 1
+1. Given the choice of anyone in the world, whom would you want as a dinner guest?
+2. Would you like to be famous? In what way?
+3. Before making a telephone call, do you ever rehearse what you are going to say? Why?
+4. What would constitute a “perfect” day for you?
+5. When did you last sing to yourself? To someone else?
+6. If you were able to live to the age of 90 and retain either the mind or body of a 30-year-old for the last 60 years of your life, which would you want?
+7. Do you have a secret hunch about how you will die?
+8. Name three things you and your partner appear to have in common.
+9. For what in your life do you feel most grateful?
+10. If you could change anything about the way you were raised, what would it be?
+11. Take four minutes and tell your partner your life story in as much detail as possible.
+12. If you could wake up tomorrow having gained any one quality or ability, what would it be?
+**** Set 2
+13. If a crystal ball could tell you the truth about yourself, your life, the future or anything else, what would you want to know?
+14. Is there something that you’ve dreamed of doing for a long time? Why haven’t you done it?
+15. What is the greatest accomplishment of your life?
+16. What do you value most in a friendship?
+17. What is your most treasured memory?
+18. What is your most terrible memory?
+19. If you knew that in one year you would die suddenly, would you change anything about the way you are now living? Why?
+20. What does friendship mean to you?
+21. What roles do love and affection play in your life?
+22. Alternate sharing something you consider a positive characteristic of your partner. Share a total of five items.
+23. How close and warm is your family? Do you feel your childhood was happier than most other people’s?
+24. How do you feel about your relationship with your mother?
+**** Set 3
+25. Make three true “we” statements each. For instance, “We are both in this room feeling ... “
+26. Complete this sentence: “I wish I had someone with whom I could share ... “
+27. If you were going to become a close friend with your partner, please share what would be important for him or her to know.
+28. Tell your partner what you like about them; be very honest this time, saying things that you might not say to someone you’ve just met.
+29. Share with your partner an embarrassing moment in your life.
+30. When did you last cry in front of another person? By yourself?
+31. Tell your partner something that you like about them already.
+32. What, if anything, is too serious to be joked about?
+33. If you were to die this evening with no opportunity to communicate with anyone, what would you most regret not having told someone? Why haven’t you told them yet?
+34. Your house, containing everything you own, catches fire. After saving your loved ones and pets, you have time to safely make a final dash to save any one item. What would it be? Why?
+35. Of all the people in your family, whose death would you find most disturbing? Why?
+36. Share a personal problem and ask your partner’s advice on how he or she might handle it. Also, ask your partner to reflect back to you how you seem to be feeling about the problem you have chosen.
+** Japanese Resources :noexport:
+   :PROPERTIES:
+   :EXPORT_FILE_NAME: japanese-guide
+   :END:
+*** JPod101
+    Add a nice collection of their videos and cheatsheet materials since most sources don't really tell much about their actual content.
+*** Hiragana
+    + Why? All other basic textbooks have as requirement, romaji as a crutch that hurts later on
+    + Tofugu Guide
+    + Tae Kim Quiz
+*** Katakana
+    + Important thing to not delay learning it even when other sources say so.
+    + TODO Add sources and more info
+*** Kanji + Grammar + Vocabulary
+**** Intro
+     + Important step because after crossing the initial simple hurdle you're presented with a mammoth choice.
+     + Genki - Mention ToKini
+     + Grammar - Use genki before Tae Kim??
+     + Kanji - Can I promote WaniKani Anki Deck???
+     + Vocabulary
+     + Readings - Tofugu article
+**** Tango N5 deck
+     | 彼   | Kare   | He   |
+     | 彼女 | Kanojo | She  |
+     | 名前 | Namae  | Name |
+     |      |        |      |
+
+*** Grammar Points
+**** Verb Conjugation
+     Start with misa's video then watch Andy's.
+**** Particles (Do after conjugation!)
+     + =は= (pronounced as wa): TOPIC MARKER- It marks the topic of a clause and creates focus. Translation: /as for, speaking of/. It can also be use as a CONTRASTING MARKER where =demo= acts as /but/ For example, I eat bread, *but* I *don't* eat butter. Here the topics bread and butter would be followed by the topic marker. =kore= means /this/ can can be just as a pointer for distinguishing an object
+     + =ga=: SUBJECT PARTICLE- Since it denotes existence, it is generally used with =arimasu= and =imasu= (for animate things) meaning (/to have/ or /to exist/) There existence copulas can be negated by turning =su= to =sen=. It can be used as a DESIRE MARKER: `S + O + =ga= + Adjective of desire` for example =hoshii desu= which is /(I) want/ or `Stem of verb + =tai desu= ` which is /[I] want to [verb]/.
+*** Pitch Accent
+- Playlist
+- My notes
+- kotu.io
+
+*** Bunpro
+**** N5
+***** Level 1
+      1. da:
+         + to be/is
+         + Do not use with i-adj. (Cure Dolly video)
+         + Noun+da
+         + na-adj+da
+         + Casual
+      2. desu:
+         + to be/is
+         + Can be used with both na/i-adj
+         + Noun/Adj + desu
+         + Polite version of da
+      3. wa(ha):
+         + denotes the .... (use notes from text)
+         + Sentence Topic + wa
+         + Emphasizes what comes after it unlike ga.
+         + ....
+      4. mo:
+         + also, too as well
+         + Noun + mo
+         + atashi mo. (me too)
+         + Kore mo sensei desu. (He is also a teacher)
+      5. kore:
+         + this
+         + kore wa penn desu.
+         + kore mo hitsyoo desu. (This is also necessary)
+      6. no:
+         + indicates possession
+         + Noun 1 + no + Noun 2
+         + これも私のペンです。 (This is also my pen)
+      7. ii:
+         + adjective meaning "good"
+         |          | Present | Past        |
+         | Postive  | ii      | yokatta     |
+         | Negative | yokunai | yokunakatta |
+         + yoku also means "frequently/often" be careful
+         + テストは、よくなかった。(Test was not good)
+      8. ka:
+         + question particle
+         + Phrase + ka
+         + 明日もいいですか。(ashita) (Is tomorrow also good?)
+***** Level 2
+      1. deshoo:
+         + right? probably
+         + Asking for confirmation
+         + Noun/Verb/Adj + deshyoo
+         + 明日も雨でしょう。 (ashita, ame) (It will also probably rain tomorrow)
+      2. ga:
+         + Subject marker identifier
+         + Subject + ga
+         + Denotes who or what performed the action, emphasizes what came before it
+      3. sore:
+         + that
+         + それもいいです。(That is also good.)
+      4. ru-verbs/Ichidan verbs:
+         | Conjugation | Casual      | Polite           |
+         | Present     | taberu      | tabemasu         |
+         | Past        | tabeta      | tabmashita       |
+         | Negative    | tabenai     | tabemasen        |
+         | Neg. Past   | tabenakatta | tabemasendeshita |
+      5. gaaru:
+         + To be/ There is
+         + Polite form: gaarimasu
+         + Noun + gaaru
+         + For non-living things
+         + Ga is often omitted in casual speech
+      6. koko:
+         + here/ this place
+         + (Near the speaker)
+      7. to:
+         + and/ with
+         + Noun + to + Noun/Verb
+         + When listing nouns, to: exhaustive, ya: non-exhaustive
+      8. ~ ndesu.nodesu
+         +
+
+*** Anki Deck Sequence:
+1. Hiragana Deck
+2. Katakana Deck
+3. Katakana Sentences
+4. Kanji Deck: Either RTK order Allinone or WaniKani? or Kanji deck by [[https://sites.google.com/view/jo-mako/home][Jo Mako]]
+5. Grammar Deck: Jo Mako
+6. Vocabulary: Tango decks + JP1K + Kanji in context
+** Updates & A letter to self
+:PROPERTIES:
+:export_file_name: january-update
+:END:
+Hi there, it's been a while.
+I doubt anyone's reading these but I felt like writing something regardless.
+
+So I've started going ham into kanji study again, (hopefully this time it's more fruitful) and I think that now I'm getting the appeal of immersion and how beneficial it can be paired with the right amount of active recognition of what you're recalling from your anki reps.
+
+Coming to the S.M.A.R.T. (Specific, Measurable, Attainable, Realistic, and Time Bound) goals regarding japanese, let's try to set some shall we? So that we have something to look forard to and back on.
+
++ In the month of february, you should ideally finish JLPT N5 vocabulary and kanji, also for kanji, it should be the RRTK450 deck.
++ Alongwith that, you should start repping JP1K if it's manageable.
++ For the final and optional goal, you should try to go through atleast the entire beginner's section of TaeKim.
+
+Moving onto academic stuff, I messed up my sleeping schedule again and due to which I missed an easy test. This had been a problem that has persistently plagued me in the past and has done a lot of harm to my grades. So we should set some lifestyle goals.
+
++ Sleep around 11 PM, no more late night twitch streams or binging TV shows. You can do the same in between classes or watch highlights later. If you don't set your priorities now, you'll definitely regret it later.
++ One thing that I was very skeptical of in the past was taking baths daily, (even now I get lazy all the time), but what I've realised is that it really helps reset your mind and freshens up your body in inexplicable ways. So you should really try to follow through with this.
++ The major time consuming activites of your day are watching random stuff on streaming websites, to turn that into a positive you should really devote that time into immersion, that'll count towards your language learning hours and leisure time simultaneously.
++ The other major time sink is constantly checking the three social media platforms that you engage with, namely Twitter, Instagram and Discord. Now you shouldn't go all out and stop using these services altogether, you've tried that in the and have failed. A better alternative would be to set time limits/period each day during which you'll browse these networks. For now, a good starting point would be 30 mins each day after 9PM.
+
+Now comes the real stuff, the reason why this post is needed and whenever you feel that you're straying from the goals mentioned here, what you should look back to.
+
+There's an extremely urgent requirement for you to succeed in your college life which most of the shows that you watch fail to depict, that is having good grades. For as long as you've been in college, you've tried to portray yourself as this person that doesn't care about grades and in the process hampered your academic capabilites a lot. This type of attitude would've been fine if you were actually doing well but with that clearly not being the case, it's high time that you really change your attitude. The goals for this semester would be having consistent reviews of daily classes, just look at the situation as doing anki reps, if you miss a single day, it piles up so much that recovering is hard and the burden increases exponentially. Since the semester has just started you can easily make up for the lost time.
+
++ [A] Daily revisions of the day's classes
++ [B] Preparing for next day's classes
++ [C] Attempt textbook questions
+
+Now it's time for miscellaneous things that you should really focus on in order to really up your skillset and builld up your credentials.
++ Finish SOP work by tuesday, you have that meeting on wednesday which /really, really/ needs to go well. Oh and one more thing that I would've completely missed, finish Power Electronics lab work.
++ Start going through the ITMO lectures, your goal should be to be done with them by the time February comes to an end.
++ One thing which you've been really lackadaisical about is having an internship which would reflect your work ethic and since you didn't really have the grades to sit for them during last season, you thought you'd /"crack"/ GSoC and add that as work experience, alas your sloth-like mentality has put you in a very difficult position when it comes to that too, since you've practically made no effort to keep in touch with the org or contribute towards their project while others have made huge strides, you need to play catch-up now.
++ Start going through their code base, look at issues, merged PRs and previous year successful contributions, try to model them and constantly stay in touch with the org members so that they're aware of your existence. Build up some kind of rapport with them so that they feel like you're in it for the long run.
++ Optional goals for this category would be to work a bit on corfu and mpc/music modules for doom.
+
+This is all I could think of for now, and since your OOP lab's starting in any minute, so it's time to pen down, call it a day and follow through on what you've put out for the whole world to see.
+
+You're responsible for your own success.
+
+Go break a leg! :)

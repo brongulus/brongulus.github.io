@@ -1,0 +1,51 @@
+#+TITLE: Tracker
+CLOSED: [2025-04-28 Mon 09:00]
+
+* Books
+|--------------+-----------------------------|
+| Time         | Title                       |
+|--------------+-----------------------------|
+| Apr 2025     | Courage to be disliked      |
+| May 2025     | Before the Coffee Gets Cold |
+| May 2025 TBD | Four Thousand Weeks         |
+| May 2025 TBD | Right Concentration         |
+|--------------+-----------------------------|
+
+* Media
+** 2025
+|-----------+---------------------------|
+| Time      | Title                     |
+|-----------+---------------------------|
+| Apr       | Bojack Horseman (R)       |
+| Apr - May | Rehearsal                 |
+| Apr       | Unsolicited advice (YT)   |
+| Apr       | Anatomy of a champion     |
+| May       | Kubikiri Cycle            |
+| May       | Tokyo Ghoul (R)           |
+| May       | Fairy Tail S2             |
+| May       | About Time                |
+| May - Jun | The Bombing of Pan Am 103 |
+| May       | Rams                      |
+| May       | Etoile                    |
+|-----------+---------------------------|
+* Music
+** May 2025
+|------------------+-------------------------|
+| Artist           | Work                    |
+|------------------+-------------------------|
+| Alexandra Savior | Beneath The Lilypad     |
+| Ramin Djawadi    | Westworld S1 OST        |
+| Space Remedy     | Deformity               |
+| Phil Collins     | Another Day in Paradise |
+|------------------+-------------------------|
+** April 2025
+|---------------+-------------------------------|
+| Artist        | Work                          |
+|---------------+-------------------------------|
+| Pigbag        | Papa's Got a Brand New Pigbag |
+| Imogen Heap   | Headlock                      |
+| Bang Gang     | The World is Gray             |
+| Nat King Cole | Smile                         |
+| Wisp          | Enough for you                |
+|---------------+-------------------------------|
+

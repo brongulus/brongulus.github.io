@@ -1,0 +1,10 @@
+#+OPTIONS: toc:nil
+#+HTML: <div class="entries">
+
+* Notes
+
+- [[file:wall.org][Wall]]
+- [[file:about.org][About]]
+- [[file:tracker.org][Tracker]]
+
+#+HTML: </div>

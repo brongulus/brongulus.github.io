@@ -1,0 +1,13 @@
+#+OPTIONS: toc:nil
+#+HTML: <div class="entries">
+
+* [[file:meta/index.org][Meta]]
+#+INCLUDE: meta/index.org :lines "6-11"
+
+* [[file:blog/index.org][Blog Posts]]
+#+INCLUDE: blog/index.org :lines "6-11"
+
+* [[file:notes/index.org][Notes]]
+#+INCLUDE: notes/index.org :lines "6-11"
+
+#+HTML: </div>

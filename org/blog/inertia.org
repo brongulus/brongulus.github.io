@@ -1,0 +1,13 @@
+#+TITLE: The Subject of no one's affection
+#+OPTIONS: toc:nil
+CLOSED: [2019-06-10 Mon 03:00]
+
+#+begin_quote
+A mountain far off in the distance,
+A river flowing away from it,
+Hordes of trees on it.
+There’s a well somewhere,
+Penetrates the heart of the rock,
+Awaiting rain.
+#+end_quote
+

@@ -1,0 +1,29 @@
+#+TITLE: About
+#+OPTIONS: toc:nil
+CLOSED: [2021-03-21 Mon 01:00]
+
+* Webpresence of Prashant Tak
+
+#+begin_quote
+Why should a man climb Everest?
+Because it is there.
+-Meredith Edwards, The conquest of Everest
+#+end_quote
+
+Hi! I'm Prashant. This is something experimental for me, the entire /"blog"/ experience. I've never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that's something which will be decided in the future.
+
+Some stuff that I came across recently which I enjoyed, presented here in case someone's interested.
+
++ [[https://ncase.me/mental-health/][Mental Health]], don't fight your fear, accept it.
++ [[https://substack.com/home/post/p-163622235][the hunger to be everything]], a substack post about abundance
++ [[https://www.gwern.net/Design][Gwern - Design]], considerations to keep in mind while designing for the web.
++ [[https://observablehq.com/@yurivish/efficient-graph-search][Efficient BFS]]
++ [[https://ohshitgit.com/][Oh Shit Git]], for when you can't recall that specific command to do that particular thing.
++ [[https://www.chessengines.org/][Chess Engines]], how to code a chess engine
++ [[https://kkovacs.eu/cool-but-obscure-unix-tools/][Cool but Obscure unix tools]]
++ [[https://jsomers.net/i-should-have-loved-biology/][I should have loved biology]]
++ [[https://www.explainxkcd.com/wiki/index.php/2541:_Occam][Explain XKCD: Occam]]
++ [[https://publicservicebroadcasting.bandcamp.com/album/live-at-brixton][PSB - Live at Brixton]], a surreal experience. Tracks that I enjoyed: /Sputnik, Theme from PSB, Night Mail, Go!, Everest/.
++ [[https://www.poetryfoundation.org/poems/43997/the-rime-of-the-ancient-mariner-text-of-1834][The Rime of the Ancient Mariner]], it was part of my school curiculum, randomly thought of it today.
++ [[https://www.programiz.com/cpp-programming/lambda-expression][Lambda Expressions in C++]]
+

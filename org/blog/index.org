@@ -1,0 +1,12 @@
+#+OPTIONS: toc:nil
+#+HTML: <div class="entries">
+
+* Blog Posts
+
+- [[file:irc.org][I R SSI]]
+- [[file:inertia.org][The Subject of no one's affection]]
+- [[file:musturbating.org][Stop Musturbating]]
+- [[file:self-hate.org][Every Second Counts]]
+- [[file:nnfl-paper.org][Morphosyntactic Tagging with BiLSTM Model]]
+
+#+HTML: </div>

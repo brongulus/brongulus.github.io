@@ -1,0 +1,8 @@
+#+TITLE: Wall
+#+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; }</style>
+
+https://live.staticflickr.com/65535/55014544012_fc46d528c0_b.jpg
+
+https://live.staticflickr.com/65535/55014544092_0f9d64f47f_b.jpg
+
+https://live.staticflickr.com/65535/55015607123_f2e732e557_b.jpg
