@@ -361,6 +361,6 @@ Here, ~open()~, ~write()~ and ~close()~ are /system calls/ that are routed to th
 
 ** Discussion links
 
-- SingularityOS: https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design
-- Ben Eater: https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH
-- sel4: https://sel4.systems/About/whitepaper.html
+- [[https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design][SingularityOS]]
+- [[https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH][Ben Eater Video]]
+- [[https://sel4.systems/About/whitepaper.html][sel4]]

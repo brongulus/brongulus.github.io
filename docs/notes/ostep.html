@@ -20,7 +20,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org75a3080">Introduction</a></li>
+<li><a href="#org4d2cf2a">Introduction</a></li>
 </ul>
 </div>
 </nav>
@@ -32,9 +32,9 @@ Code: <a href="https://github.com/remzi-arpacidusseau/ostep-code">https://github
 Homework: <a href="https://github.com/remzi-arpacidusseau/ostep-homework">https://github.com/remzi-arpacidusseau/ostep-homework</a>
 Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https://github.com/remzi-arpacidusseau/ostep-projects</a>
 </p>
-<div id="outline-container-org75a3080" class="outline-2">
-<h2 id="org75a3080">Introduction</h2>
-<div class="outline-text-2" id="text-org75a3080">
+<div id="outline-container-org4d2cf2a" class="outline-2">
+<h2 id="org4d2cf2a">Introduction</h2>
+<div class="outline-text-2" id="text-org4d2cf2a">
 <p>In a socratic fashion, the first chapter is a dialogue between a <i>Professor</i> and a <i>Student</i> where the key ideas and how best to learn from the book is talked about.
 </p>
 
@@ -56,11 +56,11 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 <p>The chapter ends with a history of how operating systems were developed from early libraries to multiprogramming to PCs running DOS, linux and macOS.
 </p>
 </div>
-<div id="outline-container-orge2ad5ab" class="outline-3">
-<h3 id="orge2ad5ab">CPU Virtualization</h3>
-<div class="outline-text-3" id="text-orge2ad5ab">
+<div id="outline-container-org03129c4" class="outline-3">
+<h3 id="org03129c4">CPU Virtualization</h3>
+<div class="outline-text-3" id="text-org03129c4">
 <div class="org-src-container">
-<pre class="src src-C" id="org3c2a2e3">#ifndef __common_h__
+<pre class="src src-C" id="org04001f3">#ifndef __common_h__
 #define __common_h__
 
 #include &lt;sys/time.h&gt;
@@ -78,7 +78,7 @@ double GetTime() {
 void Spin(int howlong) {
     double t = GetTime();
     while ((GetTime() - t) &lt; (double) howlong)
-        ; // do nothing in loop
+	; // do nothing in loop
 }
 
 #endif // __common_h__
@@ -119,28 +119,22 @@ wait
 </pre>
 </div>
 
-<details>
-<summary>Output</summary>
-<pre class="example" id="org2cfc996">
-A
-B
-A
-B
-A
-B
-A
-B
-A
-B
+<pre class="example">
+clang: error: no such file or directory: 'cpu.c'
+clang: error: no input files
+sh: line 2: ./cpu: No such file or directory
+sh: line 2: ./cpu: No such file or directory
+[ Babel evaluation exited with code 0 ]
 </pre>
 
-</details><p>Even though there's only one processor, the execution of the two programs <code>./cpu "A"</code> and <code>./cpu "B"</code> seems to be happening at the same time, this is because of <i>CPU virtualization</i>. But for two programs to run simultaneously, the OS needs to have a <i>policy</i> to decide which should run.
+
+<p>Even though there's only one processor, the execution of the two programs <code>./cpu "A"</code> and <code>./cpu "B"</code> seems to be happening at the same time, this is because of <i>CPU virtualization</i>. But for two programs to run simultaneously, the OS needs to have a <i>policy</i> to decide which should run.
 </p>
 </div>
 </div>
-<div id="outline-container-org905650a" class="outline-3">
-<h3 id="org905650a">Memory Virtualization</h3>
-<div class="outline-text-3" id="text-org905650a">
+<div id="outline-container-orga41d566" class="outline-3">
+<h3 id="orga41d566">Memory Virtualization</h3>
+<div class="outline-text-3" id="text-orga41d566">
 <p>Physical memory is just an array of bytes; to <i>read</i> or <i>write</i> memory, an <i>address</i> must be specified to access the data there.
 </p>
 
@@ -174,35 +168,27 @@ wait
 </pre>
 </div>
 
-<details>
-<summary>Output</summary>
-<pre class="example" id="org8290386">
-(19998) address pointed to by p -&gt; 0x1047cd830
-(19997) address pointed to by p -&gt; 0x10263d830
-(19997) p =&gt; 1 addr -&gt; 0x10263d830
-(19998) p =&gt; 1 addr -&gt; 0x1047cd830
-(19997) p =&gt; 2 addr -&gt; 0x10263d830
-(19998) p =&gt; 2 addr -&gt; 0x1047cd830
-(19997) p =&gt; 3 addr -&gt; 0x10263d830
-(19998) p =&gt; 3 addr -&gt; 0x1047cd830
-(19997) p =&gt; 4 addr -&gt; 0x10263d830
-(19998) p =&gt; 4 addr -&gt; 0x1047cd830
-(19997) p =&gt; 5 addr -&gt; 0x10263d830
-(19998) p =&gt; 5 addr -&gt; 0x1047cd830
+<pre class="example">
+clang: error: no such file or directory: 'mem.c'
+clang: error: no input files
+sh: line 2: ./mem: No such file or directory
+sh: line 2: ./mem: No such file or directory
+[ Babel evaluation exited with code 0 ]
 </pre>
 
-</details><p>In the textbook example, for both instances of the program, the memory was allocated to the same address, this was used to illustrate that each running program has its own private memory (<b>memory virtualization</b>, private <i>address space</i> that gets mapped to physical memory) rather than sharing physical memory with other programs.
+
+<p>In the textbook example, for both instances of the program, the memory was allocated to the same address, this was used to illustrate that each running program has its own private memory (<b>memory virtualization</b>, private <i>address space</i> that gets mapped to physical memory) rather than sharing physical memory with other programs.
 </p>
 
 <p>However for security purposes, <code>macOS</code> has enabled <code>address-space layout randomization</code> (ASLR) hence the different addresses for the two processes.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd189233" class="outline-3">
-<h3 id="orgd189233">Concurrency</h3>
-<div class="outline-text-3" id="text-orgd189233">
+<div id="outline-container-org40b53f9" class="outline-3">
+<h3 id="org40b53f9">Concurrency</h3>
+<div class="outline-text-3" id="text-org40b53f9">
 <div class="org-src-container">
-<pre class="src src-C" id="orgd80e23c">#ifndef __common_threads_h__
+<pre class="src src-C" id="org4340439">#ifndef __common_threads_h__
 #define __common_threads_h__
 
 #include &lt;pthread.h&gt;
@@ -294,12 +280,12 @@ wait
 </div>
 
 <pre class="example">
-Initial value: 0
-Final value: 1172
-Initial value: 0
-Final value: 100051
-Initial value: 0
-Final value: 101961
+clang: error: no such file or directory: 'threads.c'
+clang: error: no input files
+sh: line 2: ./threads: No such file or directory
+sh: line 4: ./threads: No such file or directory
+sh: line 6: ./threads: No such file or directory
+[ Babel evaluation exited with code 0 ]
 </pre>
 
 
@@ -324,7 +310,7 @@ Final value: 101961
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="org3b55bc0">
+<pre class="example" id="org4348207">
 PTHREAD_CREATE(3)	   Library Functions Manual	     PTHREAD_CREATE(3)
 
 NAME
@@ -375,9 +361,9 @@ RETURN VALUES
 </details>
 </div>
 </div>
-<div id="outline-container-org05758b7" class="outline-3">
-<h3 id="org05758b7">Persistence</h3>
-<div class="outline-text-3" id="text-org05758b7">
+<div id="outline-container-org033b08a" class="outline-3">
+<h3 id="org033b08a">Persistence</h3>
+<div class="outline-text-3" id="text-org033b08a">
 <p>Final major theme of <i>persistence</i> relates to determinate data storage and not be dependent on <i>volatile</i> memory. The software in the OS that manages the disk is called <i>file system</i>. Unlike CPU and memory abstractions, the expectation when is comes to files is that the user would <b>want to share</b> the data in files with processes hence there is no need of virtualization of disk.
 </p>
 
@@ -423,7 +409,10 @@ cat /tmp/file_ostep
 </div>
 
 <pre class="example">
-hello world
+clang: error: no such file or directory: 'io.c'
+clang: error: no input files
+sh: line 2: ./io: No such file or directory
+[ Babel evaluation exited with code 0 ]
 </pre>
 
 
@@ -431,13 +420,13 @@ hello world
 </p>
 </div>
 </div>
-<div id="outline-container-org39ee8fe" class="outline-3">
-<h3 id="org39ee8fe">Discussion links</h3>
-<div class="outline-text-3" id="text-org39ee8fe">
+<div id="outline-container-org9e8ad11" class="outline-3">
+<h3 id="org9e8ad11">Discussion links</h3>
+<div class="outline-text-3" id="text-org9e8ad11">
 <ul class="org-ul">
-<li>SingularityOS: <a href="https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design">https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design</a></li>
-<li>Ben Eater: <a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH</a></li>
-<li>sel4: <a href="https://sel4.systems/About/whitepaper.html">https://sel4.systems/About/whitepaper.html</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design">SingularityOS</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">Ben Eater Video</a></li>
+<li><a href="https://sel4.systems/About/whitepaper.html">sel4</a></li>
 </ul>
 </div>
 </div>
