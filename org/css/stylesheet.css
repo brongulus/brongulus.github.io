@@ -427,6 +427,7 @@ pre {
     background: var(--accent);
     border-radius: 50%;
     position: absolute;
+    /* FIXME */
     top: clamp(25%, 30%, 50%);
     left: clamp(25%, 30%, 50%);
     pointer-events: none;
@@ -477,10 +478,9 @@ a:hover {
 }
 
 blockquote {
-    border-bottom: 3px double #727272;
-    border-top: 3px double #727272;
+    margin: 2rem auto;
     @media (max-width: 625px) {
-        margin: 0.2rem 0;
+        margin: 1rem 0;
     }
 }
 
@@ -489,7 +489,6 @@ blockquote p {
     white-space: pre-line;
     display: block;
     font-style: italic;
-    /* font-size: 110%; */
     line-height: 1.35em;
     text-align: left;
     margin: 0.5em auto;
