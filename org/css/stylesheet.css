@@ -246,6 +246,8 @@ h2 {
     color: var(--accent);
     text-align: center;
     font-size: 2.2rem;
+    font-weight: 300;
+    font-style: italic;
 }
 
 h1,
@@ -425,32 +427,10 @@ pre {
     background: var(--accent);
     border-radius: 50%;
     position: absolute;
-    top: 25%;
-    left: 0;
+    top: clamp(25%, 30%, 50%);
+    left: clamp(25%, 30%, 50%);
     pointer-events: none;
 }
-
-/* #dark-mode-button input { */
-/*     display: none; */
-/* } */
-
-/* #dark-mode-button { */
-/*     margin-left: auto; */
-/*     cursor: pointer; */
-/*     position: relative; */
-/* } */
-
-/* #dark-mode-button::after { */
-/*     content: ''; */
-/*     width: clamp(12px, 4vw, 24px); */
-/*     height: clamp(12px, 4vw, 24px); */
-/*     background: var(--accent); */
-/*     border-radius: 50%; */
-/*     position: absolute; */
-/*     top: 50%; */
-/*     transform: translateY(-50%); */
-/*     left: calc(-1 * clamp(12px, 4vw, 24px)); */
-/* } */
 
 /* #dark-mode-button::after { */
 /*     content: ''; */
@@ -622,23 +602,22 @@ ul li p {
 
 .entries > .outline-2 > .outline-text-2 > ul,
 .entries ~ .outline-2 > .outline-text-2 > ul {
-    padding-left: 0;
+    padding-left: 0.5em;
 }
 .entries > .outline-2 > .outline-text-2 > ul > li,
 .entries ~ .outline-2 > .outline-text-2 > ul > li {
-    border-top: 0.5px solid var(--accent);
     color: var(--font);
     display: block;
-    padding: 0.6rem 0;
     text-align: left;
     font-size: 1.4rem;
-    font-weight: 500;
     margin: 0.5rem 0;
-    font-family: "Playfair Display", sans-serif;
-    &:last-child {
-        border-bottom: 0.5px solid var(--accent);
-    }
 }
+
+.entries > .outline-2 > .outline-text-2 > ul > li a,
+.entries ~ .outline-2 > .outline-text-2 > ul > li a {
+    color: var(--font);
+}
+    
 .content:has(.entries) ~ footer {
     border-top: none;
 }
@@ -660,6 +639,7 @@ ul li p {
     font-size: 105%;
     text-transform: uppercase;
     margin: 0.7rem 0;
+    font-style: normal;
 }
 
 #table-of-contents ul {
