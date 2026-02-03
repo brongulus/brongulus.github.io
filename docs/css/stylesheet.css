@@ -318,6 +318,19 @@ p {
     margin-top: 1em;
     text-align: left;
     hyphens: nil;
+    font-size: 1.1rem;
+    @media (min-width: 1480px) {
+        max-width: 1000px;
+    }
+    @media (min-width: 1480px) {
+        font-size: 1.3rem;
+    }
+    @media (max-width: 625px) {
+        font-size: 18px;
+    }
+    @media (max-width: 425px) {
+        font-size: 17.4px;
+    }
 }
 
 p:last-child {
@@ -578,6 +591,9 @@ span > .katex-display {
 ol,
 ul {
     padding-left: 32px;
+    @media (max-width: 625px) {
+        padding-left: 16px;
+    }
     margin: 0.35em 0;
 }
 
@@ -589,7 +605,9 @@ ul li::marker {
 
 ol li,
 ul li {
-    font-size: 95%;
+    @media (min-width: 625px) {
+        font-size: 95%;
+    }
     font-weight: 300;
     margin-top: 0.35em;
     margin-bottom: 0.45em;
