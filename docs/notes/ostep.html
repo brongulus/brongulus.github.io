@@ -20,7 +20,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4d2cf2a">Introduction</a></li>
+<li><a href="#org32f26d3">Introduction</a></li>
 </ul>
 </div>
 </nav>
@@ -32,9 +32,9 @@ Code: <a href="https://github.com/remzi-arpacidusseau/ostep-code">https://github
 Homework: <a href="https://github.com/remzi-arpacidusseau/ostep-homework">https://github.com/remzi-arpacidusseau/ostep-homework</a>
 Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https://github.com/remzi-arpacidusseau/ostep-projects</a>
 </p>
-<div id="outline-container-org4d2cf2a" class="outline-2">
-<h2 id="org4d2cf2a">Introduction</h2>
-<div class="outline-text-2" id="text-org4d2cf2a">
+<div id="outline-container-org32f26d3" class="outline-2">
+<h2 id="org32f26d3">Introduction</h2>
+<div class="outline-text-2" id="text-org32f26d3">
 <p>In a socratic fashion, the first chapter is a dialogue between a <i>Professor</i> and a <i>Student</i> where the key ideas and how best to learn from the book is talked about.
 </p>
 
@@ -56,236 +56,226 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 <p>The chapter ends with a history of how operating systems were developed from early libraries to multiprogramming to PCs running DOS, linux and macOS.
 </p>
 </div>
-<div id="outline-container-org03129c4" class="outline-3">
-<h3 id="org03129c4">CPU Virtualization</h3>
-<div class="outline-text-3" id="text-org03129c4">
-<div class="org-src-container">
-<pre class="src src-C" id="org04001f3">#ifndef __common_h__
-#define __common_h__
+<div id="outline-container-org724db39" class="outline-3">
+<h3 id="org724db39">CPU Virtualization</h3>
+<div class="outline-text-3" id="text-org724db39">
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#if</span><span class="font-lock-preprocessor-face font-lock-negation-char-face">n</span><span class="font-lock-preprocessor-face">def</span> __common_h__
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-variable-name-face">__common_h__</span>
 
-#include &lt;sys/time.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;assert.h&gt;
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/time.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/stat.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;assert.h&gt;</span>
 
-double GetTime() {
-    struct timeval t;
-    int rc = gettimeofday(&amp;t, NULL);
+<span class="font-lock-type-face">double</span> <span class="font-lock-function-name-face">GetTime</span>() {
+    <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">timeval</span> <span class="font-lock-variable-name-face">t</span>;
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = gettimeofday(&amp;t, <span class="font-lock-constant-face">NULL</span>);
     assert(rc == 0);
-    return (double) t.tv_sec + (double) t.tv_usec/1e6;
+    <span class="font-lock-keyword-face">return</span> (<span class="font-lock-type-face">double</span>) t.tv_sec + (<span class="font-lock-type-face">double</span>) t.tv_usec/1e6;
 }
 
-// Repeatedly checks time and returns once 1s has passed.
-void Spin(int howlong) {
-    double t = GetTime();
-    while ((GetTime() - t) &lt; (double) howlong)
-	; // do nothing in loop
-}
+<span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Repeatedly checks time and returns once 1s has passed.
+</span><span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">Spin</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">howlong</span>) {
+    <span class="font-lock-type-face">double</span> <span class="font-lock-variable-name-face">t</span> = GetTime();
+    <span class="font-lock-keyword-face">while</span> ((GetTime() - t) &lt; (<span class="font-lock-type-face">double</span>) howlong)
+        ; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">do nothing in loop
+</span>}
 
-#endif // __common_h__
-</pre>
-</div>
+<span class="font-lock-preprocessor-face">#endif</span> <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">__common_h__</span></code></pre>
 
-<div class="org-src-container">
-<pre class="src src-C">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;assert.h&gt;
-#include &lt;sys/time.h&gt;
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;assert.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/time.h&gt;</span>
 &lt;&lt;include-common&gt;&gt;
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "usage: cpu &lt;string&gt;\n");
+<span class="font-lock-type-face">int</span> main(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-keyword-face">if</span> (argc != 2) {
+        fprintf(stderr, <span class="font-lock-string-face">"usage: cpu &lt;string&gt;\n"</span>);
         exit(1);
     }
-    char *str = argv[1];
-    setbuf(stdout, NULL); // disable buffering
-    double start = GetTime();
-    while(GetTime() - start &lt; 5.0) {
+    <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">str</span> = argv[1];
+    setbuf(stdout, <span class="font-lock-constant-face">NULL</span>); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">disable buffering
+</span>    <span class="font-lock-type-face">double</span> <span class="font-lock-variable-name-face">start</span> = GetTime();
+    <span class="font-lock-keyword-face">while</span>(GetTime() - start &lt; 5.0) {
         Spin(1);
-        printf("(%d) %s\n", getpid(), str);
+        printf(<span class="font-lock-string-face">"(%d) %s\n"</span>, getpid(), str);
     }
-    return 0;
-}
-</pre>
-</div>
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
 
 <p>Compiling and executing the above gives the result:
 </p>
 
-<div class="org-src-container">
-<pre class="src src-sh">gcc -o cpu cpu.c -I.
-./cpu "A" &amp; ./cpu "B" &amp;
-wait
+<pre class="src src-sh"><code>gcc -o cpu cpu.c -I.
+./cpu <span class="font-lock-string-face">"A"</span> &amp; ./cpu <span class="font-lock-string-face">"B"</span> &amp;
+<span class="font-lock-builtin-face">wait</span></code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example" id="org4dd022f">
+A
+B
+A
+B
+A
+B
+A
+B
+A
+B
 </pre>
-</div>
 
-<pre class="example">
-clang: error: no such file or directory: 'cpu.c'
-clang: error: no input files
-sh: line 2: ./cpu: No such file or directory
-sh: line 2: ./cpu: No such file or directory
-[ Babel evaluation exited with code 0 ]
-</pre>
-
-
-<p>Even though there's only one processor, the execution of the two programs <code>./cpu "A"</code> and <code>./cpu "B"</code> seems to be happening at the same time, this is because of <i>CPU virtualization</i>. But for two programs to run simultaneously, the OS needs to have a <i>policy</i> to decide which should run.
+</details><p>Even though there's only one processor, the execution of the two programs <code>./cpu "A"</code> and <code>./cpu "B"</code> seems to be happening at the same time, this is because of <i>CPU virtualization</i>. But for two programs to run simultaneously, the OS needs to have a <i>policy</i> to decide which should run.
 </p>
 </div>
 </div>
-<div id="outline-container-orga41d566" class="outline-3">
-<h3 id="orga41d566">Memory Virtualization</h3>
-<div class="outline-text-3" id="text-orga41d566">
+<div id="outline-container-orgb94579c" class="outline-3">
+<h3 id="orgb94579c">Memory Virtualization</h3>
+<div class="outline-text-3" id="text-orgb94579c">
 <p>Physical memory is just an array of bytes; to <i>read</i> or <i>write</i> memory, an <i>address</i> must be specified to access the data there.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-C">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;unistd.h&gt;
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
 &lt;&lt;include-common&gt;&gt;
 
-int main(int argc, char *argv[]) {
-    int *p = malloc(sizeof(int)); // memory allocation
-    assert(p != NULL);
-    printf("(%d) address pointed to by p -&gt; %p\n", getpid(), p); // mem addr
-    *p = 0; // write 0 to location specified by memory address
-    double start = GetTime();
-    setbuf(stdout, NULL); // disable buffering
-    while(GetTime() - start &lt; 5.0) {
+<span class="font-lock-type-face">int</span> main(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-type-face">int</span> *<span class="font-lock-variable-name-face">p</span> = malloc(<span class="font-lock-keyword-face">sizeof</span>(<span class="font-lock-type-face">int</span>)); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">memory allocation
+</span>    assert(p != <span class="font-lock-constant-face">NULL</span>);
+    printf(<span class="font-lock-string-face">"(%d) address pointed to by p -&gt; %p\n"</span>, getpid(), p); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">mem addr
+</span>    *p = 0; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">write 0 to location specified by memory address
+</span>    <span class="font-lock-type-face">double</span> <span class="font-lock-variable-name-face">start</span> = GetTime();
+    setbuf(stdout, <span class="font-lock-constant-face">NULL</span>); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">disable buffering
+</span>    <span class="font-lock-keyword-face">while</span>(GetTime() - start &lt; 5.0) {
         Spin(1);
-        *p = *p + 1; // update value at the location by 1
-        printf("(%d) p =&gt; %d addr -&gt; %p\n", getpid(), *p, p);
+        *p = *p + 1; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">update value at the location by 1
+</span>        printf(<span class="font-lock-string-face">"(%d) p =&gt; %d addr -&gt; %p\n"</span>, getpid(), *p, p);
     }
-    return 0;
-}
-</pre>
-</div>
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
 
-<div class="org-src-container">
-<pre class="src src-sh">gcc -o mem mem.c -I.
+<pre class="src src-sh"><code>gcc -o mem mem.c -I.
 ./mem &amp; ./mem &amp;
-wait
+<span class="font-lock-builtin-face">wait</span></code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example" id="orgf889ddc">
+(19998) address pointed to by p -&gt; 0x1047cd830
+(19997) address pointed to by p -&gt; 0x10263d830
+(19997) p =&gt; 1 addr -&gt; 0x10263d830
+(19998) p =&gt; 1 addr -&gt; 0x1047cd830
+(19997) p =&gt; 2 addr -&gt; 0x10263d830
+(19998) p =&gt; 2 addr -&gt; 0x1047cd830
+(19997) p =&gt; 3 addr -&gt; 0x10263d830
+(19998) p =&gt; 3 addr -&gt; 0x1047cd830
+(19997) p =&gt; 4 addr -&gt; 0x10263d830
+(19998) p =&gt; 4 addr -&gt; 0x1047cd830
+(19997) p =&gt; 5 addr -&gt; 0x10263d830
+(19998) p =&gt; 5 addr -&gt; 0x1047cd830
 </pre>
-</div>
 
-<pre class="example">
-clang: error: no such file or directory: 'mem.c'
-clang: error: no input files
-sh: line 2: ./mem: No such file or directory
-sh: line 2: ./mem: No such file or directory
-[ Babel evaluation exited with code 0 ]
-</pre>
-
-
-<p>In the textbook example, for both instances of the program, the memory was allocated to the same address, this was used to illustrate that each running program has its own private memory (<b>memory virtualization</b>, private <i>address space</i> that gets mapped to physical memory) rather than sharing physical memory with other programs.
+</details><p>In the textbook example, for both instances of the program, the memory was allocated to the same address, this was used to illustrate that each running program has its own private memory (<b>memory virtualization</b>, private <i>address space</i> that gets mapped to physical memory) rather than sharing physical memory with other programs.
 </p>
 
 <p>However for security purposes, <code>macOS</code> has enabled <code>address-space layout randomization</code> (ASLR) hence the different addresses for the two processes.
 </p>
 </div>
 </div>
-<div id="outline-container-org40b53f9" class="outline-3">
-<h3 id="org40b53f9">Concurrency</h3>
-<div class="outline-text-3" id="text-org40b53f9">
-<div class="org-src-container">
-<pre class="src src-C" id="org4340439">#ifndef __common_threads_h__
-#define __common_threads_h__
+<div id="outline-container-orgc4b02bf" class="outline-3">
+<h3 id="orgc4b02bf">Concurrency</h3>
+<div class="outline-text-3" id="text-orgc4b02bf">
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#if</span><span class="font-lock-preprocessor-face font-lock-negation-char-face">n</span><span class="font-lock-preprocessor-face">def</span> __common_threads_h__
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-variable-name-face">__common_threads_h__</span>
 
-#include &lt;pthread.h&gt;
-#include &lt;assert.h&gt;
-#include &lt;sched.h&gt;
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;pthread.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;assert.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sched.h&gt;</span>
 
-#ifdef __linux__
-#include &lt;semaphore.h&gt;
-#endif
+<span class="font-lock-preprocessor-face">#ifdef</span> __linux__
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;semaphore.h&gt;</span>
+<span class="font-lock-preprocessor-face">#endif</span>
 
-// wrapper around pthread_create() that ensures the return value is success
-#define Pthread_create(thread, attr, start_routine, arg) assert(pthread_create(thread, attr, start_routine, arg) == 0);
-#define Pthread_join(thread, value_ptr)                  assert(pthread_join(thread, value_ptr) == 0);
+<span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">wrapper around pthread_create() that ensures the return value is success
+</span><span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_create</span>(<span class="font-lock-variable-name-face">thread</span>, <span class="font-lock-variable-name-face">attr</span>, <span class="font-lock-variable-name-face">start_routine</span>, <span class="font-lock-variable-name-face">arg</span>) assert(pthread_create(thread, attr, start_routine, arg) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_join</span>(<span class="font-lock-variable-name-face">thread</span>, <span class="font-lock-variable-name-face">value_ptr</span>)                  assert(pthread_join(thread, value_ptr) == 0);
 
-#define Pthread_mutex_lock(m)                            assert(pthread_mutex_lock(m) == 0);
-#define Pthread_mutex_unlock(m)                          assert(pthread_mutex_unlock(m) == 0);
-#define Pthread_cond_signal(cond)                        assert(pthread_cond_signal(cond) == 0);
-#define Pthread_cond_wait(cond, mutex)                   assert(pthread_cond_wait(cond, mutex) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_mutex_lock</span>(<span class="font-lock-variable-name-face">m</span>)                            assert(pthread_mutex_lock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_mutex_unlock</span>(<span class="font-lock-variable-name-face">m</span>)                          assert(pthread_mutex_unlock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_cond_signal</span>(<span class="font-lock-variable-name-face">cond</span>)                        assert(pthread_cond_signal(cond) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_cond_wait</span>(<span class="font-lock-variable-name-face">cond</span>, <span class="font-lock-variable-name-face">mutex</span>)                   assert(pthread_cond_wait(cond, mutex) == 0);
 
-#define Mutex_init(m)                                    assert(pthread_mutex_init(m, NULL) == 0);
-#define Mutex_lock(m)                                    assert(pthread_mutex_lock(m) == 0);
-#define Mutex_unlock(m)                                  assert(pthread_mutex_unlock(m) == 0);
-#define Cond_init(cond)                                  assert(pthread_cond_init(cond, NULL) == 0);
-#define Cond_signal(cond)                                assert(pthread_cond_signal(cond) == 0);
-#define Cond_wait(cond, mutex)                           assert(pthread_cond_wait(cond, mutex) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_init</span>(<span class="font-lock-variable-name-face">m</span>)                                    assert(pthread_mutex_init(m, <span class="font-lock-constant-face">NULL</span>) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_lock</span>(<span class="font-lock-variable-name-face">m</span>)                                    assert(pthread_mutex_lock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_unlock</span>(<span class="font-lock-variable-name-face">m</span>)                                  assert(pthread_mutex_unlock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_init</span>(<span class="font-lock-variable-name-face">cond</span>)                                  assert(pthread_cond_init(cond, <span class="font-lock-constant-face">NULL</span>) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_signal</span>(<span class="font-lock-variable-name-face">cond</span>)                                assert(pthread_cond_signal(cond) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_wait</span>(<span class="font-lock-variable-name-face">cond</span>, <span class="font-lock-variable-name-face">mutex</span>)                           assert(pthread_cond_wait(cond, mutex) == 0);
 
-#ifdef __linux__
-#define Sem_init(sem, value)                             assert(sem_init(sem, 0, value) == 0);
-#define Sem_wait(sem)                                    assert(sem_wait(sem) == 0);
-#define Sem_post(sem)                                    assert(sem_post(sem) == 0);
-#endif // __linux__
+<span class="font-lock-preprocessor-face">#ifdef</span> __linux__
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_init</span>(<span class="font-lock-variable-name-face">sem</span>, <span class="font-lock-variable-name-face">value</span>)                             assert(sem_init(sem, 0, value) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_wait</span>(<span class="font-lock-variable-name-face">sem</span>)                                    assert(sem_wait(sem) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_post</span>(<span class="font-lock-variable-name-face">sem</span>)                                    assert(sem_post(sem) == 0);
+<span class="font-lock-preprocessor-face">#endif</span> <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">__linux__
+</span>
+<span class="font-lock-preprocessor-face">#endif</span> <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">__common_threads_h__</span></code></pre>
 
-#endif // __common_threads_h__
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-C">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
 &lt;&lt;include-common&gt;&gt;
 &lt;&lt;include-common_threads&gt;&gt;
 
-volatile int counter = 0;
-int loops;
+<span class="font-lock-keyword-face">volatile</span> <span class="font-lock-type-face">int</span> counter = 0;
+<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">loops</span>;
 
-void *worker(void *arg) {
-    for (int i = 0; i &lt; loops; i++) {
+<span class="font-lock-type-face">void</span> *<span class="font-lock-function-name-face">worker</span>(<span class="font-lock-type-face">void</span> *<span class="font-lock-variable-name-face">arg</span>) {
+    <span class="font-lock-keyword-face">for</span> (<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; loops; i++) {
         counter++;
     }
-    return NULL;
+    <span class="font-lock-keyword-face">return</span> <span class="font-lock-constant-face">NULL</span>;
 }
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "usage: threads &lt;value&gt;\n");
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-keyword-face">if</span> (argc != 2) {
+        fprintf(stderr, <span class="font-lock-string-face">"usage: threads &lt;value&gt;\n"</span>);
         exit(1);
     }
     loops = atoi(argv[1]);
-    pthread_t p1, p2;
-    // setbuf(stdout, NULL); // disable buffering
-    printf("Initial value: %d\n", counter);
+    <span class="font-lock-type-face">pthread_t</span> <span class="font-lock-variable-name-face">p1</span>, <span class="font-lock-variable-name-face">p2</span>;
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">setbuf(stdout, NULL); // disable buffering
+</span>    printf(<span class="font-lock-string-face">"Initial value: %d\n"</span>, counter);
 
-    Pthread_create(&amp;p1, NULL, worker, NULL);
-    Pthread_create(&amp;p2, NULL, worker, NULL);
-    // The pthread_join() function suspends execution of the calling thread (main)
-    // until the target thread (p1/p2) terminates unless the target thread
-    // has already terminated.
-    Pthread_join(p1, NULL);
-    Pthread_join(p2, NULL);
+    Pthread_create(&amp;p1, <span class="font-lock-constant-face">NULL</span>, worker, <span class="font-lock-constant-face">NULL</span>);
+    Pthread_create(&amp;p2, <span class="font-lock-constant-face">NULL</span>, worker, <span class="font-lock-constant-face">NULL</span>);
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">The pthread_join() function suspends execution of the calling thread (main)
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">until the target thread (p1/p2) terminates unless the target thread
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">has already terminated.
+</span>    Pthread_join(p1, <span class="font-lock-constant-face">NULL</span>);
+    Pthread_join(p2, <span class="font-lock-constant-face">NULL</span>);
 
-    printf("Final value: %d\n", counter);
-    return 0;
-}
-</pre>
-</div>
+    printf(<span class="font-lock-string-face">"Final value: %d\n"</span>, counter);
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
 
 <p>Think of the thread as a function running withing the same memory space as other functions, with more than one of them active at a time. Here each thread starts running in the <code>worker()</code> routine which increments the counter for <code>loops</code> number of times. Given <code>loops</code> as <code>1000</code>, the expectation is that the final value of <code>counter</code> should be <code>2000</code> but that's not guaranteed.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-sh">gcc -o threads threads.c -I. -pthread
+<pre class="src src-sh"><code>gcc -o threads threads.c -I. -pthread
 ./threads 1000
-wait
+<span class="font-lock-builtin-face">wait</span>
 ./threads 100000
-wait
+<span class="font-lock-builtin-face">wait</span>
 ./threads 100000
-wait
-</pre>
-</div>
+<span class="font-lock-builtin-face">wait</span></code></pre>
 
 <pre class="example">
-clang: error: no such file or directory: 'threads.c'
-clang: error: no input files
-sh: line 2: ./threads: No such file or directory
-sh: line 4: ./threads: No such file or directory
-sh: line 6: ./threads: No such file or directory
-[ Babel evaluation exited with code 0 ]
+Initial value: 0
+Final value: 1172
+Initial value: 0
+Final value: 100051
+Initial value: 0
+Final value: 101961
 </pre>
 
 
@@ -303,14 +293,11 @@ sh: line 6: ./threads: No such file or directory
 <p>To see the documentation for <code>pthread_create</code> check the following man page.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-sh">man 3 pthread_create | col -b | head -n 45
-</pre>
-</div>
+<pre class="src src-sh"><code>man 3 pthread_create | col -b | head -n 45</code></pre>
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="org4348207">
+<pre class="example" id="orga13facc">
 PTHREAD_CREATE(3)	   Library Functions Manual	     PTHREAD_CREATE(3)
 
 NAME
@@ -361,58 +348,49 @@ RETURN VALUES
 </details>
 </div>
 </div>
-<div id="outline-container-org033b08a" class="outline-3">
-<h3 id="org033b08a">Persistence</h3>
-<div class="outline-text-3" id="text-org033b08a">
+<div id="outline-container-orgec68c34" class="outline-3">
+<h3 id="orgec68c34">Persistence</h3>
+<div class="outline-text-3" id="text-orgec68c34">
 <p>Final major theme of <i>persistence</i> relates to determinate data storage and not be dependent on <i>volatile</i> memory. The software in the OS that manages the disk is called <i>file system</i>. Unlike CPU and memory abstractions, the expectation when is comes to files is that the user would <b>want to share</b> the data in files with processes hence there is no need of virtualization of disk.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-C">#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;assert.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;sys/types.h&gt;
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;assert.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;fcntl.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/types.h&gt;</span>
 
-int main(int argc, char *argv[]) {
-    // The file name specified by path is opened for reading and/or writing, as
-    // specified by the argument oflag; the file descriptor is returned to the
-    // calling process.
-    // O_WRONLY: open for writing only (O_RONLY, O_RDWR, O_SEARCH, O_EXEC)
-    // O_CREAT: create file if not exist, O_TRUNC: truncate size to 0 if exist
-    // S_IRWXU:  00700 user (file owner) has read, write &amp; execute permission
-    int fd = open("/tmp/file_ostep", O_WRONLY|O_CREAT|O_TRUNC, S_IRWXU);
-    // If successful, open() returns a non-negative integer, termed a file
-    // descriptor.  It returns -1 on failure, and sets errno to indicate the
-    // error.
-    assert(fd &gt; -1);
-    // write() attempts to write nbyte of data to the object referenced by the
-    // descriptor fd from the buffer pointed to by buf.  Upon successful completion
-    // the number of bytes which were written is returned otherwise -1.
-    int rc = write(fd, "hello world\n", 12); // 12 = nbyte
-    assert(rc == 12);
-    // The close() call deletes a descriptor from the per-process object
-    // reference table.  If this is the last reference to the underlying object,
-    // the object will be deactivated. `man 2 close` 
-    close(fd);
-    return 0;
-}
-</pre>
-</div>
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">The file name specified by path is opened for reading and/or writing, as
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">specified by the argument oflag; the file descriptor is returned to the
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">calling process.
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">O_WRONLY: open for writing only (O_RONLY, O_RDWR, O_SEARCH, O_EXEC)
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">O_CREAT: create file if not exist, O_TRUNC: truncate size to 0 if exist
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">S_IRWXU:  00700 user (file owner) has read, write &amp; execute permission
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">fd</span> = open(<span class="font-lock-string-face">"/tmp/file_ostep"</span>, O_WRONLY|O_CREAT|O_TRUNC, S_IRWXU);
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">If successful, open() returns a non-negative integer, termed a file
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">descriptor.  It returns -1 on failure, and sets errno to indicate the
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">error.
+</span>    assert(fd &gt; -1);
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">write() attempts to write nbyte of data to the object referenced by the
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">descriptor fd from the buffer pointed to by buf.  Upon successful completion
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">the number of bytes which were written is returned otherwise -1.
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = write(fd, <span class="font-lock-string-face">"hello world\n"</span>, 12); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">12 = nbyte
+</span>    assert(rc == 12);
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">The close() call deletes a descriptor from the per-process object
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">reference table.  If this is the last reference to the underlying object,
+</span>    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">the object will be deactivated. `man 2 close` 
+</span>    close(fd);
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
 
-<div class="org-src-container">
-<pre class="src src-sh">gcc -o io io.c
+<pre class="src src-sh"><code>gcc -o io io.c
 ./io
-wait
-cat /tmp/file_ostep
-</pre>
-</div>
+<span class="font-lock-builtin-face">wait</span>
+cat /tmp/file_ostep</code></pre>
 
 <pre class="example">
-clang: error: no such file or directory: 'io.c'
-clang: error: no input files
-sh: line 2: ./io: No such file or directory
-[ Babel evaluation exited with code 0 ]
+hello world
 </pre>
 
 
@@ -420,9 +398,9 @@ sh: line 2: ./io: No such file or directory
 </p>
 </div>
 </div>
-<div id="outline-container-org9e8ad11" class="outline-3">
-<h3 id="org9e8ad11">Discussion links</h3>
-<div class="outline-text-3" id="text-org9e8ad11">
+<div id="outline-container-org4869b60" class="outline-3">
+<h3 id="org4869b60">Discussion links</h3>
+<div class="outline-text-3" id="text-org4869b60">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design">SingularityOS</a></li>
 <li><a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">Ben Eater Video</a></li>

@@ -1,4 +1,4 @@
-/* TODO: closed time, rss, syntax highlighting, cache fonts */
+/* TODO: closed time, rss, cache fonts */
 
 /* ======================================== */
 /* Colors
@@ -171,7 +171,7 @@ footer,
         font-size: 18px;
     }
     @media (max-width: 425px) {
-        font-size: 17.2px;
+        font-size: 17.4px;
     }
 }
 
@@ -370,6 +370,17 @@ pre {
         font-size: 12px;
     }
 }
+
+.font-lock-keyword-face { color: #c678dd; }
+.font-lock-function-name-face { color: #61afef; }
+.font-lock-variable-name-face { color: #e06c75; }
+.font-lock-string-face { color: #98c379; }
+.font-lock-comment-face { color: #5c6370; font-style: italic; }
+.font-lock-comment-delimiter-face { color: #5c6370; }
+.font-lock-type-face { color: #e5c07b; }
+.font-lock-constant-face { color: #d19a66; }
+.font-lock-builtin-face { color: #56b6c2; }
+.font-lock-preprocessor-face { color: #c678dd; }
 
 /* pre.src::before { */
 /*     position: sticky; */

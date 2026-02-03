@@ -3,6 +3,8 @@
 (require 'org)
 (require 'ox-publish)
 
+(setq debug-on-error t)
+
 (defvar blog-base-dir
   (file-name-directory (or load-file-name (buffer-file-name)))
   "The `:base-directory' for blog source.")
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>")
 
 (setq org-export-with-toc 1
-      org-html-htmlize-output-type nil ;'css
+      org-html-htmlize-output-type nil
       org-html-doctype "html5"
       org-html-html5-fancy t
       ;; org-html-link-use-abs-url t
@@ -152,3 +154,62 @@ document.addEventListener('DOMContentLoaded', function() {
      result)))
 
 (advice-add 'org-html-link :around #'my/fix-image-src)
+
+;; Opus: htmlize alternative
+(defun my/face-to-css-class (face)
+  "Convert a font-lock face to a CSS class name."
+  (cond
+   ((null face) nil)
+   ((symbolp face) (symbol-name face))
+   ((listp face)
+    ;; Handle composite faces - join them all
+    (mapconcat (lambda (f)
+                 (if (symbolp f) (symbol-name f) ""))
+               (if (face-list-p face) face (list face))
+               " "))
+   (t nil)))
+
+(defun my/fontify-code (code lang)
+  "Fontify CODE string using LANG major mode and return HTML with CSS classes."
+  (let ((lang-mode (org-src-get-lang-mode lang)))
+    (if (fboundp lang-mode)
+        (with-temp-buffer
+          (insert code)
+          (delay-mode-hooks (funcall lang-mode))
+          (font-lock-ensure)
+          (let ((pos (point-min))
+                (result ""))
+            (while (< pos (point-max))
+              (let* ((next-pos (next-single-property-change pos 'face nil (point-max)))
+                     (face (get-text-property pos 'face))
+                     (text (buffer-substring-no-properties pos next-pos))
+                     (escaped-text (org-html-encode-plain-text text))
+                     (css-class (my/face-to-css-class face)))
+                (setq result
+                      (concat result
+                              (if css-class
+                                  (format "<span class=\"%s\">%s</span>"
+                                          css-class escaped-text)
+                                escaped-text)))
+                (setq pos next-pos)))
+            result))
+      ;; Fallback if mode doesn't exist
+      (org-html-encode-plain-text code))))
+
+(defun my/org-html-src-block (src-block _contents info)
+  "Export SRC-BLOCK with font-lock faces as CSS classes."
+  (let* ((lang (org-element-property :language src-block))
+         (code (org-element-property :value src-block))
+         ;; Remove trailing newline if present
+         (code (if (string-suffix-p "\n" code)
+                   (substring code 0 -1)
+                 code))
+         (highlighted-code (my/fontify-code code lang)))
+    (format "<pre class=\"src src-%s\"><code>%s</code></pre>\n"
+            (or lang "none")
+            highlighted-code)))
+
+;; Override the default src-block export
+(advice-add 'org-html-src-block :override #'my/org-html-src-block)
+
+;; To remove: (advice-remove 'org-html-src-block #'my/org-html-src-block)

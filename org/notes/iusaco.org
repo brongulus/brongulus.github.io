@@ -1,7 +1,7 @@
 #+TITLE: IUSACO
 CLOSED: [2022-06-05 Sun]
 * Input and Output
-  #+begin_src cpp
+  #+begin_src c++
   #include <cstdio>
   using namespace std;
   int main() {
@@ -27,14 +27,14 @@ CLOSED: [2022-06-05 Sun]
 Data Structure determines how data is stored, each supports some operations efficiently. In following discussion, desired data type is put between =<>=. Most std structures support =size()= and =empty()= methods.
 ** Iterators
 Allows for traversal of a container with the help of a pointer.
-#+begin_src cpp
+#+begin_src c++
   for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {
     cout << *it; //prints the values in the vector using the pointer
   }
 #+end_src
 
 Alternate way to achieve the same with a for-each loop and =auto=.
-#+begin_src cpp
+#+begin_src c++
   for(auto element : v){
     cout << element; // prints values in vector
   }
@@ -42,7 +42,7 @@ Alternate way to achieve the same with a for-each loop and =auto=.
 
 ** Dynamic Arrays
 Addition and deletion at the end in O(1) time and in the middle in O(n) time.
-#+begin_src cpp
+#+begin_src c++
   vector<int> v;
   for(int i = 1; i <= 10; i++){
     v.push_back(i); // stores 1 to 10 in a dynamic array
@@ -63,7 +63,7 @@ A /set/ is a collection of objects having no duplicates.
 
 *Unordered Sets*: Work by hashing that is, assigning a unique code to every object allowing for =insert=, =erase= and =count= (set contains element then 1 else 0) in O(1). Traversal is pointless. Declared as =unordered_set<int> s=.
 
-#+begin_src cpp
+#+begin_src c++
   for(int element : s){
     cout << element << " "; // iterating through a set, arbitrary order
   }
@@ -79,7 +79,7 @@ A /map/ is a set of /ordered pairs/ called key and value where keys must be uniq
 
 *Ordered Maps*: Supports additional operations =lower_bound= and =upper_bound= which return iterators pointing to lowest entry not less than/ strictly greater than a specified key.
 
-#+begin_src cpp
+#+begin_src c++
   map<int, int> m; // [(3,5); (11,4)]
   m[10] = 491; // [(3,5); (10,491); (11,4)]
   cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << "\n";
@@ -93,7 +93,7 @@ A /map/ is a set of /ordered pairs/ called key and value where keys must be uniq
 Simulation refers to the act of doing precisely what the problem statement states and nothing else; essentially simulating it.
 ** Complete Search
 Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:
-#+begin_src cpp
+#+begin_src c++
 do {
   check(v); // process or check the current permutation for validity
 } while(next_permutation(v.begin(), v.end()));
@@ -113,7 +113,7 @@ Graphs (N vertices and M edges) are usually given in the format: =N= =M= followe
   For using DFS, BFS, Dijkstra or other =single-source= traversal algorithms, it's the preferred way of storing graphs. In it, an array of length N of lists is maintained.
   [[/assets/usaco-adj.png]]
   They take up =O(M+N)= space but allow for easy traversal among the neighbors of a vertex. Often, there's a need to maintain a =visited= array.
-  #+begin_src cpp
+  #+begin_src c++
 int n, m;
 vector<int> adj[MAXN];
 bool visited[MAXN];
@@ -141,7 +141,7 @@ struct Edge
   #+end_src
 *** Adjacency Matrix
 This is an =N x N= 2D array that stores for each pair of indices(a,b) whether an edge exists between them or not. Primarily used for Floyd-Warshall Algorithm.
-#+begin_src cpp
+#+begin_src c++
 int n, m;
 int adj[MAXN][MAXN];
 
@@ -158,7 +158,7 @@ int main(){
 #+end_src
 *** Edge List
 Usually used for weighted undirected graphs when sorting the edges by weight is needed (DSU). Its simply a single list of all edges =(a, b, w)= where a and b are the vertices and w is the weight of connecting edge. Each edge is added only oncce.
-#+begin_src cpp
+#+begin_src c++
 struct Edge{
   int a, b, w;
   Edge(int start, int end, int weight):
@@ -188,7 +188,7 @@ int main(){
 ** Traversal
 *** Breadth-First Search (BFS)
 Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.
-#+begin_src cpp
+#+begin_src c++
 void bfs(int start){
   const int total_nodes = n;
   memset(dist, -1, sizeof dist); // fill distance array with -1s
@@ -212,7 +212,7 @@ void bfs(int start){
 Once BFS finishes, the array =dist= contains the distances from the start node to each node.
 *** Depth-First Search (DFS)
 Continues down a single path as far as possible until it has no more vertices to visit along that path, then backtracks and finds more vertices to visit.
-#+begin_src cpp
+#+begin_src c++
 void dfs(int node){
   visited[node] = true;
   for(int next : adj[node]){
@@ -228,7 +228,7 @@ If stack overflows are encountered with recursive DFS, it can be implemented ite
 Its DFS but on a grid and the aim is to find the connected component of all the connected cells with the same number. As opposed to an explicit graph where the edges are given, a grid is an implicit graph where the neighbours are nodes adjacent in the four directions.
 
 When doing floodfill, an =N x M= array of bools =visited= is maintained and a global variable for the size of currently visiting component. The search function is called recursively from squares on all four sides of the current one.
-#+begin_src cpp
+#+begin_src c++
 int grid[MAXN][MAXM];
 int n, m;
 bool visited[MAXN][MAXM];
@@ -267,7 +267,7 @@ It supports two operations:
 + Add an edge between two nodes
 + Check if two nodes are connected
 For this, the sets are stored as trees; initially each node is its own set then the sets are combined when an edge is added between two nodes.
-#+begin_src cpp
+#+begin_src c++
 int parent[MAXN]; // store root of each set
 
 void initialize(int N){
@@ -290,7 +290,7 @@ void union(int a, int b){ // merge sets of a and b
 }
 #+end_src
 The naive recursive implementation of find can be improved from =O(nm)= by path compression; the idea being reassignment of nodes on recursive calls to =find= to prevent formation of long chains and the runtime becomes =O(n log n)=.
-#+begin_src cpp
+#+begin_src c++
 int find(int x){
   if(x == parent[x])
     return x;
@@ -326,7 +326,7 @@ Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\)
 | 3 |   7 | {2,2,3,3}   |
 | 7 |   1 | {2,2,3,3,7} |
 GCD using Euclidean Algorithm in =O(log min(a,b))=:
-#+begin_src cpp
+#+begin_src c++
 int gcd(int a, int b){
   if(!b) return a;
   return gcd(b, a%b);
