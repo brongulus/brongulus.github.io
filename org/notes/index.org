@@ -3,6 +3,9 @@
 
 * Notes
 
+- [[file:mcm.org][MCM]]
+- [[file:k8s.org][Docker Kubernetes Notes]]
+- [[file:2fast2mcm.org][2 Fast 2 MCM]]
 - [[file:notes-from-underground.org][Notes from Underground]]
 - [[file:meditations.org][Meditations]]
 - [[file:ecs.org][Elements of computing systems]]

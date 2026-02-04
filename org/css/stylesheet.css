@@ -408,6 +408,20 @@ pre {
 /*     position: sticky; */
 /* } */
 
+
+.mermaid {
+    border-top: none;
+    border-bottom: none;
+
+}
+
+.mermaid p {
+    /* font-family: initial; */
+    font-family: "Ioskeley Mono", monospace;
+    font-size: 16px;
+    line-height: 1.1;
+}
+
 /* ======================================== */
 /* Dark-light toggle
 /* ======================================== */

@@ -1,13 +1,11 @@
-+++
-title = "2 Fast 2 MCM"
-author = ["Tak"]
-date = 2025-01-15T00:07:00+05:30
-draft = false
-+++
+#+TITLE: 2 Fast 2 MCM
+#+DATE: 2025-01-15
+#+HTML_HEAD_EXTRA: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); var config = {startOnLoad: true, theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default', align:'center',}; mermaid.initialize(config); const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]'); toggleSwitch.addEventListener('click', () => {window.location.reload();}); </script>
+
 
 These visual representations helps understand the complex workflows within the Machine Controller Manager.
 
-## Machine Controller Manager Architecture
+*  Machine Controller Manager Architecture
 - The system consists of three main controllers working in concert
 - Each controller handles specific aspects of machine lifecycle management
 - Interfaces with both cloud providers and Kubernetes clusters
@@ -15,55 +13,58 @@ These visual representations helps understand the complex workflows within the M
 
 Let's start with an overview of the main components and their interactions:
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 stateDiagram-v2
     direction TB
-    
+
     state "Machine Controller Manager" as MCM {
         state "Machine Controller" as MC
         state "Safety Controller" as SC
         state "MCM Controller" as MCMC
-        
+
         [*] --> MC
         [*] --> SC
         [*] --> MCMC
     }
-    
+
     state "Cloud Provider" as CP {
         VMs
         API
     }
-    
+
     state "Kubernetes Cluster" as K8S {
         state "Control Plane" as CP_K8S {
             API_Server
             etcd
         }
-        
+
         state "Node Components" as NC {
             kubelet
             container_runtime
         }
     }
-    
+
     MCM --> CP : Manages VMs
     MCM --> K8S : Manages Nodes
-    
+
     note right of MCM
         Handles:
         - Machine lifecycle
         - Safety checks
         - Deployments/Sets
     end note
-```
+</pre>
+#+end_export
 
-## Machine Controller Core Flows
+* Machine Controller Core Flows
 Now, let's dive into the Machine Controller's core reconciliation flows for different resources. It handles three main types of reconciliation:
 - Secret Reconciliation: Manages secrets referenced by MachineClasses
 - MachineClass Reconciliation: Handles machine class lifecycle
 - Machine Reconciliation: Core machine lifecycle management
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -94,39 +95,41 @@ stateDiagram-v2
         state "Machine Reconciliation" as MR {
             [*] --> FetchMachine
             FetchMachine --> CheckFrozen
-            
+
             CheckFrozen --> ValidateMachine : Not Frozen
             CheckFrozen --> RetryLater : Frozen
-            
+
             ValidateMachine --> ValidateMachineClass
             VaildateMachineClass --> DeletionTimestamp
 
             DeletionTimestamp --> DeletionFlow : Deletion Requested
             DeletionTimestamp --> AddFinalizers : No Deletion
-            
+
             AddFinalizers --> CheckPhase&NodeLabel
-            
+
             CheckPhase&NodeLabel --> ReconcileHealth : Has Node & Non-empty phase
             CheckPhase&NodeLabel --> CreationFlow : No Node or<br/>CrashLoopBackOff<br/>or EmptyPhase
-            
+
             ReconcileHealth --> SyncNodeName
             SyncNodeName --> SyncTemplates
             SyncTemplates --> [*]
-            
+
             CreationFlow --> [*]
             DeletionFlow --> [*]
         }
     }
-```
+</pre>
+#+end_export
 
-### Machine Creation
+** Machine Creation
 Machine Creation Flow:
 - Complex process involving multiple status checks
 - Handles initialization and error cases
 - Includes node verification and cleanup of stale resources
 - Multiple retry mechanisms for resilience
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     look: handDrawn
@@ -139,20 +142,20 @@ stateDiagram-v2
         state "Assign Node Name<br/>from Machine label" as ANML
         state "Phase: <i>Pending</i><br/>State: <i>Processing</i><br/>OpType: Create" as CPPP
         state "State: <i>Failed</i><br/>OpType: <i>Create</i>" as SFFF
-        
+
         [*] --> AddBootToken&MachineName
         AddBootToken&MachineName --> GetMachineStatus:::imp
-        
+
         GetMachineStatus:::imp --> ANPIDGMS : Success
         ANPIDGMS --> UpdateAnnotationsLabels
         UpdateAnnotationsLabels --> CPPP : Phase <i>""(empty) or CrashLoopBackOff</i>
         CPPP --> StatusUpdate
         StatusUpdate --> [*]
-        
+
         GetMachineStatus:::imp --> CheckNodeExists : NotFound or Unimplemented
         CheckNodeExists --> ANML : Node Exists
         ANML --> UpdateAnnotationsLabels
-        
+
         CheckNodeExists --> CreateMachine:::imp : No Node
         CreateMachine:::imp --> ANPIDCMR : Successful creation
         CreateMachine:::imp --> CheckFailurePhase : Creation Error
@@ -160,25 +163,27 @@ stateDiagram-v2
         SetUninitialized --> UpdateAnnotationLabel
         UpdateAnnotationLabel --> InitializeMachine:::imp
         InitializeMachine:::imp --> [*]
-        
+
         ANPIDCMR --> DeleteMachine:::imp : <u>Stale Node</u><br/>NodeName is not MachineName
         DeleteMachine:::imp --> SFFF: "VM using old node obj"
-        
+
         GetMachineStatus:::imp --> ANPIDGMSR : Uninitialized
         ANPIDGMSR --> SetUninitialized
-        
+
         GetMachineStatus:::imp --> CheckFailurePhase : Other Errors
         CheckFailurePhase --> Failed : Timeout
         CheckFailurePhase --> CrashLoopBackOff : Not timed out
         Failed --> SFFF
         CrashLoopBackOff --> SFFF
-        
+
         SFFF --> [*]
 
-```
+</pre>
+#+end_export
 
-### Health Check
-```mermaid
+** Health Check
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -228,16 +233,18 @@ stateDiagram-v2
         EnqueueAfter --> [*]
     }       
 
-```
+</pre>
+#+end_export
 
-### Machine Deletion
+** Machine Deletion
 Machine Deletion Flow:
 - Carefully orchestrated process to ensure clean resource cleanup
 - Involves multiple phases from drain to final cleanup
 - Handles volume attachments and node cleanup
 - Includes finalizer management for resource protection
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -267,9 +274,11 @@ stateDiagram-v2
         PP --> US
         US --> [*]
     }
-```
+</pre>
+#+end_export
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -321,7 +330,8 @@ stateDiagram-v2
 
         USD --> [*]
     }
-```
+</pre>
+#+end_export
 
 Let's visualize the Node Drain process, which is a critical part of machine deletion:
 - Sophisticated pod eviction handling
@@ -329,7 +339,8 @@ Let's visualize the Node Drain process, which is a critical part of machine dele
 - Handles PDB (Pod Disruption Budget) violations
 - Includes parallel and serial eviction strategies
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -340,18 +351,18 @@ stateDiagram-v2
         [*] --> CN
         CN --> WaitForPodCacheSync
         WaitForPodCacheSync --> GetPodsForDeletion : TODO
-        
+
         %% http://localhost:3000/machine-controller/node_drain.html#drainoptionsgetpodsfordeletion
         %% mirrorPodFilter: pod doesnt have MirrorPodAnnotation (set by kubelet when creating mirror pods)
         %% localStorageFilter
         %% unreplicatedFilter
         %% daemonSetFilter
-        
+
         GetPodsForDeletion --> DeleteOrEvictPods
 
         DeleteOrEvictPods --> UpdateNodeCondition
         UpdateNodeCondition --> [*]
-        
+
         state "DeleteOrEvictPods" as EP {
             [*] --> CheckEvictionSupport
 
@@ -369,9 +380,11 @@ stateDiagram-v2
             RetryEviction --> [*]
         }
 }
-```
+</pre>
+#+end_export
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
 title: EvictPodsNoPV
 ---
@@ -426,9 +439,11 @@ stateDiagram-v2
         TimeoutErr --> [*]
         WaitErr --> [*]
         ReturnSuccess:::imp --> [*]
-```
+</pre>
+#+end_export
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
 title: EvictPodsWithPV
 config:
@@ -439,7 +454,7 @@ stateDiagram-v2
         state "Retry count < MaxEvictRetries" as Term
         state "Sleep(EvictRetryInterval)" as SRC
         state "CheckRemainingPods" as CRP
-        
+
         [*] --> SortPodsByPriority
         SortPodsByPriority --> podVolumeInfoMap
         note left of podVolumeInfoMap
@@ -465,9 +480,11 @@ stateDiagram-v2
         ChkAttemptEvict --> EvictErr : True
         ChkAttemptEvict --> DeleteErr : False
 
-```
+</pre>
+#+end_export
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
 title: EvictPodsWithPVInternal
 config:
@@ -527,9 +544,10 @@ stateDiagram-v2
         DeleteWorker --> [*]
         Retry:::imp --> DeleteWorker
         AbortProcess --> Exit:::imp : Terminate (FastTrack)<br/>Return Remaining Pods
-```
+</pre>
+#+end_export
 
-## Safety Controller
+* Safety Controller
 1. Orphan VM Check:
    - Runs periodically (every 15 minutes) to detect and clean up orphaned VMs
    - Lists all VMs in the cloud provider matching the cluster's tag
@@ -547,7 +565,8 @@ stateDiagram-v2
      + Unfreezes when API servers become available
    - Handles machine status updates during API server recovery
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -558,27 +577,27 @@ stateDiagram-v2
             [*] --> ListCloudVMs
             ListCloudVMs --> MapToMachines
             MapToMachines --> CheckOrphans
-            
+
             state "CheckOrphans" as CO {
                 [*] --> NoMachineObject
                 NoMachineObject --> ConfirmDeletion
                 ConfirmDeletion --> DeleteVM
                 DeleteVM --> LogDeletion
             }
-            
+
             CheckOrphans --> AnnotateNodes
-            
+
             state "AnnotateNodes" as AN {
                 [*] --> CheckNodeMachine
                 CheckNodeMachine --> MultipleMatch : Multiple Machines
                 CheckNodeMachine --> NoMatch : No Machine
                 CheckNodeMachine --> SingleMatch : One Machine
-                
+
                 NoMatch --> TimeoutCheck
                 TimeoutCheck --> AddAnnotation : Timeout Exceeded
-                
+
                 SingleMatch --> RemoveAnnotation : Has Annotation
-                
+
                 AddAnnotation --> UpdateNode
                 RemoveAnnotation --> UpdateNode
             }
@@ -588,24 +607,25 @@ stateDiagram-v2
             [*] --> CheckFrozen
             CheckFrozen --> CheckAPIServer : Frozen
             CheckFrozen --> MonitorAPI : Not Frozen
-            
+
             CheckAPIServer --> Unfreeze : API Up
             CheckAPIServer --> Requeue : API Down
-            
+
             MonitorAPI --> SetInactiveTime : API Down
             MonitorAPI --> ClearInactiveTime : API Up
-            
+
             SetInactiveTime --> CheckTimeout
             CheckTimeout --> Freeze : Timeout Exceeded
-            
+
             Unfreeze --> UpdateMachines
             UpdateMachines --> ResetTimeout
         }
     }
-```
+</pre>
+#+end_export
 
 
-## MachineSet Controller
+* MachineSet Controller
 1. Core Reconciliation:
    - Validates MachineSet specifications
    - Manages finalizers for proper cleanup
@@ -620,7 +640,8 @@ stateDiagram-v2
    - Maintains desired replica count
    - Updates status to reflect current state
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -634,21 +655,21 @@ stateDiagram-v2
         [*] --> FetchMachineSet
         FetchMachineSet --> ValidateSpec
         ValidateSpec --> AddFinalizers : Deletion Not Requested
-        
+
         AddFinalizers --> ClaimMachines
-        
+
         state "ClaimMachines (Returns filtered machines)" as CM {
             [*] --> CreateControllerRefMgr
             CreateControllerRefMgr --> GetControllerRef
             GetControllerRef --> Orphan : Nil<br/>(No Owner)
             GetControllerRef --> CheckUID : Not Nil<br/>(Owner Exists)
-            
+
             CheckUID --> Ignore : Mismatch<br/>(Wrong Owner)
             CheckUID --> MatchSelector : UID Same
             Orphan --> CheckDeletion
             CheckDeletion --> SelectorMatch : No Deletion
             SelectorMatch --> AdoptOrphan : Selector Match
-            
+
             MatchSelector --> KeepClaim : Selector Match<br/>Already Owned
             MatchSelector --> DeletionCheck : Selector Mismatch
             DeletionCheck --> AttemptRelease : No Deletion
@@ -657,7 +678,7 @@ stateDiagram-v2
             AdoptOrphan --> AddToClaimed
             AttemptRelease --> RemoveFromClaimed
         }
-        
+
         ClaimMachines --> SyncNodeTemplates
         SyncNodeTemplates --> SyncMachineConfig
         SyncMachineConfig --> SyncMachineKind
@@ -678,25 +699,26 @@ stateDiagram-v2
             ActiveMachines --> CheckDiff
             StaleMachines --> TerminateStale
             TerminateStale --> CheckDiff
-            
+
             CheckDiff --> ScaleUp : ActiveMachines<br/>Less than<br/>Replica Count
             CheckDiff --> ScaleDown : ActiveMachines<br/>More than<br/>Replica Count
-            
+
             ScaleUp --> NotFrozenAnd<br/>NotToBeDeleted
             NotFrozenAnd<br/>NotToBeDeleted --> SlowStartBatch : TODO Expectations
             SlowStartBatch --> CreateMachines
-            
+
             ScaleDown --> SortMachines
             SortMachines --> DeleteExcess
         }
-        
+
         ManageReplicas --> UpdateStatus
         UpdateStatus --> [*]
     }
-```
+</pre>
+#+end_export
 
 
-## MachineDeployment Controller
+* MachineDeployment Controller
 Deployment Management:
 - Handles multiple MachineSets for a deployment
 - Maintains deployment history through revisions
@@ -708,7 +730,7 @@ Deployment Management:
      - Scales down old MachineSets completely
      - Creates and scales up new MachineSet
      - Ensures clean cutover between versions
-   
+
    - Rolling Update Strategy:
      - Gradually scales up new MachineSet
      - Gradually scales down old MachineSets
@@ -721,7 +743,8 @@ Deployment Management:
    - Updates annotations for autoscaler integration
    - Ensures proper resource cleanup
 
-```mermaid
+#+begin_export html
+<pre class="mermaid">
 ---
   config:
     layout: elk
@@ -732,7 +755,7 @@ stateDiagram-v2
         FetchDeployment --> LogFrozenOrTBD
         LogFrozenOrTBD --> ValidateSpec
         ValidateSpec --> CheckDeletion
-        
+
         state "GetMachineSets" as GMS {
             [*] --> CreateControllerRefMgr
             CreateControllerRefMgr --> GetControllerRef
@@ -753,7 +776,7 @@ stateDiagram-v2
             AdoptOrphan --> AddToClaimed
             AttemptRelease --> RemoveFromClaimed
         }
-        
+
         CheckDeletion --> AddFinalizer : No Deletion
         AddFinalizer --> StatusUpdate
         StatusUpdate --> GetMachineSets
@@ -762,23 +785,23 @@ stateDiagram-v2
         BuildMachineMap<br/>MSetUIDToMachines --> DeleteChk
         DeleteChk --> CheckPausedCond : No Deletion
         DeleteChk --> ProcessDeletion : Deletion Requested
-        
+
         state "Process Deletion" as DC {
             [*] --> Exit : Finalizer<br/>NotPresent
             [*] --> RemoveFinalizers : NoBackingMS
             [*] --> TerminateMachineSets : BackingMS
-            
+
             TerminateMachineSets --> SyncStatusOnly<br/>UpdateMcdStatus
             RemoveFinalizers --> Exit
         }
 
         state "Check Paused Condition" as CPC {
             [*] --> GetCondition<br/>TypeProcessing
-            
+
             GetCondition<br/>TypeProcessing --> [*] : CondReason<br/>TimeOut
             GetCondition<br/>TypeProcessing --> ExistingPaused : CondReason<br/>Paused
             GetCondition<br/>TypeProcessing --> NotExistingPaused : Else
-            
+
             NotExistingPaused --> Spec.Paused
             Spec.Paused --> SetPausedCondition : true
 
@@ -795,7 +818,7 @@ stateDiagram-v2
 
         SetPrioAnnotation --> Sync : Spec.Paused true<br/>TODO
         SetPrioAnnotation --> CheckRollbackTo : Spec.Paused false
-        
+
         state "Rollback" as RB {
             [*] --> FindRevision
             FindRevision --> FindMatchingMS : RollbackTo.Revision<br/>Present
@@ -803,31 +826,31 @@ stateDiagram-v2
 
             FindMatchingMS --> Remove<br/>PreferNoSched<br/>Taint : MSRevisionAnnotation<br/>same as<br/>RollbackTo Revision
             FindMatchingMS --> ClearRollbackTo : NoMachineSetFound
-            
+
             Remove<br/>PreferNoSched<br/>Taint --> UpdateMcdTemplate
             UpdateMcdTemplate --> UpdateMcdAnnotations : Copy MS template<br/>Remove label<br/>machine-template-hash
 
             UpdateMcdAnnotations --> ClearRollbckTo
             ClearRollbckTo --> EmitRollbackEvent
         }
-        
+
         CheckRollbackTo --> Rollback : Rollback Requested
         CheckRollbackTo --> IsScalingEvent : No Rollback
-        
+
         state "Is Scaling Event" as SC {
             [*] --> GetMS<br/>SyncRev
             GetMS<br/>SyncRev --> NotScaling : err
             GetMS<br/>SyncRev --> NotScaling : No New MS
-            
+
             GetMS<br/>SyncRev --> CheckActiveMS : MS Replicas > 0
             CheckActiveMS --> ScalingEvent : NoActiveMS &<br/>MCD Replicas > 0<br/>(ScaleFromZero)
-            
+
             CheckActiveMS --> GetMSDesiredReplica<br/>Annotation
             GetMSDesiredReplica<br/>Annotation --> ScalingEvent : Desired not equal<br/>to MCD Replicas
 
             CheckActiveMS --> NotScaling : NoActiveMS or<br/>Desired = MCD Replicas<br/>(For all active)
         }
-        
+
         IsScalingEvent --> Sync : Scale Event
         IsScalingEvent --> DeployStrategy : No Scale Event
 
@@ -843,7 +866,7 @@ stateDiagram-v2
 
             state "TODO Scale" as SCC {
                 state "ReplicasToAdd<br/>AllowedSize - AllMSReplicaCnt" as ReplicasToAdd
-                
+
                 [*] --> GetActiveOrLatestMS
                 GetActiveOrLatestMS --> CheckActiveMSReplicas : not nil
                 GetActiveOrLatestMS --> CheckNewMS<br/>Saturated
@@ -869,7 +892,7 @@ stateDiagram-v2
 
                 ScaleUp --> map[name]=NewRep : oldMS = Replicas
                 ScaleUp --> map[name]=NewRep : newMS = Rep+RepToAdd
-                
+
             }
         }
 
@@ -879,21 +902,22 @@ stateDiagram-v2
                 OldScaleDown --> CreateNew
                 CreateNew --> NewScaleUp
             }
-            
+
             state "RollingUpdate" as RU {
                 [*] --> ScaleUpNew
                 [*] --> ScaleDownOld
                 ScaleDownOld --> CleanupOld
             }
         }
-        
+
         DeployStrategy --> UpdateStatus
         UpdateStatus --> [*]
     }
-        
-```
 
-## Summary
+</pre>
+#+end_export
+
+* Summary
 Each of these controllers implements sophisticated error handling and retry mechanisms:
 1. Error Handling:
    - Categorizes errors into recoverable and non-recoverable

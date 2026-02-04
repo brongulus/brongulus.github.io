@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MCM</title>
+<meta name="author" content="Tak" />
+<meta name="generator" content="Org Mode" />
+<script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
+<script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); var config = {startOnLoad: true, theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default', align:'center',}; mermaid.initialize(config); const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]'); toggleSwitch.addEventListener('click', () => {window.location.reload();}); </script>
+
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css' integrity='sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC' crossorigin='anonymous'>
+<script defer src='https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js' integrity='sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja' crossorigin='anonymous'></script>
+<script defer src='https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js' integrity='sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR' crossorigin='anonymous'></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function() {
+    renderMathInElement(document.body, {
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false
+    });
+});
+</script>
+</head>
+<body>
+<div id="nav" class="status">
+<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a> / <label id='dark-mode-button'> <input type='checkbox'> </label>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">MCM</h1>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8a20719">Components</a></li>
+<li><a href="#org8e1770c">Machine Controller</a></li>
+<li><a href="#orgbd841ad">Safety Controller</a></li>
+<li><a href="#org4594a9c">Machine Controller Manager</a></li>
+<li><a href="#orgf487643">Extension</a></li>
+<li><a href="#org14e79ed">Queries</a></li>
+</ul>
+</div>
+</nav>
+<p>First, go through the <a href="https://github.com/gardener/machine-controller-manager/blob/master/README.md">README</a>, later on check <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/development/local_setup.md">local setup</a> guide as well.
+</p>
+<div id="outline-container-org8a20719" class="outline-2">
+<h2 id="org8a20719">Components</h2>
+<div class="outline-text-2" id="text-org8a20719">
+<p>Check <a href="https://github.com/gardener/machine-controller-manager/tree/master/kubernetes/crds">CRDs present in the MCM tree</a>
+</p>
+<div class="note" id="orgde7dad3">
+<p>All the below class diagrams omit <code>TypeMeta</code> and <code>ObjectMeta</code> for brevity.
+</p>
+
+</div>
+</div>
+<div id="outline-container-orgd303066" class="outline-3">
+<h3 id="orgd303066">Machine</h3>
+<div class="outline-text-3" id="text-orgd303066">
+<pre class="mermaid">
+---
+title: Machine
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+%%{init: { 'themeVariables': { 'lineColor': '#51565b'}}}%%   
+classDiagram
+   %% note "apiVersion, kind & metadata components have not been shown"
+
+   %% Machine ---------------------------------
+   note for Machine "Representation of a physical or virtual machine that corresponds to a front-end kubernetes node object"
+   Machine <|-- MachineSpec
+   Machine <|-- MachineStatus
+   class Machine{
+   MachineSpec spec
+   MachineStatus status
+   }
+   %%--
+   MachineSpec <|-- ClassSpec
+   MachineSpec <|-- MachineConfiguration
+   MachineSpec <|-- NodeTemplateSpec
+   
+   class MachineSpec{
+   ClassSpec class
+   string providerID
+   NodeTemplateSpec nodeTemplate
+   MachineConfiguration MachineConfiguration
+   }
+   
+   class ClassSpec{
+   string apiGroup
+   string kind
+   string name
+   }
+   note for ClassSpec "Refers to the MachineClass template for the Machine"
+   
+   class NodeTemplateSpec{
+   string podCIDR: IP range
+   []string podCIDRs
+   string providerID
+   bool unschedulable
+   []taint taints
+   }
+   note for NodeTemplateSpec "Actually part of NodeSpec which is a field in NodeTemplateSpec"
+
+   class MachineConfiguration{
+   v1.Duration drainTimeout
+   v1.Duration healthTimeout
+   v1.Duration creationTimeout
+   int32* maxEvictRetries
+   string* nodeConditions
+   }
+   %%--
+   MachineStatus <|-- LastOperation
+   MachineStatus <|-- CurrentStatus
+   class MachineStatus{
+   v1.NodeCondition conditions
+   LastOperation lastOperation
+   CurrentStatus currentStatus
+   string lastKnownState
+   }
+
+   class LastOperation{
+   string description
+   string errorCode
+   v1.Time lastUpdateTime
+   MachineState state: string
+   MachineOperationType type: string
+   }
+
+   note for LastOperation "State can be 'Processing', 'Failed' or 'Successful'<br>Type can be 'Create', 'Update', 'HealthCheck' or 'Delete'"
+   
+   class CurrentStatus{
+   MachinePhase phase: string
+   bool timeoutActive
+   v1.Time lastUpdateTime
+   }
+
+   link MachineStatus "https://kubernetes.io/docs/reference/node/node-status/#condition"
+</pre>
+</div>
+</div>
+<div id="outline-container-orgbd0dc03" class="outline-3">
+<h3 id="orgbd0dc03">Machine Class</h3>
+<div class="outline-text-3" id="text-orgbd0dc03">
+<pre class="mermaid">
+---
+title: MachineClass
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+%%{init: { 'themeVariables': { 'lineColor': '#51565b'}}}%%   
+classDiagram
+ %% MachineClass ---------------------------------
+   note for MachineClass "Represents a template that contains cloud provider specific details used to create machines"
+   MachineClass <|-- NodeTemplate
+   class MachineClass{
+   NodeTemplate nodeTemplate
+   v1.SecretReference credentialsSecretRef
+   RawExtension providerSpec
+   string provider
+   v1.SecretReference secretRef
+   }
+   note for MachineClass "credentialsSecretRef has cloud provider credentials<br>secretRef has cloud init script: userData containing bootstrap token, API server address, kubeconfig"
+   note for MachineClass "provider specific configuration to create a node is specified in providerSpec of the extensible custom type rawExtension which permits instances of different structure types to be held within a single type"
+
+   class NodeTemplate{
+   v1.ResourceList capacity
+   string instanceType
+   string region
+   string zone
+   string* architecture
+   }
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org289a725" class="outline-3">
+<h3 id="org289a725">Machine Set</h3>
+<div class="outline-text-3" id="text-org289a725">
+<pre class="mermaid">
+---
+title: MachineSet
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+%%{init: { 'themeVariables': { 'lineColor': '#51565b'}}}%%   
+classDiagram
+ %% MachineSet ---------------------------------
+   note for MachineSet "Ensures that the specified number of Machine replicas are running at any time"
+   MachineSet <|-- MachineSetSpec
+   MachineSet <|-- MachineSetStatus
+   class MachineSet{
+   MachineSetSpec spec
+   MachineSetStatus status
+   }
+
+   MachineSetSpec <|-- ClassSpec
+   MachineSetSpec <|-- MachineTemplateSpec
+   class MachineSetSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   ClassSpec machineClass
+   MachineTemplateSpec template
+   int32 minReadySeconds
+   }
+
+   MachineTemplateSpec <|-- MachineSpec
+   class MachineTemplateSpec{
+   MachineSpec spec
+   }
+
+   MachineSetStatus <|-- MachineSetCondition
+   MachineSetStatus <|-- LastOperation
+   MachineSetStatus <|-- MachineSummary
+   class MachineSetStatus{
+   int32 replicas
+   int32 fullyLabeledReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int64 observedGeneration
+   []MachineSetCondition machineSetCondition
+   LastOperation lastOperation
+   MachineSummary failedMachines
+   }
+
+   MachineSummary <|-- LastOperation
+   class MachineSummary{
+   string name
+   string providerID
+   LastOperation lastOperation
+   string ownerRef
+   }
+
+   class MachineSetCondition{
+   MachineSetConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+   note for LastOperation "One has information about lastOp for Machine (summary) and the other is for MachineSet"
+</pre>
+</div>
+</div>
+<div id="outline-container-orge945704" class="outline-3">
+<h3 id="orge945704">Machine Deployment</h3>
+<div class="outline-text-3" id="text-orge945704">
+<pre class="mermaid">
+---
+title: MachineDeployment
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+%%{init: { 'themeVariables': { 'lineColor': '#51565b'}}}%%   
+classDiagram
+ %% Deployment ---------------------------------
+   note for MachineDeployment "Provides a declarative update for MachineSet and Machines"
+   MachineDeployment <|-- MachineDeploymentSpec
+   MachineDeployment <|-- MachineDeploymentStatus
+   class MachineDeployment{
+   MachineDeploymentSpec spec
+   MachineDeploymentStatus status
+   }
+   %%--
+   MachineDeploymentSpec <|-- MachineTemplateSpec
+   MachineDeploymentSpec <|-- MachineDeploymentStrategy
+   class MachineDeploymentSpec{
+   int32 replicas
+   v1.LabelSelector selector
+   MachineTemplateSpec template
+   MachineDeploymentStrategy strategy
+   int32 minReadySeconds
+   int32* revisionHistoryLimit
+   bool paused
+   RollbackConfig* rollbackTo
+   int32* progressDeadlineSeconds
+   }
+
+   MachineDeploymentStrategy <|-- RollingUpdateMachineDeployment
+   class MachineDeploymentStrategy{
+   MachineDeploymentStrategyType type: string
+   RollingUpdateMachineDeployment rollingUpdate
+   }
+
+   class RollingUpdateMachineDeployment{
+   IntOrString MaxUnavailable
+   IntOrString MaxSurge
+   }
+   %%--
+   MachineDeploymentStatus <|-- MachineDeploymentCondition
+   MachineDeploymentStatus <|-- MachineSummary
+   class MachineDeploymentStatus{
+   int64 observedGeneration
+   int32 replicas
+   int32 updatedReplicas
+   int32 readyReplicas
+   int32 availableReplicas
+   int32 unavailableReplicas
+   []MachineDeploymentCondition condition
+   int32* collisionCount
+   MachineSummary failedMachines
+   }
+
+   class MachineDeploymentCondition{
+   MachineDeploymentConditionType type: string
+   ConditionStatus status: string
+   v1.Time lastUpdateTime
+   v1.Time lastTransitionTime
+   string reason
+   string message
+   }
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgbb2b655" class="outline-3">
+<h3 id="orgbb2b655">Miscellaneous</h3>
+<div class="outline-text-3" id="text-orgbb2b655">
+<div class="note" id="orgf355ca6">
+<p>These are added for reference purpose only, no need to delve too much into dissecting them.
+</p>
+
+</div>
+
+<pre class="mermaid">
+---
+title: SafetyOptions & PodDisruptionBudget
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+class SafetyOptions{
+ metav1.Duration	MachineCreationTimeout
+ metav1.Duration	MachineHealthTimeout
+ metav1.Duration	MachineDrainTimeout
+ metav1.Duration	PvDetachTimeout
+ metav1.Duration	PvReattachTimeout
+ metav1.Duration	MachineSafetyAPIServerStatusCheckTimeout
+ metav1.Duration	MachineSafetyAPIServerStatusCheckPeriod
+ metav1.Duration	MachineSafetyOrphanVMsPeriod
+	time.Time APIserverInactiveStartTime
+	bool MachineControllerFrozen
+	int32 MaxEvictRetries
+}
+
+PodDisruptionBudget <|-- PodDisruptionBudgetSpec
+PodDisruptionBudget <|-- PodDisruptionBudgetStatus
+class PodDisruptionBudget{
+PodDisruptionBudgetSpec spec
+PodDisruptionBudgetStatus status
+}
+
+class PodDisruptionBudgetSpec{
+IntOrString* minAvailable
+v1.LabelSelector* selector
+IntOrString* maxUnavailable
+}
+
+class PodDisruptionBudgetStatus{
+int64 observedGeneration
+map[string]v1.Time disruptedPods
+int32 disruptionsAllowed
+int32 currentHealthy
+int32 desiredHealthy
+int32 expectedPods
+[]v1.Condition conditions
+}
+</pre>
+
+<pre class="mermaid">
+---
+title: VolumeAttachmentHandler
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+VolumeAttachmentHandler <|-- VolumeAttachment
+note for VolumeAttachmentHandler "Distribute incoming VolumeAttachment requests to all listening workers"
+class VolumeAttachmentHandler{
+sync.Mutex
+[]chan storagev1.VolumeAttachment* workers
+dispatch()
+AddWorker()
+DeleteWorker()
+}
+
+VolumeAttachment <|-- VolumeAttachmentSpec
+VolumeAttachment <|-- VolumeAttachmentStatus
+note for VolumeAttachment "Captures the intent to attach/detach specified volume to/from the specified node"
+class VolumeAttachment{
+VolumeAttachmentSpec spec
+VolumeAttachmentStatus status
+}
+
+VolumeAttachmentSpec <|-- VolumeAttachmentSource
+class VolumeAttachmentSpec{
+string attacher
+VolumeAttachmentSource source
+string nodeName
+}
+
+VolumeAttachmentStatus <|-- VolumeError
+class VolumeAttachmentStatus{
+bool attached
+map[string]string attachmentMetadata
+VolumeError* attachError
+VolumeError* detachError
+}
+
+class VolumeAttachmentSource{
+string* persistentVolumeName
+v1.PersistentVolumeSpec* inlineVolumeSpec
+}
+
+class VolumeError{
+metav1.Time time
+string message
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8e1770c" class="outline-2">
+<h2 id="org8e1770c">Machine Controller</h2>
+<div class="outline-text-2" id="text-org8e1770c">
+</div>
+<div id="outline-container-orgc617674" class="outline-3">
+<h3 id="orgc617674">Reconcile Cluster Secret</h3>
+<div class="outline-text-3" id="text-orgc617674">
+<ol class="org-ol">
+<li>Fetch secrets</li>
+<li>Get the <code>MachineClass</code> referring to the passed secret</li>
+<li>In case there are machine classes that refer it, add the finalizer to the secret else remove it. (The removal of the finalizer is needed because if the secrets aren't referred by <code>MachineClass</code> then their deletion shouldn't depend on the finalizer, <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/">Ref</a>)</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd132192" class="outline-3">
+<h3 id="orgd132192">Reconcile Cluster Machine Class</h3>
+<div class="outline-text-3" id="text-orgd132192">
+<ol class="org-ol">
+<li>Fetch the <code>MachineClass</code></li>
+<li>Get all the <code>Machines</code> referring to the <code>MachineClass</code>.</li>
+<li>If there are machines that match given <code>MachineClass</code> and the deletion hasn't been requested yet for the <code>Class</code> then add the finalizers to the class proceeding which all the machines referring to the class are enqueued for further processing. (<code>TODO</code>: Learn about <a href="https://pkg.go.dev/k8s.io/client-go/util/workqueue">workqueue</a>)</li>
+<li>Otherwise if deletion isn't scheduled and there are machines referring to the Class then add them to the <code>machineQueue</code>.</li>
+<li>If there aren't any machines referring to the <code>Class</code>, then the finalizers, if any, on it can be deleted.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org18dfd35" class="outline-3">
+<h3 id="org18dfd35">Reconcile Cluster Machine</h3>
+<div class="outline-text-3" id="text-org18dfd35">
+<ol class="org-ol">
+<li>Fetch the required <code>Machine</code>.</li>
+<li>Check if the Machine controller is frozen (<code>MachineControllerFrozen</code>) and machine isn't scheduled for deletion. If so, retry reconciliation after <code>longRetry</code>.</li>
+<li>If machine isn't frozen, then validate the <code>Machine</code> (check Name and Kind for the Class shouldn't be empty). Also validate the <code>MachineClass</code>' <code>Nodetemplate</code> fields (<code>capacity</code>: cpu, gpu and memory; <code>instanceType</code>, <code>region</code> and <code>zone</code>).</li>
+<li>In case the machine is scheduled for deletion, <a href="#org969e90d">TriggerDeletionFlow</a> with a <code>DeleteMachineRequest</code>.</li>
+<li>If the <code>Machine</code> isn't scheduled for deletion, then add the finalizers on the machine if not present.</li>
+<li><p>Check <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#what-are-the-different-phases-of-a-machine">Machine Phases State Diagram</a>
+</p>
+
+<p>Check if the machine has an associated node (look for <i>label</i> with key "<code>node</code>") and if the machine has been created (i.e. <code>phase</code> != "", if phase is empty string, that corresponds to machine being in creation stage). If so, then:
+</p>
+<ul class="org-ul">
+<li>Reconcile Machine Health: Updates the machine object with any change in node conditions or health. <a href="https://elankath.github.io/mcmdesign/machine-controller/cluster_machine_reconcile.html#health-check-summary">Ref</a></li>
+<li>Sync Machine Name to Node: Syncs machine name on corresponding node object by adding machine name label to metadata.</li>
+<li>Sync Machine NodeTemplates: Syncs <code>nodeTemplate</code> between the machine and the node object by fetching it, then syncs the <i>annotations</i>, <i>labels</i> and <i>taints</i> ().</li>
+</ul></li>
+<li>If machine phase is <code>empty</code> or <code>crashloopbackoff</code> or <code>providerId</code> is empty i.e. machine doesn't exist then <a href="#org3131558">TriggerCreationFlow</a> with <code>CreateMachineRequest</code>.</li>
+</ol>
+</div>
+<div id="outline-container-org969e90d" class="outline-4">
+<h4 id="org969e90d">TriggerDeletionFlow</h4>
+<div class="outline-text-4" id="text-org969e90d">
+<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#why-is-my-machine-deleted">FAQ: Why is my machine deleted?</a>
+Check if finalizers are present on the machine, if not retry after a while. In case they are present and the machine isn't in <code>terminating</code> phase, then set it to <code>terminating</code> (also sets <code>LastOperation</code> state to <code>Processing</code> and description to <code>GetVMStatus</code>). If machine is in <code>terminating</code> phase, then check <code>LastOperation Description</code>:
+</p>
+<ol class="org-ol">
+<li>If it contains the string <code>GetVMStatus</code> i.e. <i>"Set machine status to termination. Now, getting VM Status"</i> then <code>updateMachineStatus&amp;NodeLabel</code> is called which adds the "<code>node</code>" label if not present while checking for any errors in getting machine error status. After confirming that the node label is updated, the LastOperation <code>type</code> is set to <code>delete</code> and LastOperation <code>description</code> to <code>InitiateDrain</code>.</li>
+<li>If it contains the string <code>InitiateDrain</code> then call <a href="#org4c788af">DrainNode</a>.</li>
+<li>If its <code>DelVolumesAttachments</code>, then <code>deleteNodeVA</code> is invoked:
+<ul class="org-ul">
+<li>If node is not found or if <code>node.VolumesAttached</code> is zero then <code>description</code> is updated to <code>InitiateVMDeletion</code> and <code>state</code> is set to <code>Processing</code>.</li>
+<li>If there are non-zero attached volumes then <code>getLiveVAForNode</code> fetches all the volumes attached to our node not having DeletionTimestamp set.</li>
+<li>If there are live volumes, <code>deleteVAForNode</code> removes them and when zero live volumes are attached then <code>InitiateVMDeletion</code> is set as the <code>description</code>.</li>
+<li>After this the machine status is updated with the corresponding state and description.</li>
+</ul></li>
+<li>When it's <code>InitiateVMDeletion</code>, then <code>deleteVM</code> delgates the task to driver.<a href="#org40907ef">DeleteMachine</a> method. If deletion is successful then description is set to <code>InitiateNodeDeletion</code> with <code>processing</code> <code>state</code>. If there are any errors:
+<ul class="org-ul">
+<li>In case its <code>NotFound</code>, then deletion flow is continued and <code>state</code> is set to <code>processing</code> with <code>description</code> as <code>InitiateNodeDeletion</code>.</li>
+<li>If it's <code>Unknown</code>, <code>DeadlineExceeded</code>, <code>Aborted</code> or <code>Unavailable</code> or any other error code(<code>default</code>) or failure in decoding the machineErr itself: the <code>state</code> is set as <code>failed</code> and <code>description</code> remains <code>InitiateVMDeletion</code> as deletion is re-tried.</li>
+<li>After this the machine status is updated with the corresponding state and description.</li>
+</ul></li>
+<li>Whereas <code>InitiateNodeDeletion</code> calls upon <code>deleteNodeObject</code> which if it can't find the associated node, continues the deletion flow with <code>description</code> set to <code>InitiateFinalizerRemoval</code> and sets the <code>state</code> as <code>Processing</code> otherwise <code>Delete()</code> is called for the node which on success moves the state to <code>Processing</code> and <code>InitiateFinalizerRemoval</code> stages however on error switches to <code>failed</code> state (any error other than object not found). After this the machine status is updated.</li>
+<li>At last when we have <code>InitiateFinalizerRemoval</code>, <code>deleteMachineFinalizers</code> is invoked which deletes <code>MCMFinalizerName</code> if present, if there are any errors while updating the machine with the new set of finalizers, then re-queue is triggered after a ShortRetry.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4c788af" class="outline-4">
+<h4 id="org4c788af">DrainNode</h4>
+<div class="outline-text-4" id="text-org4c788af">
+<p>Check out <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#how-is-the-drain-of-a-machine-implemented">FAQ: How is drain implemented?</a>, and the <a href="https://elankath.github.io/mcmdesign/machine-controller/mc_helper_methods.html#controllerdrainnode">flowchart</a>.
+</p>
+<ol class="org-ol">
+<li>Check that the nodeName is valid, if not set <code>skipDrain</code>.</li>
+<li>Check if machine is in <code>Ready</code> or <code>ReadOnly</code> state.</li>
+<li>If node condition is not empty and its <code>not Ready</code> or its <code>ReadOnly</code> and it's been 5mins, then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> labels are set, <code>printLogInitError()</code> is called i.e. <code>description</code> is set to <code>InitiateVMDeletion</code>.</li>
+<li>If skip isn't set, then check if (MachineDrainTimeout) has occured.
+<ul class="org-ul">
+<li>If <code>force-deletion</code> label is present on the machine or if timeout has happened then <code>forceDeleteMachines</code> and <code>forceDeletePods</code> labels are set and <i>force deletion</i> is triggered otherwise <i>normal deletion</i> is triggered.</li>
+<li>After that, <code>UpdateNode TerminationCondition</code> is called, which checks that the <code>phase</code> is not <code>CrashLoopBackOff</code> or <code>empty</code> i.e. machine is not in creation stage. Then we check if there are nodes that are already in <code>terminating</code> condition, if not, then if <code>phase</code> is <code>failed</code> then <code>terminationCondition</code> reason is set to <code>Unhealthy</code>, otherwise it's set to <code>ScaleDown</code>.</li>
+<li>If termination condition update results in an error in a <i>normal deletion</i> then, <code>skipDrain</code> is set and <code>state</code> is set to <code>failed</code>.</li>
+<li>If termination condition update doesn't result in an error then <a href="#org4f1377d">RunDrain</a> is invoked; if drain is successful then <code>state</code> is set to <code>Processing</code> &amp; if it's <i>normal deletion</i> <code>description</code> is set to <code>InitiateVMDeletion</code> (since regular deletion already waits for volume detach/attach) otherwise if it's <i>force deletion</i> then <code>description</code> is set to <code>DelVolumesAttachments</code>  alongwith <code>Processing</code> <code>state</code>. If <code>RunDrain</code> is unsuccessful however and its <i>normal deletion</i> then <code>description</code> is set to <code>InitiateDrain</code> with <code>failed</code> <code>state</code> for a retry.</li>
+<li><p>To summarize the above:
+</p>
+<pre class="src src-none"><code>     To perform forceful machine drain/delete either:
+     1. force-deletion: "True" label must be present
+     2. Deletion operation is more than drain-timeout minutes old
+     3. Last machine drain had failed</code></pre></li>
+</ul></li>
+
+<li>If <code>skipDrain</code> is set, then set the state to <code>Processing</code>, LastOperation <code>type</code> to <code>delete</code>, <code>description</code> is set to <code>InitiateVMDeletion</code> by <code>printLogInitError()</code> and it's re-queued.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4f1377d" class="outline-4">
+<h4 id="org4f1377d">RunDrain</h4>
+<div class="outline-text-4" id="text-org4f1377d">
+<ol class="org-ol">
+<li>drainContext</li>
+<li><p><code>RunCordonOrUncordon</code>
+</p>
+
+<p>First we try to get the associated node, if it results in an error that means the node doesn't exist i.e. deletion was triggered during the machine creation process hence there's nothing to do. If the node is there and it's <code>Spec.Unschedulable</code> is true, then there's nothing to do otherwise <code>Unschedulable</code> is set to true. (<i>Cordoning</i> means sealing off/preventing access)
+</p></li>
+<li><code>WaitForCacheSync</code> is processed for the pod informer cache to sync.</li>
+<li><code>deleteOrEvictPodsSimple</code>
+<ul class="org-ul">
+<li>Calls <code>getPodsForDeletion</code> which lists all <code>pods.Spec.NodeName</code> matching our node, (TODO: check podFilter) and if there aren't any errors, then returns the list of pods.</li>
+<li>Following which we <code>deleteOrEvictPods</code>: Here, we first check if the server supports eviction by <code>SupportEviction</code> and if <code>ForceDeletePods</code> is false then we call <code>evictPods</code> which performs <i>normal eviction</i> of the pods, parallelly <code>evictPodsWithoutPv</code> and serially (by sorting by Priority) <code>evictPodsWithPv</code> for ones having volume attached since it needs to wait for volume detachment. Both of these ways attempt to <code>evictPod</code> if supported for <code>MaxEvictRetries</code> times failing which they <code>deletePod</code>. If <code>forceDeletePods</code> is true, then <i>forceful eviction</i> of the pods happens and all pods are evicted parallelly by calling <code>evictPodsWithPv</code>.</li>
+<li>In case there are errors while performing either <i>evictPod</i> or <i>deletePod</i>, it could be that the pod wasn't evicted due to PDB violation, hence we get the PDB for the pod and check if its misconfigured by verifying that the <code>Generation</code> is same as <code>Status.ObservedGeneration</code> and that <code>CurrentHealthy</code> pods are more than <code>ExpectedPods</code> (which should be more than 0) and <code>DisruptionsAllowed</code> is zero. All these scenarios result in a misconfigured PDB.</li>
+<li><p>If it's not a case of misconfigured PDB then we sleep for <code>PodEvictionRetryInterval</code> and then move to next iteration of the eviction attempt. <code>TODO</code> <code>TerminationGracePeriod</code>, <code>waitForDelete</code>
+</p>
+
+<p>References: <a href="https://kubernetes.io/docs/concepts/workloads/pods/disruptions/">Disruptions</a>, <a href="https://kubernetes.io/docs/tasks/run-application/configure-pdb/">Configuring PDB</a>, <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction/">API Eviction</a>, <a href="https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodwithoutpvinternal">evictPodsWoPVInternal</a>
+</p></li>
+<li><code>TODO</code> Check <a href="https://elankath.github.io/mcmdesign/machine-controller/node_drain.html#drainoptionsevictpodswithpvinternal">evictPodsWithPVInternal</a></li>
+<li>If there are any failures in <code>deleteOrEvictPods</code>, they are reported as pendingPods.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3131558" class="outline-4">
+<h4 id="org3131558">TriggerCreationFlow</h4>
+<div class="outline-text-4" id="text-org3131558">
+<ol class="org-ol">
+<li>Update MachineRequest's secret by processing the secret with (TODO) <code>addBootstrapTokenToUserData</code> and <code>addMachineNameToUserData</code> which checks if <code>secret["userData"]</code> exists, then replacing <code>MachineNamePlaceholder</code> &lt;MACHINE<sub>NAME</sub>&gt; with the actual <code>machine.Name</code>.</li>
+<li>After that, the secret is used alongwith the Machine and MachineClass to create a <a href="#org48b785e">GetMachineStatus</a>Request which responds with <code>providerId</code> and associated <code>nodeName</code>.</li>
+<li>If there is no error with the GetMachineStatusRequest and the machine's "node" label or <code>providerID</code> is empty then the required VM is found and the node and providerID for the machine is updated. (<code>updateLabels</code>: adds the necessary labels, annotations with MachinePriority as 3 if unset and updates the providerID)</li>
+<li>If there is an error in getting the machine status and the ErrCode is <code>NotFound</code> or <code>Unimplemented</code> and if the "node" label is not present on the machine then: driver.<a href="#org8643262">CreateMachine</a>() is invoked which on success gives us the <code>providerId</code> and the <code>nodeName</code>, then we try to <code>Get()</code> the returned <code>nodeName</code> to check if a node object already exists. If so, it is treated as a stale node and <code>driver.DeleteMachine()</code> is triggered and the machine object is marked as <code>state</code> <code>failed</code>, <code>phase</code> being <code>failed</code>  with LastOperation <code>description</code> set as "<code>VM using old node obj</code>" and then its status is updated. NOTE: Also, <code>uninitializedMachine</code> is set to true.</li>
+<li>If the returned codes are <code>Unknown</code>, <code>DeadlineExceeded</code>, <code>Aborted</code> or <code>Unavailable</code>, then again <code>machineStatusUpdate</code> is called with <code>state</code> set to <code>failed</code> and <code>phase</code> being <code>failed</code> or <code>crashloopbackoff</code> depending upon whether or not MachineCreationTimeout happened.</li>
+<li>Whereas the case when returned code is <code>Uninitialized</code>, the flag <code>uninitializedMachine</code> is set to true. In any other scenario, a <code>machineStatusUpdate</code> call similar to the previous case is made with a re-queue call.</li>
+<li>In case the <code>uninitializedMachine</code> flag is set, <code>initializeMachine</code> is called for starting the VM instance for the machine, it delegates the task to driver.<a href="#orgd4c6c7d">InitializeMachine</a> which if it returns <code>Unimplemented</code> error code, then VM initialization is skipped as provider doesn't support it otherwise <code>machineStatusUpdate</code> call is made with <code>failed</code> <code>state</code> and <code>crashloopbackoff</code> or <code>failed</code> <code>phase</code> based on MachineCreationTimeout. Upon successful initialization, an error is returned by <code>triggerCreationFlow</code> for another re-queue.</li>
+<li>If however the machine <code>phase</code> is <code>empty</code> (creation) or <code>crashloopbackoff</code> then <code>state</code> is set as <code>Processing</code>, <code>phase</code> as <code>Pending</code> and a <code>UpdateStatus</code> call is made for the machine.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbd841ad" class="outline-2">
+<h2 id="orgbd841ad">Safety Controller</h2>
+<div class="outline-text-2" id="text-orgbd841ad">
+</div>
+<div id="outline-container-orgbab1c9d" class="outline-3">
+<h3 id="orgbab1c9d">Reconcile Cluster Machine Safety Orphan VMs</h3>
+<div class="outline-text-3" id="text-orgbab1c9d">
+<p>It lists all the VMs in the cloud matching the <code>tag</code> of given cluster name and maps the VMs with the <code>machine</code> objects using the <code>ProviderID</code> field. VMs without any backing machine objects are logged and deleted after confirmation. It runs every <code>MachineSafetyOrphanVMsPeriod</code> duration (15 mins). It runs:
+</p>
+<ol class="org-ol">
+<li><code>checkMachineClasses</code>: fetches all the MachineClasses and for each of them calls <code>checkMachineClass</code>:
+<ul class="org-ul">
+<li>It fetches their <code>secretData</code>, lists all the <code>Machines</code> referencing that class, updates their cache via <code>WaitForCacheSync</code></li>
+<li>Then it iterates over the MachineList returned by <a href="#org7d3f1c7">ListMachines</a>: <code>&lt;providerID, machineName&gt;</code>, fetching each machine and ensuring that the providerID matches.</li>
+<li>If it doesn't and the <code>phase</code> is "" or <code>crashloopbackoff</code>, then it continues iterating otherwise it creates a dummy machine object for <code>DeleteMachineRequest</code>.</li>
+</ul></li>
+<li><code>AnnotateNodesUnmanagedByMCM</code>: fetches all the nodes on the target cluster then iterates over them:
+<ul class="org-ul">
+<li>Calls <code>getMachineFromNode</code> which returns <code>errMultipleMachineMatch</code> or <code>errNoMachineMatch</code> depending on the number of machines associated with the node. If there's only one machine, then it returns the machine.</li>
+<li>If we get <code>errNoMachineMatch</code> then we compare <code>currentTime - nodeCreationTime</code> with MachineCreationTimeout, if timeout has occured and the node doesn't have <code>NotManagedByMCM</code> annotation present on it then it means there's no backing machine object for the node. So we annotate it with <code>NotManagedByMCM</code> and then update the node.</li>
+<li>If it returns the machine having <code>NotManagedByMCM</code> annotation then we remove the annotation and update the node.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb0a0780" class="outline-3">
+<h3 id="orgb0a0780">Reconcile Cluster Machine Safety API Server</h3>
+<div class="outline-text-3" id="text-orgb0a0780">
+<p>Freezes <code>MachineDeployment</code> and <code>MachineSet</code> controller if number of <code>machine</code> objects goes beyond a certain threshold on top of <code>Spec.Replicas</code> by applying a <code>freeze</code> label. It also freezes the functionality of MCM if <code>target-apiserver</code> or <code>control-apiserver</code> is not reachable and unfreezes once situation becomes normal.
+</p>
+<ol class="org-ol">
+<li>Checks if <code>MachineControllerFrozen</code> is true if it is, then it checks if <code>isApiServerUp</code>.</li>
+<li><code>isApiServerUp</code> makes a dummy call to control APIServer (<code>controlMachineClient</code>) and target APIServer (<code>targetCoreClient</code>) and if either gives an error different from isNotFound error, it returns false. If it returns true then we unfreeze them by iterating over them and if their <code>phase</code> is <code>Unknown</code>, we get machine from <code>controlMachineClient</code> and set the phase as <code>Running</code>, <code>state</code> as <code>successful</code> and <code>description</code> as <i>"Machine Health Timeout was reset due to APIServer being unreachable"</i>. After which we update the status and <code>enqueueMachineAfter</code> 30 seconds for reconcile and set <code>MachineControllerFrozen</code> to false &amp; <code>APIserverInactiveStartTime</code> to nil.</li>
+<li>If initially <code>MachineControllerFrozen</code> was false, and <code>isApiServerUp</code> returned false i.e. its not up then we set <code>APIserverInactiveStartTime</code> as current time if its unset and check if time passed since Inactive time is more than <code>MachineSafety APIServer StatusCheckTimeout</code>, if so we set <code>MachineControllerFrozen</code> to true and then re-enqueue the API Server check.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org4594a9c" class="outline-2">
+<h2 id="org4594a9c">Machine Controller Manager</h2>
+<div class="outline-text-2" id="text-org4594a9c">
+<p>Handles reconciliation of <code>MachineDeployment</code> and <code>MachineSet</code> objects.
+</p>
+</div>
+<div id="outline-container-orgf93c59a" class="outline-3">
+<h3 id="orgf93c59a">Reconcile Cluster Machine Set</h3>
+<div class="outline-text-3" id="text-orgf93c59a">
+<ul class="org-ul">
+<li>Fetch the <code>MachineSet</code>.</li>
+<li><code>ValidateMachineSetSpec</code>: Ensures that <code>spec.Replicas</code> is greater than or equal to zero and <code>selector.matchLabels</code> matches <code>template.metadata.labels</code>.</li>
+<li>If DeletionTimestamp is not set, then <code>addMachineSetFinalizers</code></li>
+<li>LabelSelectorAsSelector converts MachineSet selector to a selector object that's used by <code>claimMachines</code> function that creates a <code>*Machine Controller Ref Manager*</code> tagged with a <code>CanAdopt</code> function that first fetches <code>fresh</code> i.e. latest version of the machineSet and then verifies its UID with the existing <code>machineSet</code>'s UID to ensure that the machineSet isn't being deleted. (This function is later used by <code>AdoptMachine</code>)</li>
+<li><code>ClaimMachine</code> indirectly calls <code>ClaimObject</code> with <code>Match</code>, <code>Adopt</code> and <code>Release</code>:
+<ol class="org-ol">
+<li><code>Match</code>: Checks if the selector matches, after which it runs a set of <code>filter</code> functions. On success, it returns true.</li>
+<li><code>AdoptMachine</code> (Adopt): Runs the previously created <code>CanAdopt</code> function to verify that the machine can be adopted by the machineSet, if so then <code>PatchMachine</code> with the <i>OwnerRef</i> to the MachineSet and add to <code>claimedMachines</code>.</li>
+<li><code>ReleaseMachine</code> (Release): Sends a <code>deleteOwnerRefPatch</code> to free the Machine from controller. On patching, <code>NotFound</code> and <code>IsInvalid</code> errors are ignored since if the machine doesn't exist or if it has no ownerRef or if the UID doesn't match (implies machine was recreated after deletion) then it's fine.</li>
+</ol></li>
+<li><p>ClaimObject:
+</p>
+<pre class="src src-none"><code>  It will reconcile the following:
+    - Adopt orphans if the match function returns true.
+    - Release owned objects if the match function returns false.</code></pre>
+<ol class="org-ol">
+<li>Get the <code>ownerRef</code> using <code>GetControllerOf</code>, it it's not nil, check if
+ownerRef.UID is the same as the machineSet's UUID. (<a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids">UID</a> is k8s system generated string to uniquely identify object).  If the DeletionTimestamp is not set (nil), and the selector <code>match</code> fails, then attempt a <code>release</code>.</li>
+<li>In case the ownerRef was nil, check if machineSet is not scheduled for deletion (<code>DeletionTimestamp</code> nil) and the <code>match</code> was succesful. If so, then if the machine isn't scheduled for deletion, attempt <code>Adopt</code>.</li>
+</ol></li>
+<li>After the list of claimedMachines if procured, we call <code>syncMachinesNodeTemplates</code>, <code>syncMachinesConfig</code> &amp; <code>syncMachineClassKind</code> which goes through the list and checks if a machine requires updation of the <code>Nodetemplate</code>, <code>MachineConfiguration</code> and <code>Class.Kind</code> and copies them from the <code>machineSet</code> to the <code>machine</code> if needed.</li>
+<li>Then check if the <i>machineSet</i> is scheduled for deletion i.e. <code>DeletionTimestamp</code> is not nil, if there aren't any claimedMachines for this machineSet (len(filteredMachines) is 0) then remove the finalizer from the <i>machineSet</i> otherwise trigger deletion of the claimedMachines via <code>terminateMachines</code>.</li>
+<li>In case the <i>machineSet</i> wasn't scheduled for deletion, <code>manageReplicas</code> is called:
+<ol class="org-ol">
+<li>Gets the MetaNameSpaceKey for the <i>machineSet</i> and creates a list of activeMachines (<code>phase</code> != <code>failed</code> or <code>terminating</code>) and staleMachines (<code>phase</code> is <code>failed</code>) from the list of claimedMachines.</li>
+<li>If there are staleMachines then they are scheduled for deletion, <code>terminateMachines</code> is called.</li>
+<li>Then we check the difference between the number of activeMachines and the number of <code>Replicas</code> specified by the <i>machineSet</i>.</li>
+<li>If the activeMachines are less, then count (diff) is set to <code>min(BurstReplicas: 100, Replicas - len(activeMachines))</code> and &lt;TODO ExpectCreations&gt; <code>slowStartBatch</code> is called which calls a function <code>CreateMachines With ControllerRef</code> <code>count</code> times, starting slow with group of <code>SlowStartInitialBatchSize</code> (1) to check for errors, then speeding up if calls succeed. Within each batch, it may call the function multiple times concurrently. If a whole batch succeeds, the next batch gets exponentially larger.</li>
+<li>&lt;TODO&gt; skippedMachines CreationObserved</li>
+<li>In case the activeMachines are more than the <code>Replica</code> count, then deletion must be triggered. <code>diff</code> is set to <code>min(BurstReplicas: 100, len(activeMachines) - Replicas)</code> and then the activeMachines are sorted in the order <code>NonReady, Ready, Unscheduled, Scheduled, Pending, Running</code>. &lt;TODO: ExpectDeletions&gt;. After getting the sorted list, the machines are deleted by called <code>terminateMachines</code>.</li>
+</ol></li>
+<li>Then MachineSet status is calculated and updated following which reconcile is enqueued after 10 minutes.</li>
+</ul>
+</div>
+<div id="outline-container-orgf15675d" class="outline-4">
+<h4 id="orgf15675d">Expectations</h4>
+<div class="outline-text-4" id="text-orgf15675d">
+<p><a href="https://github.com/elastic/cloud-on-k8s/blob/6c1bf954555e5a65a18a17450ccddab46ed7e5a5/pkg/controller/common/expectations/expectations.go#L16-L78">Reference</a>, and <a href="https://github.com/elastic/cloud-on-k8s/blob/b16c2c085d993b9287276a2b833d090437221b41/pkg/controller/elasticsearch/driver/expectations.go#L17">implementation</a>
+</p>
+
+<p>Expectations are in-memory data structures that we use to register an action we performed during a reconciliation. They are needed since kubernetes client caches all resources locally, and relies on apiserver watches to maintain the cache up-to-date, and they are helpful when trying to control how many creations/deletions/upgrades happen in parallel. A controller isn't synced till its expectations are either fulfilled, or expire and controllers that don't set expectations will get woken up for every matching controllee.
+</p>
+
+<p>There's a <code>SatisfiedExpectations</code> method that returns true if the required <i>adds/dels</i> for the given controller have been observed. <i>Add/del</i> counts are established by the controller at sync time, and updated as controllees are observed by the controller manager. That is, if the resources in local cache do not match what is expected, its safer to not move on with reconciliation as that may lead to unexpected number of creations/deletions.
+</p>
+
+<p>For <code>machineSet</code> controller, the <code>Satisfied</code> method is inactive hence all the creation/deletion expectations that are modified are ineffective and can be ignored for now.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org111bb6c" class="outline-3">
+<h3 id="org111bb6c">Reconcile Cluster Machine Deployment</h3>
+<div class="outline-text-3" id="text-org111bb6c">
+<ul class="org-ul">
+<li>Fetch the deployment by getting the name from <code>SplitMetaNamespaceKey</code>, then validate it by ensuring <code>Replicas</code> is not negative and that <code>selector.matchLabels</code> is consistent with <code>template.metadata.labels</code>.</li>
+<li>Add finalizers if DeletionTimestamp is nil, then check if <code>Selector</code> is empty i.e. the deployment is selecting all machines, if so record that event and set <code>Status.ObservedGeneration</code> to <code>Generation</code> if it's less and then update the status.</li>
+<li>Then <code>getMachineSets</code> is called which uses a controller reference manager to handle ownership and internally calls <code>ClaimMachineSets</code> (acts in a similar fashion to <code>ClaimMachine</code> in <a href="#orgf93c59a">Reconcile Cluster Machine Set</a> by leveraging <code>ClaimObject</code> however it doesn't run any filters) to get the machineSets owned by the deployment via adoption/orphaning with a similar <code>CanAdopt</code> function that fetches a fresh copy of the deployment object and compares UID to ensure that the deployment isn't being deleted.</li>
+<li><code>getMachineMap</code>: Creates a map from MachineSet UID to list of Machines it controls; used to verify machine labels and handle recreate deployments; it groups machines by their controller reference.</li>
+<li>If DeletionTimestamp is set <b>and</b> deployment has <code>DeleteFinalizerName</code> <b>and</b> if there are no MachineSets referring to the deployment <i>then</i> remove the finalizers. If there are MachineSets owned by the deployment then <code>terminateMachineSets</code> is called after which <code>syncStatusOnly</code> calls <code>getMSAndSyncRevision</code> that lists the <i>old</i> and new (<b>with updated revision</b>) MachineSets and machines for the deployment and applies <code>machine-template-hash</code> to the adopted ones and then deployment status is synced.</li>
+<li>Ref: <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment">Pausing a deployment</a>, <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#deployment-status">Deployment Status</a> &lt;TODO: Why?! are we doing this&gt;
+<code>checkPausedConditions</code> fetches the condition with <code>type</code> as <code>Progressing</code>
+<ol class="org-ol">
+<li>If <code>cond.Reason</code> is <code>TimedOutReason</code>, return without overwriting with  paused condition.</li>
+<li>Check if <code>pausedCondExists</code> by seeing if cond.Reason is <code>PausedMachineDeployReason</code>.</li>
+<li>If <code>Spec.Paused</code> is true and <code>pausedCondExists</code> is false, then update the condition with <code>Reason</code> as <code>PausedMachineDeployReason</code> and <code>message</code> as <i>"Deployment is paused"</i>.</li>
+<li>Otherwise if <code>Spec.Paused</code> is false and <code>pausedCondExists</code> is true, then update the condition with <code>Reason</code> as <code>ResumedMachineDeployReason</code> and <code>message</code> as <i>"Deployment is resumed"</i>.</li>
+<li>Update the deployment status.</li>
+</ol></li>
+<li>Then we check if <code>Spec.Paused</code> is true, if so it implies that <i>Scaling was detected for deployment which is paused</i>, so <code>sync</code> is called (which has the responsibility of reconciling deployments on scaling/when paused)
+<ol class="org-ol">
+<li>First <code>getMSAndSyncRevision</code> is called to get list of new and old machineSets.</li>
+<li>Then <a href="#orge1d9500">Scale</a>() method is invoked, following which <code>spec.Paused</code> is checked, if deployment is paused and there's no rollback in progress i.e. <code>spec.RollbackTo</code> is nil, then deployment <code>cleanup</code> is called for. The cleanup filters the old machineSet to get ones which are currently active (i.e. DeletionTimestamp is not set) and then deletes (note that if any delete fails, it stops the cleanup process since the failure could be due to api server overload) all but <code>RevisionHistoryLimit</code> number of machineSets (in this process it checks if the filtered machineSets have non-zero replica counts and avoids deleting them).</li>
+<li>Otherwise the new machineSets, if any are added to set of all machineSets and their status is synced by calling <code>sync MachineDeployment Status</code>.</li>
+</ol></li>
+<li>If the deployment wasn't paused and <code>Spec.RollbackTo</code> is non-nil i.e. there exists a revision that the deployment is rolling back to, the <code>rollback()</code> method is invoked:
+<ol class="org-ol">
+<li>First <code>getMSAndSyncRevision</code> is called to get list of new and old machineSets.</li>
+<li>Ref: <a href="https://learnk8s.io/kubernetes-rollbacks">k8s rollbacks</a>, Then we check the rollback revision version (<code>RollbackTo.Revision</code>), if its zero then we find the <code>LastRevision()</code> i.e. second max revision number by iterating over all machineSets and if its also zero, then that means we were unable to find the last revision and we give up rollback (<i>update Deployment and Clear Rollback</i> To is called)</li>
+<li>Otherwise we proceed with the rollback: Iterating over the list of machineSets, we get the <code>Revision</code> for each machineSet and if it matches the <code>RollbackTo.Revision</code>, then the <code>PreferNoSchedule</code> taint is removed from the nodes which are backing that machineSet.</li>
+<li>After taint removal, <code>rollbackToTemplate()</code> method is called which compares the templates (hash) of the deployment with the matching machineSet and updates the the <i>template</i> of the deployment incase they're different (Set From Machine Set Template) and the <i>annotations</i> of the deployment to the rollbacked machineSet revision (Set Machine Deployment Annotations To).</li>
+</ol></li>
+<li>If it wasn't a rollback event either, then we check if its a <code>ScalingEvent</code> i.e. there are activeMachineSets (found by filtering as new MachineSets with Replicas more than 0). For scaling events <code>sync</code> is called (check above Paused discussion to see what it does)
+<ol class="org-ol">
+<li>In case there's no activeMachineSets and the <code>Replicas</code> on the deployment is more than 0 i.e. its a <i>scale from zero</i> scenario so its considered as a scalingEvent.</li>
+<li>Otherwise when there are activeMachineSets with <code>desired-replicas</code> annotation not equal to the deployment replicas then also its a scalingEvent.</li>
+<li>If no such machineSets exist i.e. all the active ones have the same amount of desired-replicas as the deployment replica then its not a scaling event.</li>
+</ol></li>
+<li>In case none of the scenarios were true i.e. not paused, not rolling back, and not scaling, then we execute the deployment strategy which is either <a href="#orgb3d46dd">Recreate</a> or <a href="#orge083c41">Rolling</a>.</li>
+</ul>
+</div>
+<div id="outline-container-orge1d9500" class="outline-4">
+<h4 id="orge1d9500">Scale</h4>
+</div>
+
+<div id="outline-container-orgb3d46dd" class="outline-4">
+<h4 id="orgb3d46dd">Recreate</h4>
+<div class="outline-text-4" id="text-orgb3d46dd">
+<ul class="org-ul">
+<li>First <code>getMSAndSyncRevision</code> is called to get list of new and old machineSets. Old MS is filtered to find the active ones i.e. those having non-zero replicas.</li>
+<li>Create annotations to disable CA performing scale-downs during rollout and apply them to all machineSets if <code>autoscaler ScaleDown Annotation During Rollout</code> bool is true <i>and</i> there are old MS that haven't been scaled to zero yet.</li>
+<li>Then activeOld MS are scaled down:
+<ol class="org-ol">
+<li>If replica for the MS is already zero then scaling is not required.</li>
+<li>Otherwise MS has to be scaled-down, its annotated with <code>desiredReplicas</code> being the deployment Replicas and the <code>maxReplicas</code> being <code>maxSurge</code> amount more than that. <code>maxSurge</code> is 0 for <i>non-rolling</i> updates.</li>
+<li>In case scaling was required, after adding the annotations, the old MS is updated.</li>
+</ol></li>
+<li>If a scale-down occured or if there are old MS having non-zero replicas then, <code>Sync RolloutStatus</code> is invoked:
+<ol class="org-ol">
+<li>TODO calculateDeploymentStatus</li>
+<li>Then we get all the MD conditions having <code>type</code> as <code>Progressing</code> and check if the current deployment is complete or not by:
+<ul class="org-ul">
+<li>Ensuring <code>Replicas</code> and <code>UpdatedReplicas</code> are the same</li>
+<li>There is a MD condition of <code>Progressing Type</code> having <code>Reason</code> as "<i>New Machine Set Available</i>".</li>
+</ul></li>
+<li>If its not a complete deployment then i.e. rollout hasn't happened then progress estimation happens:
+<ul class="org-ul">
+<li>In case deployment is <b>completed</b> (UpdatedReplicas, AvailableReplicas and Replicas are the same and new ObserverGen is more than or equal to MD generation) i.e. all desired replicas are updated and available, no old machine are running; then the condition is updated to <code>Progressing</code> with  "<i>New Machine Set Available</i>" (The conditions talked about in the previous point).</li>
+<li>If its in <b>progressing</b> state, then the progress is estimated by comparing the current and new status of the deployment. Specifically, when new machines are scaled up or become ready/available or old machines are scaled down. In this case, the <code>Reason</code> is set to "<i>Machine Set Updated</i>".</li>
+<li>If its in <b>timed out</b> state, then "Progressing" state is set to false and the reason is updated as "<i>Progress Deadline Exceeded</i>".</li>
+</ul></li>
+<li>Then we fetch all the failure conditions of the <code>type</code> "<i>Replica Failure</i>" for MS and convert them to deployment conditions. In case we don't find any, we remove "Replica Failure" condition from the deployment if present.</li>
+<li>If there aren't any status changes to be done on the deployment, then its re-queued otherwise the status is updated.</li>
+</ol></li>
+<li>If there is a need to create new MS i.e. new MS from initial <code>getMSAndSyncRevision</code> is nil, then the function is called again with the creation flag set to true which creates the new MS.</li>
+<li>The new MS are scaled up to deployment's <code>Replicas</code> count and the annotations for <code>desiredReplicas</code> and <code>maxReplicas</code> are added.</li>
+<li>Again the progress is estimated and if deployment is <b>completed</b> then, autoscaler annotations are removed, deployment is <i>cleaned up</i>. At the end <code>Sync RolloutStatus</code> is called again.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge083c41" class="outline-4">
+<h4 id="orge083c41">Rolling</h4>
+<div class="outline-text-4" id="text-orge083c41">
+<ul class="org-ul">
+<li>First <code>getMSAndSyncRevision</code> is called to get list of new and old machineSets. Create annotations to disable CA performing scale-downs during rollout and apply them to all machineSets if <code>autoscaler ScaleDown Annotation During Rollout</code> bool is true <i>and</i> there are old MS that haven't been scaled to zero yet.</li>
+<li>Also, nodes backing all the old MS have "PreferNoSchedule" taint added to them to avoid scheduling on them. And <code>reconcileNewMS</code> is called to try to scale up, if possible:
+<ol class="org-ol">
+<li>Check if newMS.Replicas is same as deployment's Replicas, that means there's no scaling needed.</li>
+<li>If newMS.Replicas are more then scale-down needs to happen alongwith updation of <code>desiredReplicas</code> and <code>maxReplicas</code> annotation. In cases of rolling updates, <code>surge</code> is not simply 0 it is calculated via <code>ResolveFenceposts</code> as \(surge = \lceil\frac{maxSurge * Replicas}{100}\rceil\) when <code>maxSurge</code> is passed as a % value otherwise its taken as is. And the <code>maxReplicas</code> value is annotated as <code>Replicas + surge</code></li>
+<li><p>If its neither, then scale-up needs to happen, <code>NewISNewReplicas</code> is used to get the target Replicas count, first <code>surge</code> is computed in a similar fashion as above and then <code>maxReplicas</code> is compared with currently active MS replica count. If the current count is more i.e. scale up is not possible and target count is returned the same as newMS replicas count otherwise scale up needs to happen by
+</p>
+<pre class="src src-none"><code>     min(max - current, dep.Replicas - newMS.Replicas)</code></pre>
+<p>and <code>scaleUp + newIS.Replicas</code> is returned as the target replicas count.
+</p></li>
+<li>If any scaling happens, then <code>Sync RolloutStatus</code> is called to update the deployment status.</li>
+</ol></li>
+<li>After this an attempt is made to scale-down the active oldMS. First check if their total replica count is 0 in which case no further scale-down is possible. Otherwise we attempt the scale-down:
+<ol class="org-ol">
+<li>Check minAvailable needed number of replicas, <code>deployment.Replicas - unavailable</code> where it is calculated via <code>ResolveFenceposts</code> as \(unavail = \lfloor\frac{maxUnavailable * Replicas}{100}\rfloor\) when <code>maxAvailable</code> is passed as a % value otherwise its taken as is.</li>
+<li>Check newMS that are still unavailable, <code>newMS.Replicas - newMS.AvailableReplicas</code></li>
+<li>Hence there by removing (minAvailable + newMSUnavailable) from total active replicas, we get the number of replicas that can be cleanup up without any issues. (maxScaledDown)</li>
+<li>An attempt is made to clean up those replicas from the oldMS where first oldMS are sorted in the order <code>notready, ready, unscheduled, scheduled, pending, running</code> so that unhealthy replicas are cleaned up before to not increase unavailability:
+<ul class="org-ul">
+<li>Iterating over the sorted oldMS, we first check if the targetMS's replica count is 0 or equal to its availableReplicas in which cases it can't be downscaled or has no unhealthy replicas so we skip its cleanup.</li>
+<li><p>Otherwise compute <code>scaledownCount</code> for the targetMS by
+</p>
+<pre class="src src-none"><code>       min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)</code></pre>
+<p>where <code>totalScaledDown</code> keeps incrementing by <code>scaleDownCount</code> as we iterate over all oldMS.
+</p></li>
+<li>We then compute <code>newReplicacount</code> as <code>Replicas - scaledownCount</code> and attempt to scaledown the targetMS to it. &lt;TODO: Rewrite this&gt;</li>
+</ul></li>
+<li>After attempting the cleanup of old unhealthy MS, we them attempt a scaledown by first checking if its possible, computing <code>minAvailable</code> needed replica count and <code>totalAvailable</code> and seeing if total's less than min in which case we can't scale down. Otherwise we compute <code>totalScaledDownCount</code> (aka target) as <code>total - min</code> available replica count &amp; sort oldMS similar to how we did in the cleanup process above and start iterating over them:
+<ul class="org-ul">
+<li>Check if scaling's done by comparing <code>totalScaledDown</code> number with the target in which case we stop.</li>
+<li>If MS's replicas is 0 then scaling isnt possible for it, so skip it.</li>
+<li><p>Otherwise scaledown is attempted with <code>scaleDownCount</code> being
+</p>
+<pre class="src src-none"><code>       min(Replicas, target - totalScaledDown)</code></pre>
+<p>and <code>newReplicacount</code> as <code>Replicas - scaleDownCount</code> after which <code>totalScaledDown</code> is updated with <code>scaleDownCount</code>
+</p></li>
+</ul></li>
+<li>If any scaling happens, then <code>sync RolloutStatus</code> is invoked later for updating the status.</li>
+</ol></li>
+<li>At the end, the progress is estimated and if deployment is <b>completed</b> then, autoscaler annotations are removed, deployment is <i>cleaned up</i>. At the end <code>Sync RolloutStatus</code> is called again.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org931212b" class="outline-3">
+<h3 id="org931212b"><span class="todo TODO">TODO</span> Reconcile Machine Safety Overshooting</h3>
+</div>
+</div>
+<div id="outline-container-orgf487643" class="outline-2">
+<h2 id="orgf487643">Extension</h2>
+<div class="outline-text-2" id="text-orgf487643">
+<p>All methods in <code>Driver</code> interface take a <code>Request</code> and provide a <code>Response</code>.
+</p>
+<pre class="src src-go"><code>type Driver interface {
+    CreateMachine(context.Context, *CreateMachineRequest) (*CreateMachineResponse, error)
+    InitializeMachine(context.Context, *InitializeMachineRequest) (*InitializeMachineResponse, error)
+    DeleteMachine(context.Context, *DeleteMachineRequest) (*DeleteMachineResponse, error)
+    GetMachineStatus(context.Context, *GetMachineStatusRequest) (*GetMachineStatusResponse, error)
+    ListMachines(context.Context, *ListMachinesRequest) (*ListMachinesResponse, error)
+    GetVolumeIDs(context.Context, *GetVolumeIDsRequest) (*GetVolumeIDsResponse, error)
+}</code></pre>
+<p><a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/development/machine_error_codes.md">Machine Error Codes</a> document goes a bit more in-depth into the workings of the various driver interface methods.
+</p>
+
+<p>All methods follow a similar pattern at the start where they first check that the <code>MachineClass.provider</code> in the request is the correct one otherwise <code>InvalidArgument</code> is returned as the error code. Then the request's <code>MachineClass</code> and <code>Secret</code> are used to extract the <code>providerSpec</code>, validation of the spec happens during the extraction process. If there's an issue while <i>unmarshalling</i> the <code>rawSpec</code>, <code>internal</code> error is returned and if there's an issue with validation, <code>InvalidArgument</code> is returned. The other common part is creation of a <i>service client</i> which is handled by the <code>createSVC</code> method (takes in <i>region</i> and <i>secret</i>).
+</p>
+
+<p>Note that during the invocation of some methods, <code>Record Driver API Metric</code> function runs which captures the duration of the operation and records any failures. Coming to the specifics of the methods:
+</p>
+</div>
+<div id="outline-container-org8643262" class="outline-3">
+<h3 id="org8643262">CreateMachine</h3>
+<div class="outline-text-3" id="text-org8643262">
+<ul class="org-ul">
+<li>Secret's <code>userData</code> is checked for existence and is encoded if found. (Later used in <code>RunInstancesInput</code>)</li>
+<li>Validate given AMI's (Amazon Machine Image) existence, verify that the image exists and is valid using <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html">DescribeImages</a> <code>POST</code> request.</li>
+<li>Block devices are the <i>storage volumes</i> attached to an <code>Instance</code>. And <code>BlockDeviceMappings</code> define the EBS volumes and instance store volumes to attach to an instance at launch. So using the list of devices from providerSpec and the <code>RootDeviceName</code> from the image, block device mappings are generated for storage.</li>
+<li>Then tags are generated for <code>instance</code>, <code>volume</code> and <code>NetworkInterface</code>. These tags are useful as they act as identifiers which map the clusters that resources belong to and for management (cleanup, securtiy) etc. Failure in tag generation results in an <code>Internal</code> error code being returned.</li>
+<li>Afterwards, <code>NetworkInterfaceSpec</code> is defined for all the interfaces and by iterative over providerSpec NetworkInterfaces. And <code>IamInstanceProfile</code> is set up by going through <i>IAM name and ARN</i>. And after that <i>instance metadata options</i> are initialized.</li>
+<li>Following all this, the <code>RunInstancesInput</code> config is initialized using all the above fetched/initialized fields. Some additional fields such as <code>Placement</code>, <code>Capacity Reservation Target</code>, <code>CPU Options</code> and <code>Spot Price</code> are further set up before the <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html">RunInstance</a> call which launches the EC2 instance.</li>
+<li>Then we wait for the VM with <code>ProviderID</code> for machine <code>Name</code> to be visible to AWS endpoints by checking using <code>confirmInstance</code> calls following which's success the <i>MachineResponse</i> consisting of the <code>ProviderID</code> and <code>Machine Name</code> is returned.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd4c6c7d" class="outline-3">
+<h3 id="orgd4c6c7d">InitializeMachine</h3>
+<div class="outline-text-3" id="text-orgd4c6c7d">
+<p><code>InitializeMachine</code> method should only be invoked as a post VM creation initialization to configure network configuration etc.
+</p>
+<ul class="org-ul">
+<li>First we decode spec, create a service request and then we fetch the running <code>instances</code> for the requested <code>Machine</code> by leveraging the <code>tags</code> populated earlier. In case searching via tags fails, fall back to using <code>instanceID</code> from <code>providerID</code> for fetching the VM instances. Failure returns <code>codes.Uninitialized</code> as the error code.</li>
+<li>After getting the instance, we disable <code>SrcDstCheck</code> for NAT instances if specified as false by targeting the <code>instanceID</code>. If this operations fails, <code>Uninitialized</code> is retured as the error code.</li>
+<li>Then we iterate over the <code>Network Interfaces</code> and assigns IPv6 prefixes to them if configured. Failure returns <code>codes.Uninitialized</code> as the error code. If everything is successful, we return <code>Response</code> with providerID and node name.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org40907ef" class="outline-3">
+<h3 id="org40907ef">DeleteMachine</h3>
+<div class="outline-text-3" id="text-org40907ef">
+<p>We do provider check and decode the spec, create the service client. Afterwards we check if the requested Machine has <code>providerID</code> populated, if so we extract the <code>instanceID</code> from it and invoke <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TerminateInstances.html">terminateInstance</a>. If <code>providerID</code> is not populated, then we get the instances by <code>tags</code> and <i>terminate</i> them.
+</p>
+</div>
+</div>
+<div id="outline-container-org48b785e" class="outline-3">
+<h3 id="org48b785e">GetMachineStatus</h3>
+<div class="outline-text-3" id="text-org48b785e">
+<p>Again we start with checking the provider, decoding the spec and creating the service client. Then we get the matching instances by <code>tags</code> or <code>instanceID</code> failing the fetching by former. If multiple VM instances are returned for the machine object, it is flagged as <code>OutOfRange</code> error and returned.
+</p>
+
+<p>Otherwise we check if the <code>SourceDestCheck</code> on the instance matches the one on <code>providerSpec</code>, in case they don't match it returns <code>Uninitialized</code> else we return the response with <code>NodeName</code> and <code>ProviderID</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org7d3f1c7" class="outline-3">
+<h3 id="org7d3f1c7">ListMachines</h3>
+<div class="outline-text-3" id="text-org7d3f1c7">
+<p>Do the needful provider check, spec decoding and service creation following which we iterate over the <code>tags</code> to check if they contain the <code>clusterName</code> tag or the <code>nodeRole</code> tag. These are then used to create "tag-key" filters alongwith a "instance-state-name" filter (with <i>pending, running, stopping &amp; stopped</i> values). These filters are used to fetch the relevant VM <code>instances</code> for the machineClass. After getting the instances, a map of <code>providerID</code> to the <code>machineName</code> is created and and returned as the response.
+</p>
+</div>
+</div>
+<div id="outline-container-org5516e69" class="outline-3">
+<h3 id="org5516e69">GetVolumeIDs</h3>
+<div class="outline-text-3" id="text-org5516e69">
+<p>Extracts EBS volume IDs from PersistentVolume specification by handling both in-tree AWS EBS volumes and CSI driver volumes and returns list of volume IDs as response. (Invoked indirectly by <code>evictPodsWithPv</code>)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org14e79ed" class="outline-2">
+<h2 id="org14e79ed">Queries</h2>
+<div class="outline-text-2" id="text-org14e79ed">
+<ul class="org-ul">
+<li>How is MCM different from CCM? Is there any overlap between the two?</li>
+<li>How much access/info does the end user have about machines? How much can they control them or is the access restricted to editing nodes only?</li>
+<li>Check control and target clusters, inClusterConfig. Control cluster is the one where the machine-* objects are stored. Target cluster is where all the node objects are registered.</li>
+<li>When node deletion checks are happening, how is the <code>ReadOnlyFileSystem</code> flag checked for?</li>
+<li>Why is this required in two places? <a href="https://github.com/gardener/machine-controller-manager/blob/master/docs/FAQ.md#i-need-to-change-the-apis-what-are-the-recommended-steps">FAQ: API Change</a></li>
+<li>Is local setup guide enough to get started or is there something else to look out for as well?</li>
+<li>In the <code>ClaimMachines</code> function, we're not passing the filters, what's the point of having them then? In what scenarios will they be needed?</li>
+<li><del>How is the <code>CanAdopt()</code> function working?</del></li>
+<li>What is this controllerRef for?</li>
+<li><del>What is the <code>KeyFunc()</code> doing in manageReplicas: cache.MetaNameSpaceKeyFunc</del></li>
+<li>What is this ControllerExpectations, why is it needed? Handle race conditions, Expectations are supposed to be used to await previous controller actions to be seen in watch. ContExpectations is a cache mapping controllers to what they expect to see before being woken up for a sync.</li>
+<li>What is this <code>FakeDriver</code> business?</li>
+<li><del>In a lot of functions, we clone the resource, then work with the cloned copy, why is that necessary?</del></li>
+<li><del>Why is bootstrap token deletion required when machine creation goes through?</del></li>
+<li><del>What is this permit that's used when <code>Unknown</code> phase and machine times out</del></li>
+<li><del>Why is internalExternalScheme conversion needed?</del></li>
+</ul>
+</div>
+</div>
+</div>
+<footer id="postamble" class="status">
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+</footer>
+</body>
+</html>

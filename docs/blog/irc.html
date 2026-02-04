@@ -20,20 +20,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1d649fc">Why IRC?</a></li>
-<li><a href="#org886a755">Getting into it</a></li>
-<li><a href="#org9aef724">Layout/Statusbar</a></li>
-<li><a href="#org2837a49">Scripts</a></li>
-<li><a href="#org0e94661">XDCC</a></li>
-<li><a href="#orgc4479d5">Limitations</a></li>
-<li><a href="#org4eedc4f">Further Reading</a></li>
+<li><a href="#org7e08dfb">Why IRC?</a></li>
+<li><a href="#org496c019">Getting into it</a></li>
+<li><a href="#orgb51e0a4">Layout/Statusbar</a></li>
+<li><a href="#org7df4bd3">Scripts</a></li>
+<li><a href="#org58646c4">XDCC</a></li>
+<li><a href="#org73235ef">Limitations</a></li>
+<li><a href="#orgd92ca11">Further Reading</a></li>
 </ul>
 </div>
 </nav>
 <style>body img { filter: none !important; mix-blend-mode: normal !important; }</style>
 
 
-<figure id="org883e507">
+<figure id="org40ab33a">
 <a href="https://xkcd.com/1782"><img src="https://imgs.xkcd.com/comics/team_chat.png" alt="team_chat.png"></a>
 
 </figure>
@@ -41,14 +41,14 @@
 <p>Umm. Guilty, though I've only been using it for two days, but I've been having a blast! So let's get into it.
 </p>
 
-<div class="note" id="org7242b89">
+<div class="note" id="org8dd0374">
 <p>This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don't discuss all the aspects such as chat etiquette and other security related stuff for which I'd direct the readers to resources at the bottom.
 </p>
 
 </div>
-<div id="outline-container-org1d649fc" class="outline-2">
-<h2 id="org1d649fc">Why IRC?</h2>
-<div class="outline-text-2" id="text-org1d649fc">
+<div id="outline-container-org7e08dfb" class="outline-2">
+<h2 id="org7e08dfb">Why IRC?</h2>
+<div class="outline-text-2" id="text-org7e08dfb">
 <p>In this modern age of numerous chat clients and networks with all their shiny bells and whistles and fancy embeds and numerous intergrations with various services, why should one use IRC?
 </p>
 
@@ -59,9 +59,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org886a755" class="outline-2">
-<h2 id="org886a755">Getting into it</h2>
-<div class="outline-text-2" id="text-org886a755">
+<div id="outline-container-org496c019" class="outline-2">
+<h2 id="org496c019">Getting into it</h2>
+<div class="outline-text-2" id="text-org496c019">
 <p>If you've used a modern chat platform like Slack or Discord, IRC's structured in a similar way (rather it was most likely the inspiration for these programs). Basically there are various <b>servers</b> that you can connect to, which have multiple <b>channels</b> that you can join. Unlike discord though where upon joining a server you automatically have access to all its channels, in IRC servers it's opt-in which makes sense considering some large servers have thousands of chatrooms.
 </p>
 
@@ -94,11 +94,11 @@
 </span># /IGNCH #gentoo</code></pre>
 </div>
 </div>
-<div id="outline-container-org9aef724" class="outline-2">
-<h2 id="org9aef724">Layout/Statusbar</h2>
-<div class="outline-text-2" id="text-org9aef724">
+<div id="outline-container-orgb51e0a4" class="outline-2">
+<h2 id="orgb51e0a4">Layout/Statusbar</h2>
+<div class="outline-text-2" id="text-orgb51e0a4">
 
-<figure id="orgfebf31f">
+<figure id="org1814dff">
 <img src="/assets/irssi.png" alt="irssi.png">
 
 </figure>
@@ -107,13 +107,13 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org2837a49" class="outline-2">
-<h2 id="org2837a49">Scripts</h2>
-<div class="outline-text-2" id="text-org2837a49">
+<div id="outline-container-org7df4bd3" class="outline-2">
+<h2 id="org7df4bd3">Scripts</h2>
+<div class="outline-text-2" id="text-org7df4bd3">
 <p>If you've ever used emacs, you'll know how it being an elisp interpreter lends to it powers of on-the-fly changes and extensibility beyond any measure. IRSSI is similar in that manner, it allows for modifications via perl scripts. There's a central <a href="https://scripts.irssi.org/">scripts repository</a> but one can create their own scripts akin to emacs packages!
 </p>
 
-<div class="note" id="org233dd71">
+<div class="note" id="orgfd8b2e5">
 <p>In later iterations of this post, I'll add customization options for mentioned scripts.
 </p>
 
@@ -131,13 +131,13 @@
 </ol>
 </div>
 </div>
-<div id="outline-container-org0e94661" class="outline-2">
-<h2 id="org0e94661">XDCC</h2>
-<div class="outline-text-2" id="text-org0e94661">
+<div id="outline-container-org58646c4" class="outline-2">
+<h2 id="org58646c4">XDCC</h2>
+<div class="outline-text-2" id="text-org58646c4">
 <p>Some IRC channels also offer a way to share files via XDCC. It works by sending bots PMs with requests for a particular pack number which is a reference to the desired file.
 </p>
 
-<div class="note" id="org977a5ae">
+<div class="note" id="orgb6bdf0e">
 <p>⚠ A word of caution, enabling automatic DCC is a very bad idea in general since it runs the risk of exposing your IP if the network doesn't have masking enabled so be wary of accepting files.
 </p>
 
@@ -159,16 +159,16 @@
 </span>/set dcc_autoresume on</code></pre>
 </div>
 </div>
-<div id="outline-container-orgc4479d5" class="outline-2">
-<h2 id="orgc4479d5">Limitations</h2>
-<div class="outline-text-2" id="text-orgc4479d5">
+<div id="outline-container-org73235ef" class="outline-2">
+<h2 id="org73235ef">Limitations</h2>
+<div class="outline-text-2" id="text-org73235ef">
 <p>There are some limitations with IRC there's no chat persistance unless you use a bouncer which I still have to dip my feet into, maybe that's something for a future post, we'll see.
 </p>
 </div>
 </div>
-<div id="outline-container-org4eedc4f" class="outline-2">
-<h2 id="org4eedc4f">Further Reading</h2>
-<div class="outline-text-2" id="text-org4eedc4f">
+<div id="outline-container-orgd92ca11" class="outline-2">
+<h2 id="orgd92ca11">Further Reading</h2>
+<div class="outline-text-2" id="text-orgd92ca11">
 <ol class="org-ol">
 <li><a href="https://www.irchelp.org/faq/new2irc.html">The IRC Prelude</a></li>
 <li><a href="https://irssi.org/New-users/">IRSSI for New Users</a></li>
