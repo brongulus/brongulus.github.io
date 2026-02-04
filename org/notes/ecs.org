@@ -1,5 +1,5 @@
 #+TITLE: Elements of computing systems
-CLOSED: [2022-06-10 Fri]
+#+DATE: 2022-06-10 Fri
 # vhdl source blocks for HDL
 * Introduction
 These are the notes which I took while studying computer architecture from the textbook "/The Elements of Computing Systems/ by /Noam Nisan & Shimon Schocken/ ". They're very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.

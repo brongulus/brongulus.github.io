@@ -1,5 +1,5 @@
 #+TITLE: IUSACO
-CLOSED: [2022-06-05 Sun]
+#+DATE: 2022-06-05 Sun
 * Input and Output
   #+begin_src c++
   #include <cstdio>

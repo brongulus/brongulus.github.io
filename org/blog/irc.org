@@ -1,7 +1,7 @@
 #+TITLE:I R SSI
 #+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; }</style>
 
-CLOSED: [2022-06-28]
+#+DATE: 2022-06-28 Tue
 
 [[https://xkcd.com/1782][https://imgs.xkcd.com/comics/team_chat.png]]
 

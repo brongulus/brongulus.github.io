@@ -3,11 +3,11 @@
 
 * Notes
 
-- [[file:iusaco.org][IUSACO]]
-- [[file:ostep.org][OSTEP - Book Club]]
-- [[file:hangul.org][Hangul]]
-- [[file:ecs.org][Elements of computing systems]]
-- [[file:meditations.org][Meditations]]
 - [[file:notes-from-underground.org][Notes from Underground]]
+- [[file:meditations.org][Meditations]]
+- [[file:ecs.org][Elements of computing systems]]
+- [[file:iusaco.org][IUSACO]]
+- [[file:hangul.org][Hangul]]
+- [[file:ostep.org][OSTEP - Book Club]]
 
 #+HTML: </div>

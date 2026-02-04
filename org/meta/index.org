@@ -3,8 +3,8 @@
 
 * Notes
 
-- [[file:wall.org][Wall]]
 - [[file:about.org][About]]
 - [[file:tracker.org][Tracker]]
+- [[file:wall.org][Wall]]
 
 #+HTML: </div>

@@ -1,5 +1,5 @@
 #+TITLE: Hangul
-CLOSED: [2022-07-06 Wed]
+#+DATE: 2022-07-06 Wed
 
 Hangul is one of the easiest character form to learn, in fact people proclaim it can be learnt in under an hour with the help of easy mnemonics, let's see how.
 

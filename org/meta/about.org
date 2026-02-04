@@ -1,6 +1,6 @@
 #+TITLE: About
 #+OPTIONS: toc:nil
-CLOSED: [2021-03-21 Mon 01:00]
+#+DATE: 2021-03-21 Mon
 
 * Webpresence of Prashant Tak
 

@@ -9,7 +9,7 @@
 
 * Notes :noexport:
 ** Computation :noexport:
-CLOSED: [2022-06-02 Thu]
+#+DATE: 2022-06-02 Thu
 :PROPERTIES:
 :EXPORT_FILE_NAME: computation-das
 :END:

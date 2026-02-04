@@ -1,5 +1,5 @@
 #+TITLE: Meditations
-CLOSED: [2022-03-14 Mon]
+#+DATE: 2022-03-14 Mon
 
 * Book 2: On the River Gran, Among the Quadi
 

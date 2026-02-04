@@ -1,5 +1,5 @@
 #+TITLE: Notes from Underground
-CLOSED: [2026-01-03 Sat 19:29]
+#+DATE: 2026-01-03 Sat
 
 #+begin_quote
 And enter my house bold and free,

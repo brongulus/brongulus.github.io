@@ -1,4 +1,4 @@
-/* TODO: closed time, rss, cache fonts */
+/* TODO: rss, cache fonts */
 
 /* ======================================== */
 /* Colors
@@ -241,6 +241,13 @@ h1 {
 .title {
     text-align: left;
 }
+
+/* .subtitle { */
+/*     font-family: "Josefin Sans", sans-serif; */
+/*     text-transform: uppercase; */
+/*     color: var(--accent); */
+/*     margin: 0.5rem 0; */
+/* } */
 
 h2 {
     color: var(--accent);
