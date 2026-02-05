@@ -55,7 +55,7 @@ html[data-theme=dark] {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     line-height: 155%;
-    @media (max-width: 425px) {
+    @media (max-width: 625px) {
         line-height: 135%;
     }
     box-sizing: border-box;

@@ -33,15 +33,15 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfb5ec83">Docker</a></li>
+<li><a href="#org2823b5d">Docker</a></li>
 <li><a href="#h:06603D16-4A5E-4AC0-8A9C-8C7F5EE20433">Kubernetes</a></li>
-<li><a href="#org331177e">Helm</a></li>
+<li><a href="#orgcee23ff">Helm</a></li>
 </ul>
 </div>
 </nav>
-<div id="outline-container-orgfb5ec83" class="outline-2">
-<h2 id="orgfb5ec83">Docker</h2>
-<div class="outline-text-2" id="text-orgfb5ec83">
+<div id="outline-container-org2823b5d" class="outline-2">
+<h2 id="org2823b5d">Docker</h2>
+<div class="outline-text-2" id="text-org2823b5d">
 <p>A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. The Linux kernel does not know about containers at all – for it, containers are nothing more than just regular processes running on the system. It however offers several features that Docker and other container engines leverage to achieve an almost complete isolation of processes from each other. Some of them being
 </p>
 <ul class="org-ul">
@@ -76,9 +76,9 @@
 <p>Kubernetes is just a container orchestrator. The central part remains our image, which contains the application we want to run. In the end Kubernetes runs lots and lots of containers – however in a smart way.
 </p>
 </div>
-<div id="outline-container-org3874dab" class="outline-3">
-<h3 id="org3874dab">Building blocks</h3>
-<div class="outline-text-3" id="text-org3874dab">
+<div id="outline-container-orged42972" class="outline-3">
+<h3 id="orged42972">Building blocks</h3>
+<div class="outline-text-3" id="text-orged42972">
 <p>Kubernetes doesn’t allow you to schedule individual containers, it wraps the container into something called a <i>pod</i> – which can be considered as a logical host with one or more containers that share storage and network resources. Put another way, a Kubernetes Pod is a set of containers that perform an interrelated function and that operate as part of the same workload.
 </p>
 
@@ -125,9 +125,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org3cbf6ae" class="outline-3">
-<h3 id="org3cbf6ae">Communication</h3>
-<div class="outline-text-3" id="text-org3cbf6ae">
+<div id="outline-container-orgca30c6b" class="outline-3">
+<h3 id="orgca30c6b">Communication</h3>
+<div class="outline-text-3" id="text-orgca30c6b">
 <p>Communication between pods requires something called as a &ldquo;service&rdquo;, it&rsquo;s not sensible to rely on IP addresses for pods are they can change if a pod dies/restarts. Services act as a reliable and stable endpoint that provides cluster-internal and external connectivity. Services determine their managed pods by labels and corresponding selectors. Kubernetes also offers a way to name any port on a container/service level which can then be used as a reference even if the port value changes over time without impacting the application. (<a href="https://sysdig.com/learn-cloud-native/what-is-kubernetes-networking/">k8s networking</a>)
 </p>
 
@@ -189,9 +189,9 @@
 </ol>
 </div>
 </div>
-<div id="outline-container-orgd9193fc" class="outline-3">
-<h3 id="orgd9193fc">Persistence</h3>
-<div class="outline-text-3" id="text-orgd9193fc">
+<div id="outline-container-org4ff13f1" class="outline-3">
+<h3 id="org4ff13f1">Persistence</h3>
+<div class="outline-text-3" id="text-org4ff13f1">
 <p>Pods can die/restart unexpectedly and lose all the data that&rsquo;s local to them, to solve the problem of persistence kubernetes offers PV/PVCs. A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator having a lifecycle independent of the pods using the PV. A PersistentVolumeClaim (PVC) is a request for a storage by a user.
 </p>
 
@@ -210,9 +210,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org9103495" class="outline-3">
-<h3 id="org9103495">Additional Setup</h3>
-<div class="outline-text-3" id="text-org9103495">
+<div id="outline-container-org1b58d86" class="outline-3">
+<h3 id="org1b58d86">Additional Setup</h3>
+<div class="outline-text-3" id="text-org1b58d86">
 <p>An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.
 </p>
 
@@ -229,9 +229,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org331177e" class="outline-2">
-<h2 id="org331177e">Helm</h2>
-<div class="outline-text-2" id="text-org331177e">
+<div id="outline-container-orgcee23ff" class="outline-2">
+<h2 id="orgcee23ff">Helm</h2>
+<div class="outline-text-2" id="text-orgcee23ff">
 <p>Ref: <a href="https://sysdig.com/learn-cloud-native/what-is-helm-in-kubernetes/">What is helm</a>
 </p>
 </div>

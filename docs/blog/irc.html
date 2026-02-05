@@ -33,18 +33,18 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orged358c9">Why IRC?</a></li>
-<li><a href="#org9c87174">Getting into it</a></li>
-<li><a href="#orgf63ac01">Layout/Statusbar</a></li>
-<li><a href="#org8357370">Scripts</a></li>
-<li><a href="#org3435f46">XDCC</a></li>
-<li><a href="#org2174fa9">Limitations</a></li>
-<li><a href="#orgfe226ff">Further Reading</a></li>
+<li><a href="#orgd82a85b">Why IRC?</a></li>
+<li><a href="#orga0d2e2d">Getting into it</a></li>
+<li><a href="#org4f88c72">Layout/Statusbar</a></li>
+<li><a href="#orgc6126f5">Scripts</a></li>
+<li><a href="#org7fda567">XDCC</a></li>
+<li><a href="#org5698d96">Limitations</a></li>
+<li><a href="#org3e62b19">Further Reading</a></li>
 </ul>
 </div>
 </nav>
 
-<figure id="orgdb05d7a">
+<figure id="org8b24d9c">
 <a href="https://xkcd.com/1782"><img src="https://imgs.xkcd.com/comics/team_chat.png" alt="team_chat.png"></a>
 
 </figure>
@@ -52,14 +52,14 @@
 <p>Umm. Guilty, though I&rsquo;ve only been using it for two days, but I&rsquo;ve been having a blast! So let&rsquo;s get into it.
 </p>
 
-<div class="note" id="orgeca8b71">
+<div class="note" id="org22d5e27">
 <p>This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don&rsquo;t discuss all the aspects such as chat etiquette and other security related stuff for which I&rsquo;d direct the readers to resources at the bottom.
 </p>
 
 </div>
-<div id="outline-container-orged358c9" class="outline-2">
-<h2 id="orged358c9">Why IRC?</h2>
-<div class="outline-text-2" id="text-orged358c9">
+<div id="outline-container-orgd82a85b" class="outline-2">
+<h2 id="orgd82a85b">Why IRC?</h2>
+<div class="outline-text-2" id="text-orgd82a85b">
 <p>In this modern age of numerous chat clients and networks with all their shiny bells and whistles and fancy embeds and numerous intergrations with various services, why should one use IRC?
 </p>
 
@@ -70,9 +70,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org9c87174" class="outline-2">
-<h2 id="org9c87174">Getting into it</h2>
-<div class="outline-text-2" id="text-org9c87174">
+<div id="outline-container-orga0d2e2d" class="outline-2">
+<h2 id="orga0d2e2d">Getting into it</h2>
+<div class="outline-text-2" id="text-orga0d2e2d">
 <p>If you&rsquo;ve used a modern chat platform like Slack or Discord, IRC&rsquo;s structured in a similar way (rather it was most likely the inspiration for these programs). Basically there are various <b>servers</b> that you can connect to, which have multiple <b>channels</b> that you can join. Unlike discord though where upon joining a server you automatically have access to all its channels, in IRC servers it&rsquo;s opt-in which makes sense considering some large servers have thousands of chatrooms.
 </p>
 
@@ -105,11 +105,11 @@
 </span># /IGNCH #gentoo</code></pre>
 </div>
 </div>
-<div id="outline-container-orgf63ac01" class="outline-2">
-<h2 id="orgf63ac01">Layout/Statusbar</h2>
-<div class="outline-text-2" id="text-orgf63ac01">
+<div id="outline-container-org4f88c72" class="outline-2">
+<h2 id="org4f88c72">Layout/Statusbar</h2>
+<div class="outline-text-2" id="text-org4f88c72">
 
-<figure id="orgb99395d">
+<figure id="org45f5e0e">
 <img src="/assets/irssi.png" alt="irssi.png" style="filter: none !important; mix-blend-mode: normal !important;">
 
 </figure>
@@ -118,13 +118,13 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org8357370" class="outline-2">
-<h2 id="org8357370">Scripts</h2>
-<div class="outline-text-2" id="text-org8357370">
+<div id="outline-container-orgc6126f5" class="outline-2">
+<h2 id="orgc6126f5">Scripts</h2>
+<div class="outline-text-2" id="text-orgc6126f5">
 <p>If you&rsquo;ve ever used emacs, you&rsquo;ll know how it being an elisp interpreter lends to it powers of on-the-fly changes and extensibility beyond any measure. IRSSI is similar in that manner, it allows for modifications via perl scripts. There&rsquo;s a central <a href="https://scripts.irssi.org/">scripts repository</a> but one can create their own scripts akin to emacs packages!
 </p>
 
-<div class="note" id="orgdeecf18">
+<div class="note" id="orgec60e92">
 <p>In later iterations of this post, I&rsquo;ll add customization options for mentioned scripts.
 </p>
 
@@ -142,13 +142,13 @@
 </ol>
 </div>
 </div>
-<div id="outline-container-org3435f46" class="outline-2">
-<h2 id="org3435f46">XDCC</h2>
-<div class="outline-text-2" id="text-org3435f46">
+<div id="outline-container-org7fda567" class="outline-2">
+<h2 id="org7fda567">XDCC</h2>
+<div class="outline-text-2" id="text-org7fda567">
 <p>Some IRC channels also offer a way to share files via XDCC. It works by sending bots PMs with requests for a particular pack number which is a reference to the desired file.
 </p>
 
-<div class="note" id="orgc7e5ea2">
+<div class="note" id="org49c02ca">
 <p>⚠ A word of caution, enabling automatic DCC is a very bad idea in general since it runs the risk of exposing your IP if the network doesn&rsquo;t have masking enabled so be wary of accepting files.
 </p>
 
@@ -170,16 +170,16 @@
 </span>/set dcc_autoresume on</code></pre>
 </div>
 </div>
-<div id="outline-container-org2174fa9" class="outline-2">
-<h2 id="org2174fa9">Limitations</h2>
-<div class="outline-text-2" id="text-org2174fa9">
+<div id="outline-container-org5698d96" class="outline-2">
+<h2 id="org5698d96">Limitations</h2>
+<div class="outline-text-2" id="text-org5698d96">
 <p>There are some limitations with IRC there&rsquo;s no chat persistance unless you use a bouncer which I still have to dip my feet into, maybe that&rsquo;s something for a future post, we&rsquo;ll see.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfe226ff" class="outline-2">
-<h2 id="orgfe226ff">Further Reading</h2>
-<div class="outline-text-2" id="text-orgfe226ff">
+<div id="outline-container-org3e62b19" class="outline-2">
+<h2 id="org3e62b19">Further Reading</h2>
+<div class="outline-text-2" id="text-org3e62b19">
 <ol class="org-ol">
 <li><a href="https://www.irchelp.org/faq/new2irc.html">The IRC Prelude</a></li>
 <li><a href="https://irssi.org/New-users/">IRSSI for New Users</a></li>

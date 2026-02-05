@@ -34,20 +34,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc3145cc">Machine Controller Manager Architecture</a></li>
-<li><a href="#orge1dd066">Machine Controller Core Flows</a></li>
-<li><a href="#orged63c23">Safety Controller</a></li>
-<li><a href="#org869fd60">MachineSet Controller</a></li>
-<li><a href="#orgb5fdd64">MachineDeployment Controller</a></li>
-<li><a href="#org0b76098">Summary</a></li>
+<li><a href="#org629671c">Machine Controller Manager Architecture</a></li>
+<li><a href="#org9a39abe">Machine Controller Core Flows</a></li>
+<li><a href="#orgc1e1c14">Safety Controller</a></li>
+<li><a href="#org57d558b">MachineSet Controller</a></li>
+<li><a href="#org79f4a3b">MachineDeployment Controller</a></li>
+<li><a href="#org28e8079">Summary</a></li>
 </ul>
 </div>
 </nav>
 <p>These visual representations helps understand the complex workflows within the Machine Controller Manager.
 </p>
-<div id="outline-container-orgc3145cc" class="outline-2">
-<h2 id="orgc3145cc">Machine Controller Manager Architecture</h2>
-<div class="outline-text-2" id="text-orgc3145cc">
+<div id="outline-container-org629671c" class="outline-2">
+<h2 id="org629671c">Machine Controller Manager Architecture</h2>
+<div class="outline-text-2" id="text-org629671c">
 <ul class="org-ul">
 <li>The system consists of three main controllers working in concert</li>
 <li>Each controller handles specific aspects of machine lifecycle management</li>
@@ -101,9 +101,9 @@ stateDiagram-v2
 </pre>
 </div>
 </div>
-<div id="outline-container-orge1dd066" class="outline-2">
-<h2 id="orge1dd066">Machine Controller Core Flows</h2>
-<div class="outline-text-2" id="text-orge1dd066">
+<div id="outline-container-org9a39abe" class="outline-2">
+<h2 id="org9a39abe">Machine Controller Core Flows</h2>
+<div class="outline-text-2" id="text-org9a39abe">
 <p>Now, let&rsquo;s dive into the Machine Controller&rsquo;s core reconciliation flows for different resources. It handles three main types of reconciliation:
 </p>
 <ul class="org-ul">
@@ -168,9 +168,9 @@ stateDiagram-v2
     }
 </pre>
 </div>
-<div id="outline-container-org2ba2505" class="outline-3">
-<h3 id="org2ba2505">Machine Creation</h3>
-<div class="outline-text-3" id="text-org2ba2505">
+<div id="outline-container-orga490d46" class="outline-3">
+<h3 id="orga490d46">Machine Creation</h3>
+<div class="outline-text-3" id="text-orga490d46">
 <p>Machine Creation Flow:
 </p>
 <ul class="org-ul">
@@ -232,9 +232,9 @@ stateDiagram-v2
 </pre>
 </div>
 </div>
-<div id="outline-container-org29cc4cb" class="outline-3">
-<h3 id="org29cc4cb">Health Check</h3>
-<div class="outline-text-3" id="text-org29cc4cb">
+<div id="outline-container-org2cb4113" class="outline-3">
+<h3 id="org2cb4113">Health Check</h3>
+<div class="outline-text-3" id="text-org2cb4113">
 <pre class="mermaid">
 ---
   config:
@@ -288,9 +288,9 @@ stateDiagram-v2
 </pre>
 </div>
 </div>
-<div id="outline-container-org3bc07d3" class="outline-3">
-<h3 id="org3bc07d3">Machine Deletion</h3>
-<div class="outline-text-3" id="text-org3bc07d3">
+<div id="outline-container-org864b849" class="outline-3">
+<h3 id="org864b849">Machine Deletion</h3>
+<div class="outline-text-3" id="text-org864b849">
 <p>Machine Deletion Flow:
 </p>
 <ul class="org-ul">
@@ -597,9 +597,9 @@ stateDiagram-v2
 </div>
 </div>
 </div>
-<div id="outline-container-orged63c23" class="outline-2">
-<h2 id="orged63c23">Safety Controller</h2>
-<div class="outline-text-2" id="text-orged63c23">
+<div id="outline-container-orgc1e1c14" class="outline-2">
+<h2 id="orgc1e1c14">Safety Controller</h2>
+<div class="outline-text-2" id="text-orgc1e1c14">
 <ol class="org-ol">
 <li>Orphan VM Check:
 <ul class="org-ul">
@@ -685,9 +685,9 @@ stateDiagram-v2
 </pre>
 </div>
 </div>
-<div id="outline-container-org869fd60" class="outline-2">
-<h2 id="org869fd60">MachineSet Controller</h2>
-<div class="outline-text-2" id="text-org869fd60">
+<div id="outline-container-org57d558b" class="outline-2">
+<h2 id="org57d558b">MachineSet Controller</h2>
+<div class="outline-text-2" id="text-org57d558b">
 <ol class="org-ol">
 <li>Core Reconciliation:
 <ul class="org-ul">
@@ -786,9 +786,9 @@ stateDiagram-v2
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb5fdd64" class="outline-2">
-<h2 id="orgb5fdd64">MachineDeployment Controller</h2>
-<div class="outline-text-2" id="text-orgb5fdd64">
+<div id="outline-container-org79f4a3b" class="outline-2">
+<h2 id="org79f4a3b">MachineDeployment Controller</h2>
+<div class="outline-text-2" id="text-org79f4a3b">
 <p>Deployment Management:
 </p>
 <ul class="org-ul">
@@ -997,9 +997,9 @@ stateDiagram-v2
 </pre>
 </div>
 </div>
-<div id="outline-container-org0b76098" class="outline-2">
-<h2 id="org0b76098">Summary</h2>
-<div class="outline-text-2" id="text-org0b76098">
+<div id="outline-container-org28e8079" class="outline-2">
+<h2 id="org28e8079">Summary</h2>
+<div class="outline-text-2" id="text-org28e8079">
 <p>Each of these controllers implements sophisticated error handling and retry mechanisms:
 </p>
 <ol class="org-ol">
