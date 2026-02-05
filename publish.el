@@ -43,6 +43,15 @@ document.addEventListener('DOMContentLoaded', function() {
     </svg>
   </button>")
 
+(defvar rss-svg
+  "<a href='/rss.xml'>
+    <button id='rss-button' aria-label='Get RSS feed' type='button'>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='currentColor'>
+        <path d='M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z'></path>
+      </svg>
+    </button>
+  </a>")
+
 (setq org-export-with-toc 1
       org-html-htmlize-output-type nil
       org-html-doctype "html5"
@@ -57,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
                       (content "div" "content")
                       (postamble "footer" "postamble"))
       org-html-preamble-format
-      `(("en" ,(concat "<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a>"
-                       svg-toggle-button)))
+      `(("en" ,(concat "<a href='/'>bacchanalian madness</a>"
+                       rss-svg svg-toggle-button)))
       org-html-postamble t
       org-html-postamble-format
       '(("en" "&copy; %T . Made with %c."))
@@ -220,7 +229,75 @@ document.addEventListener('DOMContentLoaded', function() {
             (or lang "none")
             highlighted-code)))
 
-;; Override the default src-block export
 (advice-add 'org-html-src-block :override #'my/org-html-src-block)
 
-;; To remove: (advice-remove 'org-html-src-block #'my/org-html-src-block)
+;;; RSS: Sonnet
+(defun my/generate-rss-feed ()
+  "Generate RSS feed from all blog and notes posts."
+  (let* ((posts '())
+         (blog-dir (concat blog-base-dir "org/blog/"))
+         (notes-dir (concat blog-base-dir "org/notes/"))
+         (output-file (concat blog-base-dir "docs/rss.xml")))
+    
+    ;; Collect posts from blog and notes
+    (dolist (dir (list blog-dir notes-dir))
+      (when (file-directory-p dir)
+        (dolist (file (directory-files-recursively dir "\\.org$"))
+          (unless (string-match-p "index\\.org$" file)
+            (push (list :file file
+                       :date (nth 5 (file-attributes file))
+                       :rel-path (file-relative-name file (concat blog-base-dir "org/")))
+                  posts)))))
+    
+    ;; Sort by date
+    (setq posts (sort posts (lambda (a b)
+                              (time-less-p (plist-get b :date)
+                                          (plist-get a :date)))))
+    
+    ;; Generate RSS XML
+    (with-temp-file output-file
+      (insert "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+      (insert "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n")
+      (insert "  <channel>\n")
+      (insert "    <title>Bacchanalian Madness</title>\n")
+      (insert "    <link>https://brongulus.github.io/</link>\n")
+      (insert "    <description>Webpresence of Prashant Tak</description>\n")
+      (insert "    <atom:link href=\"https://brongulus.github.io/rss.xml\" rel=\"self\" type=\"application/rss+xml\" />\n")
+      
+      (dolist (post posts)
+        (let* ((file (plist-get post :file))
+               (date (plist-get post :date))
+               (rel-path (plist-get post :rel-path))
+               (html-path (concat "/" (file-name-sans-extension rel-path) ".html"))
+               (title (my/extract-title file)))
+          (insert "    <item>\n")
+          (insert (format "      <title>%s</title>\n" (my/xml-escape title)))
+          (insert (format "      <link>https://brongulus.github.io%s</link>\n" html-path))
+          (insert (format "      <guid>https://brongulus.github.io%s</guid>\n" html-path))
+          (insert (format "      <pubDate>%s</pubDate>\n" 
+                         (format-time-string "%a, %d %b %Y %H:%M:%S %z" date)))
+          (insert "    </item>\n")))
+      
+      (insert "  </channel>\n")
+      (insert "</rss>\n"))))
+
+(defun my/extract-title (file)
+  "Extract title from org FILE."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (goto-char (point-min))
+    (if (re-search-forward "^#\\+TITLE: *\\(.+\\)$" nil t)
+        (match-string 1)
+      (file-name-base file))))
+
+(defun my/xml-escape (str)
+  "Escape special XML characters in STR."
+  (setq str (replace-regexp-in-string "&" "&amp;" str))
+  (setq str (replace-regexp-in-string "<" "&lt;" str))
+  (setq str (replace-regexp-in-string ">" "&gt;" str))
+  (setq str (replace-regexp-in-string "\"" "&quot;" str))
+  (setq str (replace-regexp-in-string "'" "&apos;" str))
+  str)
+
+;; Call this after publishing
+;; (my/generate-rss-feed)

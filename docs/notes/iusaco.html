@@ -28,7 +28,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <body>
 <div id="nav" class="status">
-<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
+<a href='/'>bacchanalian madness</a><a href='/rss.xml'>
+    <button id='rss-button' aria-label='Get RSS feed' type='button'>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='currentColor'>
+        <path d='M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z'></path>
+      </svg>
+    </button>
+  </a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
     <svg id='moon-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'>
       <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
     </svg>
@@ -44,19 +50,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf872327">Input and Output</a></li>
-<li><a href="#orgb3d8821">Complexity and algorithm analysis</a></li>
-<li><a href="#org14761d7">Built-in Data Structures</a></li>
-<li><a href="#orged619d8">Elementary Techniques</a></li>
-<li><a href="#org28c631f">Graph Theory</a></li>
-<li><a href="#org1a1403e">More Techniques</a></li>
-<li><a href="#orgfd31873">Additional Topics</a></li>
+<li><a href="#org4f9bde5">Input and Output</a></li>
+<li><a href="#org0051c99">Complexity and algorithm analysis</a></li>
+<li><a href="#org713262e">Built-in Data Structures</a></li>
+<li><a href="#org50e1b4a">Elementary Techniques</a></li>
+<li><a href="#org4c55acc">Graph Theory</a></li>
+<li><a href="#orgd98a175">More Techniques</a></li>
+<li><a href="#org958187a">Additional Topics</a></li>
 </ul>
 </div>
 </nav>
-<div id="outline-container-orgf872327" class="outline-2">
-<h2 id="orgf872327">Input and Output</h2>
-<div class="outline-text-2" id="text-orgf872327">
+<div id="outline-container-org4f9bde5" class="outline-2">
+<h2 id="org4f9bde5">Input and Output</h2>
+<div class="outline-text-2" id="text-org4f9bde5">
 <pre class="src src-c++"><code><span class="font-lock-preprocessor-face">  #include</span> <span class="font-lock-string-face">&lt;cstdio&gt;</span>
   <span class="font-lock-keyword-face">using</span> <span class="font-lock-keyword-face">namespace</span> <span class="font-lock-constant-face">std</span>;
   <span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>() {
@@ -69,9 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb3d8821" class="outline-2">
-<h2 id="orgb3d8821">Complexity and algorithm analysis</h2>
-<div class="outline-text-2" id="text-orgb3d8821">
+<div id="outline-container-org0051c99" class="outline-2">
+<h2 id="org0051c99">Complexity and algorithm analysis</h2>
+<div class="outline-text-2" id="text-org0051c99">
 <ul class="org-ul">
 <li>Elementary mathematical calculation: O(1)</li>
 <li>Unordered set/map: O(1) per operation</li>
@@ -87,15 +93,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </div>
 </div>
-<div id="outline-container-org14761d7" class="outline-2">
-<h2 id="org14761d7">Built-in Data Structures</h2>
-<div class="outline-text-2" id="text-org14761d7">
+<div id="outline-container-org713262e" class="outline-2">
+<h2 id="org713262e">Built-in Data Structures</h2>
+<div class="outline-text-2" id="text-org713262e">
 <p>Data Structure determines how data is stored, each supports some operations efficiently. In following discussion, desired data type is put between <code>&lt;&gt;</code>. Most std structures support <code>size()</code> and <code>empty()</code> methods.
 </p>
 </div>
-<div id="outline-container-org1dc1405" class="outline-3">
-<h3 id="org1dc1405">Iterators</h3>
-<div class="outline-text-3" id="text-org1dc1405">
+<div id="outline-container-org02b6aa8" class="outline-3">
+<h3 id="org02b6aa8">Iterators</h3>
+<div class="outline-text-3" id="text-org02b6aa8">
 <p>Allows for traversal of a container with the help of a pointer.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">for</span> (<span class="font-lock-constant-face">vector</span>&lt;<span class="font-lock-type-face">int</span>&gt;::<span class="font-lock-type-face">iterator</span> <span class="font-lock-variable-name-face">it</span> = myvector.begin(); it != myvector.end(); ++it) {
@@ -109,9 +115,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </span>}</code></pre>
 </div>
 </div>
-<div id="outline-container-org39f380b" class="outline-3">
-<h3 id="org39f380b">Dynamic Arrays</h3>
-<div class="outline-text-3" id="text-org39f380b">
+<div id="outline-container-org70adf05" class="outline-3">
+<h3 id="org70adf05">Dynamic Arrays</h3>
+<div class="outline-text-3" id="text-org70adf05">
 <p>Addition and deletion at the end in O(1) time and in the middle in O(n) time.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">vector</span>&lt;<span class="font-lock-type-face">int</span>&gt; <span class="font-lock-variable-name-face">v</span>;
@@ -123,9 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </p>
 </div>
 </div>
-<div id="outline-container-org736aaf9" class="outline-3">
-<h3 id="org736aaf9">Stacks and Queues</h3>
-<div class="outline-text-3" id="text-org736aaf9">
+<div id="outline-container-orgcb57743" class="outline-3">
+<h3 id="orgcb57743">Stacks and Queues</h3>
+<div class="outline-text-3" id="text-orgcb57743">
 <p><b>Stacks</b>: LIFO with operations <code>push</code> (add at end), <code>pop</code> (remove at end) and <code>top</code> (show end) all of which are O(1). Declared as <code>stack&lt;int&gt; s</code>.
 </p>
 
@@ -139,9 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </p>
 </div>
 </div>
-<div id="outline-container-org1373190" class="outline-3">
-<h3 id="org1373190">Sets</h3>
-<div class="outline-text-3" id="text-org1373190">
+<div id="outline-container-org77e5ae0" class="outline-3">
+<h3 id="org77e5ae0">Sets</h3>
+<div class="outline-text-3" id="text-org77e5ae0">
 <p>A <i>set</i> is a collection of objects having no duplicates.
 </p>
 
@@ -159,9 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </p>
 </div>
 </div>
-<div id="outline-container-org6940295" class="outline-3">
-<h3 id="org6940295">Maps</h3>
-<div class="outline-text-3" id="text-org6940295">
+<div id="outline-container-org3477bc0" class="outline-3">
+<h3 id="org3477bc0">Maps</h3>
+<div class="outline-text-3" id="text-org3477bc0">
 <p>A <i>map</i> is a set of <i>ordered pairs</i> called key and value where keys must be unique but values can be repeated. Supported operations are addition and removal of key-value pair and <i>retrieval</i> of values for a given key. Unordered maps perform aforementioned methods in O(1) whereas for ordered maps it's O(log n), sorted in order of key.
 </p>
 
@@ -181,20 +187,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
-<div id="outline-container-orged619d8" class="outline-2">
-<h2 id="orged619d8">Elementary Techniques</h2>
-<div class="outline-text-2" id="text-orged619d8">
+<div id="outline-container-org50e1b4a" class="outline-2">
+<h2 id="org50e1b4a">Elementary Techniques</h2>
+<div class="outline-text-2" id="text-org50e1b4a">
 </div>
-<div id="outline-container-org5a18513" class="outline-3">
-<h3 id="org5a18513">Simulation</h3>
-<div class="outline-text-3" id="text-org5a18513">
+<div id="outline-container-org408cb08" class="outline-3">
+<h3 id="org408cb08">Simulation</h3>
+<div class="outline-text-3" id="text-org408cb08">
 <p>Simulation refers to the act of doing precisely what the problem statement states and nothing else; essentially simulating it.
 </p>
 </div>
 </div>
-<div id="outline-container-org84428e3" class="outline-3">
-<h3 id="org84428e3">Complete Search</h3>
-<div class="outline-text-3" id="text-org84428e3">
+<div id="outline-container-orge9f830e" class="outline-3">
+<h3 id="orge9f830e">Complete Search</h3>
+<div class="outline-text-3" id="text-orge9f830e">
 <p>Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">do</span> {
@@ -202,16 +208,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </span>} <span class="font-lock-keyword-face">while</span>(next_permutation(v.begin(), v.end()));</code></pre>
 </div>
 </div>
-<div id="outline-container-org1e4589d" class="outline-3">
-<h3 id="org1e4589d">Sorting and Comparators</h3>
-<div class="outline-text-3" id="text-org1e4589d">
+<div id="outline-container-org59525c8" class="outline-3">
+<h3 id="org59525c8">Sorting and Comparators</h3>
+<div class="outline-text-3" id="text-org59525c8">
 <p>C++ has built-in function for sorting in ascending order: <code>std::sort(arr, arr+N)</code> or for a vector <code>sort(v.begin(), v.end())</code>. For sorting in a self-defined order, one must use a custom comparator.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc580247" class="outline-3">
-<h3 id="orgc580247">Greedy Algorithms</h3>
-<div class="outline-text-3" id="text-orgc580247">
+<div id="outline-container-orge08027f" class="outline-3">
+<h3 id="orge08027f">Greedy Algorithms</h3>
+<div class="outline-text-3" id="text-orge08027f">
 <p>Algorithms that select the most optimal choice at each step, instead of looking at the solution space as a whole. Usually in a greedy algorithm, there is a heuristic or value function that determines which choice is considered most optimal. The choice of the greedy algorithm matters too, for example in a scheduling problem choosing earliest starting next event would be incorrect, instead one should go for earliest ending next event because that would give one more choices for future events.
 </p>
 
@@ -220,19 +226,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
-<div id="outline-container-org28c631f" class="outline-2">
-<h2 id="org28c631f">Graph Theory</h2>
-<div class="outline-text-2" id="text-org28c631f">
+<div id="outline-container-org4c55acc" class="outline-2">
+<h2 id="org4c55acc">Graph Theory</h2>
+<div class="outline-text-2" id="text-org4c55acc">
 </div>
-<div id="outline-container-org8573bf3" class="outline-3">
-<h3 id="org8573bf3">Representation</h3>
-<div class="outline-text-3" id="text-org8573bf3">
+<div id="outline-container-org9350a40" class="outline-3">
+<h3 id="org9350a40">Representation</h3>
+<div class="outline-text-3" id="text-org9350a40">
 <p>Graphs (N vertices and M edges) are usually given in the format: <code>N</code> <code>M</code> followed by the <code>M edges</code> each showing the connecting vertices. One thing to note is that a graph should be stored globally and statically, for access outside the main method. A graph can be represented in three ways:
 </p>
 </div>
-<div id="outline-container-orgafc1ab2" class="outline-4">
-<h4 id="orgafc1ab2">Adjacency List</h4>
-<div class="outline-text-4" id="text-orgafc1ab2">
+<div id="outline-container-org13a377f" class="outline-4">
+<h4 id="org13a377f">Adjacency List</h4>
+<div class="outline-text-4" id="text-org13a377f">
 <p>For using DFS, BFS, Dijkstra or other <code>single-source</code> traversal algorithms, it's the preferred way of storing graphs. In it, an array of length N of lists is maintained.
 <img src="/assets/usaco-adj.png" alt="usaco-adj.png">
 They take up <code>O(M+N)</code> space but allow for easy traversal among the neighbors of a vertex. Often, there's a need to maintain a <code>visited</code> array.
@@ -263,9 +269,9 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
   }</code></pre>
 </div>
 </div>
-<div id="outline-container-org6102145" class="outline-4">
-<h4 id="org6102145">Adjacency Matrix</h4>
-<div class="outline-text-4" id="text-org6102145">
+<div id="outline-container-orgb4ef477" class="outline-4">
+<h4 id="orgb4ef477">Adjacency Matrix</h4>
+<div class="outline-text-4" id="text-orgb4ef477">
 <p>This is an <code>N x N</code> 2D array that stores for each pair of indices(a,b) whether an edge exists between them or not. Primarily used for Floyd-Warshall Algorithm.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">n</span>, <span class="font-lock-variable-name-face">m</span>;
@@ -283,9 +289,9 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 }</code></pre>
 </div>
 </div>
-<div id="outline-container-orgfe0ed34" class="outline-4">
-<h4 id="orgfe0ed34">Edge List</h4>
-<div class="outline-text-4" id="text-orgfe0ed34">
+<div id="outline-container-orgb49f5f3" class="outline-4">
+<h4 id="orgb49f5f3">Edge List</h4>
+<div class="outline-text-4" id="text-orgb49f5f3">
 <p>Usually used for weighted undirected graphs when sorting the edges by weight is needed (DSU). Its simply a single list of all edges <code>(a, b, w)</code> where a and b are the vertices and w is the weight of connecting edge. Each edge is added only oncce.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">Edge</span>{
@@ -316,13 +322,13 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 </div>
 </div>
 </div>
-<div id="outline-container-org4ded73c" class="outline-3">
-<h3 id="org4ded73c">Traversal</h3>
-<div class="outline-text-3" id="text-org4ded73c">
+<div id="outline-container-orga5b9963" class="outline-3">
+<h3 id="orga5b9963">Traversal</h3>
+<div class="outline-text-3" id="text-orga5b9963">
 </div>
-<div id="outline-container-org47c965a" class="outline-4">
-<h4 id="org47c965a">Breadth-First Search (BFS)</h4>
-<div class="outline-text-4" id="text-org47c965a">
+<div id="outline-container-org269ae60" class="outline-4">
+<h4 id="org269ae60">Breadth-First Search (BFS)</h4>
+<div class="outline-text-4" id="text-org269ae60">
 <p>Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">bfs</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">start</span>){
@@ -348,9 +354,9 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 </p>
 </div>
 </div>
-<div id="outline-container-orgd6e004d" class="outline-4">
-<h4 id="orgd6e004d">Depth-First Search (DFS)</h4>
-<div class="outline-text-4" id="text-orgd6e004d">
+<div id="outline-container-org72567ca" class="outline-4">
+<h4 id="org72567ca">Depth-First Search (DFS)</h4>
+<div class="outline-text-4" id="text-org72567ca">
 <p>Continues down a single path as far as possible until it has no more vertices to visit along that path, then backtracks and finds more vertices to visit.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">dfs</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">node</span>){
@@ -366,9 +372,9 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 </div>
 </div>
 </div>
-<div id="outline-container-org33f7813" class="outline-3">
-<h3 id="org33f7813">Floodfill</h3>
-<div class="outline-text-3" id="text-org33f7813">
+<div id="outline-container-org0f4dd7a" class="outline-3">
+<h3 id="org0f4dd7a">Floodfill</h3>
+<div class="outline-text-3" id="text-org0f4dd7a">
 <p>Its DFS but on a grid and the aim is to find the connected component of all the connected cells with the same number. As opposed to an explicit graph where the edges are given, a grid is an implicit graph where the neighbours are nodes adjacent in the four directions.
 </p>
 
@@ -408,9 +414,9 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 }</code></pre>
 </div>
 </div>
-<div id="outline-container-org4b505fa" class="outline-3">
-<h3 id="org4b505fa">Disjoint-Set Union Data Structure</h3>
-<div class="outline-text-3" id="text-org4b505fa">
+<div id="outline-container-orgc78d4cf" class="outline-3">
+<h3 id="orgc78d4cf">Disjoint-Set Union Data Structure</h3>
+<div class="outline-text-3" id="text-orgc78d4cf">
 <p>It supports two operations:
 </p>
 <ul class="org-ul">
@@ -449,9 +455,9 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 }</code></pre>
 </div>
 </div>
-<div id="outline-container-orgd15e567" class="outline-3">
-<h3 id="orgd15e567">Miscellaneous</h3>
-<div class="outline-text-3" id="text-orgd15e567">
+<div id="outline-container-orge1d7fdb" class="outline-3">
+<h3 id="orge1d7fdb">Miscellaneous</h3>
+<div class="outline-text-3" id="text-orge1d7fdb">
 <ul class="org-ul">
 <li>DAGs (Directed Acyclic graphs) by virtue of not having any cycles allows them to have an ordering of nodes such that for any edge from <i>u</i> to <i>v</i>, <i>u</i> appears before <i>v</i> (topological sorting).</li>
 <li>Bipartite graph is such that each node can only be colored by 2 colors such that no adjacent nodes share the same colour. A graph is bipartite iff there are no cycles of odd length. A modified BFS can be use to check whether a graph is bipartite or not.</li>
@@ -459,13 +465,13 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 </div>
 </div>
 </div>
-<div id="outline-container-org1a1403e" class="outline-2">
-<h2 id="org1a1403e">More Techniques</h2>
-<div class="outline-text-2" id="text-org1a1403e">
+<div id="outline-container-orgd98a175" class="outline-2">
+<h2 id="orgd98a175">More Techniques</h2>
+<div class="outline-text-2" id="text-orgd98a175">
 </div>
-<div id="outline-container-org5678877" class="outline-3">
-<h3 id="org5678877">Prefix Sums</h3>
-<div class="outline-text-3" id="text-org5678877">
+<div id="outline-container-org5ec29ce" class="outline-3">
+<h3 id="org5ec29ce">Prefix Sums</h3>
+<div class="outline-text-3" id="text-org5ec29ce">
 <p>To process queries to find the sum of elements between two indices in a list, prefix sum is useful. Using 1-index in the array is beneficial i.e. assigning <code>arr[0] = 0</code> and hence <code>prefix[0] = 0</code>.
 </p>
 
@@ -475,19 +481,19 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <p>For processing Q queries consisting on an array of N elements, the complexity is <code>O(N+Q)</code>.
 </p>
 
-<div class="note" id="orgc2219a8">
+<div class="note" id="orgf04da2a">
 <p>TODO: DP, 2D prefix sum as 1-D only
 </p>
 
 </div>
 </div>
 </div>
-<div id="outline-container-org27febd1" class="outline-3">
-<h3 id="org27febd1">Binary Search</h3>
+<div id="outline-container-org2c86c42" class="outline-3">
+<h3 id="org2c86c42">Binary Search</h3>
 </div>
-<div id="outline-container-org33f603a" class="outline-3">
-<h3 id="org33f603a">Basic Number Theory</h3>
-<div class="outline-text-3" id="text-org33f603a">
+<div id="outline-container-orgca5125d" class="outline-3">
+<h3 id="orgca5125d">Basic Number Theory</h3>
+<div class="outline-text-3" id="text-orgca5125d">
 <p>Prime factorization of a number is computed by this algorithm in \(O(\sqrt{n})\):
 <img src="/assets/usaco-pf.png" alt="usaco-pf.png">
 </p>
@@ -567,22 +573,22 @@ a^{b}\mod m &= (a\mod m)^{b}\mod m
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd31873" class="outline-2">
-<h2 id="orgfd31873">Additional Topics</h2>
-<div class="outline-text-2" id="text-orgfd31873">
+<div id="outline-container-org958187a" class="outline-2">
+<h2 id="org958187a">Additional Topics</h2>
+<div class="outline-text-2" id="text-org958187a">
 <ul class="org-ul">
 <li>Two Pointers <br>
 Iterate across an array that track the start and end of an interval or values in a sorted array. Both pointers are monotonic i.e. start at one end of array and move in only one direction.</li>
 </ul>
 </div>
-<div id="outline-container-org2e30ad7" class="outline-3">
-<h3 id="org2e30ad7">Line Sweep</h3>
+<div id="outline-container-orga2ec1e2" class="outline-3">
+<h3 id="orga2ec1e2">Line Sweep</h3>
 </div>
-<div id="outline-container-org278d8b6" class="outline-3">
-<h3 id="org278d8b6">Bitwise Operations</h3>
+<div id="outline-container-orgf49ad49" class="outline-3">
+<h3 id="orgf49ad49">Bitwise Operations</h3>
 </div>
-<div id="outline-container-org011b670" class="outline-3">
-<h3 id="org011b670">Ad-hoc</h3>
+<div id="outline-container-org945e912" class="outline-3">
+<h3 id="org945e912">Ad-hoc</h3>
 </div>
 </div>
 </div>

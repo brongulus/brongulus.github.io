@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bacchanalian Madness</title>
+    <link>https://brongulus.github.io/</link>
+    <description>Webpresence of Prashant Tak</description>
+    <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2 Fast 2 MCM</title>
+      <link>https://brongulus.github.io/notes/2fast2mcm.html</link>
+      <guid>https://brongulus.github.io/notes/2fast2mcm.html</guid>
+      <pubDate>Thu, 05 Feb 2026 14:54:04 +0530</pubDate>
+    </item>
+    <item>
+      <title>MCM</title>
+      <link>https://brongulus.github.io/notes/mcm.html</link>
+      <guid>https://brongulus.github.io/notes/mcm.html</guid>
+      <pubDate>Thu, 05 Feb 2026 14:53:58 +0530</pubDate>
+    </item>
+    <item>
+      <title>Docker Kubernetes Notes</title>
+      <link>https://brongulus.github.io/notes/k8s.html</link>
+      <guid>https://brongulus.github.io/notes/k8s.html</guid>
+      <pubDate>Wed, 04 Feb 2026 23:36:16 +0530</pubDate>
+    </item>
+    <item>
+      <title>I R SSI</title>
+      <link>https://brongulus.github.io/blog/irc.html</link>
+      <guid>https://brongulus.github.io/blog/irc.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>Morphosyntactic Tagging with BiLSTM Model</title>
+      <link>https://brongulus.github.io/blog/nnfl-paper.html</link>
+      <guid>https://brongulus.github.io/blog/nnfl-paper.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>The Subject of no one&apos;s affection</title>
+      <link>https://brongulus.github.io/blog/inertia.html</link>
+      <guid>https://brongulus.github.io/blog/inertia.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>Notes from Underground</title>
+      <link>https://brongulus.github.io/notes/notes-from-underground.html</link>
+      <guid>https://brongulus.github.io/notes/notes-from-underground.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>Meditations</title>
+      <link>https://brongulus.github.io/notes/meditations.html</link>
+      <guid>https://brongulus.github.io/notes/meditations.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>Elements of computing systems</title>
+      <link>https://brongulus.github.io/notes/ecs.html</link>
+      <guid>https://brongulus.github.io/notes/ecs.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>IUSACO</title>
+      <link>https://brongulus.github.io/notes/iusaco.html</link>
+      <guid>https://brongulus.github.io/notes/iusaco.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>Hangul</title>
+      <link>https://brongulus.github.io/notes/hangul.html</link>
+      <guid>https://brongulus.github.io/notes/hangul.html</guid>
+      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
+    </item>
+    <item>
+      <title>OSTEP - Book Club</title>
+      <link>https://brongulus.github.io/notes/ostep.html</link>
+      <guid>https://brongulus.github.io/notes/ostep.html</guid>
+      <pubDate>Tue, 03 Feb 2026 02:15:56 +0530</pubDate>
+    </item>
+    <item>
+      <title>Stop Musturbating</title>
+      <link>https://brongulus.github.io/blog/musturbating.html</link>
+      <guid>https://brongulus.github.io/blog/musturbating.html</guid>
+      <pubDate>Mon, 02 Feb 2026 23:31:59 +0530</pubDate>
+    </item>
+    <item>
+      <title>Every Second Counts</title>
+      <link>https://brongulus.github.io/blog/self-hate.html</link>
+      <guid>https://brongulus.github.io/blog/self-hate.html</guid>
+      <pubDate>Mon, 02 Feb 2026 22:59:46 +0530</pubDate>
+    </item>
+  </channel>
+</rss>
