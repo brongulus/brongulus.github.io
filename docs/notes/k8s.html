@@ -33,15 +33,15 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgccc4144">Docker</a></li>
+<li><a href="#orgfb5ec83">Docker</a></li>
 <li><a href="#h:06603D16-4A5E-4AC0-8A9C-8C7F5EE20433">Kubernetes</a></li>
-<li><a href="#orgaadfdf1">Helm</a></li>
+<li><a href="#org331177e">Helm</a></li>
 </ul>
 </div>
 </nav>
-<div id="outline-container-orgccc4144" class="outline-2">
-<h2 id="orgccc4144">Docker</h2>
-<div class="outline-text-2" id="text-orgccc4144">
+<div id="outline-container-orgfb5ec83" class="outline-2">
+<h2 id="orgfb5ec83">Docker</h2>
+<div class="outline-text-2" id="text-orgfb5ec83">
 <p>A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. The Linux kernel does not know about containers at all – for it, containers are nothing more than just regular processes running on the system. It however offers several features that Docker and other container engines leverage to achieve an almost complete isolation of processes from each other. Some of them being
 </p>
 <ul class="org-ul">
@@ -76,9 +76,9 @@
 <p>Kubernetes is just a container orchestrator. The central part remains our image, which contains the application we want to run. In the end Kubernetes runs lots and lots of containers – however in a smart way.
 </p>
 </div>
-<div id="outline-container-org994ebc2" class="outline-3">
-<h3 id="org994ebc2">Building blocks</h3>
-<div class="outline-text-3" id="text-org994ebc2">
+<div id="outline-container-org3874dab" class="outline-3">
+<h3 id="org3874dab">Building blocks</h3>
+<div class="outline-text-3" id="text-org3874dab">
 <p>Kubernetes doesn’t allow you to schedule individual containers, it wraps the container into something called a <i>pod</i> – which can be considered as a logical host with one or more containers that share storage and network resources. Put another way, a Kubernetes Pod is a set of containers that perform an interrelated function and that operate as part of the same workload.
 </p>
 
@@ -112,7 +112,7 @@
 <li>Role Bindings: assign roles to service accounts /technical users (<a href="https://sysdig.com/learn-cloud-native/kubernetes-rbac-explained/">rbac explained</a>)</li>
 </ul>
 
-<p>Reconciliation consists of three stages - "Observe, Analyze, Act"
+<p>Reconciliation consists of three stages - &ldquo;Observe, Analyze, Act&rdquo;
 </p>
 <ol class="org-ol">
 <li>Observe: Control loop watches API for changes</li>
@@ -125,10 +125,10 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgdf19858" class="outline-3">
-<h3 id="orgdf19858">Communication</h3>
-<div class="outline-text-3" id="text-orgdf19858">
-<p>Communication between pods requires something called as a "service", it's not sensible to rely on IP addresses for pods are they can change if a pod dies/restarts. Services act as a reliable and stable endpoint that provides cluster-internal and external connectivity. Services determine their managed pods by labels and corresponding selectors. Kubernetes also offers a way to name any port on a container/service level which can then be used as a reference even if the port value changes over time without impacting the application. (<a href="https://sysdig.com/learn-cloud-native/what-is-kubernetes-networking/">k8s networking</a>)
+<div id="outline-container-org3cbf6ae" class="outline-3">
+<h3 id="org3cbf6ae">Communication</h3>
+<div class="outline-text-3" id="text-org3cbf6ae">
+<p>Communication between pods requires something called as a &ldquo;service&rdquo;, it&rsquo;s not sensible to rely on IP addresses for pods are they can change if a pod dies/restarts. Services act as a reliable and stable endpoint that provides cluster-internal and external connectivity. Services determine their managed pods by labels and corresponding selectors. Kubernetes also offers a way to name any port on a container/service level which can then be used as a reference even if the port value changes over time without impacting the application. (<a href="https://sysdig.com/learn-cloud-native/what-is-kubernetes-networking/">k8s networking</a>)
 </p>
 
 <p>To expose a service to the outside world (outside of cluster scoped DNS/IP range), we can use NodePorts or LoadBalancer. The types of services available are:
@@ -142,7 +142,7 @@
 <p>Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx. Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.
 </p>
 
-<p>The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services' perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.
+<p>The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services&rsquo; perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.
 </p>
 
 <p><a href="https://kubernetes.io/docs/concepts/services-networking/ingress/#types-of-ingress">Types of ingress</a>:
@@ -189,10 +189,10 @@
 </ol>
 </div>
 </div>
-<div id="outline-container-orgfac30b7" class="outline-3">
-<h3 id="orgfac30b7">Persistence</h3>
-<div class="outline-text-3" id="text-orgfac30b7">
-<p>Pods can die/restart unexpectedly and lose all the data that's local to them, to solve the problem of persistence kubernetes offers PV/PVCs. A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator having a lifecycle independent of the pods using the PV. A PersistentVolumeClaim (PVC) is a request for a storage by a user.
+<div id="outline-container-orgd9193fc" class="outline-3">
+<h3 id="orgd9193fc">Persistence</h3>
+<div class="outline-text-3" id="text-orgd9193fc">
+<p>Pods can die/restart unexpectedly and lose all the data that&rsquo;s local to them, to solve the problem of persistence kubernetes offers PV/PVCs. A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator having a lifecycle independent of the pods using the PV. A PersistentVolumeClaim (PVC) is a request for a storage by a user.
 </p>
 
 <p>Claims can request specific sizes and access modes and claims bind pod storage to PVs. PV size must match or exceed PVC requested size. Due to the PV-PVC bind mechanism, it might happen that storage is claimed by the “wrong” requests. <i>Storage classes</i> overcome this issue of manually provisioning PV by reversing the order. Firstly create a PVC and the storage class provides a fitting PV.
@@ -206,20 +206,20 @@
 <li>PV is backed by a physical volume, which is made available via the container storage interface.</li>
 </ol>
 
-<p>Upon deletion of the claim object, PV becomes "unbound", then it can either be retained, deleted or recycled (deprecated). The access modes a PVC can specify are <code>RWO</code> (ReadWriteOnce) where a single node can mount a PVC at a time but if multiple pods are running on the same node they can all access it for restricting that to a single Pod use <code>RWOP</code> (ReadWriteOncePod). There's also <code>ROX</code> (ReadOnlyMany) and <code>RWX</code> (ReadWriteMany) where the volumes can be mounted as specified by many nodes.
+<p>Upon deletion of the claim object, PV becomes &ldquo;unbound&rdquo;, then it can either be retained, deleted or recycled (deprecated). The access modes a PVC can specify are <code>RWO</code> (ReadWriteOnce) where a single node can mount a PVC at a time but if multiple pods are running on the same node they can all access it for restricting that to a single Pod use <code>RWOP</code> (ReadWriteOncePod). There&rsquo;s also <code>ROX</code> (ReadOnlyMany) and <code>RWX</code> (ReadWriteMany) where the volumes can be mounted as specified by many nodes.
 </p>
 </div>
 </div>
-<div id="outline-container-org87edde0" class="outline-3">
-<h3 id="org87edde0">Additional Setup</h3>
-<div class="outline-text-3" id="text-org87edde0">
+<div id="outline-container-org9103495" class="outline-3">
+<h3 id="org9103495">Additional Setup</h3>
+<div class="outline-text-3" id="text-org9103495">
 <p>An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.
 </p>
 
 <p>Configmaps and <a href="https://sysdig.com/learn-cloud-native/how-to-create-and-use-kubernetes-secrets/">secrets</a> are based on key-value pairs. Allowed values are string or binary data. When using binary data, <code>base64 encoding</code> of the binary is mandatory. The contents of both can be project to environment variables of a container or mounted to the container file system via the volumes API.
 </p>
 
-<p>The secrets can be used like any other volume and bound to the pod. When mounted into the filesystem the content/values are decoded and available in plain text so it's advised to set proper file permissions for them. There are 3 different types of secrets:
+<p>The secrets can be used like any other volume and bound to the pod. When mounted into the filesystem the content/values are decoded and available in plain text so it&rsquo;s advised to set proper file permissions for them. There are 3 different types of secrets:
 </p>
 <ol class="org-ol">
 <li>generic: to store credentials like passwords. Include as env variables or mount files</li>
@@ -229,9 +229,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgaadfdf1" class="outline-2">
-<h2 id="orgaadfdf1">Helm</h2>
-<div class="outline-text-2" id="text-orgaadfdf1">
+<div id="outline-container-org331177e" class="outline-2">
+<h2 id="org331177e">Helm</h2>
+<div class="outline-text-2" id="text-org331177e">
 <p>Ref: <a href="https://sysdig.com/learn-cloud-native/what-is-helm-in-kubernetes/">What is helm</a>
 </p>
 </div>

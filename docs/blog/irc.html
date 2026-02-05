@@ -33,63 +33,63 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgcb1d86f">Why IRC?</a></li>
-<li><a href="#org862adff">Getting into it</a></li>
-<li><a href="#orgb6fb359">Layout/Statusbar</a></li>
-<li><a href="#org2ba7715">Scripts</a></li>
-<li><a href="#org8267247">XDCC</a></li>
-<li><a href="#orgf7303cf">Limitations</a></li>
-<li><a href="#org7443583">Further Reading</a></li>
+<li><a href="#orged358c9">Why IRC?</a></li>
+<li><a href="#org9c87174">Getting into it</a></li>
+<li><a href="#orgf63ac01">Layout/Statusbar</a></li>
+<li><a href="#org8357370">Scripts</a></li>
+<li><a href="#org3435f46">XDCC</a></li>
+<li><a href="#org2174fa9">Limitations</a></li>
+<li><a href="#orgfe226ff">Further Reading</a></li>
 </ul>
 </div>
 </nav>
 <style>body img { filter: none !important; mix-blend-mode: normal !important; }</style>
 
 
-<figure id="orgb23f03e">
+<figure id="orgcdb1191">
 <a href="https://xkcd.com/1782"><img src="https://imgs.xkcd.com/comics/team_chat.png" alt="team_chat.png"></a>
 
 </figure>
 
-<p>Umm. Guilty, though I've only been using it for two days, but I've been having a blast! So let's get into it.
+<p>Umm. Guilty, though I&rsquo;ve only been using it for two days, but I&rsquo;ve been having a blast! So let&rsquo;s get into it.
 </p>
 
-<div class="note" id="orgb89eace">
-<p>This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don't discuss all the aspects such as chat etiquette and other security related stuff for which I'd direct the readers to resources at the bottom.
+<div class="note" id="org7ba52e4">
+<p>This is intended for users who are familiar with chat systems like discord and wish to have a similar visual experience while working with IRC. I don&rsquo;t discuss all the aspects such as chat etiquette and other security related stuff for which I&rsquo;d direct the readers to resources at the bottom.
 </p>
 
 </div>
-<div id="outline-container-orgcb1d86f" class="outline-2">
-<h2 id="orgcb1d86f">Why IRC?</h2>
-<div class="outline-text-2" id="text-orgcb1d86f">
+<div id="outline-container-orged358c9" class="outline-2">
+<h2 id="orged358c9">Why IRC?</h2>
+<div class="outline-text-2" id="text-orged358c9">
 <p>In this modern age of numerous chat clients and networks with all their shiny bells and whistles and fancy embeds and numerous intergrations with various services, why should one use IRC?
 </p>
 
-<p>There's a reason why IRC is called the social network for neckbeards, it's the premier destination of folks who are actually technically-literate about the stuff that they're using and not just flaunting their latest <i>rice</i> or worrying about their choice of distribution. This is not to say that the new platforms don't have adept helpers rather that on IRC channels you can get support for very specific things. Another thing that I recently came across in my journey to various technical channels is that the people there are very willing and understanding when someone seeks help which was in stark contrast to communities on other platforms where people are actively called out for their lack of knowledge, there's a very <a href="https://blog.aurynn.com/2015/12/16-contempt-culture">prevalant culture</a> of superiority complex in modern technical communities which has been absent in IRC from my limited exposure and experience.
+<p>There&rsquo;s a reason why IRC is called the social network for neckbeards, it&rsquo;s the premier destination of folks who are actually technically-literate about the stuff that they&rsquo;re using and not just flaunting their latest <i>rice</i> or worrying about their choice of distribution. This is not to say that the new platforms don&rsquo;t have adept helpers rather that on IRC channels you can get support for very specific things. Another thing that I recently came across in my journey to various technical channels is that the people there are very willing and understanding when someone seeks help which was in stark contrast to communities on other platforms where people are actively called out for their lack of knowledge, there&rsquo;s a very <a href="https://blog.aurynn.com/2015/12/16-contempt-culture">prevalant culture</a> of superiority complex in modern technical communities which has been absent in IRC from my limited exposure and experience.
 </p>
 
-<p>Another big pull towards IRC for me has been the exclusive number of niche communities where it's the sole medium of communication for them, this allows you to get exposed to new factions of people! It's a great way to have conversations in plaintext without having to worry about people knowing who you really are, which is kinda neat and unique in its own way.
+<p>Another big pull towards IRC for me has been the exclusive number of niche communities where it&rsquo;s the sole medium of communication for them, this allows you to get exposed to new factions of people! It&rsquo;s a great way to have conversations in plaintext without having to worry about people knowing who you really are, which is kinda neat and unique in its own way.
 </p>
 </div>
 </div>
-<div id="outline-container-org862adff" class="outline-2">
-<h2 id="org862adff">Getting into it</h2>
-<div class="outline-text-2" id="text-org862adff">
-<p>If you've used a modern chat platform like Slack or Discord, IRC's structured in a similar way (rather it was most likely the inspiration for these programs). Basically there are various <b>servers</b> that you can connect to, which have multiple <b>channels</b> that you can join. Unlike discord though where upon joining a server you automatically have access to all its channels, in IRC servers it's opt-in which makes sense considering some large servers have thousands of chatrooms.
+<div id="outline-container-org9c87174" class="outline-2">
+<h2 id="org9c87174">Getting into it</h2>
+<div class="outline-text-2" id="text-org9c87174">
+<p>If you&rsquo;ve used a modern chat platform like Slack or Discord, IRC&rsquo;s structured in a similar way (rather it was most likely the inspiration for these programs). Basically there are various <b>servers</b> that you can connect to, which have multiple <b>channels</b> that you can join. Unlike discord though where upon joining a server you automatically have access to all its channels, in IRC servers it&rsquo;s opt-in which makes sense considering some large servers have thousands of chatrooms.
 </p>
 
-<p>When you open an IRSSI for the first time, you're greeted with a barren window with an unfamiliar layout, don't worry later we'll see how to configure it to make it more convenient to use and similar to a new platform like discord. For now let's connect to our first server.
+<p>When you open an IRSSI for the first time, you&rsquo;re greeted with a barren window with an unfamiliar layout, don&rsquo;t worry later we&rsquo;ll see how to configure it to make it more convenient to use and similar to a new platform like discord. For now let&rsquo;s connect to our first server.
 </p>
 
 <pre class="src src-sh"><code>/set nick &lt;nick&gt;
 /server connect irc.libera.chat</code></pre>
 
-<p>After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the <code>/list</code> command but for large channels such as <code>libera</code> or <code>rizon</code> that's not really a good idea. So for discovering channels, one can either <a href="https://libera.chat/guides/findingchannels">filter</a> through the various list options or go to <a href="https://netsplit.de/channels/">netsplit</a>. After choosing a channel for a server you're connected to, you can join it and chat. Also, chat can be scrolled via <code>fn+arrow</code> keys.
+<p>After connecting to the server you can then join a channel of choice, but how would one know what all channels are there for a server, well for small servers you could use the <code>/list</code> command but for large channels such as <code>libera</code> or <code>rizon</code> that&rsquo;s not really a good idea. So for discovering channels, one can either <a href="https://libera.chat/guides/findingchannels">filter</a> through the various list options or go to <a href="https://netsplit.de/channels/">netsplit</a>. After choosing a channel for a server you&rsquo;re connected to, you can join it and chat. Also, chat can be scrolled via <code>fn+arrow</code> keys.
 </p>
 
 <pre class="src src-sh"><code>/join gentoo</code></pre>
 
-<p>But there's a catch, once you close irssi, you'll realize that you'll have to go through the entire process again so to autoconnect to various servers and channels you can either edit your <code>~/.irssi/config</code> file or do it right from the client. There's also another annoyance, there are automated messages for whenever people join or leave channels so ignoring these provides for a cleaner chat experience.
+<p>But there&rsquo;s a catch, once you close irssi, you&rsquo;ll realize that you&rsquo;ll have to go through the entire process again so to autoconnect to various servers and channels you can either edit your <code>~/.irssi/config</code> file or do it right from the client. There&rsquo;s also another annoyance, there are automated messages for whenever people join or leave channels so ignoring these provides for a cleaner chat experience.
 </p>
 
 <pre class="src src-sh"><code>/server add -auto -network Libera irc.libera.chat 6697
@@ -107,35 +107,35 @@
 </span># /IGNCH #gentoo</code></pre>
 </div>
 </div>
-<div id="outline-container-orgb6fb359" class="outline-2">
-<h2 id="orgb6fb359">Layout/Statusbar</h2>
-<div class="outline-text-2" id="text-orgb6fb359">
+<div id="outline-container-orgf63ac01" class="outline-2">
+<h2 id="orgf63ac01">Layout/Statusbar</h2>
+<div class="outline-text-2" id="text-orgf63ac01">
 
-<figure id="org7a414f6">
+<figure id="org922f5b2">
 <img src="/assets/irssi.png" alt="irssi.png">
 
 </figure>
 
-<p>There's a statusbar at the bottom which shows the current <code>nick/server/channel/active_channels</code>. There's a window on the left which shows all the joined servers and channels (courtesy of  <code>adv_windowlist</code>) and a window on the right which has list of all users (via <code>tmux-nicklist-portable</code>). To get this style of statusbar and colorscheme, I'm currently using a theme derived from the popular <a href="https://github.com/ronilaukkarinen/weed">weed</a> theme where I did minor modifications on statusbar and messagelist.
+<p>There&rsquo;s a statusbar at the bottom which shows the current <code>nick/server/channel/active_channels</code>. There&rsquo;s a window on the left which shows all the joined servers and channels (courtesy of  <code>adv_windowlist</code>) and a window on the right which has list of all users (via <code>tmux-nicklist-portable</code>). To get this style of statusbar and colorscheme, I&rsquo;m currently using a theme derived from the popular <a href="https://github.com/ronilaukkarinen/weed">weed</a> theme where I did minor modifications on statusbar and messagelist.
 </p>
 </div>
 </div>
-<div id="outline-container-org2ba7715" class="outline-2">
-<h2 id="org2ba7715">Scripts</h2>
-<div class="outline-text-2" id="text-org2ba7715">
-<p>If you've ever used emacs, you'll know how it being an elisp interpreter lends to it powers of on-the-fly changes and extensibility beyond any measure. IRSSI is similar in that manner, it allows for modifications via perl scripts. There's a central <a href="https://scripts.irssi.org/">scripts repository</a> but one can create their own scripts akin to emacs packages!
+<div id="outline-container-org8357370" class="outline-2">
+<h2 id="org8357370">Scripts</h2>
+<div class="outline-text-2" id="text-org8357370">
+<p>If you&rsquo;ve ever used emacs, you&rsquo;ll know how it being an elisp interpreter lends to it powers of on-the-fly changes and extensibility beyond any measure. IRSSI is similar in that manner, it allows for modifications via perl scripts. There&rsquo;s a central <a href="https://scripts.irssi.org/">scripts repository</a> but one can create their own scripts akin to emacs packages!
 </p>
 
-<div class="note" id="org3a1eb05">
-<p>In later iterations of this post, I'll add customization options for mentioned scripts.
+<div class="note" id="orgb985afc">
+<p>In later iterations of this post, I&rsquo;ll add customization options for mentioned scripts.
 </p>
 
 </div>
 
-<p>Here I'd like to mention some popular scripts which can easily improve both visual and functional experience while using irssi. These are
+<p>Here I&rsquo;d like to mention some popular scripts which can easily improve both visual and functional experience while using irssi. These are
 </p>
 <ol class="org-ol">
-<li><code>adv_windowlist</code> which provides a list of all connected servers and channel akin to discord's sidebar</li>
+<li><code>adv_windowlist</code> which provides a list of all connected servers and channel akin to discord&rsquo;s sidebar</li>
 <li><code>tmux-nicklist-portable</code> which adds a userlist for each channel on the right</li>
 <li><code>mouse</code> for adding mouse scroll support</li>
 <li><code>savecmdhist</code> which allows for a persistant history of commands</li>
@@ -144,19 +144,19 @@
 </ol>
 </div>
 </div>
-<div id="outline-container-org8267247" class="outline-2">
-<h2 id="org8267247">XDCC</h2>
-<div class="outline-text-2" id="text-org8267247">
+<div id="outline-container-org3435f46" class="outline-2">
+<h2 id="org3435f46">XDCC</h2>
+<div class="outline-text-2" id="text-org3435f46">
 <p>Some IRC channels also offer a way to share files via XDCC. It works by sending bots PMs with requests for a particular pack number which is a reference to the desired file.
 </p>
 
-<div class="note" id="org9d5af7a">
-<p>⚠ A word of caution, enabling automatic DCC is a very bad idea in general since it runs the risk of exposing your IP if the network doesn't have masking enabled so be wary of accepting files.
+<div class="note" id="org7aa3704">
+<p>⚠ A word of caution, enabling automatic DCC is a very bad idea in general since it runs the risk of exposing your IP if the network doesn&rsquo;t have masking enabled so be wary of accepting files.
 </p>
 
 </div>
 
-<p>After knowing the pack number and the related bot, one sends the request and to automatically accept requests from that bot once can enable whitelist it by enabling autget for it, if you don't wish to do that for each bot you can enable it globally but that is not advised.
+<p>After knowing the pack number and the related bot, one sends the request and to automatically accept requests from that bot once can enable whitelist it by enabling autget for it, if you don&rsquo;t wish to do that for each bot you can enable it globally but that is not advised.
 </p>
 
 <pre class="src src-sh"><code>/MSG &lt;BOT&gt; XDCC SEND &lt;PKNO&gt;
@@ -172,16 +172,16 @@
 </span>/set dcc_autoresume on</code></pre>
 </div>
 </div>
-<div id="outline-container-orgf7303cf" class="outline-2">
-<h2 id="orgf7303cf">Limitations</h2>
-<div class="outline-text-2" id="text-orgf7303cf">
-<p>There are some limitations with IRC there's no chat persistance unless you use a bouncer which I still have to dip my feet into, maybe that's something for a future post, we'll see.
+<div id="outline-container-org2174fa9" class="outline-2">
+<h2 id="org2174fa9">Limitations</h2>
+<div class="outline-text-2" id="text-org2174fa9">
+<p>There are some limitations with IRC there&rsquo;s no chat persistance unless you use a bouncer which I still have to dip my feet into, maybe that&rsquo;s something for a future post, we&rsquo;ll see.
 </p>
 </div>
 </div>
-<div id="outline-container-org7443583" class="outline-2">
-<h2 id="org7443583">Further Reading</h2>
-<div class="outline-text-2" id="text-org7443583">
+<div id="outline-container-orgfe226ff" class="outline-2">
+<h2 id="orgfe226ff">Further Reading</h2>
+<div class="outline-text-2" id="text-orgfe226ff">
 <ol class="org-ol">
 <li><a href="https://www.irchelp.org/faq/new2irc.html">The IRC Prelude</a></li>
 <li><a href="https://irssi.org/New-users/">IRSSI for New Users</a></li>

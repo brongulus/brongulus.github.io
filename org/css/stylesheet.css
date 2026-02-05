@@ -203,7 +203,8 @@ footer {
     text-align: center;
     padding: 0.5rem;
     @media (max-width: 400px) {
-        font-size: 16px;
+        font-size: 17.4px;
+        padding: 0.25rem 0;
     }
 }
 
@@ -435,8 +436,8 @@ pre {
   border-radius: 8px;
   border: none;
   padding: 0.25rem;
-  width: 1.7rem;
-  height: 1.7rem;
+  width: 1.6rem;
+  height: 1.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -447,14 +448,17 @@ pre {
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0.25rem;
-  width: 2rem;
-  height: 2rem;
+  padding: 0.2rem;
+  width: 1.8rem;
+  height: 1.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
   border-radius: 50%;
+  @media (max-width: 425px) {
+      padding: 0.1rem;
+  }
 }
 
 #dark-mode-button:hover {
@@ -469,8 +473,8 @@ pre {
   width: 100%;
   height: 100%;
   @media (max-width: 425px) {
-      width: 80%;
-      height: 80%;
+      width: 70%;
+      height: 70%;
   }
   color: var(--accent, currentColor);
 }
@@ -526,7 +530,6 @@ blockquote p:last-child {
 
 img {
     display: block;
-    /* margin: 0 0 1rem; */
     filter: var(--filter);
     mix-blend-mode: var(--blend);
     max-width: 100%;
@@ -538,6 +541,7 @@ img {
 
 figure {
     margin: 0 auto;
+    margin-top: 0.2rem;
     text-align: center;
 }
 

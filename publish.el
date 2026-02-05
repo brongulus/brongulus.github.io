@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
       org-html-doctype "html5"
       org-html-html5-fancy t
       ;; org-html-link-use-abs-url t
+      org-export-with-smart-quotes t
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
       org-html-mathjax-options nil
