@@ -7,6 +7,7 @@ to meet the mirror without dread.
 I need to be enough — for myself."
 #+end_quote
 
+#+ATTR_HTML: :style filter: none !important; mix-blend-mode: normal !important;
 [[/assets/every-second.png]]
 
 A couple of months back, I binged this TV series called "The Bear". It was recommended to me by my manager, he commented that it's a show where you as a viewer always feel stressed because of the way the characters interact with each other. It's always very fast-paced, tension filled scenarios with people screaming/shouting at each other for no apparent reason. You start to wonder why are they acting like that...

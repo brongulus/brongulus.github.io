@@ -6,6 +6,18 @@
     <description>Webpresence of Prashant Tak</description>
     <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Every Second Counts</title>
+      <link>https://brongulus.github.io/blog/self-hate.html</link>
+      <guid>https://brongulus.github.io/blog/self-hate.html</guid>
+      <pubDate>Thu, 05 Feb 2026 22:17:09 +0530</pubDate>
+    </item>
+    <item>
+      <title>I R SSI</title>
+      <link>https://brongulus.github.io/blog/irc.html</link>
+      <guid>https://brongulus.github.io/blog/irc.html</guid>
+      <pubDate>Thu, 05 Feb 2026 22:15:30 +0530</pubDate>
+    </item>
+    <item>
       <title>2 Fast 2 MCM</title>
       <link>https://brongulus.github.io/notes/2fast2mcm.html</link>
       <guid>https://brongulus.github.io/notes/2fast2mcm.html</guid>
@@ -22,12 +34,6 @@
       <link>https://brongulus.github.io/notes/k8s.html</link>
       <guid>https://brongulus.github.io/notes/k8s.html</guid>
       <pubDate>Wed, 04 Feb 2026 23:36:16 +0530</pubDate>
-    </item>
-    <item>
-      <title>I R SSI</title>
-      <link>https://brongulus.github.io/blog/irc.html</link>
-      <guid>https://brongulus.github.io/blog/irc.html</guid>
-      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
     </item>
     <item>
       <title>Morphosyntactic Tagging with BiLSTM Model</title>
@@ -82,12 +88,6 @@
       <link>https://brongulus.github.io/blog/musturbating.html</link>
       <guid>https://brongulus.github.io/blog/musturbating.html</guid>
       <pubDate>Mon, 02 Feb 2026 23:31:59 +0530</pubDate>
-    </item>
-    <item>
-      <title>Every Second Counts</title>
-      <link>https://brongulus.github.io/blog/self-hate.html</link>
-      <guid>https://brongulus.github.io/blog/self-hate.html</guid>
-      <pubDate>Mon, 02 Feb 2026 22:59:46 +0530</pubDate>
     </item>
   </channel>
 </rss>

@@ -1,6 +1,4 @@
 #+TITLE:I R SSI
-#+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; }</style>
-
 #+DATE: 2022-06-28 Tue
 
 [[https://xkcd.com/1782][https://imgs.xkcd.com/comics/team_chat.png]]
@@ -53,8 +51,8 @@ IGNCH = "IGNORE $0 JOINS PARTS QUITS";
 #+end_src
 
 * Layout/Statusbar
-#+CAPTION: IRSSI Layout. (Dark mode users click on the image to see the actual colours 😛)
 
+#+ATTR_HTML: :style filter: none !important; mix-blend-mode: normal !important;
 [[/assets/irssi.png]]
 
 There's a statusbar at the bottom which shows the current =nick/server/channel/active_channels=. There's a window on the left which shows all the joined servers and channels (courtesy of  =adv_windowlist=) and a window on the right which has list of all users (via =tmux-nicklist-portable=). To get this style of statusbar and colorscheme, I'm currently using a theme derived from the popular [[https://github.com/ronilaukkarinen/weed][weed]] theme where I did minor modifications on statusbar and messagelist.
