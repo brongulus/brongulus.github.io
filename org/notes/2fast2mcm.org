@@ -1,6 +1,6 @@
 #+TITLE: 2 Fast 2 MCM
 #+DATE: 2025-01-15
-#+HTML_HEAD_EXTRA: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); var config = {startOnLoad: true, theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default', align:'center',}; mermaid.initialize(config); const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]'); toggleSwitch.addEventListener('click', () => {window.location.reload();}); </script>
+#+HTML_HEAD_EXTRA: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); const currentTheme = (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default'; var config = {startOnLoad: true, theme: currentTheme, align: 'center'}; mermaid.initialize(config); const toggleButton = document.querySelector('#dark-mode-button'); if (toggleButton) {toggleButton.addEventListener('click', () => {window.location.reload();});} </script>
 
 
 These visual representations helps understand the complex workflows within the Machine Controller Manager.

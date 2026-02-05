@@ -8,7 +8,7 @@
 <meta name="author" content="Tak" />
 <meta name="generator" content="Org Mode" />
 <script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
-<script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); var config = {startOnLoad: true, theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default', align:'center',}; mermaid.initialize(config); const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]'); toggleSwitch.addEventListener('click', () => {window.location.reload();}); </script>
+<script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); const currentTheme = (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default'; var config = {startOnLoad: true, theme: currentTheme, align: 'center'}; mermaid.initialize(config); const toggleButton = document.querySelector('#dark-mode-button'); if (toggleButton) {toggleButton.addEventListener('click', () => {window.location.reload();});} </script>
 </head>
 <body>
 <div id="nav" class="status">

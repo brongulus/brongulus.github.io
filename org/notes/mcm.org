@@ -2,7 +2,7 @@
 #+date:       2024-11-29 Fri 16:07
 #+filetags:   :k8s:work:
 #+identifier: 20241129T160749
-#+HTML_HEAD_EXTRA: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); var config = {startOnLoad: true, theme: (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default', align:'center',}; mermaid.initialize(config); const toggleSwitch = document.querySelector('#dark-mode-button input[type="checkbox"]'); toggleSwitch.addEventListener('click', () => {window.location.reload();}); </script>
+#+HTML_HEAD_EXTRA: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); const currentTheme = (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default'; var config = {startOnLoad: true, theme: currentTheme, align: 'center'}; mermaid.initialize(config); const toggleButton = document.querySelector('#dark-mode-button'); if (toggleButton) {toggleButton.addEventListener('click', () => {window.location.reload();});} </script>
 
 First, go through the [[https://github.com/gardener/machine-controller-manager/blob/master/README.md][README]], later on check [[https://github.com/gardener/machine-controller-manager/blob/master/docs/development/local_setup.md][local setup]] guide as well.
 
