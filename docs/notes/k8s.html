@@ -11,7 +11,14 @@
 </head>
 <body>
 <div id="nav" class="status">
-<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a> / <label id='dark-mode-button'> <input type='checkbox'> </label>
+<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
+    <svg id='moon-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'>
+      <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
+    </svg>
+    <svg id='sun-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' style='display: none;'>
+      <path d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' fill-rule='evenodd' clip-rule='evenodd'></path>
+    </svg>
+  </button>
 </div>
 <div id="content" class="content">
 <header>
@@ -20,15 +27,15 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgedcd2fc">Docker</a></li>
+<li><a href="#orga689aba">Docker</a></li>
 <li><a href="#h:06603D16-4A5E-4AC0-8A9C-8C7F5EE20433">Kubernetes</a></li>
-<li><a href="#orge53ca97">Helm</a></li>
+<li><a href="#org3a23bd5">Helm</a></li>
 </ul>
 </div>
 </nav>
-<div id="outline-container-orgedcd2fc" class="outline-2">
-<h2 id="orgedcd2fc">Docker</h2>
-<div class="outline-text-2" id="text-orgedcd2fc">
+<div id="outline-container-orga689aba" class="outline-2">
+<h2 id="orga689aba">Docker</h2>
+<div class="outline-text-2" id="text-orga689aba">
 <p>A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. The Linux kernel does not know about containers at all – for it, containers are nothing more than just regular processes running on the system. It however offers several features that Docker and other container engines leverage to achieve an almost complete isolation of processes from each other. Some of them being
 </p>
 <ul class="org-ul">
@@ -63,9 +70,9 @@
 <p>Kubernetes is just a container orchestrator. The central part remains our image, which contains the application we want to run. In the end Kubernetes runs lots and lots of containers – however in a smart way.
 </p>
 </div>
-<div id="outline-container-org98395a3" class="outline-3">
-<h3 id="org98395a3">Building blocks</h3>
-<div class="outline-text-3" id="text-org98395a3">
+<div id="outline-container-org671c41b" class="outline-3">
+<h3 id="org671c41b">Building blocks</h3>
+<div class="outline-text-3" id="text-org671c41b">
 <p>Kubernetes doesn’t allow you to schedule individual containers, it wraps the container into something called a <i>pod</i> – which can be considered as a logical host with one or more containers that share storage and network resources. Put another way, a Kubernetes Pod is a set of containers that perform an interrelated function and that operate as part of the same workload.
 </p>
 
@@ -112,9 +119,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgee64daf" class="outline-3">
-<h3 id="orgee64daf">Communication</h3>
-<div class="outline-text-3" id="text-orgee64daf">
+<div id="outline-container-orge227a47" class="outline-3">
+<h3 id="orge227a47">Communication</h3>
+<div class="outline-text-3" id="text-orge227a47">
 <p>Communication between pods requires something called as a "service", it's not sensible to rely on IP addresses for pods are they can change if a pod dies/restarts. Services act as a reliable and stable endpoint that provides cluster-internal and external connectivity. Services determine their managed pods by labels and corresponding selectors. Kubernetes also offers a way to name any port on a container/service level which can then be used as a reference even if the port value changes over time without impacting the application. (<a href="https://sysdig.com/learn-cloud-native/what-is-kubernetes-networking/">k8s networking</a>)
 </p>
 
@@ -176,9 +183,9 @@
 </ol>
 </div>
 </div>
-<div id="outline-container-org7894faf" class="outline-3">
-<h3 id="org7894faf">Persistence</h3>
-<div class="outline-text-3" id="text-org7894faf">
+<div id="outline-container-orgca7b7eb" class="outline-3">
+<h3 id="orgca7b7eb">Persistence</h3>
+<div class="outline-text-3" id="text-orgca7b7eb">
 <p>Pods can die/restart unexpectedly and lose all the data that's local to them, to solve the problem of persistence kubernetes offers PV/PVCs. A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator having a lifecycle independent of the pods using the PV. A PersistentVolumeClaim (PVC) is a request for a storage by a user.
 </p>
 
@@ -197,9 +204,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org30cbe3f" class="outline-3">
-<h3 id="org30cbe3f">Additional Setup</h3>
-<div class="outline-text-3" id="text-org30cbe3f">
+<div id="outline-container-org1a6d9e1" class="outline-3">
+<h3 id="org1a6d9e1">Additional Setup</h3>
+<div class="outline-text-3" id="text-org1a6d9e1">
 <p>An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration &amp; credentials from the application and the required configuration data can be stored in specific data objects in etcd.
 </p>
 
@@ -216,9 +223,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orge53ca97" class="outline-2">
-<h2 id="orge53ca97">Helm</h2>
-<div class="outline-text-2" id="text-orge53ca97">
+<div id="outline-container-org3a23bd5" class="outline-2">
+<h2 id="org3a23bd5">Helm</h2>
+<div class="outline-text-2" id="text-org3a23bd5">
 <p>Ref: <a href="https://sysdig.com/learn-cloud-native/what-is-helm-in-kubernetes/">What is helm</a>
 </p>
 </div>

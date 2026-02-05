@@ -11,7 +11,14 @@
 </head>
 <body>
 <div id="nav" class="status">
-<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a> / <label id='dark-mode-button'> <input type='checkbox'> </label>
+<a href='/'>bacchanalian madness</a> / <a href='/rss'>rss</a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
+    <svg id='moon-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'>
+      <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
+    </svg>
+    <svg id='sun-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' style='display: none;'>
+      <path d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' fill-rule='evenodd' clip-rule='evenodd'></path>
+    </svg>
+  </button>
 </div>
 <div id="content" class="content">
 <header>
@@ -20,7 +27,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc77f693">Introduction</a></li>
+<li><a href="#org0132659">Introduction</a></li>
 </ul>
 </div>
 </nav>
@@ -32,9 +39,9 @@ Code: <a href="https://github.com/remzi-arpacidusseau/ostep-code">https://github
 Homework: <a href="https://github.com/remzi-arpacidusseau/ostep-homework">https://github.com/remzi-arpacidusseau/ostep-homework</a>
 Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https://github.com/remzi-arpacidusseau/ostep-projects</a>
 </p>
-<div id="outline-container-orgc77f693" class="outline-2">
-<h2 id="orgc77f693">Introduction</h2>
-<div class="outline-text-2" id="text-orgc77f693">
+<div id="outline-container-org0132659" class="outline-2">
+<h2 id="org0132659">Introduction</h2>
+<div class="outline-text-2" id="text-org0132659">
 <p>In a socratic fashion, the first chapter is a dialogue between a <i>Professor</i> and a <i>Student</i> where the key ideas and how best to learn from the book is talked about.
 </p>
 
@@ -56,9 +63,9 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 <p>The chapter ends with a history of how operating systems were developed from early libraries to multiprogramming to PCs running DOS, linux and macOS.
 </p>
 </div>
-<div id="outline-container-org572cc02" class="outline-3">
-<h3 id="org572cc02">CPU Virtualization</h3>
-<div class="outline-text-3" id="text-org572cc02">
+<div id="outline-container-org02bbdd8" class="outline-3">
+<h3 id="org02bbdd8">CPU Virtualization</h3>
+<div class="outline-text-3" id="text-org02bbdd8">
 <pre class="src src-C"><code><span class="font-lock-preprocessor-face">#if</span><span class="font-lock-preprocessor-face font-lock-negation-char-face">n</span><span class="font-lock-preprocessor-face">def</span> __common_h__
 <span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-variable-name-face">__common_h__</span>
 
@@ -112,7 +119,7 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="org5daaf9b">
+<pre class="example" id="orgb3c9664">
 A
 B
 A
@@ -129,9 +136,9 @@ B
 </p>
 </div>
 </div>
-<div id="outline-container-orge010c01" class="outline-3">
-<h3 id="orge010c01">Memory Virtualization</h3>
-<div class="outline-text-3" id="text-orge010c01">
+<div id="outline-container-orge0331f3" class="outline-3">
+<h3 id="orge0331f3">Memory Virtualization</h3>
+<div class="outline-text-3" id="text-orge0331f3">
 <p>Physical memory is just an array of bytes; to <i>read</i> or <i>write</i> memory, an <i>address</i> must be specified to access the data there.
 </p>
 
@@ -161,7 +168,7 @@ B
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="org23d9570">
+<pre class="example" id="org252692f">
 (19998) address pointed to by p -&gt; 0x1047cd830
 (19997) address pointed to by p -&gt; 0x10263d830
 (19997) p =&gt; 1 addr -&gt; 0x10263d830
@@ -183,9 +190,9 @@ B
 </p>
 </div>
 </div>
-<div id="outline-container-org1b9770c" class="outline-3">
-<h3 id="org1b9770c">Concurrency</h3>
-<div class="outline-text-3" id="text-org1b9770c">
+<div id="outline-container-orge563ee3" class="outline-3">
+<h3 id="orge563ee3">Concurrency</h3>
+<div class="outline-text-3" id="text-orge563ee3">
 <pre class="src src-C"><code><span class="font-lock-preprocessor-face">#if</span><span class="font-lock-preprocessor-face font-lock-negation-char-face">n</span><span class="font-lock-preprocessor-face">def</span> __common_threads_h__
 <span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-variable-name-face">__common_threads_h__</span>
 
@@ -297,7 +304,7 @@ Final value: 101961
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="org4a0a021">
+<pre class="example" id="org3c9f202">
 PTHREAD_CREATE(3)	   Library Functions Manual	     PTHREAD_CREATE(3)
 
 NAME
@@ -348,9 +355,9 @@ RETURN VALUES
 </details>
 </div>
 </div>
-<div id="outline-container-org930df43" class="outline-3">
-<h3 id="org930df43">Persistence</h3>
-<div class="outline-text-3" id="text-org930df43">
+<div id="outline-container-org0687faa" class="outline-3">
+<h3 id="org0687faa">Persistence</h3>
+<div class="outline-text-3" id="text-org0687faa">
 <p>Final major theme of <i>persistence</i> relates to determinate data storage and not be dependent on <i>volatile</i> memory. The software in the OS that manages the disk is called <i>file system</i>. Unlike CPU and memory abstractions, the expectation when is comes to files is that the user would <b>want to share</b> the data in files with processes hence there is no need of virtualization of disk.
 </p>
 
@@ -398,9 +405,9 @@ hello world
 </p>
 </div>
 </div>
-<div id="outline-container-orga40dc8d" class="outline-3">
-<h3 id="orga40dc8d">Discussion links</h3>
-<div class="outline-text-3" id="text-orga40dc8d">
+<div id="outline-container-orgfdd628b" class="outline-3">
+<h3 id="orgfdd628b">Discussion links</h3>
+<div class="outline-text-3" id="text-orgfdd628b">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design">SingularityOS</a></li>
 <li><a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">Ben Eater Video</a></li>
