@@ -1,5 +1,3 @@
-/* TODO: rss, cache fonts */
-
 /* ======================================== */
 /* Colors
 /* ======================================== */
@@ -58,7 +56,6 @@ html[data-theme=dark] {
     @media (max-width: 625px) {
         line-height: 135%;
     }
-    box-sizing: border-box;
     -webkit-font-smoothing: subpixel-antialiased;
     transition: background 0.8s ease-in-out, color 0.5s ease;
 }
@@ -128,9 +125,7 @@ html[data-theme=dark] {
 html {
     color: var(--bg);
     font-family: "EB Garamond", "Helvetica Neue", "Segoe UI", Helvetica, Arial, serif;
-    overflow: scroll;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: hidden;
     margin: 0;
     scroll-behavior: smooth;
     font-size: 22px;
@@ -156,15 +151,13 @@ footer,
     display: block;
     color: var(--font);
     background: var(--bg);
-    margin-bottom: 0.8em;
+    /* margin-bottom: 0.8em; */
     margin: 0 auto;
     width: 87.5%;
     max-width: 820px;
     font-size: 1.1rem;
     @media (min-width: 1480px) {
         max-width: 1000px;
-    }
-    @media (min-width: 1480px) {
         font-size: 1.3rem;
     }
     @media (max-width: 625px) {
@@ -178,16 +171,6 @@ footer,
 .content {
     border-top: 0.5px solid var(--accent);
 }
-
-/* @media (min-width: 1480px) { */
-/*   header, */
-/*   footer, */
-/*   .content { */
-/*     /\* padding-right: 20%; *\/ */
-/*     width: 60%; */
-/*     margin: 0 4rem; */
-/*   } */
-/* } */
 
 footer {
     border-top: 0.5px solid var(--accent);
@@ -217,7 +200,7 @@ footer {
     background-color: rgba(0, 0, 0, 0.1);
 }
 [data-theme="dark"] #nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 header {
@@ -327,7 +310,7 @@ p {
     margin: auto;
     margin-top: 1em;
     text-align: left;
-    hyphens: nil;
+    hyphens: none;
     font-size: 1.1rem;
     @media (min-width: 1480px) {
         max-width: 1000px;
@@ -427,56 +410,56 @@ pre {
 /* RSS and dark-light buttons
 /* ======================================== */
 #nav a[href="/rss.xml"] {
-  margin-left: auto;
+    margin-left: auto;
 }
 
 #rss-button {
-  cursor: pointer;
-  background: none;
-  border-radius: 8px;
-  border: none;
-  padding: 0.25rem;
-  width: 1.6rem;
-  height: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
+    cursor: pointer;
+    background: none;
+    border-radius: 8px;
+    border: none;
+    padding: 0.25rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
 }
 
 #dark-mode-button {
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.2rem;
-  width: 1.8rem;
-  height: 1.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  border-radius: 50%;
-  @media (max-width: 425px) {
-      padding: 0.1rem;
-  }
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.2rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    border-radius: 50%;
+    @media (max-width: 425px) {
+        padding: 0.1rem;
+    }
 }
 
 #dark-mode-button:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 [data-theme="dark"] #dark-mode-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #rss-button svg,
 #dark-mode-button svg {
-  width: 100%;
-  height: 100%;
-  @media (max-width: 425px) {
-      width: 70%;
-      height: 70%;
-  }
-  color: var(--accent, currentColor);
+    width: 100%;
+    height: 100%;
+    @media (max-width: 425px) {
+        width: 70%;
+        height: 70%;
+    }
+    color: var(--accent, currentColor);
 }
 /* ======================================== */
 /* Miscellaneous
@@ -521,7 +504,6 @@ blockquote p:last-child {
     border-left: 0.25rem solid var(--accent);
     border-radius: 3px 6px 6px 3px;
     display: block;
-    padding: 0.5rem;
     background-color: var(--bg-block);
     color: var(--font);
     margin: 0.8rem 0.3rem;
@@ -534,10 +516,6 @@ img {
     mix-blend-mode: var(--blend);
     max-width: 100%;
 }
-/* img:hover, img:focus { */
-/*     transition-duration: 0.5s; */
-/*     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
-/* } */
 
 figure {
     margin: 0 auto;
@@ -592,17 +570,8 @@ ul {
     margin: 0.35em 0;
 }
 
-ol li::marker,
-ul li::marker {
-    margin-left: -2.5rem;
-    position: absolute;
-}
-
 ol li,
 ul li {
-    @media (min-width: 625px) {
-        font-size: 95%;
-    }
     font-weight: 300;
     margin-top: 0.35em;
     margin-bottom: 0.45em;
@@ -632,7 +601,7 @@ ul li p {
 .entries ~ .outline-2 > .outline-text-2 > ul > li a {
     color: var(--font);
 }
-    
+
 .content:has(.entries) ~ footer {
     border-top: none;
 }
@@ -670,7 +639,7 @@ ul li p {
     display: inline-block;
     margin-bottom: 0em;
     margin-top: 0em;
-    margin-left: 1rem;
+    margin-left: 0.2rem;
     width: 30%;
     @media (max-width: 625px) {
         width: 45%;
