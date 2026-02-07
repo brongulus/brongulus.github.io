@@ -3,6 +3,7 @@
 
 * Blog Posts
 
+- [[file:find-replace.org][Find and Replace]]
 - [[file:self-hate.org][Every Second Counts]]
 - [[file:irc.org][I R SSI]]
 - [[file:nnfl-paper.org][Morphosyntactic Tagging with BiLSTM Model]]

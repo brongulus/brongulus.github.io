@@ -1,0 +1,24 @@
+#+TITLE: Find and Replace
+#+DATE: 2026-02-06 Fri
+
+I hate using ~sed~ and ~xargs~ in tandem with ~find~ for doing mass replacements. There are multiple approaches one can take, the simplest being
+
+#+begin_src shell
+find . -type f -exec sed -i 's/<find>/<replace>/g' {} +
+#+end_src
+
+However remembering this syntax and all its idosyncracies is annoying. So I was on the lookout for emacs native ways of approaching the same.
+
+The first being using ~M-x rgrep~:
+1. Enter the search term
+2. Then limit the search to files if needed
+3. It presents you with a ~*grep*~ buffer
+4. Use ~M-x grep-chage-to-grep-edit-mode~ to make the grep buffer editable
+5. ~M-x replace-regexp~ to perform the find and replace
+
+
+This modifies all the buffers but doesn't save them, you can switch to ~ibuffer~:
+1. Type ~* u~ to mark all unsaved files
+2. Save them all using ~S~
+3. Close them using ~D~
+   

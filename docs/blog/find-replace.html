@@ -4,7 +4,7 @@
 <!-- 2026 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
+<title>Find and Replace</title>
 <meta name="author" content="Tak" />
 <meta name="generator" content="Org Mode" />
 <script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
@@ -27,19 +27,34 @@
   </button>
 </div>
 <div id="content" class="content">
-<div class="entries">
-<div id="outline-container-org1c2cd4a" class="outline-2">
-<h2 id="org1c2cd4a">Notes</h2>
-<div class="outline-text-2" id="text-org1c2cd4a">
-<ul class="org-ul">
-<li><a href="about.html">About</a></li>
-<li><a href="tracker.html">Tracker</a></li>
-<li><a href="wall.html">Wall</a></li>
-</ul>
+<header>
+<h1 class="title">Find and Replace</h1>
+</header><p>I hate using <code>sed</code> and <code>xargs</code> in tandem with <code>find</code> for doing mass replacements. There are multiple approaches one can take, the simplest being
+</p>
 
-</div>
-</div>
-</div>
+<pre class="src src-shell"><code>find . -type f -exec sed -i <span class="font-lock-string-face">'s/&lt;find&gt;/&lt;replace&gt;/g'</span> {} +</code></pre>
+
+<p>However remembering this syntax and all its idosyncracies is annoying. So I was on the lookout for emacs native ways of approaching the same.
+</p>
+
+<p>The first being using <code>M-x rgrep</code>:
+</p>
+<ol class="org-ol">
+<li>Enter the search term</li>
+<li>Then limit the search to files if needed</li>
+<li>It presents you with a <code>*grep*</code> buffer</li>
+<li>Use <code>M-x grep-chage-to-grep-edit-mode</code> to make the grep buffer editable</li>
+<li><code>M-x replace-regexp</code> to perform the find and replace</li>
+</ol>
+
+
+<p>This modifies all the buffers but doesn&rsquo;t save them, you can switch to <code>ibuffer</code>:
+</p>
+<ol class="org-ol">
+<li>Type <code>* u</code> to mark all unsaved files</li>
+<li>Save them all using <code>S</code></li>
+<li>Close them using <code>D</code></li>
+</ol>
 </div>
 <footer id="postamble" class="status">
 &copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).

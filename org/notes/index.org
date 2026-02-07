@@ -3,6 +3,7 @@
 
 * Notes
 
+- [[file:ostep.org][OSTEP - Book Club]]
 - [[file:2fast2mcm.org][2 Fast 2 MCM]]
 - [[file:mcm.org][MCM]]
 - [[file:k8s.org][Docker Kubernetes Notes]]
@@ -11,6 +12,5 @@
 - [[file:ecs.org][Elements of computing systems]]
 - [[file:iusaco.org][IUSACO]]
 - [[file:hangul.org][Hangul]]
-- [[file:ostep.org][OSTEP - Book Club]]
 
 #+HTML: </div>
