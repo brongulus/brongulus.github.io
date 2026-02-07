@@ -2,6 +2,7 @@
 
 (require 'org)
 (require 'ox-publish)
+(require 'easy-mmode)
 
 (setq debug-on-error t)
 
@@ -246,14 +247,14 @@ document.addEventListener('DOMContentLoaded', function() {
         (dolist (file (directory-files-recursively dir "\\.org$"))
           (unless (string-match-p "index\\.org$" file)
             (push (list :file file
-                       :date (nth 5 (file-attributes file))
-                       :rel-path (file-relative-name file (concat blog-base-dir "org/")))
+                        :date (nth 5 (file-attributes file))
+                        :rel-path (file-relative-name file (concat blog-base-dir "org/")))
                   posts)))))
     
     ;; Sort by date
     (setq posts (sort posts (lambda (a b)
                               (time-less-p (plist-get b :date)
-                                          (plist-get a :date)))))
+                                           (plist-get a :date)))))
     
     ;; Generate RSS XML
     (with-temp-file output-file
@@ -276,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
           (insert (format "      <link>https://brongulus.github.io%s</link>\n" html-path))
           (insert (format "      <guid>https://brongulus.github.io%s</guid>\n" html-path))
           (insert (format "      <pubDate>%s</pubDate>\n" 
-                         (format-time-string "%a, %d %b %Y %H:%M:%S %z" date)))
+                          (format-time-string "%a, %d %b %Y %H:%M:%S %z" date)))
           (insert "    </item>\n")))
       
       (insert "  </channel>\n")
@@ -302,3 +303,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ;; Call this after publishing
 ;; (my/generate-rss-feed)
+
+;; -------------------------------------------------------------------------------
+;; src: https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors
+
+(advice-add #'org-export-get-reference :override #'unpackaged/org-export-get-reference)
+
+(defun org-reference-contraction (reference-string)
+  "Contract REFERENCE-STRING to alphanumeric form, max 3 words/35 chars."
+  (let* ((str (downcase reference-string))
+         (str (replace-regexp-in-string "\\[\\[[^]]+\\]\\[\\([^]]+\\)\\]\\]" "\\1" str))
+         (str (replace-regexp-in-string "[-/ ]+" " " str))
+         (str (puny-encode-string str))
+         (str (replace-regexp-in-string "^xn--\\(.*?\\) ?-?\\([a-z0-9]+\\)$" "\\2 \\1" str))
+         (str (replace-regexp-in-string "[^A-Za-z0-9 ]" "" str))
+         (words (cl-remove-if (lambda (w) (member w '("the" "on" "in" "off" "a" "for" "by" "of" "and" "is" "to" "as")))
+                              (split-string str " +")))
+         (words (cl-subseq words 0 (min 3 (length words))))
+         (budget (- 35 (1- (length words))))
+         (avg (/ budget 3))
+         (num-long (cl-count-if (lambda (w) (> (length w) avg)) words))
+         (short-len (apply #'+ (mapcar (lambda (w) (if (<= (length w) avg) (length w) 0)) words)))
+         (max-len (if (zerop num-long) avg (/ (- budget short-len) num-long)))
+         (words (mapcar (lambda (w) (if (<= (length w) max-len) w (substring w 0 max-len))) words)))
+    (string-join words "-")))
+
+(defun unpackaged/org-export-get-reference (datum info)
+  "Use heading titles instead of random numbers for references."
+  (let ((cache (plist-get info :internal-references)))
+    (or (car (rassq datum cache))
+        (let* ((crossrefs (plist-get info :crossrefs))
+               (cells (org-export-search-cells datum))
+               (new (or (cl-some (lambda (cell)
+                                   (let ((stored (cdr (assoc cell crossrefs))))
+                                     (when stored
+                                       (let ((old (org-export-format-reference stored)))
+                                         (and (not (assoc old cache)) stored)))))
+                                 cells)
+                        (when (or (org-element-property :raw-value datum)
+                                  (member (car datum) '(src-block table example fixed-width property-drawer)))
+                          (unpackaged/org-export-new-named-reference datum cache))))
+               (reference-string new))
+          (when new
+            (dolist (cell cells) (push (cons cell new) cache))
+            (push (cons reference-string datum) cache)
+            (plist-put info :internal-references cache))
+          reference-string))))
+
+(defun unpackaged/org-export-new-named-reference (datum cache)
+  "Return new unique reference for DATUM."
+  (cl-macrolet ((inc-suffixf (place)
+                  `(progn
+                     (string-match (rx bos (minimal-match (group (1+ anything)))
+                                       (optional "--" (group (1+ digit))) eos)
+                                   ,place)
+                     (let* ((base (match-string 1 ,place))
+                            (suffix (match-string 2 ,place))
+                            (num (if suffix (string-to-number suffix) 0)))
+                       (setf ,place (format "%s--%s" base (1+ num)))))))
+    (let* ((headline-p (eq (car datum) 'headline))
+           (title (if headline-p
+                      (org-element-property :raw-value datum)
+                    (or (org-element-property :name datum)
+                        (org-element-property :raw-value
+                                              (org-element-property :parent
+                                                                    (org-element-property :parent datum)))))))
+      (when title
+        (let ((ref (concat (org-reference-contraction (substring-no-properties title))
+                           (unless (or headline-p (org-element-property :name datum))
+                             (concat "," (pcase (car datum)
+                                           ('src-block "code")
+                                           ('example "example")
+                                           ('fixed-width "mono")
+                                           ('property-drawer "properties")
+                                           (_ (symbol-name (car datum)))) "--1"))))
+              (parent (when headline-p (org-element-property :parent datum))))
+          (while (member ref (mapcar #'car cache))
+            (if parent
+                (setf title (concat (org-element-property :raw-value parent) "--" title)
+                      ref (org-reference-contraction (substring-no-properties title))
+                      parent (when headline-p (org-element-property :parent parent)))
+              (inc-suffixf ref)))
+          ref)))))
