@@ -601,9 +601,10 @@ ol li:before {
     counter-increment: foobar;
     content: counter(foobar) ".";
     float: left;
-    margin-left: -1rem;
-    width: 1.5rem;
+    margin-left: -1.2rem;
+    width: 1.2rem;
     @media (max-width: 625px) {
+        margin-left: -1rem;
         width: 1rem;
     }
 }
