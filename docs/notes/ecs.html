@@ -50,17 +50,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org86a7ef5">Introduction</a></li>
-<li><a href="#org383669c">Boolean Logic</a></li>
-<li><a href="#org45be3d8">Boolean Arithmetic</a></li>
-<li><a href="#orgc2ae17f">Memory</a></li>
-<li><a href="#orgc1e03d2">Machine Language</a></li>
+<li><a href="#org81b0765">Introduction</a></li>
+<li><a href="#org7f4fe5e">Boolean Logic</a></li>
+<li><a href="#org45d074d">Boolean Arithmetic</a></li>
+<li><a href="#org60ea8a5">Memory</a></li>
+<li><a href="#org1dc3c13">Machine Language</a></li>
 </ul>
 </div>
 </nav>
-<div id="outline-container-org86a7ef5" class="outline-2">
-<h2 id="org86a7ef5">Introduction</h2>
-<div class="outline-text-2" id="text-org86a7ef5">
+<div id="outline-container-org81b0765" class="outline-2">
+<h2 id="org81b0765">Introduction</h2>
+<div class="outline-text-2" id="text-org81b0765">
 <p>These are the notes which I took while studying computer architecture from the textbook &ldquo;<i>The Elements of Computing Systems</i> by <i>Noam Nisan &amp; Shimon Schocken</i> &rdquo;. They&rsquo;re very terse and have very opinionated content from the textbook so they should only be used in tandem with it for revision purposes.
 <a href="file:///assets/ecs-1.png"><img src="/assets/ecs-1.png" alt="ecs-1.png"></a>
 The text program is parsed, its semantics are uncovered, it&rsquo;s represented in some low-level language that the computer can understand. This process is called <i>compilation</i>. Its result is another text file, containing machine-level code.
@@ -73,17 +73,17 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 
 
-<figure id="org1294a32">
+<figure id="org81330fd">
 <a href="file:///assets/ecs02.png"><img src="/assets/ecs02.png" alt="ecs02.png"></a>
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org383669c" class="outline-2">
-<h2 id="org383669c">Boolean Logic</h2>
-<div class="outline-text-2" id="text-org383669c">
+<div id="outline-container-org7f4fe5e" class="outline-2">
+<h2 id="org7f4fe5e">Boolean Logic</h2>
+<div class="outline-text-2" id="text-org7f4fe5e">
 
-<figure id="org0c07959">
+<figure id="org0669768">
 <a href="file:///assets/ecs-03.png"><img src="/assets/ecs-03.png" alt="ecs-03.png"></a>
 
 </figure>
@@ -92,7 +92,7 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 
 
-<figure id="org02d4586">
+<figure id="org531c1d0">
 <a href="file:///assets/ecs-04.png"><img src="/assets/ecs-04.png" alt="ecs-04.png"></a>
 
 </figure>
@@ -111,7 +111,7 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 
 
-<figure id="orge8e2d41">
+<figure id="orgba6bb73">
 <a href="file:///assets/ecs-05.png"><img src="/assets/ecs-05.png" alt="ecs-05.png"></a>
 
 </figure>
@@ -120,7 +120,7 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 
 
-<figure id="orge17bda6">
+<figure id="org5a24ae9">
 <a href="file:///assets/ecs-06.png"><img src="/assets/ecs-06.png" alt="ecs-06.png"></a>
 
 </figure>
@@ -134,17 +134,17 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 </div>
 </div>
-<div id="outline-container-org45be3d8" class="outline-2">
-<h2 id="org45be3d8">Boolean Arithmetic</h2>
-<div class="outline-text-2" id="text-org45be3d8">
+<div id="outline-container-org45d074d" class="outline-2">
+<h2 id="org45d074d">Boolean Arithmetic</h2>
+<div class="outline-text-2" id="text-org45d074d">
 <p><i>Word size</i> is a term used for specifying the number of bits that computers use for representing a basic chunk of values. For example, integer values are stored in 8-, 16-, 32- or 64-bit registers. Fixed word size implies the existence of a limit on number of values that the registers can represent. In general, using <i>n</i> bits, one can represent values from 0 to 2\(^{n}\) - 1.
 </p>
 </div>
-<div id="outline-container-orgf670d9b" class="outline-3">
-<h3 id="orgf670d9b">Addition</h3>
-<div class="outline-text-3" id="text-orgf670d9b">
+<div id="outline-container-orgd42f640" class="outline-3">
+<h3 id="orgd42f640">Addition</h3>
+<div class="outline-text-3" id="text-orgd42f640">
 
-<figure id="org3057e91">
+<figure id="org50170dc">
 <a href="file:///assets/ecs-07.png"><img src="/assets/ecs-07.png" alt="ecs-07.png"></a>
 
 </figure>
@@ -153,9 +153,9 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 </div>
 </div>
-<div id="outline-container-org4ab7617" class="outline-3">
-<h3 id="org4ab7617">Signed Numbers</h3>
-<div class="outline-text-3" id="text-org4ab7617">
+<div id="outline-container-org5e0108e" class="outline-3">
+<h3 id="org5e0108e">Signed Numbers</h3>
+<div class="outline-text-3" id="text-org5e0108e">
 <p>The coding scheme was chosen so that hardware implementation of arithmetic operations would be as simple as possible, its result being <i>two&rsquo;s complement</i> binary code that represents negative x as binary code that represents 2\(^{n}\) - x. For example, in a 4-bit binary system <code>-5</code> would be represented as binary of <code>(16-5)</code> or <code>1011</code>. This leads us to the following properties:
 </p>
 <ul class="org-ul">
@@ -165,9 +165,9 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </ul>
 </div>
 </div>
-<div id="outline-container-orge53a24b" class="outline-3">
-<h3 id="orge53a24b">Adders</h3>
-<div class="outline-text-3" id="text-orge53a24b">
+<div id="outline-container-org0ddc68a" class="outline-3">
+<h3 id="org0ddc68a">Adders</h3>
+<div class="outline-text-3" id="text-org0ddc68a">
 <p><b>Half adder</b>: Adds two numbers/bits and outputs in for of <code>sum</code> and <code>carry</code> which are LSB and MSB of the addition of the input bits.
 </p>
 
@@ -184,20 +184,20 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 </div>
 </div>
-<div id="outline-container-org8489cb6" class="outline-3">
-<h3 id="org8489cb6">ALU</h3>
-<div class="outline-text-3" id="text-org8489cb6">
+<div id="outline-container-orgdc8de11" class="outline-3">
+<h3 id="orgdc8de11">ALU</h3>
+<div class="outline-text-3" id="text-orgdc8de11">
 <p>Designed to compute a set of arithmetic and logic operations, exactly <i>which</i> ones is a design decision derived from cost-effectiveness considerations. Shown below is the Hack ALU which computes 18 functions which are controlled by six 1-bit <i>control bits</i>. In addition to those there are <code>zr</code> and <code>ng</code> bits which flag whether the output is zero or negative. Note that the output overflow bit is ignored.
 </p>
 
 
-<figure id="org8d90997">
+<figure id="orgefe0125">
 <a href="file:///assets/ecs-08.png"><img src="/assets/ecs-08.png" alt="ecs-08.png"></a>
 
 </figure>
 
 
-<figure id="orga118054">
+<figure id="orgc9ca493">
 <a href="file:///assets/ecs-09.png"><img src="/assets/ecs-09.png" alt="ecs-09.png"></a>
 
 </figure>
@@ -207,9 +207,9 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </div>
 </div>
 </div>
-<div id="outline-container-orgc2ae17f" class="outline-2">
-<h2 id="orgc2ae17f">Memory</h2>
-<div class="outline-text-2" id="text-orgc2ae17f">
+<div id="outline-container-org60ea8a5" class="outline-2">
+<h2 id="org60ea8a5">Memory</h2>
+<div class="outline-text-2" id="text-org60ea8a5">
 <p>All the chips considered so far are time independent, they&rsquo;re called <i>combinational chips</i>. Now <i>sequential chips</i> are introduced whose output depends not only on current time inputs but past inputs and outputs too. The notion of time is introduced by a <i>clock</i> that generates a <i>cycle</i> of binary singals that are called a <i>tick</i> and a <i>tock</i>.
 </p>
 
@@ -220,19 +220,19 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 
 
-<figure id="orgeb6dab6">
+<figure id="org57fe450">
 <a href="file:///assets/ecs-11.png"><img src="/assets/ecs-11.png" alt="ecs-11.png"></a>
 
 </figure>
 </div>
-<div id="outline-container-org7b39598" class="outline-3">
-<h3 id="org7b39598">Flip Flops</h3>
-<div class="outline-text-3" id="text-org7b39598">
+<div id="outline-container-orgd46dced" class="outline-3">
+<h3 id="orgd46dced">Flip Flops</h3>
+<div class="outline-text-3" id="text-orgd46dced">
 <p>A Data flip-flip (DFF) is a memory chip which has a single-bit data input and output and an addition clock input(marked by small triangle on gate icon) that feeds from master clock&rsquo;s signal. It models the behavior <code>out(t)=in(t-1)</code> that is, in every subsequent time unit, DFF outputs input from previous time unit. At all other times, DFFs are <i>latched</i>, meaning that changes in their inputs have no immediate effect on the output.
 </p>
 
 
-<figure id="orge54828e">
+<figure id="org78fc46b">
 <a href="file:///assets/ecs-10.png"><img src="/assets/ecs-10.png" alt="ecs-10.png"></a>
 
 </figure>
@@ -245,20 +245,20 @@ being set when the clock ticks and the second when the clock tocks.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfc63131" class="outline-3">
-<h3 id="orgfc63131">Registers</h3>
-<div class="outline-text-3" id="text-orgfc63131">
+<div id="outline-container-org48f8c2d" class="outline-3">
+<h3 id="org48f8c2d">Registers</h3>
+<div class="outline-text-3" id="text-org48f8c2d">
 <p>A register is a DFF with a <i>load</i> input. It stores and outputs its current value until <i>load</i> instructs it to update to a new value.
 </p>
 
 
-<figure id="org9291974">
+<figure id="orgd139259">
 <a href="file:///assets/ecs-14.png"><img src="/assets/ecs-14.png" alt="ecs-14.png"></a>
 
 </figure>
 
 
-<figure id="orgb2592eb">
+<figure id="org2ea3ceb">
 <a href="file:///assets/ecs-12.png"><img src="/assets/ecs-12.png" alt="ecs-12.png"></a>
 
 </figure>
@@ -267,14 +267,14 @@ being set when the clock ticks and the second when the clock tocks.
 </p>
 </div>
 </div>
-<div id="outline-container-org0b4b58e" class="outline-3">
-<h3 id="org0b4b58e">RAM</h3>
-<div class="outline-text-3" id="text-org0b4b58e">
+<div id="outline-container-orgca3a294" class="outline-3">
+<h3 id="orgca3a294">RAM</h3>
+<div class="outline-text-3" id="text-orgca3a294">
 <p>A RAM chip consists of <i>n</i> 16-bit register chips which can be selected and manipulated separately. By specifying a particular address (0 to n-1), a particular register can be selected for read/write operations. Note that the access time of any randomly selected register is instantaneous.
 </p>
 
 
-<figure id="org0c7a11e">
+<figure id="org74b4b16">
 <a href="file:///assets/ecs-13.png"><img src="/assets/ecs-13.png" alt="ecs-13.png"></a>
 
 </figure>
@@ -283,29 +283,29 @@ being set when the clock ticks and the second when the clock tocks.
 </p>
 </div>
 </div>
-<div id="outline-container-org5353cca" class="outline-3">
-<h3 id="org5353cca">Counter</h3>
-<div class="outline-text-3" id="text-org5353cca">
+<div id="outline-container-org5df446d" class="outline-3">
+<h3 id="org5df446d">Counter</h3>
+<div class="outline-text-3" id="text-org5df446d">
 <p>A chip that&rsquo;s implementation of an incrementer used to keep track of program instructions (PC: Program Counter). It has three functional inputs alongwith <code>in</code>, namely <code>inc</code>, which increases counter state every cycle(PC++) and <code>reset</code> which sets it to 0 and <code>load</code> sets its value to whatever values is fed by <code>in</code>.
 </p>
 
 
-<figure id="orgd0ed324">
+<figure id="org840a095">
 <a href="file:///assets/ecs-15.png"><img src="/assets/ecs-15.png" alt="ecs-15.png"></a>
 
 </figure>
 
 
-<figure id="org9d35a4c">
+<figure id="orgd2898c5">
 <a href="file:///assets/ecs-16.png"><img src="/assets/ecs-16.png" alt="ecs-16.png"></a>
 
 </figure>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc1e03d2" class="outline-2">
-<h2 id="orgc1e03d2">Machine Language</h2>
-<div class="outline-text-2" id="text-orgc1e03d2">
+<div id="outline-container-org1dc3c13" class="outline-2">
+<h2 id="org1dc3c13">Machine Language</h2>
+<div class="outline-text-2" id="text-org1dc3c13">
 <blockquote>
 <p>&ldquo;Form follows function.&rdquo;
 </p>
@@ -316,9 +316,9 @@ being set when the clock ticks and the second when the clock tocks.
 <p>Machine language programs can be written in either <i>binary</i> or <i>symbolic</i> instructions. Programs writtern in symbolic(<i>assembly</i>) languages are translated into executable binary code by a translator program called <i>assembler</i>.
 </p>
 </div>
-<div id="outline-container-org53343d8" class="outline-3">
-<h3 id="org53343d8">Hardware</h3>
-<div class="outline-text-3" id="text-org53343d8">
+<div id="outline-container-org3fbbdf3" class="outline-3">
+<h3 id="org3fbbdf3">Hardware</h3>
+<div class="outline-text-3" id="text-org3fbbdf3">
 <p><b>Memory</b>: Functionally speaking, a memory is a continuous sequence of cells, also referred to as locations or memory registers, each having a unique address.
 </p>
 
@@ -329,9 +329,9 @@ being set when the clock ticks and the second when the clock tocks.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf97ae06" class="outline-3">
-<h3 id="orgf97ae06">Instructions</h3>
-<div class="outline-text-3" id="text-orgf97ae06">
+<div id="outline-container-org33a86e8" class="outline-3">
+<h3 id="org33a86e8">Instructions</h3>
+<div class="outline-text-3" id="text-org33a86e8">
 <p><b>Arithmetic and logical operations</b>: Assuming that the processor has a set of registers denoted <code>R0, R1, R2,...</code>. Basic operations like addition, subtraction, and(bitwise), or, not.
 <code>load R1,true</code>
 <code>load R2,false</code>
@@ -348,7 +348,7 @@ Here by convention, M stands for memory register selected by A.
 </p>
 
 
-<figure id="org3c88f8e">
+<figure id="orgc2995a5">
 <img src="/assets/ecs-17.png" alt="ecs-17.png">
 
 </figure>
@@ -357,15 +357,15 @@ Here by convention, M stands for memory register selected by A.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf20694" class="outline-3">
-<h3 id="orgbf20694">Hack</h3>
-<div class="outline-text-3" id="text-orgbf20694">
+<div id="outline-container-org6424461" class="outline-3">
+<h3 id="org6424461">Hack</h3>
+<div class="outline-text-3" id="text-org6424461">
 <p><b>Memory</b>: Hack uses two distinct memory units, <i>data</i> and <i>instruction</i> memory. Both
 memories are 16-bit wide, and each has a 15-bit address space, hence maximum addressable size of each memory unit is 2\(^{15}\) or 32K 16-bit words.
 </p>
 
 
-<figure id="orgc79b03c">
+<figure id="org2aaa11b">
 <img src="/assets/ecs-18.png" alt="ecs-18.png">
 
 </figure>

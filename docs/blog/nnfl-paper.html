@@ -50,18 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf5b4c37">Abstract</a></li>
-<li><a href="#org1d4500b">Terms</a></li>
-<li><a href="#org2619640">Basics of NLP</a></li>
-<li><a href="#orgde904d0">Morphology</a></li>
-<li><a href="#org6b46bcf">Introduction</a></li>
-<li><a href="#orgd9ab93e">Related Work</a></li>
-<li><a href="#orgc5f7641">Models</a></li>
-<li><a href="#orgf7249b3">Experiments and Results</a></li>
-<li><a href="#orgbf82af4">Ablation Study (Takeaways)</a></li>
-<li><a href="#orgf32d1b6">Conclusions</a></li>
-<li><a href="#orgc55f4f2">Readings and Resources</a></li>
-<li><a href="#org3b0d7d1">Specific to Paper</a></li>
+<li><a href="#orgf74a79b">Abstract</a></li>
+<li><a href="#orge7d8f36">Terms</a></li>
+<li><a href="#org6d76454">Basics of NLP</a></li>
+<li><a href="#orgf9456ff">Morphology</a></li>
+<li><a href="#orgdf31c0a">Introduction</a></li>
+<li><a href="#org3647166">Related Work</a></li>
+<li><a href="#org4a2d55b">Models</a></li>
+<li><a href="#org5ee477b">Experiments and Results</a></li>
+<li><a href="#orgaed8b2b">Ablation Study (Takeaways)</a></li>
+<li><a href="#orga13a714">Conclusions</a></li>
+<li><a href="#org1f7a6e6">Readings and Resources</a></li>
+<li><a href="#org164f30d">Specific to Paper</a></li>
 </ul>
 </div>
 </nav>
@@ -71,16 +71,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </blockquote>
 
 
-<figure id="org2d2258e">
+<figure id="org9d30536">
 <img src="/assets/machine_learning.png" alt="machine_learning.png">
 
 </figure>
 
 <p>This post contains a complete overview of the titled paper and provides a basic outline of related concepts. This paper aims to investigate to what extent having initial sub-word and word context insensitive representations affect performance.
 </p>
-<div id="outline-container-orgf5b4c37" class="outline-2">
-<h2 id="orgf5b4c37">Abstract</h2>
-<div class="outline-text-2" id="text-orgf5b4c37">
+<div id="outline-container-orgf74a79b" class="outline-2">
+<h2 id="orgf74a79b">Abstract</h2>
+<div class="outline-text-2" id="text-orgf74a79b">
 <ol class="org-ol">
 <li>RNN leads to advances in speech tagging accuracy <a href="https://www.aclweb.org/anthology/K18-2001.pdf">Zeman et al</a></li>
 <li>Common thing among models, <i>rich initial word encodings</i>.</li>
@@ -92,9 +92,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 </div>
-<div id="outline-container-org1d4500b" class="outline-2">
-<h2 id="org1d4500b">Terms</h2>
-<div class="outline-text-2" id="text-org1d4500b">
+<div id="outline-container-orge7d8f36" class="outline-2">
+<h2 id="orge7d8f36">Terms</h2>
+<div class="outline-text-2" id="text-orge7d8f36">
 <ol class="org-ol">
 <li>Morphosyntactic = Morphology + Syntax and Morphology is study of words, how they are formed, and their relationship to other words in the same language.</li>
 <li><a href="https://medium.datadriveninvestor.com/how-do-lstm-networks-solve-the-problem-of-vanishing-gradients-a6784971a577">RNN</a>: <a href="https://arxiv.org/pdf/1211.5063.pdf">On difficulty of training RNNs</a></li>
@@ -103,13 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 </div>
-<div id="outline-container-org2619640" class="outline-2">
-<h2 id="org2619640"><a href="https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html">Basics of NLP</a></h2>
-<div class="outline-text-2" id="text-org2619640">
+<div id="outline-container-org6d76454" class="outline-2">
+<h2 id="org6d76454"><a href="https://www.kdnuggets.com/2018/06/getting-started-natural-language-processing.html">Basics of NLP</a></h2>
+<div class="outline-text-2" id="text-org6d76454">
 </div>
-<div id="outline-container-orgaa1c980" class="outline-3">
-<h3 id="orgaa1c980">Key Terms</h3>
-<div class="outline-text-3" id="text-orgaa1c980">
+<div id="outline-container-org8df85ed" class="outline-3">
+<h3 id="org8df85ed">Key Terms</h3>
+<div class="outline-text-3" id="text-org8df85ed">
 <ol class="org-ol">
 <li><b>NLP</b>: Natural Language Processing concerns itself with interaction of technology with human languages.</li>
 <li><b>Tokenization</b>: An early step in the NLP process which splits longer strings of text into smaller pieces, or <i>tokens</i>.</li>
@@ -127,9 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 </div>
-<div id="outline-container-org2d7915a" class="outline-3">
-<h3 id="org2d7915a">A framework for NLP</h3>
-<div class="outline-text-3" id="text-org2d7915a">
+<div id="outline-container-org788b82b" class="outline-3">
+<h3 id="org788b82b">A framework for NLP</h3>
+<div class="outline-text-3" id="text-org788b82b">
 <ol class="org-ol">
 <li><b>Data Collection or Assembly</b>: Building the corpus</li>
 <li><b>Data Preprocessing</b>: Perform operations on the collected corpus which consists of tokenization, normalization, substitution (noise removal).</li>
@@ -139,9 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 </div>
-<div id="outline-container-org82d004d" class="outline-3">
-<h3 id="org82d004d">Data Representation</h3>
-<div class="outline-text-3" id="text-org82d004d">
+<div id="outline-container-org1ee935b" class="outline-3">
+<h3 id="org1ee935b">Data Representation</h3>
+<div class="outline-text-3" id="text-org1ee935b">
 <ol class="org-ol">
 <li>We need to encode text in a way that can be controlled by us using a statistical classifier.</li>
 <li>We go from a set of categorical features in text: words, letters, POS tags, word arrangement, order etc to a series of <i>vectors</i>.</li>
@@ -162,12 +162,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 </div>
-<div id="outline-container-orgb481937" class="outline-3">
-<h3 id="orgb481937"><a href="http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf">Word Representation</a></h3>
+<div id="outline-container-orgcebf75c" class="outline-3">
+<h3 id="orgcebf75c"><a href="http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf">Word Representation</a></h3>
 </div>
-<div id="outline-container-org68da387" class="outline-3">
-<h3 id="org68da387"><a href="https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&amp;text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&amp;text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.">Subword models</a></h3>
-<div class="outline-text-3" id="text-org68da387">
+<div id="outline-container-org62db422" class="outline-3">
+<h3 id="org62db422"><a href="https://medium.com/analytics-vidhya/information-from-parts-of-words-subword-models-e5353d1dbc79#:~:text=Subword%2Dmodels%3A%20Byte%20Pair%20Encodings%20and%20friends,-2.1%20Byte%20pair&amp;text=Byte%20pair%20encoding%20(BPE)%20is,pairs%20into%20a%20new%20byte.&amp;text=BPE%20is%20a%20word%20segmentation,(Unicode)%20characters%20in%20data.">Subword models</a></h3>
+<div class="outline-text-3" id="text-org62db422">
 <ol class="org-ol">
 <li><b>Purely Character-level models</b>: In character-level modes, word embeddings<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> can be composed of character embeddings which have several advantages. <i>Character-level</i> models are needed because:
 <ul class="org-ul">
@@ -182,9 +182,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
-<div id="outline-container-orgde904d0" class="outline-2">
-<h2 id="orgde904d0">Morphology</h2>
-<div class="outline-text-2" id="text-orgde904d0">
+<div id="outline-container-orgf9456ff" class="outline-2">
+<h2 id="orgf9456ff">Morphology</h2>
+<div class="outline-text-2" id="text-orgf9456ff">
 <p>It is a section of grammar whose main objects are <b>words</b> of languages, their <i>significant parts</i> and <i>morphological signs</i>. Morphology studies:
 </p>
 <ul class="org-ul">
@@ -194,13 +194,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Grammatical values</li>
 </ul>
 </div>
-<div id="outline-container-orgba7665e" class="outline-3">
-<h3 id="orgba7665e">Grammatical Value</h3>
+<div id="outline-container-orgb417dee" class="outline-3">
+<h3 id="orgb417dee">Grammatical Value</h3>
 </div>
 </div>
-<div id="outline-container-org6b46bcf" class="outline-2">
-<h2 id="org6b46bcf">Introduction</h2>
-<div class="outline-text-2" id="text-org6b46bcf">
+<div id="outline-container-orgdf31c0a" class="outline-2">
+<h2 id="orgdf31c0a">Introduction</h2>
+<div class="outline-text-2" id="text-orgdf31c0a">
 <p>Morphosyntactic tagging accuracy has improved due to using BiLSTMs to create <i>sentence-level context sensitive encodings</i><sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> of words which is done by creating an initial context insensitive word representation<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> having three parts:
 </p>
 <ol class="org-ol">
@@ -218,9 +218,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </p>
 </div>
 </div>
-<div id="outline-container-orgd9ab93e" class="outline-2">
-<h2 id="orgd9ab93e">Related Work</h2>
-<div class="outline-text-2" id="text-orgd9ab93e">
+<div id="outline-container-org3647166" class="outline-2">
+<h2 id="org3647166">Related Work</h2>
+<div class="outline-text-2" id="text-org3647166">
 <ol class="org-ol">
 <li>An excellent example of an accurate linear model that uses both word and sub-word features.<sup><a id="fnr.7.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> It uses context sensitive n-gram affix features.</li>
 <li>First Modern NN for tagging which initially used only word embeddings<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>, was later extended to include suffix embeddings.<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup></li>
@@ -230,18 +230,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc5f7641" class="outline-2">
-<h2 id="orgc5f7641">Models</h2>
-<div class="outline-text-2" id="text-orgc5f7641">
+<div id="outline-container-org4a2d55b" class="outline-2">
+<h2 id="org4a2d55b">Models</h2>
+<div class="outline-text-2" id="text-org4a2d55b">
 </div>
-<div id="outline-container-orgc50f92a" class="outline-3">
-<h3 id="orgc50f92a">Sentence-based Character Model</h3>
-<div class="outline-text-3" id="text-orgc50f92a">
+<div id="outline-container-org527cf21" class="outline-3">
+<h3 id="org527cf21">Sentence-based Character Model</h3>
+<div class="outline-text-3" id="text-org527cf21">
 <p>In this model, a BiLSTM is applied to all characters of a sentence to induce fully context sensitive initial word encodings. It uses sentences split into UTF8 characters as input, the spaces between the tokens are included and each character is mapped to a dynamically learned embedding. A forward LSTM reads the characters from left to right and a backward LSTM reads sentences from right to left.
 </p>
 
 
-<figure id="org6281980">
+<figure id="org12fbe56">
 <img src="/assets/nnfl1a.png" alt="nnfl1a.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>Sentence-based Character Model: The representation for the token <i>shingles</i> is the concatenation of the four shaded boxes.</figcaption>
@@ -268,30 +268,30 @@ A tag can then be predicted with a <i>linear classifier</i> that takes as input 
 </p>
 </div>
 </div>
-<div id="outline-container-orga32ba50" class="outline-3">
-<h3 id="orga32ba50">Word-based Character Model</h3>
-<div class="outline-text-3" id="text-orga32ba50">
+<div id="outline-container-org37bbbb0" class="outline-3">
+<h3 id="org37bbbb0">Word-based Character Model</h3>
+<div class="outline-text-3" id="text-org37bbbb0">
 <p>To investigate whether a sentence sensitive character model (<i>Fig.1</i>) is better than a model where the context is restricted to the characters of a word, (<i>Fig.2</i>) which uses the final state of a unidirectional LSTM, combined with the attention mechanism of (ADD REF: cao rei) over all characters.
 </p>
 
 
-<figure id="orga791796">
+<figure id="orgb5c7f08">
 <img src="/assets/nnfl1b.png" alt="nnfl1b.png">
 
 <figcaption><span class="figure-number">Figure 2: </span>Word-based Character Model: The token is represented by concatenation of attention over the lightly shaded boxes with the final cell (dark box).</figcaption>
 </figure>
 
 
-<figure id="org5172b73">
+<figure id="orgc8f5d5b">
 <img src="/assets/nnfl1.png" alt="nnfl1.png">
 
 <figcaption><span class="figure-number">Figure 3: </span>BiLSTM variant of Character-level word representation</figcaption>
 </figure>
 </div>
 </div>
-<div id="outline-container-org5cd436c" class="outline-3">
-<h3 id="org5cd436c">Sentence-based Word Model</h3>
-<div class="outline-text-3" id="text-org5cd436c">
+<div id="outline-container-orgee3b27d" class="outline-3">
+<h3 id="orgee3b27d">Sentence-based Word Model</h3>
+<div class="outline-text-3" id="text-orgee3b27d">
 <p>The inputs are the words of the sentence and for each of the words, we use pre-trained word embeddings \((p_{1}^{word},...,p_{n}^{word})\) summed with a dynamically learned word embedding for each word in the corpus \((e_{1}^{word},...,e_{n}^{word})\):
 \[
 in_{i}^{word} = e_{i}^{word}+p_{i}^{word}
@@ -307,16 +307,16 @@ The output of this BiLSTM is essentially the Word-based Character Model before t
 </p>
 
 
-<figure id="org55622eb">
+<figure id="orga803d0a">
 <img src="/assets/nnfl2a.png" alt="nnfl2a.png">
 
 <figcaption><span class="figure-number">Figure 4: </span>Tagging Architecture of Word-based Character Model and Sentence-based Word Model</figcaption>
 </figure>
 </div>
 </div>
-<div id="outline-container-org56a3f69" class="outline-3">
-<h3 id="org56a3f69">Meta-BiLSTM: Model Combination</h3>
-<div class="outline-text-3" id="text-org56a3f69">
+<div id="outline-container-orgb1d5eab" class="outline-3">
+<h3 id="orgb1d5eab">Meta-BiLSTM: Model Combination</h3>
+<div class="outline-text-3" id="text-orgb1d5eab">
 <p>If each of the character or word-based encodings are trained with their own loss and are combined using an additional meta-BiLSTM model, optimal performance is obtained. The meta-biLSTM model concatenates the output of context sensitive character and word-based encoding for each word and puts this through another BiLSTM to create an <i>additional</i> combined context sensitive encoding. This is followed by a final MLP whose output is passed to a linear layer for tag prediction.
 \[
 cw_{i} = concat(m_{i}^{char}, m_{i}^{word})
@@ -330,21 +330,21 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </p>
 
 
-<figure id="orge31a6d6">
+<figure id="orge6307dd">
 <img src="/assets/nnfl2b.png" alt="nnfl2b.png">
 
 <figcaption><span class="figure-number">Figure 5: </span>Tagging Architecture of Meta-BiLSTM. Data flows along the arrows and the optimizers minimize the loss of the classifiers independently and backpropogate along the bold arrows.</figcaption>
 </figure>
 </div>
 </div>
-<div id="outline-container-orgfebe731" class="outline-3">
-<h3 id="orgfebe731">Training Schema</h3>
-<div class="outline-text-3" id="text-orgfebe731">
+<div id="outline-container-org7ea180e" class="outline-3">
+<h3 id="org7ea180e">Training Schema</h3>
+<div class="outline-text-3" id="text-org7ea180e">
 <p>Loss of each model is minimized independently by separate optimizers with their own hyperparameters which makes this a multi-task learning model and hence a schedule must be defined in which individual models are updated. In the proposed algorithm, during each epoch, each of the models are updated in sequence using the entire training data.
 </p>
 
 
-<figure id="org06c1079">
+<figure id="org4e7ce61">
 <img src="/assets/nnflAlg.png" alt="nnflAlg.png">
 
 </figure>
@@ -357,17 +357,17 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </div>
 </div>
 </div>
-<div id="outline-container-orgf7249b3" class="outline-2">
-<h2 id="orgf7249b3">Experiments and Results</h2>
-<div class="outline-text-2" id="text-orgf7249b3">
+<div id="outline-container-org5ee477b" class="outline-2">
+<h2 id="org5ee477b">Experiments and Results</h2>
+<div class="outline-text-2" id="text-org5ee477b">
 </div>
-<div id="outline-container-org6335afb" class="outline-3">
-<h3 id="org6335afb">Experimental Setup</h3>
-<div class="outline-text-3" id="text-org6335afb">
+<div id="outline-container-orgf456eea" class="outline-3">
+<h3 id="orgf456eea">Experimental Setup</h3>
+<div class="outline-text-3" id="text-orgf456eea">
 <p>The word embeddings are initialized with zero values and the pre-trained embeddings are not updated during training. The dropout<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> used on the embeddings is achieved by a single dropout mask and dropout is used on the input and the states of the LSTM.
 </p>
 
-<table id="org8d6df07">
+<table id="org8c69f22">
 
 
 <colgroup>
@@ -439,22 +439,22 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </p>
 </div>
 </div>
-<div id="outline-container-org8bafe27" class="outline-3">
-<h3 id="org8bafe27">Data Sets</h3>
+<div id="outline-container-org4966291" class="outline-3">
+<h3 id="org4966291">Data Sets</h3>
 </div>
-<div id="outline-container-org2413e6f" class="outline-3">
-<h3 id="org2413e6f">POS Tagging Results</h3>
+<div id="outline-container-orgd643028" class="outline-3">
+<h3 id="orgd643028">POS Tagging Results</h3>
 </div>
-<div id="outline-container-orgd9f0f95" class="outline-3">
-<h3 id="orgd9f0f95">POS Tagging on WSJ</h3>
+<div id="outline-container-orgc19957c" class="outline-3">
+<h3 id="orgc19957c">POS Tagging on WSJ</h3>
 </div>
-<div id="outline-container-org2cddc73" class="outline-3">
-<h3 id="org2cddc73">Morphological Tagging Results</h3>
+<div id="outline-container-org57353d3" class="outline-3">
+<h3 id="org57353d3">Morphological Tagging Results</h3>
 </div>
 </div>
-<div id="outline-container-orgbf82af4" class="outline-2">
-<h2 id="orgbf82af4">Ablation Study (Takeaways)</h2>
-<div class="outline-text-2" id="text-orgbf82af4">
+<div id="outline-container-orgaed8b2b" class="outline-2">
+<h2 id="orgaed8b2b">Ablation Study (Takeaways)</h2>
+<div class="outline-text-2" id="text-orgaed8b2b">
 <ul class="org-ul">
 <li><b>Impact of the training schema</b>: Separate optimization better than Joint optimization</li>
 <li><b>Impact of the Sentence-based Character Model</b>: Higher accuracy than word-based character context</li>
@@ -465,12 +465,12 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf32d1b6" class="outline-2">
-<h2 id="orgf32d1b6">Conclusions</h2>
+<div id="outline-container-orga13a714" class="outline-2">
+<h2 id="orga13a714">Conclusions</h2>
 </div>
-<div id="outline-container-orgc55f4f2" class="outline-2">
-<h2 id="orgc55f4f2">Readings and Resources</h2>
-<div class="outline-text-2" id="text-orgc55f4f2">
+<div id="outline-container-org1f7a6e6" class="outline-2">
+<h2 id="org1f7a6e6">Readings and Resources</h2>
+<div class="outline-text-2" id="text-org1f7a6e6">
 <ol class="org-ol">
 <li>Pytorch: <a href="https://pytorch.org/tutorials/beginner/nn_tutorial.html">Beginner Guide</a>, <a href="https://deeplizard.com/learn/playlist/PLZbbT5o_s2xrfNyHZsM6ufI0iZENK9xgG">Detailed Guides</a>, <a href="https://www.cs.toronto.edu//~lczhang/360/">Notebook form</a></li>
 <li>Math: <a href="https://explained.ai/matrix-calculus/index.html">Matrix Calculus</a>, <a href="https://mml-book.com/">Book</a></li>
@@ -497,9 +497,9 @@ m_{i}^{comb} = MLP(concat(f_{m,i}^{l}, b_{m,i}^{l}))
 </ol>
 </div>
 </div>
-<div id="outline-container-org3b0d7d1" class="outline-2">
-<h2 id="org3b0d7d1">Specific to Paper</h2>
-<div class="outline-text-2" id="text-org3b0d7d1">
+<div id="outline-container-org164f30d" class="outline-2">
+<h2 id="org164f30d">Specific to Paper</h2>
+<div class="outline-text-2" id="text-org164f30d">
 <ol class="org-ol">
 <li><a href="https://universaldependencies.org/guidelines.html">Universal Dependencies</a></li>
 <li><a href="https://lena-voita.github.io/nlp_course.html">Great Tutorial for NLP</a></li>

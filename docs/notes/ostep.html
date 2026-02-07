@@ -33,7 +33,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9d61927">Introduction</a></li>
+<li><a href="#orgd077ebe">Introduction</a></li>
+<li><a href="#org5f495b1">Virtualization</a></li>
 </ul>
 </div>
 </nav>
@@ -45,9 +46,9 @@ Code: <a href="https://github.com/remzi-arpacidusseau/ostep-code">https://github
 Homework: <a href="https://github.com/remzi-arpacidusseau/ostep-homework">https://github.com/remzi-arpacidusseau/ostep-homework</a>
 Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https://github.com/remzi-arpacidusseau/ostep-projects</a>
 </p>
-<div id="outline-container-org9d61927" class="outline-2">
-<h2 id="org9d61927">Introduction</h2>
-<div class="outline-text-2" id="text-org9d61927">
+<div id="outline-container-orgd077ebe" class="outline-2">
+<h2 id="orgd077ebe">Introduction</h2>
+<div class="outline-text-2" id="text-orgd077ebe">
 <p>In a socratic fashion, the first chapter is a dialogue between a <i>Professor</i> and a <i>Student</i> where the key ideas and how best to learn from the book is talked about.
 </p>
 
@@ -69,9 +70,9 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 <p>The chapter ends with a history of how operating systems were developed from early libraries to multiprogramming to PCs running DOS, linux and macOS.
 </p>
 </div>
-<div id="outline-container-orgefcaad0" class="outline-3">
-<h3 id="orgefcaad0">CPU Virtualization</h3>
-<div class="outline-text-3" id="text-orgefcaad0">
+<div id="outline-container-org02a3ebc" class="outline-3">
+<h3 id="org02a3ebc">CPU Virtualization</h3>
+<div class="outline-text-3" id="text-org02a3ebc">
 <pre class="src src-C"><code><span class="font-lock-preprocessor-face">#if</span><span class="font-lock-preprocessor-face font-lock-negation-char-face">n</span><span class="font-lock-preprocessor-face">def</span> __common_h__
 <span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-variable-name-face">__common_h__</span>
 
@@ -125,7 +126,7 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="orgbb987e1">
+<pre class="example" id="orge7f3fc4">
 A
 B
 A
@@ -142,9 +143,9 @@ B
 </p>
 </div>
 </div>
-<div id="outline-container-org93c9af6" class="outline-3">
-<h3 id="org93c9af6">Memory Virtualization</h3>
-<div class="outline-text-3" id="text-org93c9af6">
+<div id="outline-container-org47c441d" class="outline-3">
+<h3 id="org47c441d">Memory Virtualization</h3>
+<div class="outline-text-3" id="text-org47c441d">
 <p>Physical memory is just an array of bytes; to <i>read</i> or <i>write</i> memory, an <i>address</i> must be specified to access the data there.
 </p>
 
@@ -174,7 +175,7 @@ B
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="orgfe5d641">
+<pre class="example" id="orga491eb5">
 (19998) address pointed to by p -&gt; 0x1047cd830
 (19997) address pointed to by p -&gt; 0x10263d830
 (19997) p =&gt; 1 addr -&gt; 0x10263d830
@@ -196,9 +197,9 @@ B
 </p>
 </div>
 </div>
-<div id="outline-container-org687d5fa" class="outline-3">
-<h3 id="org687d5fa">Concurrency</h3>
-<div class="outline-text-3" id="text-org687d5fa">
+<div id="outline-container-orgd6b190b" class="outline-3">
+<h3 id="orgd6b190b">Concurrency</h3>
+<div class="outline-text-3" id="text-orgd6b190b">
 <pre class="src src-C"><code><span class="font-lock-preprocessor-face">#if</span><span class="font-lock-preprocessor-face font-lock-negation-char-face">n</span><span class="font-lock-preprocessor-face">def</span> __common_threads_h__
 <span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-variable-name-face">__common_threads_h__</span>
 
@@ -310,7 +311,7 @@ Final value: 101961
 
 <details>
 <summary>Output</summary>
-<pre class="example" id="orgea87a82">
+<pre class="example" id="orga25bf72">
 PTHREAD_CREATE(3)	   Library Functions Manual	     PTHREAD_CREATE(3)
 
 NAME
@@ -361,9 +362,9 @@ RETURN VALUES
 </details>
 </div>
 </div>
-<div id="outline-container-org512bd4c" class="outline-3">
-<h3 id="org512bd4c">Persistence</h3>
-<div class="outline-text-3" id="text-org512bd4c">
+<div id="outline-container-orgbe96caa" class="outline-3">
+<h3 id="orgbe96caa">Persistence</h3>
+<div class="outline-text-3" id="text-orgbe96caa">
 <p>Final major theme of <i>persistence</i> relates to determinate data storage and not be dependent on <i>volatile</i> memory. The software in the OS that manages the disk is called <i>file system</i>. Unlike CPU and memory abstractions, the expectation when is comes to files is that the user would <b>want to share</b> the data in files with processes hence there is no need of virtualization of disk.
 </p>
 
@@ -411,9 +412,9 @@ hello world
 </p>
 </div>
 </div>
-<div id="outline-container-org8ba125f" class="outline-3">
-<h3 id="org8ba125f">Discussion links</h3>
-<div class="outline-text-3" id="text-org8ba125f">
+<div id="outline-container-org893c548" class="outline-3">
+<h3 id="org893c548">Discussion links</h3>
+<div class="outline-text-3" id="text-org893c548">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/Singularity_(operating_system)#Security_design">SingularityOS</a></li>
 <li><a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">Ben Eater Video</a></li>
@@ -421,6 +422,9 @@ hello world
 </ul>
 </div>
 </div>
+</div>
+<div id="outline-container-org5f495b1" class="outline-2">
+<h2 id="org5f495b1">Virtualization</h2>
 </div>
 </div>
 <footer id="postamble" class="status">

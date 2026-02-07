@@ -2,8 +2,6 @@
 #+OPTIONS: toc:nil
 #+DATE: 2021-03-21 Mon
 
-* Webpresence of Prashant Tak
-
 #+begin_quote
 Why should a man climb Everest?
 Because it is there.

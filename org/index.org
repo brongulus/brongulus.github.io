@@ -1,4 +1,13 @@
+#+TITLE: Webpresence of Prashant Tak
 #+OPTIONS: toc:nil
+
+#+HTML: <a href="/image.html">
+#+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; border-radius: 8px; }</style>
+[[./assets/japanese-village-pixel-art-v0-q9pz3p25sno91-2402180699.png]]
+#+HTML: </a>
+
+# <----------------------------------------------------------------->
+
 #+HTML: <div class="entries">
 
 * [[file:meta/index.org][Meta]]
