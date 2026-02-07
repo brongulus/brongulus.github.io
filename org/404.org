@@ -1,0 +1,10 @@
+#+OPTIONS: toc:nil
+
+* 404
+
+#+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; border-radius: 50%; }</style>
+[[/assets/404.gif]]
+
+#+begin_quote
+Oops, couldn't find the page you are looking for. Here, have a candy! 🍬
+#+end_quote

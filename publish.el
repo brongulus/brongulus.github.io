@@ -307,6 +307,13 @@ document.addEventListener('DOMContentLoaded', function() {
 ;; -------------------------------------------------------------------------------
 ;; src: https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors
 
+
+(define-advice org-export-format-reference (:override (reference) handle-string-references)
+  "Format REFERENCE into a string.
+REFERENCE is either a number or a string representing a reference,
+as returned by `org-export-new-reference'."
+  (if (stringp reference) reference (format "org%07x" reference)))
+
 (advice-add #'org-export-get-reference :override #'unpackaged/org-export-get-reference)
 
 (defun org-reference-contraction (reference-string)
