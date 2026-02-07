@@ -6,6 +6,22 @@
 
 (setq debug-on-error t)
 
+(with-eval-after-load 'org-src
+  (nconc org-src-lang-modes
+         '(("rust" . rust-ts) ("python" . python-ts)
+           ("go" . go-ts) ("bash" . bash-ts)
+           ("typescript" . typescript-ts)
+           ("javascript" . js-ts) ("json" . json-ts)
+           ("yaml" . yaml-ts) ("toml" . toml-ts)
+           ("c" . c-ts) ("cpp" . c++-ts))))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((C . t) (shell . t)
+   (python . t)
+   (emacs-lisp . t)))
+(setq org-confirm-babel-evaluate nil)
+
 (defvar blog-base-dir
   (file-name-directory (or load-file-name (buffer-file-name)))
   "The `:base-directory' for blog source.")

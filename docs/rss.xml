@@ -6,6 +6,12 @@
     <description>Webpresence of Prashant Tak</description>
     <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Docker Kubernetes Notes</title>
+      <link>https://brongulus.github.io/notes/k8s.html</link>
+      <guid>https://brongulus.github.io/notes/k8s.html</guid>
+      <pubDate>Sun, 08 Feb 2026 01:04:53 +0530</pubDate>
+    </item>
+    <item>
       <title>Find and Replace</title>
       <link>https://brongulus.github.io/blog/find-replace.html</link>
       <guid>https://brongulus.github.io/blog/find-replace.html</guid>
@@ -40,12 +46,6 @@
       <link>https://brongulus.github.io/notes/mcm.html</link>
       <guid>https://brongulus.github.io/notes/mcm.html</guid>
       <pubDate>Thu, 05 Feb 2026 14:53:58 +0530</pubDate>
-    </item>
-    <item>
-      <title>Docker Kubernetes Notes</title>
-      <link>https://brongulus.github.io/notes/k8s.html</link>
-      <guid>https://brongulus.github.io/notes/k8s.html</guid>
-      <pubDate>Wed, 04 Feb 2026 23:36:16 +0530</pubDate>
     </item>
     <item>
       <title>Morphosyntactic Tagging with BiLSTM Model</title>

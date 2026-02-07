@@ -110,17 +110,10 @@ html[data-theme=dark] {
 }
 
 @font-face {
-    font-family: 'Ioskeley Mono';
-    src: url('../assets/Ioskeley_Mono/IoskeleyMono-Regular.ttf') format('truetype');
-    font-weight: 200;
+    font-family: 'Fira Code';
+    src: url('../assets/Fira_Code/FiraCode-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
     font-style: normal;
-}
-
-@font-face {
-    font-family: 'Ioskeley Mono';
-    src: url('../assets/Ioskeley_Mono/IoskeleyMono-Italic.ttf') format('truetype');
-    font-weight: 200;
-    font-style: italic;
 }
 
 /* ======================================== */
@@ -208,6 +201,13 @@ header {
     margin-left: 0;
     max-width: 100%;
     width: 100%;
+}
+
+b {
+    font-weight: 500;
+}
+[data-theme="dark"] b {
+    font-weight: 600;
 }
 
 /* ======================================== */
@@ -337,14 +337,14 @@ p code {
 
 pre,
 code {
-    font-family: "Ioskeley Mono", monospace;
+    font-family: "Fira Code", monospace;
     overflow-x: auto;
 }
 
 code {
     border-radius: 6px;
-    font-size: 80%;
-    font-weight: 200;
+    font-size: 75%;
+    font-weight: 400;
     padding: 0 0.2rem;
     background-color: var(--marker);
 }
@@ -409,7 +409,7 @@ pre code {
 
 .mermaid p {
     /* font-family: initial; */
-    font-family: "Ioskeley Mono", monospace;
+    font-family: "Fira Code", monospace;
     font-size: 16px;
     line-height: 1.1;
 }

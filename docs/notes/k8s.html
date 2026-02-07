@@ -104,7 +104,7 @@
 </p>
 <ul class="org-ul">
 <li>DaemonSet: Ensures that all (or explicitly specified) nodes run a copy of a pod. They ensure that a pod is replicated on some or all of the nodes. When a new node is added to a Kubernetes cluster, a new pod will be created on that node. For example a kube-proxy can run as a pod on every node managed by a daemonSet. A daemonset works almost similar to a deployment. However the replica count is determined by the number of cluster nodes.</li>
-<li>StatefulSet: Manages the deployment and scaling of a set of pods, and <b>provides guarantees about the ordering and uniqueness</b> of these pods. Deployments are like running identical workers at a factory (completely interchangeable), while StatefulSets are like running a team where each person has their own specific role and resources (not interchangeable).Similar to deployments, however it provides <i>more stability</i> with regards to names/identifiers. Service routes traffic to a <b>specific</b> pod based on labels and <b>names</b> and pods have stable names, individual persistent storage and are ordered unlike in the case of deployments.</li>
+<li>StatefulSet: Manages the deployment and scaling of a set of pods, and <b>provides guarantees about the ordering and uniqueness</b> of these pods. Deployments are like running identical workers at a factory (completely interchangeable), while StatefulSets are like running a team where each person has their own specific role and resources (not interchangeable). Similar to deployments, but it provides <i>more stability</i> with regards to names/identifiers. Service routes traffic to a <b>specific</b> pod based on labels and <b>names</b> and pods have stable names, individual persistent storage and are ordered unlike in the case of deployments.</li>
 <li>Headless Service: Allows you to connect directly to a pod while using dns names instead of IP addresses. A headless service is created, by specifying “None” as the value for “ClusterIP”. They are needed to make StatefulSets work.</li>
 <li><a href="https://sysdig.com/learn-cloud-native/kubernetes-replicasets-overview/">ReplicaSet</a>: Kubernetes object used to maintain a stable set of replicated pods running within a cluster at any given time. Deployments are an alternative to ReplicaSets,  as they are used to manage ReplicaSets . They are handy when it comes to rolling out changes to a set of pods via a ReplicaSet. You can simply roll back to a previous Deployment revision when managing a ReplicaSet using a Deployment or create a new revision.</li>
 <li>Resource Quotas: Set quotas on namespace level, limit the number of resources (Pod, PVC, Service…) allowed in this namespace. Can also enforce applications to specify minimal resources required and max resources (limit) wanted.</li>
@@ -151,41 +151,41 @@
 <li>An Ingress with no rules sends all traffic to a single default backend and <code>.spec.defaultBackend</code> is the backend that should handle requests in that case.</li>
 <li><p>A fanout configuration routes traffic from a single IP address to more than one Service, based on the HTTP URI being requested.
 </p>
-<pre class="src src-yaml"><code>   spec:
-     rules:
-       - host: foo.bar.com
-         http:
-           paths:
-           - path: /foo
-             pathType: Prefix
-             backend:
-               service:
-                 name: service1
-           - path: /bar
-             pathType: Prefix
-             backend:
-               service:
-                 name: service2</code></pre></li>
+<pre class="src src-yaml"><code>   <span class="font-lock-property-use-face">spec</span>:
+     <span class="font-lock-property-use-face">rules</span>:
+       - <span class="font-lock-property-use-face">host</span>: <span class="font-lock-string-face">foo.bar.com</span>
+         <span class="font-lock-property-use-face">http</span>:
+           <span class="font-lock-property-use-face">paths</span>:
+           - <span class="font-lock-property-use-face">path</span>: <span class="font-lock-string-face">/foo</span>
+             <span class="font-lock-property-use-face">pathType</span>: <span class="font-lock-string-face">Prefix</span>
+             <span class="font-lock-property-use-face">backend</span>:
+               <span class="font-lock-property-use-face">service</span>:
+                 <span class="font-lock-property-use-face">name</span>: <span class="font-lock-string-face">service1</span>
+           - <span class="font-lock-property-use-face">path</span>: <span class="font-lock-string-face">/bar</span>
+             <span class="font-lock-property-use-face">pathType</span>: <span class="font-lock-string-face">Prefix</span>
+             <span class="font-lock-property-use-face">backend</span>:
+               <span class="font-lock-property-use-face">service</span>:
+                 <span class="font-lock-property-use-face">name</span>: <span class="font-lock-string-face">service2</span></code></pre></li>
 <li><p>Name-based virtual hosts support routing HTTP traffic to multiple host names at the same IP address.
 </p>
-<pre class="src src-yaml"><code>   spec:
-     rules:
-       - host: foo.bar.com # foo bar
-         http:
-           paths:
-           - path: "/"
-             pathType: Prefix
-             backend:
-               service:
-                 name: service1
-       - host: bar.foo.com # bar foo
-         http:
-           paths:
-           - path: "/"
-             pathType: Prefix
-             backend:
-               service:
-                 name: service2</code></pre></li>
+<pre class="src src-yaml"><code>   <span class="font-lock-property-use-face">spec</span>:
+     <span class="font-lock-property-use-face">rules</span>:
+       - <span class="font-lock-property-use-face">host</span>: <span class="font-lock-string-face">foo.bar.com</span> <span class="font-lock-comment-face"># foo bar</span>
+         <span class="font-lock-property-use-face">http</span>:
+           <span class="font-lock-property-use-face">paths</span>:
+           - <span class="font-lock-property-use-face">path</span>: <span class="font-lock-string-face">"/"</span>
+             <span class="font-lock-property-use-face">pathType</span>: <span class="font-lock-string-face">Prefix</span>
+             <span class="font-lock-property-use-face">backend</span>:
+               <span class="font-lock-property-use-face">service</span>:
+                 <span class="font-lock-property-use-face">name</span>: <span class="font-lock-string-face">service1</span>
+       - <span class="font-lock-property-use-face">host</span>: <span class="font-lock-string-face">bar.foo.com</span> <span class="font-lock-comment-face"># bar foo</span>
+         <span class="font-lock-property-use-face">http</span>:
+           <span class="font-lock-property-use-face">paths</span>:
+           - <span class="font-lock-property-use-face">path</span>: <span class="font-lock-string-face">"/"</span>
+             <span class="font-lock-property-use-face">pathType</span>: <span class="font-lock-string-face">Prefix</span>
+             <span class="font-lock-property-use-face">backend</span>:
+               <span class="font-lock-property-use-face">service</span>:
+                 <span class="font-lock-property-use-face">name</span>: <span class="font-lock-string-face">service2</span></code></pre></li>
 </ol>
 </div>
 </div>
