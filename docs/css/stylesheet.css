@@ -332,7 +332,6 @@ p:last-child {
 }
 
 p code {
-    font-size: 80%;
     letter-spacing: 0em;
 }
 
@@ -344,7 +343,7 @@ code {
 
 code {
     border-radius: 6px;
-    font-size: 90%;
+    font-size: 80%;
     font-weight: 200;
     padding: 0 0.2rem;
     background-color: var(--marker);
@@ -383,6 +382,7 @@ pre {
 pre code {
     background-color: transparent;
     padding: 0;
+    font-size: 100%;
 }
 
 .font-lock-keyword-face { color: #c678dd; }
