@@ -1,4 +1,5 @@
 #+TITLE: OSTEP - Book Club
+#+DATE: 2026-01-24 Sat
 
 Schedule: https://eatonphil.com/2026-ostep.html
 

@@ -3,11 +3,11 @@
 
 * Blog Posts
 
-- [[file:find-replace.org][Find and Replace]]
-- [[file:self-hate.org][Every Second Counts]]
-- [[file:irc.org][I R SSI]]
-- [[file:nnfl-paper.org][Morphosyntactic Tagging with BiLSTM Model]]
-- [[file:inertia.org][The Subject of no one's affection]]
-- [[file:musturbating.org][Stop Musturbating]]
+- @@html:<span class="entry-title">@@[[file:find-replace.org][Find and Replace]]@@html:</span>@@@@html:<span class="entry-date">2026-02-06</span>@@
+- @@html:<span class="entry-title">@@[[file:musturbating.org][Stop Musturbating]]@@html:</span>@@@@html:<span class="entry-date">2025-12-25</span>@@
+- @@html:<span class="entry-title">@@[[file:self-hate.org][Every Second Counts]]@@html:</span>@@@@html:<span class="entry-date">2025-12-22</span>@@
+- @@html:<span class="entry-title">@@[[file:irc.org][I R SSI]]@@html:</span>@@@@html:<span class="entry-date">2022-06-28</span>@@
+- @@html:<span class="entry-title">@@[[file:nnfl-paper.org][Morphosyntactic Tagging with BiLSTM Model]]@@html:</span>@@@@html:<span class="entry-date">2021-03-21</span>@@
+- @@html:<span class="entry-title">@@[[file:inertia.org][The Subject of no one's affection]]@@html:</span>@@@@html:<span class="entry-date">2019-06-10</span>@@
 
 #+HTML: </div>

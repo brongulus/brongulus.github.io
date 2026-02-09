@@ -67,7 +67,7 @@ To expose a service to the outside world (outside of cluster scoped DNS/IP range
 2. LoadBalancer: A single network endpoint with a unique IP which will be associated with a service. Incoming traffic to this IP on the service port will be forwarded through the service to the pods matching the labels specified in the service description.
 3. NodePort: A port that is opened on every node of the cluster. It is associated with a service and any incoming traffic at this nodePort will be routed to the corresponding service. From there it will be forwarded to service’s pods, regardless on which node it they actually run.
 
-Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx. Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.
+Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx (deprecated in favour of Gateway API). Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.
 
 The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services' perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.
 

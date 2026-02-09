@@ -1,4 +1,5 @@
 #+TITLE:Stop Musturbating
+#+DATE: 2025-12-25 Thu
 #+OPTIONS: toc:nil
 
 #+begin_note

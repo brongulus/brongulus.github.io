@@ -3,14 +3,14 @@
 
 * Notes
 
-- [[file:k8s.org][Docker Kubernetes Notes]]
-- [[file:ostep.org][OSTEP - Book Club]]
-- [[file:2fast2mcm.org][2 Fast 2 MCM]]
-- [[file:mcm.org][MCM]]
-- [[file:notes-from-underground.org][Notes from Underground]]
-- [[file:meditations.org][Meditations]]
-- [[file:ecs.org][Elements of computing systems]]
-- [[file:iusaco.org][IUSACO]]
-- [[file:hangul.org][Hangul]]
+- @@html:<span class="entry-title">@@[[file:ostep.org][OSTEP - Book Club]]@@html:</span>@@@@html:<span class="entry-date">2026-01-24</span>@@
+- @@html:<span class="entry-title">@@[[file:notes-from-underground.org][Notes from Underground]]@@html:</span>@@@@html:<span class="entry-date">2026-01-03</span>@@
+- @@html:<span class="entry-title">@@[[file:2fast2mcm.org][2 Fast 2 MCM]]@@html:</span>@@@@html:<span class="entry-date">2025-01-15</span>@@
+- @@html:<span class="entry-title">@@[[file:mcm.org][MCM]]@@html:</span>@@@@html:<span class="entry-date">2024-11-29</span>@@
+- @@html:<span class="entry-title">@@[[file:k8s.org][Docker Kubernetes Notes]]@@html:</span>@@@@html:<span class="entry-date">2024-11-08</span>@@
+- @@html:<span class="entry-title">@@[[file:hangul.org][Hangul]]@@html:</span>@@@@html:<span class="entry-date">2022-07-06</span>@@
+- @@html:<span class="entry-title">@@[[file:ecs.org][Elements of computing systems]]@@html:</span>@@@@html:<span class="entry-date">2022-06-10</span>@@
+- @@html:<span class="entry-title">@@[[file:iusaco.org][IUSACO]]@@html:</span>@@@@html:<span class="entry-date">2022-06-05</span>@@
+- @@html:<span class="entry-title">@@[[file:meditations.org][Meditations]]@@html:</span>@@@@html:<span class="entry-date">2022-03-14</span>@@
 
 #+HTML: </div>

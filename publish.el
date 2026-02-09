@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </a>")
 
 (setq org-export-with-toc 1
+      org-export-with-date t
       org-html-htmlize-output-type nil
       org-html-doctype "html5"
       org-html-html5-fancy t
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
          :auto-preamble t
          :auto-sitemap t
          :sitemap-function my-sitemap-function
+         :sitemap-format-entry my/sitemap-format-entry
          :sitemap-title "Blog Posts"
          :sitemap-filename "index.org"
          :sitemap-sort-files anti-chronologically)
@@ -137,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
          :auto-preamble t
          :auto-sitemap t
          :sitemap-function my-sitemap-function
+         :sitemap-format-entry my/sitemap-format-entry
          :sitemap-title "Notes"
          :sitemap-filename "index.org"
          :sitemap-sort-files anti-chronologically)
@@ -154,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
          :auto-preamble t
          :auto-sitemap t
          :sitemap-function my-sitemap-function
+         :sitemap-format-entry my/sitemap-format-entry
          :sitemap-title "Notes"
          :sitemap-filename "index.org"
          :sitemap-sort-files anti-chronologically)
@@ -164,11 +168,93 @@ document.addEventListener('DOMContentLoaded', function() {
          :recursive t
          :publishing-function org-publish-attachment)))
 
+(defun my/org-html-add-date-after-title (output backend info)
+  "Insert date after title h1 in OUTPUT for HTML BACKEND.
+INFO is a plist holding export options."
+  (when (org-export-derived-backend-p backend 'html)
+    (let ((date (org-export-get-date info)))
+      (if (and (plist-get info :with-date) date)
+          (replace-regexp-in-string
+           "</h1>\n</header>"
+           (format "</h1>\n<p class=\"date\">%s</p>\n</header>"
+                   (org-export-data date info))
+           output)
+        output))))
+
+(add-to-list 'org-export-filter-final-output-functions
+             #'my/org-html-add-date-after-title)
+
+(defun my/sitemap-extract-date (file project)
+  "Extract #+DATE from FILE in PROJECT, return as time value or nil."
+  (let* ((base-dir (org-publish-property :base-directory project))
+         (file-path (expand-file-name file base-dir)))
+    (when (and file-path (file-exists-p file-path))
+      (with-temp-buffer
+        (insert-file-contents file-path)
+        (goto-char (point-min))
+        (when (re-search-forward "^#\\+DATE:[ \t]*\\(.+\\)$" nil t)
+          (let ((date-str (match-string 1)))
+            ;; Parse the date string, handling formats like "2021-03-21 Mon"
+            (condition-case nil
+                (org-time-string-to-time date-str)
+              (error nil))))))))
+
+(defun my/sitemap-format-entry (entry style project)
+  "Format ENTRY for sitemap with date from #+DATE property.
+STYLE is the sitemap style, PROJECT is the current project."
+  (unless (equal entry ".")
+    (let* ((title (org-publish-find-title entry project))
+           (date (my/sitemap-extract-date entry project))
+           (date-str (if date (format-time-string "%Y-%m-%d" date) "")))
+      (if (string= date-str "")
+          (format "@@html:<span class=\"entry-title\">@@[[file:%s][%s]]@@html:</span>@@" entry title)
+        (format "@@html:<span class=\"entry-title\">@@[[file:%s][%s]]@@html:</span>@@@@html:<span class=\"entry-date\">%s</span>@@" entry title date-str)))))
+
+(defun my/sitemap-sort-by-date (a b)
+  "Sort sitemap entries A and B by their #+DATE, newest first."
+  (let* ((a-date (get-text-property 0 :date a))
+         (b-date (get-text-property 0 :date b)))
+    (if (and a-date b-date)
+        (time-less-p b-date a-date)
+      (if a-date t nil))))
+
 (defun my-sitemap-function (title list)
-  (concat "#+OPTIONS: toc:nil\n#+HTML: <div class=\"entries\">\n\n* "
-          title "\n\n"
-          (org-list-to-org list) "\n\n"
-          "#+HTML: </div>"))
+  "Generate sitemap with entries sorted by #+DATE property."
+  (let* ((entries (cl-remove-if
+                   (lambda (item)
+                     (or (null item)
+                         (and (listp item)
+                              (or (null (car item))
+                                  (and (stringp (car item)) (string= (car item) ""))))))
+                   (cdr list)))
+         ;; Sort entries by date extracted from the formatted string
+         (sorted-entries (sort entries
+                               (lambda (a b)
+                                 (let ((a-date (my/sitemap-get-entry-date a))
+                                       (b-date (my/sitemap-get-entry-date b)))
+                                   (if (and a-date b-date)
+                                       (time-less-p b-date a-date)
+                                     (if a-date t nil))))))
+         ;; Build org list text directly, preserving inline HTML
+         (list-items (mapconcat
+                      (lambda (item)
+                        (when (and item (listp item) (stringp (car item)))
+                          (concat "- " (car item))))
+                      sorted-entries
+                      "\n")))
+    (concat "#+OPTIONS: toc:nil\n#+HTML: <div class=\"entries\">\n\n* "
+            title "\n\n"
+            list-items "\n\n"
+            "#+HTML: </div>")))
+
+(defun my/sitemap-get-entry-date (entry)
+  "Extract date from sitemap ENTRY by parsing the date string from entry-date span."
+  (when (and entry (listp entry) (stringp (car entry)))
+    (let ((entry-str (car entry)))
+      (when (string-match "entry-date\">\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\)<" entry-str)
+        (condition-case nil
+            (org-time-string-to-time (match-string 1 entry-str))
+          (error nil))))))
 
 (defun my-org-html-example-filter (text backend _info)
   "Wrap example blocks in details tags."
@@ -256,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
          (blog-dir (concat blog-base-dir "org/blog/"))
          (notes-dir (concat blog-base-dir "org/notes/"))
          (output-file (concat blog-base-dir "docs/rss.xml")))
-    
+
     ;; Collect posts from blog and notes
     (dolist (dir (list blog-dir notes-dir))
       (when (file-directory-p dir)
@@ -266,12 +352,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         :date (nth 5 (file-attributes file))
                         :rel-path (file-relative-name file (concat blog-base-dir "org/")))
                   posts)))))
-    
+
     ;; Sort by date
     (setq posts (sort posts (lambda (a b)
                               (time-less-p (plist-get b :date)
                                            (plist-get a :date)))))
-    
+
     ;; Generate RSS XML
     (with-temp-file output-file
       (insert "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
@@ -281,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
       (insert "    <link>https://brongulus.github.io/</link>\n")
       (insert "    <description>Webpresence of Prashant Tak</description>\n")
       (insert "    <atom:link href=\"https://brongulus.github.io/rss.xml\" rel=\"self\" type=\"application/rss+xml\" />\n")
-      
+
       (dolist (post posts)
         (let* ((file (plist-get post :file))
                (date (plist-get post :date))
@@ -292,10 +378,10 @@ document.addEventListener('DOMContentLoaded', function() {
           (insert (format "      <title>%s</title>\n" (my/xml-escape title)))
           (insert (format "      <link>https://brongulus.github.io%s</link>\n" html-path))
           (insert (format "      <guid>https://brongulus.github.io%s</guid>\n" html-path))
-          (insert (format "      <pubDate>%s</pubDate>\n" 
+          (insert (format "      <pubDate>%s</pubDate>\n"
                           (format-time-string "%a, %d %b %Y %H:%M:%S %z" date)))
           (insert "    </item>\n")))
-      
+
       (insert "  </channel>\n")
       (insert "</rss>\n"))))
 
@@ -322,7 +408,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ;; -------------------------------------------------------------------------------
 ;; src: https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors
-
 
 (define-advice org-export-format-reference (:override (reference) handle-string-references)
   "Format REFERENCE into a string.

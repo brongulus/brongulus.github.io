@@ -29,6 +29,7 @@
 <div id="content" class="content">
 <header>
 <h1 class="title">Docker Kubernetes Notes</h1>
+<p class="date">2024-11-08 Fri 09:52</p>
 </header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
@@ -139,7 +140,7 @@
 <li>NodePort: A port that is opened on every node of the cluster. It is associated with a service and any incoming traffic at this nodePort will be routed to the corresponding service. From there it will be forwarded to service’s pods, regardless on which node it they actually run.</li>
 </ol>
 
-<p>Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx. Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.
+<p>Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Only creating an Ingress resource has no effect. You may need to deploy an Ingress controller such as ingress-nginx (deprecated in favour of Gateway API). Ingress controller is typically exposed via a LoadBalancer service and it handles traffic according to ingress specifications.
 </p>
 
 <p>The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services&rsquo; perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.

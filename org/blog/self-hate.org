@@ -1,4 +1,5 @@
 #+TITLE:Every Second Counts
+#+DATE: 2025-12-22 Mon
 
 #+begin_quote
 "Oh, to wake up grateful for the pulse in my neck;
