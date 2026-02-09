@@ -125,7 +125,22 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 ./cpu <span class="font-lock-string-face">"A"</span> &amp; ./cpu <span class="font-lock-string-face">"B"</span> &amp;
 <span class="font-lock-builtin-face">wait</span></code></pre>
 
-<p>Even though there&rsquo;s only one processor, the execution of the two programs <code>./cpu "A"</code> and <code>./cpu "B"</code> seems to be happening at the same time, this is because of <i>CPU virtualization</i>. But for two programs to run simultaneously, the OS needs to have a <i>policy</i> to decide which should run.
+<details>
+<summary>Output</summary>
+<pre class="example">
+A
+B
+A
+B
+A
+B
+A
+B
+A
+B
+</pre>
+
+</details><p>Even though there&rsquo;s only one processor, the execution of the two programs <code>./cpu "A"</code> and <code>./cpu "B"</code> seems to be happening at the same time, this is because of <i>CPU virtualization</i>. But for two programs to run simultaneously, the OS needs to have a <i>policy</i> to decide which should run.
 </p>
 </div>
 </div>
@@ -159,7 +174,24 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 ./mem &amp; ./mem &amp;
 <span class="font-lock-builtin-face">wait</span></code></pre>
 
-<p>In the textbook example, for both instances of the program, the memory was allocated to the same address, this was used to illustrate that each running program has its own private memory (<b>memory virtualization</b>, private <i>address space</i> that gets mapped to physical memory) rather than sharing physical memory with other programs.
+<details>
+<summary>Output</summary>
+<pre class="example">
+(19998) address pointed to by p -&gt; 0x1047cd830
+(19997) address pointed to by p -&gt; 0x10263d830
+(19997) p =&gt; 1 addr -&gt; 0x10263d830
+(19998) p =&gt; 1 addr -&gt; 0x1047cd830
+(19997) p =&gt; 2 addr -&gt; 0x10263d830
+(19998) p =&gt; 2 addr -&gt; 0x1047cd830
+(19997) p =&gt; 3 addr -&gt; 0x10263d830
+(19998) p =&gt; 3 addr -&gt; 0x1047cd830
+(19997) p =&gt; 4 addr -&gt; 0x10263d830
+(19998) p =&gt; 4 addr -&gt; 0x1047cd830
+(19997) p =&gt; 5 addr -&gt; 0x10263d830
+(19998) p =&gt; 5 addr -&gt; 0x1047cd830
+</pre>
+
+</details><p>In the textbook example, for both instances of the program, the memory was allocated to the same address, this was used to illustrate that each running program has its own private memory (<b>memory virtualization</b>, private <i>address space</i> that gets mapped to physical memory) rather than sharing physical memory with other programs.
 </p>
 
 <p>However for security purposes, <code>macOS</code> has enabled <code>address-space layout randomization</code> (ASLR) hence the different addresses for the two processes.
@@ -251,6 +283,16 @@ Projects: <a href="https://github.com/remzi-arpacidusseau/ostep-projects">https:
 <span class="font-lock-builtin-face">wait</span>
 ./threads 100000
 <span class="font-lock-builtin-face">wait</span></code></pre>
+
+<pre class="example">
+Initial value: 0
+Final value: 1172
+Initial value: 0
+Final value: 100051
+Initial value: 0
+Final value: 101961
+</pre>
+
 
 <p>There&rsquo;s a different final <code>counter</code> value each time the program is executed, even with the same <code>loops</code> value. This is because the instructions of the <code>worker()</code> routine aren&rsquo;t <b>atomic</b> i.e. there are three separate instructions involved in updating the counter value:
 </p>
@@ -361,6 +403,11 @@ RETURN VALUES
 ./io
 <span class="font-lock-builtin-face">wait</span>
 cat /tmp/file_ostep</code></pre>
+
+<pre class="example">
+hello world
+</pre>
+
 
 <p>Here, <code>open()</code>, <code>write()</code> and <code>close()</code> are <i>system calls</i> that are routed to the <i>file system</i> which handles these requests and returns their response to the user.
 </p>

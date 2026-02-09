@@ -15,12 +15,12 @@
            ("yaml" . yaml-ts) ("toml" . toml-ts)
            ("c" . c-ts) ("cpp" . c++-ts))))
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((C . t) (shell . t)
-   (python . t)
-   (emacs-lisp . t)))
-(setq org-confirm-babel-evaluate nil)
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((C . t) (shell . t)
+;;    (python . t)
+;;    (emacs-lisp . t)))
+;; (setq org-confirm-babel-evaluate nil)
 
 (defvar blog-base-dir
   (file-name-directory (or load-file-name (buffer-file-name)))
