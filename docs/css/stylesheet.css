@@ -2,54 +2,24 @@
 /* Colors
 /* ======================================== */
 :root {
-    --font: #252525;
-    --bg: #fffff7;
-    --bg-block: #f9f9f2;
-    --marker: rgba(0, 0, 0, 0.05);
-    --link: #458588;
-    --accent: #555;
-    --highlight: #edbd7766;
-    --blend: darken;
-    --filter: invert(0%);
+    color-scheme: light dark;
+
+    --font: light-dark(#252525, #f0f0f0);
+    --bg: light-dark(#fffff7, #1b1b1b);
+    --bg-block: light-dark(#f9f9f2, #1f1f24);
+    --marker: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    --link: light-dark(#458588, #88c0d0);
+    --accent: light-dark(#555, #f2f5f7);
+    --highlight: light-dark(#edbd7766, #617bff66);
     /* --max-width: calc(min(100vw - 60px, 2000px, 145px + 50vw)); */
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --font: #f0f0f0;
-        --bg: #1b1b1b;
-        --bg-block: #1f1f24;
-        --marker: rgba(255, 255, 255, 0.05);
-        --link: #88c0d0;
-        --accent: #f2f5f7;
-        --highlight: #617bff66;
-        --blend: lighten;
-        --filter: invert(100%);
-    }
-}
-
 html[data-theme="light"] {
-    --font: #252525;
-    --bg: #fffff7;
-    --bg-block: #f9f9f2;
-    --marker: rgba(0, 0, 0, 0.05);
-    --link: #458588;
-    --accent: #555;
-    --highlight: #edbd7766;
-    --blend: darken;
-    --filter: invert(0%);
+    color-scheme: light;
 }
 
 html[data-theme="dark"] {
-    --font: #f0f0f0;
-    --bg: #1b1b1b;
-    --bg-block: #1f1f2466;
-    --marker: rgba(255, 255, 255, 0.05);
-    --link: #88c0d0;
-    --accent: #f2f5f7;
-    --highlight: #617bff66;
-    --blend: lighten;
-    --filter: invert(100%);
+    color-scheme: dark;
 }
 
 * {
@@ -86,7 +56,7 @@ html[data-theme="dark"] {
 @font-face {
     font-family: "Playfair Display";
     src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf")
-        format("truetype");
+         format("truetype");
     font-weight: 100 900;
     font-style: normal;
 }
@@ -94,7 +64,7 @@ html[data-theme="dark"] {
 @font-face {
     font-family: "Playfair Display";
     src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf")
-        format("truetype");
+         format("truetype");
     font-weight: 100 900;
     font-style: Italic;
 }
@@ -141,6 +111,8 @@ body {
     background: var(--bg);
     overflow-y: auto;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
     -webkit-text-size-adjust: 100%;
 }
 
@@ -171,6 +143,7 @@ footer,
 
 .content {
     border-top: 0.5px solid var(--accent);
+    flex: 1;
 }
 
 footer {
@@ -551,9 +524,13 @@ blockquote p:last-child {
 
 img {
     display: block;
-    filter: var(--filter);
-    mix-blend-mode: var(--blend);
     max-width: 100%;
+    filter: invert(0%);
+    mix-blend-mode: darken;
+}
+[data-theme="dark"] img {
+    filter: invert(100%);
+    mix-blend-mode: lighten;
 }
 
 figure {
