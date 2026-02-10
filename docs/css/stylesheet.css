@@ -44,6 +44,7 @@ html[data-theme="dark"] {
     src: url("../assets/EB_Garamond/EBGaramond-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -51,6 +52,7 @@ html[data-theme="dark"] {
     src: url("../assets/EB_Garamond/EBGaramond-Italic-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
@@ -59,6 +61,7 @@ html[data-theme="dark"] {
          format("truetype");
     font-weight: 100 900;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -67,6 +70,7 @@ html[data-theme="dark"] {
          format("truetype");
     font-weight: 100 900;
     font-style: Italic;
+    font-display: swap;
 }
 
 @font-face {
@@ -74,6 +78,7 @@ html[data-theme="dark"] {
     src: url("../assets/Josefin_Sans/JosefinSans-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -81,13 +86,23 @@ html[data-theme="dark"] {
     src: url("../assets/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: "Fira Code";
-    src: url("../assets/Fira_Code/FiraCode-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
+    font-family: "IBM Plex Mono";
+    src: url("../assets/IBM_Plex_Mono/IBMPlexMono-Regular.ttf") format("truetype");
+    font-weight: 400;
     font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IBM Plex Mono";
+    src: url("../assets/IBM_Plex_Mono/IBMPlexMono-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
 }
 
 /* ======================================== */
@@ -325,7 +340,7 @@ p code {
 
 pre,
 code {
-    font-family: "Fira Code", monospace;
+    font-family: "IBM Plex Mono", monospace;
     overflow-x: auto;
 }
 
@@ -416,7 +431,7 @@ pre code {
 
 .mermaid p {
     /* font-family: initial; */
-    font-family: "Fira Code", monospace;
+    font-family: "IBM Plex Mono", monospace;
     font-size: 16px;
     line-height: 1.1;
 }

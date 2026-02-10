@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
       org-html-postamble t
       org-html-postamble-format
       '(("en" "&copy; %T . Made with %c."))
-      ;; " <script defer src='/css/main.js'></script>"
       org-html-head
       "<script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>"
       org-publish-project-alist
