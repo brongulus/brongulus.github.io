@@ -43,7 +43,7 @@ html[data-theme="dark"] {
 @font-face {
     font-family: "EB Garamond";
     src: url("../assets/EB_Garamond/EBGaramond-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
+    font-weight: 400 800;
     font-style: normal;
     font-display: swap;
 }
@@ -51,7 +51,7 @@ html[data-theme="dark"] {
 @font-face {
     font-family: "EB Garamond";
     src: url("../assets/EB_Garamond/EBGaramond-Italic-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
+    font-weight: 400 800;
     font-style: italic;
     font-display: swap;
 }
@@ -75,18 +75,10 @@ html[data-theme="dark"] {
 }
 
 @font-face {
-    font-family: "Josefin Sans";
-    src: url("../assets/Josefin_Sans/JosefinSans-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
+    font-family: "Cormorant SC";
+    src: url("../assets/Cormorant_SC/CormorantSC-Light.ttf") format("truetype");
+    font-weight: 300;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Josefin Sans";
-    src: url("../assets/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -221,8 +213,8 @@ h1 {
 }
 
 .date {
-    font-family: "Josefin Sans", sans-serif;
-    text-transform: uppercase;
+    font-family: "Cormorant SC", serif;
+    /* text-transform: uppercase; */
     color: var(--accent);
     font-size: 0.9rem;
     margin-top: 0.5rem;
@@ -273,24 +265,23 @@ h3 {
 h4,
 h5,
 h6 {
-    font-family: "Josefin Sans", sans-serif;
+    font-family: "Cormorant SC", serif;
     color: var(--accent);
     letter-spacing: 0.05em;
-    font-weight: 300;
     margin-top: 0.9rem;
     margin-bottom: 0.7rem;
 }
 
 h4 {
     font-size: 1.3rem;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 h5,
 h6 {
     font-size: 1.1rem;
     /* font-variant: all-small-caps; */
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     text-decoration: underline;
     font-weight: 400;
 }
@@ -318,7 +309,7 @@ h6 + div > p:first-child {
 p {
     white-space: pre-line;
     font-family: "EB Garamond", serif;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.01em;
     margin: auto;
     margin-top: 1em;
@@ -699,8 +690,11 @@ sub {
 }
 
 .entry-date {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.7rem;
+    font-family: "Cormorant SC", serif;
+    font-size: 0.9rem;
+    @media (max-width: 625px) {
+        font-size: 0.6rem;
+    }
     color: var(--accent);
     text-align: right;
     white-space: nowrap;
@@ -719,16 +713,17 @@ sub {
 /* TOC
 /* ======================================== */
 #table-of-contents {
-    font-family: "Josefin Sans", sans-serif;
     font-size: 1.15rem;
     @media (max-width: 625px) {
         font-size: 1.0rem;
     }
     border-bottom: 1px solid var(--accent);
+    font-weight: 200;
 }
 
 #table-of-contents h2 {
-    font-weight: 400;
+    font-family: "Cormorant SC", serif;
+    letter-spacing: 1px;
     text-align: left;
     display: block;
     font-size: 105%;
@@ -739,7 +734,6 @@ sub {
 
 #table-of-contents ul {
     padding: 0;
-    font-weight: 400;
     list-style: none;
     counter-reset: list 0;
 }
@@ -764,7 +758,6 @@ sub {
 /* Table
 /* ======================================== */
 table {
-    font-family: "Josefin Sans";
     border-collapse: collapse;
     width: 95%;
     font-size: 95%;
@@ -786,8 +779,9 @@ thead {
 }
 
 table th {
+    font-family: "Cormorant SC";
     font-weight: normal;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 90%;
     font-style: bold;
     letter-spacing: 1px;
@@ -799,6 +793,8 @@ tbody {
     display: table-row-group;
     vertical-align: middle;
     border-color: inherit;
+    font-weight: 200;
+    letter-spacing: 1px;
 }
 
 tr {
@@ -808,7 +804,7 @@ tr {
 }
 
 table td {
-    font-weight: 300;
+    font-weight: 200;
     padding: 0.4em;
     text-align: center;
     hyphens: none;

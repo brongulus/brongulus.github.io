@@ -6,6 +6,18 @@
     <description>Webpresence of Prashant Tak</description>
     <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>IUSACO</title>
+      <link>https://brongulus.github.io/notes/iusaco.html</link>
+      <guid>https://brongulus.github.io/notes/iusaco.html</guid>
+      <pubDate>Sun, 15 Feb 2026 00:13:27 +0530</pubDate>
+    </item>
+    <item>
+      <title>MCM</title>
+      <link>https://brongulus.github.io/notes/mcm.html</link>
+      <guid>https://brongulus.github.io/notes/mcm.html</guid>
+      <pubDate>Sat, 14 Feb 2026 22:42:58 +0530</pubDate>
+    </item>
+    <item>
       <title>Every Second Counts</title>
       <link>https://brongulus.github.io/blog/self-hate.html</link>
       <guid>https://brongulus.github.io/blog/self-hate.html</guid>
@@ -48,12 +60,6 @@
       <pubDate>Thu, 05 Feb 2026 14:54:04 +0530</pubDate>
     </item>
     <item>
-      <title>MCM</title>
-      <link>https://brongulus.github.io/notes/mcm.html</link>
-      <guid>https://brongulus.github.io/notes/mcm.html</guid>
-      <pubDate>Thu, 05 Feb 2026 14:53:58 +0530</pubDate>
-    </item>
-    <item>
       <title>Morphosyntactic Tagging with BiLSTM Model</title>
       <link>https://brongulus.github.io/blog/nnfl-paper.html</link>
       <guid>https://brongulus.github.io/blog/nnfl-paper.html</guid>
@@ -81,12 +87,6 @@
       <title>Elements of computing systems</title>
       <link>https://brongulus.github.io/notes/ecs.html</link>
       <guid>https://brongulus.github.io/notes/ecs.html</guid>
-      <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
-    </item>
-    <item>
-      <title>IUSACO</title>
-      <link>https://brongulus.github.io/notes/iusaco.html</link>
-      <guid>https://brongulus.github.io/notes/iusaco.html</guid>
       <pubDate>Wed, 04 Feb 2026 21:49:11 +0530</pubDate>
     </item>
     <item>
