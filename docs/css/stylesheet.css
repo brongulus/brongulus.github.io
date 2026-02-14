@@ -295,6 +295,17 @@ h6 {
     font-weight: 400;
 }
 
+@media (max-width: 625px) {
+    h4 {
+        font-size: 0.9rem;
+    }
+    h5,
+    h6 {
+        font-size: 0.8rem;
+    }
+}
+
+
 h4 + div > p:first-child,
 h5 + div > p:first-child,
 h6 + div > p:first-child {
@@ -710,6 +721,9 @@ sub {
 #table-of-contents {
     font-family: "Josefin Sans", sans-serif;
     font-size: 1.15rem;
+    @media (max-width: 625px) {
+        font-size: 1.0rem;
+    }
     border-bottom: 1px solid var(--accent);
 }
 

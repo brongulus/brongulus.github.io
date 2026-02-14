@@ -64,12 +64,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="outline-container-input-output" class="outline-2">
 <h2 id="input-output">Input and Output</h2>
 <div class="outline-text-2" id="text-input-output">
-<pre class="src src-c++"><code><span class="font-lock-preprocessor-face">  #include</span> <span class="font-lock-string-face">&lt;cstdio&gt;</span>
-  <span class="font-lock-keyword-face">using</span> <span class="font-lock-keyword-face">namespace</span> <span class="font-lock-constant-face">std</span>;
-  <span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>() {
-      freopen(<span class="font-lock-string-face">"template.in"</span>, <span class="font-lock-string-face">"r"</span>, stdin);
-      freopen(<span class="font-lock-string-face">"template.out"</span>, <span class="font-lock-string-face">"w"</span>, stdout);
-  }</code></pre>
+<pre class="src src-c++"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;cstdio&gt;</span>
+<span class="font-lock-keyword-face">using</span> <span class="font-lock-keyword-face">namespace</span> <span class="font-lock-constant-face">std</span>;
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>() {
+    freopen(<span class="font-lock-string-face">"template.in"</span>, <span class="font-lock-string-face">"r"</span>, stdin);
+    freopen(<span class="font-lock-string-face">"template.out"</span>, <span class="font-lock-string-face">"w"</span>, stdout);
+}</code></pre>
 <ul class="org-ul">
 <li>When using C++, arrays should be declared globally, or initialized to zeros if declared locally to avoid garbage values.</li>
 <li>32bit int: \(\pm 2\times10^{9}\) v/s 64bit int: \(\pm 9\times 10^{18}\)</li>
@@ -106,13 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Allows for traversal of a container with the help of a pointer.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">for</span> (<span class="font-lock-constant-face">vector</span>&lt;<span class="font-lock-type-face">int</span>&gt;::<span class="font-lock-type-face">iterator</span> <span class="font-lock-variable-name-face">it</span> = myvector.begin(); it != myvector.end(); ++it) {
-  cout &lt;&lt; *it; <span class="font-lock-comment-delimiter-face">//</span><span class="font-lock-comment-face">prints the values in the vector using the pointer
+    cout &lt;&lt; *it; <span class="font-lock-comment-delimiter-face">//</span><span class="font-lock-comment-face">prints the values in the vector using the pointer
 </span>}</code></pre>
 
 <p>Alternate way to achieve the same with a for-each loop and <code>auto</code>.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">for</span>(<span class="font-lock-keyword-face">auto</span> <span class="font-lock-variable-name-face">element</span> : v){
-  cout &lt;&lt; element; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">prints values in vector
+    cout &lt;&lt; element; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">prints values in vector
 </span>}</code></pre>
 </div>
 </div>
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">vector</span>&lt;<span class="font-lock-type-face">int</span>&gt; <span class="font-lock-variable-name-face">v</span>;
 <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 1; i &lt;= 10; i++){
-  v.push_back(i); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">stores 1 to 10 in a dynamic array
+    v.push_back(i); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">stores 1 to 10 in a dynamic array
 </span>}</code></pre>
 
 <p>Vectors can be made static sized by initializing it with a size, <code>vector&lt;int&gt; v(30);</code>. They also support an <code>v.erase()</code> operation. A dynamic array can be sorted (default ascending) by <code>sort(v.begin(), v.end())</code>.
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </p>
 
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">element</span> : s){
-  cout &lt;&lt; element &lt;&lt; <span class="font-lock-string-face">" "</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">iterating through a set, arbitrary order
+    cout &lt;&lt; element &lt;&lt; <span class="font-lock-string-face">" "</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">iterating through a set, arbitrary order
 </span>}</code></pre>
 
 <p><b>Ordered Sets</b>: Insertion, deletion and search needs O(log n) time. Has additional operations <code>begin()</code> (iterator to lowest element), <code>end()</code>, <code>lower_bound()</code> (iterator to least element &ge; some k) and <code>upper_bound()</code>.
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Brute forcing through all the possible cases in solution space to arrive at the solution. To iterate through all permutations of a list:
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">do</span> {
-  check(v); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">process or check the current permutation for validity
+    check(v); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">process or check the current permutation for validity
 </span>} <span class="font-lock-keyword-face">while</span>(next_permutation(v.begin(), v.end()));</code></pre>
 </div>
 </div>
@@ -244,30 +244,29 @@ document.addEventListener('DOMContentLoaded', function() {
 <img src="/assets/usaco-adj.png" alt="usaco-adj.png">
 They take up <code>O(M+N)</code> space but allow for easy traversal among the neighbors of a vertex. Often, there&rsquo;s a need to maintain a <code>visited</code> array.
 </p>
-<pre class="src src-c++"><code>  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">n</span>, <span class="font-lock-variable-name-face">m</span>;
-  <span class="font-lock-type-face">vector</span>&lt;<span class="font-lock-type-face">int</span>&gt; <span class="font-lock-variable-name-face">adj</span>[MAXN];
-  <span class="font-lock-type-face">bool</span> <span class="font-lock-variable-name-face">visited</span>[MAXN];
+<pre class="src src-c++"><code><span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">n</span>, <span class="font-lock-variable-name-face">m</span>;
+<span class="font-lock-type-face">vector</span>&lt;<span class="font-lock-type-face">int</span>&gt; <span class="font-lock-variable-name-face">adj</span>[MAXN];
+<span class="font-lock-type-face">bool</span> <span class="font-lock-variable-name-face">visited</span>[MAXN];
 
-  <span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(){
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(){
     cin &gt;&gt; n &gt;&gt; m;
     <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; m; i++){
-      <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>;
-      cin &gt;&gt; a &gt;&gt; b;
-      a--; b--; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">subtract 1 for vertex since array is zero-indexed
-</span>      adj[a].push_back(b);
-      adj[b].push_back(a); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">omit for directed graph
+        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>;
+        cin &gt;&gt; a &gt;&gt; b;
+        a--; b--; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">subtract 1 for vertex since array is zero-indexed
+</span>        adj[a].push_back(b);
+        adj[b].push_back(a); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">omit for directed graph
 </span>    }
-  }
+}
 
-  <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">For a weighted graph:
-</span>  <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">Edge</span>
-  {
+<span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">For a weighted graph:
+</span><span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">Edge</span> {
     <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">to</span>, <span class="font-lock-variable-name-face">weight</span>;
     <span class="font-lock-function-name-face">Edge</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">dest</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">w</span>):
     to(dest), weight(w)
     {
     }
-  }</code></pre>
+}</code></pre>
 </div>
 </div>
 <div id="outline-container-adjacency-matrix" class="outline-4">
@@ -279,14 +278,14 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">adj</span>[MAXN][MAXN];
 
 <span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(){
-  cin &gt;&gt; n &gt;&gt; m;
-  <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; m; i++){
-    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>;
-    cin &gt;&gt; a &gt;&gt; b;
-    a--; b--;
-    adj[a][b] = 1; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">or w for weighted graph
-</span>    adj[b][a] = 1; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">ignore this if directed
-</span>  }
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; m; i++){
+        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>;
+        cin &gt;&gt; a &gt;&gt; b;
+        a--; b--;
+        adj[a][b] = 1; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">or w for weighted graph
+</span>        adj[b][a] = 1; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">ignore this if directed
+</span>    }
 }</code></pre>
 </div>
 </div>
@@ -296,29 +295,29 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <p>Usually used for weighted undirected graphs when sorting the edges by weight is needed (DSU). Its simply a single list of all edges <code>(a, b, w)</code> where a and b are the vertices and w is the weight of connecting edge. Each edge is added only oncce.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">Edge</span>{
-  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>, <span class="font-lock-variable-name-face">w</span>;
-  <span class="font-lock-function-name-face">Edge</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">start</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">end</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">weight</span>):
-  a(start), b(end), w(weight)
-  {
-  }
-  <span class="font-lock-type-face">bool</span> <span class="font-lock-keyword-face">operator</span><span class="font-lock-function-name-face">&lt;</span>(<span class="font-lock-keyword-face">const</span> <span class="font-lock-type-face">Edge</span> &amp; <span class="font-lock-variable-name-face">e</span>)
-  <span class="font-lock-keyword-face">const</span>{
-    <span class="font-lock-keyword-face">return</span> w &lt; e.w; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">ascending weight sort
-</span>  }
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>, <span class="font-lock-variable-name-face">w</span>;
+    <span class="font-lock-function-name-face">Edge</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">start</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">end</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">weight</span>):
+    a(start), b(end), w(weight)
+    {
+    }
+    <span class="font-lock-type-face">bool</span> <span class="font-lock-keyword-face">operator</span><span class="font-lock-function-name-face">&lt;</span>(<span class="font-lock-keyword-face">const</span> <span class="font-lock-type-face">Edge</span> &amp; <span class="font-lock-variable-name-face">e</span>)
+    <span class="font-lock-keyword-face">const</span>{
+        <span class="font-lock-keyword-face">return</span> w &lt; e.w; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">ascending weight sort
+</span>    }
 };
 
 <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">n</span>, <span class="font-lock-variable-name-face">m</span>;
 <span class="font-lock-type-face">vector</span>&lt;<span class="font-lock-type-face">Edge</span>&gt; <span class="font-lock-variable-name-face">edges</span>;
 
 <span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(){
-  cin &gt;&gt; n &gt;&gt; m;
-  <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; m; i++){
-    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>, <span class="font-lock-variable-name-face">w</span>;
-    cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;
-    a--; b--;
-    edges.push_back(Edge(a, b, w)); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">add edge to list
-</span>  }
-  sort(edges.begin(), edges.end());
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; m; i++){
+        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-variable-name-face">b</span>, <span class="font-lock-variable-name-face">w</span>;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;
+        a--; b--;
+        edges.push_back(Edge(a, b, w)); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">add edge to list
+</span>    }
+    sort(edges.begin(), edges.end());
 }</code></pre>
 </div>
 </div>
@@ -333,23 +332,24 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <p>Visits nodes in order of distance away from the starting node; first visit nodes that are one edge away then those that are two edges away and so on. It can be used for finding the distance from a starting node to all nodes in an unweighted graph.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">bfs</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">start</span>){
-  <span class="font-lock-keyword-face">const</span> <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">total_nodes</span> = n;
-  memset(dist, -1, <span class="font-lock-keyword-face">sizeof</span> dist); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fill distance array with -1s
-</span>  <span class="font-lock-type-face">queue</span>&lt;<span class="font-lock-type-face">int</span>&gt; <span class="font-lock-variable-name-face">q</span>;
-  dist[start] = 0;
-  q.push(start);
-  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">seen</span> = 1;
-  <span class="font-lock-keyword-face">while</span>(<span class="font-lock-negation-char-face">!</span>q.empty()){
-    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">v</span> = q.front();
-    q.pop();
-    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">e</span>: adj[v]){
-      <span class="font-lock-keyword-face">if</span>(dist[e] == -1){
-        dist[e] = dist[v] + 1;
-        <span class="font-lock-keyword-face">if</span>(++seen == total_nodes) <span class="font-lock-keyword-face">break</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">see: https://observablehq.com/@yurivish/efficient-graph-search
-</span>        q.push(e);
-      }
+    <span class="font-lock-keyword-face">const</span> <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">total_nodes</span> = n;
+    memset(dist, -1, <span class="font-lock-keyword-face">sizeof</span> dist); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fill distance array with -1s
+</span>    <span class="font-lock-type-face">queue</span>&lt;<span class="font-lock-type-face">int</span>&gt; <span class="font-lock-variable-name-face">q</span>;
+    dist[start] = 0;
+    q.push(start);
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">seen</span> = 1;
+    <span class="font-lock-keyword-face">while</span>(<span class="font-lock-negation-char-face">!</span>q.empty()){
+        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">v</span> = q.front();
+        q.pop();
+        <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">e</span>: adj[v]){
+            <span class="font-lock-keyword-face">if</span>(dist[e] == -1){
+                dist[e] = dist[v] + 1;
+                 <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">see: https://observablehq.com/@yurivish/efficient-graph-search
+</span>                <span class="font-lock-keyword-face">if</span>(++seen == total_nodes) <span class="font-lock-keyword-face">break</span>;
+                q.push(e);
+            }
+        }
     }
-  }
 }</code></pre>
 <p>Once BFS finishes, the array <code>dist</code> contains the distances from the start node to each node.
 </p>
@@ -361,12 +361,12 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <p>Continues down a single path as far as possible until it has no more vertices to visit along that path, then backtracks and finds more vertices to visit.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">dfs</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">node</span>){
-  visited[node] = <span class="font-lock-constant-face">true</span>;
-  <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">next</span> : adj[node]){
-    <span class="font-lock-keyword-face">if</span>(<span class="font-lock-negation-char-face">!</span>visited[next]){
-      dfs(next);
+    visited[node] = <span class="font-lock-constant-face">true</span>;
+    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">next</span> : adj[node]){
+        <span class="font-lock-keyword-face">if</span>(<span class="font-lock-negation-char-face">!</span>visited[next]){
+            dfs(next);
+        }
     }
-  }
 }</code></pre>
 <p>If stack overflows are encountered with recursive DFS, it can be implemented iteravely by storing nodes in the BFS implementation on a stack instead of a queue.
 </p>
@@ -387,31 +387,31 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">currentCompSize</span> = 0;
 
 <span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">floodfill</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">r</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">c</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">color</span>){
-  <span class="font-lock-keyword-face">if</span>(r &lt; 0 || r &gt;= n || c &lt; 0 || c &gt;= m) <span class="font-lock-keyword-face">return</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">outside grid
-</span>  <span class="font-lock-keyword-face">if</span>(grid[r][c] != color) <span class="font-lock-keyword-face">return</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">wrong color
-</span>  <span class="font-lock-keyword-face">if</span>(visited[r][c]) <span class="font-lock-keyword-face">return</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">already visited
+    <span class="font-lock-keyword-face">if</span>(r &lt; 0 || r &gt;= n || c &lt; 0 || c &gt;= m) <span class="font-lock-keyword-face">return</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">outside grid
+</span>    <span class="font-lock-keyword-face">if</span>(grid[r][c] != color) <span class="font-lock-keyword-face">return</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">wrong color
+</span>    <span class="font-lock-keyword-face">if</span>(visited[r][c]) <span class="font-lock-keyword-face">return</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">already visited
 </span>
-  visited[r][c] = <span class="font-lock-constant-face">true</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">mark current sq as visited
-</span>  currentCompSize++;
-  <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">recursively call floodfill for neighbour sqs
-</span>  floodfill(r, c+1, color);
-  floodfill(r, c-1, color);
-  floodfill(r-1, c, color);
-  floodfill(r+1, c, color);
+    visited[r][c] = <span class="font-lock-constant-face">true</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">mark current sq as visited
+</span>    currentCompSize++;
+    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">recursively call floodfill for neighbour sqs
+</span>    floodfill(r, c+1, color);
+    floodfill(r, c-1, color);
+    floodfill(r-1, c, color);
+    floodfill(r+1, c, color);
 }
 
 <span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(){
-  <span class="font-lock-comment-delimiter-face">/*</span><span class="font-lock-comment-face">
-   * additional stuff here
-</span><span class="font-lock-comment-delimiter-face">  */</span>
-  <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; n; i++){
-    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">j</span> = 0; j &lt; m; j++){
-      <span class="font-lock-keyword-face">if</span>(<span class="font-lock-negation-char-face">!</span>visited[i][j]){
-        currentCompSize = 0;
-        floodfill(i, j, grid[i][j]);
-      }
+    <span class="font-lock-comment-delimiter-face">/*</span><span class="font-lock-comment-face">
+     * additional stuff here
+</span><span class="font-lock-comment-delimiter-face">     */</span>
+    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; n; i++){
+        <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">j</span> = 0; j &lt; m; j++){
+            <span class="font-lock-keyword-face">if</span>(<span class="font-lock-negation-char-face">!</span>visited[i][j]){
+                currentCompSize = 0;
+                floodfill(i, j, grid[i][j]);
+            }
+        }
     }
-  }
 }</code></pre>
 </div>
 </div>
@@ -429,30 +429,30 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <pre class="src src-c++"><code><span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">parent</span>[MAXN]; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">store root of each set
 </span>
 <span class="font-lock-type-face">void</span> <span class="font-lock-function-name-face">initialize</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">N</span>){
-  <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; N; i++)
-    parent[i] = i; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">initially, root of each set is node itself
+    <span class="font-lock-keyword-face">for</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">i</span> = 0; i &lt; N; i++)
+        parent[i] = i;      <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">initially, root of each set is node itself
 </span>}
 
-<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">find</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">x</span>){ <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">find root of set of x
-</span>  <span class="font-lock-keyword-face">if</span>(x == parent[x])
-    <span class="font-lock-keyword-face">return</span> x; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">if x is its parent, it is the root
-</span>  <span class="font-lock-keyword-face">else</span>
-    <span class="font-lock-keyword-face">return</span> find(parent[x]);
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">find</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">x</span>){            <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">find root of set of x
+</span>    <span class="font-lock-keyword-face">if</span>(x == parent[x])
+        <span class="font-lock-keyword-face">return</span> x;           <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">if x is its parent, it is the root
+</span>    <span class="font-lock-keyword-face">else</span>
+        <span class="font-lock-keyword-face">return</span> find(parent[x]);
 }
 
-<span class="font-lock-type-face">void</span> <span class="font-lock-keyword-face">union</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">b</span>){ <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">merge sets of a and b
-</span>  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">c</span> = find(a);        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">find a's root
-</span>  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">d</span> = find(b);        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">find b's root
-</span>  <span class="font-lock-keyword-face">if</span> (c != d)
-    parent[d] = c;        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">merge sets by setting parent of d to c
+<span class="font-lock-type-face">void</span> <span class="font-lock-keyword-face">union</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">b</span>){   <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">merge sets of a and b
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">c</span> = find(a);        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">find a's root
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">d</span> = find(b);        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">find b's root
+</span>    <span class="font-lock-keyword-face">if</span> (c != d)
+        parent[d] = c;      <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">merge sets by setting parent of d to c
 </span>}</code></pre>
 <p>The naive recursive implementation of find can be improved from <code>O(nm)</code> by path compression; the idea being reassignment of nodes on recursive calls to <code>find</code> to prevent formation of long chains and the runtime becomes <code>O(n log n)</code>.
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">find</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">x</span>){
-  <span class="font-lock-keyword-face">if</span>(x == parent[x])
-    <span class="font-lock-keyword-face">return</span> x;
-  <span class="font-lock-keyword-face">else</span>
-    <span class="font-lock-keyword-face">return</span> parent[x] = find(parent[x]);
+    <span class="font-lock-keyword-face">if</span>(x == parent[x])
+        <span class="font-lock-keyword-face">return</span> x;
+    <span class="font-lock-keyword-face">else</span>
+        <span class="font-lock-keyword-face">return</span> parent[x] = find(parent[x]);
 }</code></pre>
 </div>
 </div>
@@ -556,8 +556,8 @@ They take up <code>O(M+N)</code> space but allow for easy traversal among the ne
 <p>GCD using Euclidean Algorithm in <code>O(log min(a,b))</code>:
 </p>
 <pre class="src src-c++"><code><span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">gcd</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">a</span>, <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">b</span>){
-  <span class="font-lock-keyword-face">if</span>(<span class="font-lock-negation-char-face">!</span>b) <span class="font-lock-keyword-face">return</span> a;
-  <span class="font-lock-keyword-face">return</span> gcd(b, a%b);
+    <span class="font-lock-keyword-face">if</span>(<span class="font-lock-negation-char-face">!</span>b) <span class="font-lock-keyword-face">return</span> a;
+    <span class="font-lock-keyword-face">return</span> gcd(b, a % b);
 }</code></pre>
 <p>LCM can be computed using GCD by \(\frac{a \times b}{gcd(a,b)}\)
 </p>
