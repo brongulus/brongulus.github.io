@@ -154,6 +154,20 @@ footer,
     flex: 1;
 }
 
+.content a:not(.entries a):not(#table-of-contents a):not(figure a):not(sup a):not(sub a) {
+    color: var(--font);
+}
+.content a:not(.entries a):not(#table-of-contents a):not(figure a):not(sup a):not(sub a)::after {
+    position: relative;
+    content: "\FEFF°";
+    margin-left: 0.10em;
+    font-size: 90%;
+    top: -0.10em;
+    color: var(--link);
+    font-feature-settings: "caps";
+    font-variant-numeric: normal;
+}
+
 footer {
     border-top: 1px solid var(--accent);
     font-size: 0.9rem;
@@ -794,7 +808,6 @@ tbody {
     vertical-align: middle;
     border-color: inherit;
     font-weight: 200;
-    letter-spacing: 1px;
 }
 
 tr {

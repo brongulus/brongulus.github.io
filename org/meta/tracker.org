@@ -5,12 +5,12 @@
 |--------------+-----------------------------|
 | Time         | Title                       |
 |--------------+-----------------------------|
+| Feb 2026 TDB | Crime and Punishment        |
+| Jan 2026     | Courage to be disliked      |
+| Jan 2026     | [[file:../notes/notes-from-underground.org][Notes from the Underground]]  |
 | May 2025     | Before the Coffee Gets Cold |
 | May 2025 TBD | Four Thousand Weeks         |
 | May 2025 TBD | Right Concentration         |
-| Jan 2026     | [[file:../notes/notes-from-underground.org][Notes from the Underground]]  |
-| Jan 2026     | Courage to be disliked      |
-| Feb 2026     | Crime and Punishment        |
 |--------------+-----------------------------|
 
 * Media

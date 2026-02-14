@@ -5,6 +5,7 @@
 #+HTML: <style>body .connector { display: none !important; }</style>
 
 #+HTML: <a href="/image.html">
+#+HTML: <style>a::after { display: none !important; content: none !important; }</style>
 #+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; border-radius: 8px; }</style>
 [[./assets/japanese-village-pixel-art-v0-q9pz3p25sno91-2402180699.png]]
 #+HTML: </a>

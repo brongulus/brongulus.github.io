@@ -243,7 +243,7 @@ STYLE is the sitemap style, PROJECT is the current project."
                       "\n")))
     (concat "#+OPTIONS: toc:nil\n#+HTML: <div class=\"entries\">\n\n* "
             title "\n\n"
-            list-items "\n\n"
+            list-items "\n\n\n\n\n\n\n"
             "#+HTML: </div>")))
 
 (defun my/sitemap-get-entry-date (entry)
