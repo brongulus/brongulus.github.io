@@ -3,8 +3,8 @@
 
 * Notes
 
-- @@html:<span class="entry-title">@@[[file:tracker.org][Tracker]]@@html:</span>@@@@html:<span class="entry-date">2025-04-28</span>@@
-- @@html:<span class="entry-title">@@[[file:about.org][About]]@@html:</span>@@@@html:<span class="entry-date">2021-03-21</span>@@
-- @@html:<span class="entry-title">@@[[file:wall.org][Wall]]@@html:</span>@@
+- [[file:tracker.org][Tracker]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2025-04-28</span>@@
+- [[file:about.org][About]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2021-03-21</span>@@
+- [[file:wall.org][Wall]]
 
 #+HTML: </div>

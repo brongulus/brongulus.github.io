@@ -2,6 +2,7 @@
 #+OPTIONS: toc:nil
 
 #+HTML: <style>body .entry-date { display: none !important; }</style>
+#+HTML: <style>body .connector { display: none !important; }</style>
 
 #+HTML: <a href="/image.html">
 #+HTML: <style>body img { filter: none !important; mix-blend-mode: normal !important; border-radius: 8px; }</style>

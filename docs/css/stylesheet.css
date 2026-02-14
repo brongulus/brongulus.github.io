@@ -4,13 +4,14 @@
 :root {
     color-scheme: light dark;
 
-    --font: light-dark(#252525, #f0f0f0);
-    --bg: light-dark(#fffff7, #1b1b1b);
-    --bg-block: light-dark(#f9f9f2, #1f1f24);
+    --font: light-dark(#494742, #eae6df);
+    --bg: light-dark(#f5f2eb, #21211E);
+    --bg-block: color-mix(in srgb, var(--bg) 90%, black);
     --marker: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
     --link: light-dark(#458588, #88c0d0);
-    --accent: light-dark(#555, #f2f5f7);
+    --accent: color-mix(in srgb, var(--font) 50%, var(--bg) 50%);
     --highlight: light-dark(#edbd7766, #617bff66);
+    --string: light-dark(#275, #8dbb81);
     /* --max-width: calc(min(100vw - 60px, 2000px, 145px + 50vw)); */
 }
 
@@ -157,12 +158,12 @@ footer,
 }
 
 .content {
-    border-top: 0.5px solid var(--accent);
+    border-top: 1px solid var(--accent);
     flex: 1;
 }
 
 footer {
-    border-top: 0.5px solid var(--accent);
+    border-top: 1px solid var(--accent);
     font-size: 0.9rem;
     text-align: center;
     padding: 1.2rem 0;
@@ -181,7 +182,7 @@ footer {
 }
 
 #nav a {
-    color: var(--accent);
+    color: var(--font);
     transition: background-color 0.2s;
 }
 
@@ -208,7 +209,6 @@ b {
 
 h1 {
     font-family: "Playfair Display", serif;
-    color: var(--accent);
     font-weight: normal;
     text-align: left;
     margin-top: 0;
@@ -239,7 +239,6 @@ header h1:has(+ .date) {
 }
 
 h2 {
-    color: var(--accent);
     text-align: center;
     font-size: 2.2rem;
     font-weight: 300;
@@ -253,9 +252,8 @@ h2 {
 
 h3 {
     font-family: "Playfair Display", serif;
-    color: var(--accent);
     font-size: 1.6rem;
-    font-weight: 600;
+    font-weight: 500;
     margin: 0.9rem 0;
 }
 
@@ -388,37 +386,37 @@ pre code {
     font-size: 100%;
 }
 
-.font-lock-keyword-face {
-    color: #c678dd;
-}
-.font-lock-function-name-face {
-    color: #61afef;
-}
-.font-lock-variable-name-face {
-    color: #e06c75;
-}
 .font-lock-string-face {
-    color: #98c379;
+    color: var(--string);
 }
 .font-lock-comment-face {
-    color: #5c6370;
+    color: var(--accent);
     font-style: italic;
 }
 .font-lock-comment-delimiter-face {
-    color: #5c6370;
+    color: var(--accent);
 }
-.font-lock-type-face {
-    color: #e5c07b;
-}
-.font-lock-constant-face {
-    color: #d19a66;
-}
-.font-lock-builtin-face {
-    color: #56b6c2;
-}
-.font-lock-preprocessor-face {
-    color: #c678dd;
-}
+/* .font-lock-keyword-face { */
+/*     color: #c678dd; */
+/* } */
+/* .font-lock-function-name-face { */
+/*     color: #61afef; */
+/* } */
+/* .font-lock-variable-name-face { */
+/*     color: #e06c75; */
+/* } */
+/* .font-lock-type-face { */
+/*     color: #e5c07b; */
+/* } */
+/* .font-lock-constant-face { */
+/*     color: #d19a66; */
+/* } */
+/* .font-lock-builtin-face { */
+/*     color: #56b6c2; */
+/* } */
+/* .font-lock-preprocessor-face { */
+/*     color: #c678dd; */
+/* } */
 
 /* pre.src::before { */
 /*     position: sticky; */
@@ -434,6 +432,10 @@ pre code {
     font-family: "IBM Plex Mono", monospace;
     font-size: 16px;
     line-height: 1.1;
+}
+
+pre.mermaid {
+    background-color: var(--bg);
 }
 
 /* ======================================== */
@@ -486,7 +488,7 @@ pre code {
         width: 70%;
         height: 70%;
     }
-    color: var(--accent, currentColor);
+    color: var(--font, currentColor);
 }
 /* ======================================== */
 /* Miscellaneous
@@ -560,7 +562,7 @@ figure img {
 
 figcaption {
     font-style: italic;
-    color: #aaa;
+    color: var(--accent);
     max-width: 100%;
 }
 
@@ -631,6 +633,10 @@ ol li:before {
     float: left;
     margin-left: -1.2rem;
     width: 1.2rem;
+    @media (min-width: 1480px) {
+        margin-left: -1.4rem;
+        width: 1.4rem;
+    }
     @media (max-width: 625px) {
         margin-left: -1rem;
         width: 1rem;
@@ -654,7 +660,7 @@ sub {
 
 .entries > .outline-2 > .outline-text-2 > ul,
 .entries ~ .outline-2 > .outline-text-2 > ul {
-    padding-left: 0.5em;
+    padding-left: 0;
 }
 .entries > .outline-2 > .outline-text-2 > ul > li,
 .entries ~ .outline-2 > .outline-text-2 > ul > li {
@@ -665,10 +671,6 @@ sub {
     font-size: 1.4rem;
     margin: 0.5rem 0;
     align-items: center;
-}
-
-.entry-title {
-    flex: 1;
     @media (max-width: 625px) {
         font-size: 18px;
     }
@@ -677,12 +679,19 @@ sub {
     }
 }
 
+.connector {
+    flex: 1;
+    height: 1px;
+    opacity: .4;
+    background: var(--accent);
+    margin: 0 10px;
+}
+
 .entry-date {
-    font-family: "Josefin Sans", sans-serif;
-    font-size: 0.8rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
     color: var(--accent);
     text-align: right;
-    margin-left: 1rem;
     white-space: nowrap;
 }
 
@@ -701,11 +710,10 @@ sub {
 #table-of-contents {
     font-family: "Josefin Sans", sans-serif;
     font-size: 1.15rem;
-    border-bottom: 0.5px solid var(--accent);
+    border-bottom: 1px solid var(--accent);
 }
 
 #table-of-contents h2 {
-    color: var(--accent);
     font-weight: 400;
     text-align: left;
     display: block;

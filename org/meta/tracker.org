@@ -5,13 +5,22 @@
 |--------------+-----------------------------|
 | Time         | Title                       |
 |--------------+-----------------------------|
-| Apr 2025     | Courage to be disliked      |
 | May 2025     | Before the Coffee Gets Cold |
 | May 2025 TBD | Four Thousand Weeks         |
 | May 2025 TBD | Right Concentration         |
+| Jan 2026     | [[file:../notes/notes-from-underground.org][Notes from the Underground]]  |
+| Jan 2026     | Courage to be disliked      |
+| Feb 2026     | Crime and Punishment        |
 |--------------+-----------------------------|
 
 * Media
+** 2026
+|------+----------|
+| Time | Title    |
+|------+----------|
+| Feb  | Mushishi |
+|------+----------|
+
 ** 2025
 |-----------+---------------------------|
 | Time      | Title                     |
@@ -29,6 +38,13 @@
 | May       | Etoile                    |
 |-----------+---------------------------|
 * Music
+** February 2026
+|----------+---------------------|
+| Artist   | Work                |
+|----------+---------------------|
+| Deftones | Milk of the Madonna |
+| Deftones | Sextape             |
+|----------+---------------------|
 ** May 2025
 |------------------+-------------------------|
 | Artist           | Work                    |

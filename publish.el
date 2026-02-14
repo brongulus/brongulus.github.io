@@ -206,8 +206,8 @@ STYLE is the sitemap style, PROJECT is the current project."
            (date (my/sitemap-extract-date entry project))
            (date-str (if date (format-time-string "%Y-%m-%d" date) "")))
       (if (string= date-str "")
-          (format "@@html:<span class=\"entry-title\">@@[[file:%s][%s]]@@html:</span>@@" entry title)
-        (format "@@html:<span class=\"entry-title\">@@[[file:%s][%s]]@@html:</span>@@@@html:<span class=\"entry-date\">%s</span>@@" entry title date-str)))))
+          (format "[[file:%s][%s]]" entry title)
+        (format "[[file:%s][%s]]@@html:<div class=\"connector\"></div>@@ @@html:<span class=\"entry-date\">%s</span>@@" entry title date-str)))))
 
 (defun my/sitemap-sort-by-date (a b)
   "Sort sitemap entries A and B by their #+DATE, newest first."
