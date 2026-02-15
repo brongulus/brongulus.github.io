@@ -54,8 +54,7 @@ html[data-theme="dark"] {
 
 @font-face {
     font-family: "Playfair Display";
-    src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf")
-         format("truetype");
+    src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
@@ -63,8 +62,7 @@ html[data-theme="dark"] {
 
 @font-face {
     font-family: "Playfair Display";
-    src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf")
-         format("truetype");
+    src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: italic;
     font-display: swap;
@@ -701,13 +699,14 @@ sub {
 /* ======================================== */
 table {
     border-collapse: collapse;
-    width: fit-content;
-    max-width: 95%;
+    max-width: 100%;
     font-size: 95%;
     margin: 1rem auto;
-    overflow: auto;
+    display: block;
+    overflow-x: auto;
     white-space: nowrap;
     text-align: center;
+    width: fit-content;
 }
 
 table::-webkit-scrollbar {

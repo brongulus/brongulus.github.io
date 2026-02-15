@@ -11,6 +11,7 @@
     --accent: color-mix(in srgb, var(--font) 50%, var(--bg) 50%);
     --highlight: light-dark(#edbd7766, #617bff66);
     --string: light-dark(#275, #8dbb81);
+    /* --max-width: calc(min(100vw - 60px, 2000px, 145px + 50vw)); */
 }
 
 html[data-theme="light"] {
@@ -53,8 +54,7 @@ html[data-theme="dark"] {
 
 @font-face {
     font-family: "Playfair Display";
-    src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf")
-        format("truetype");
+    src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
@@ -62,8 +62,7 @@ html[data-theme="dark"] {
 
 @font-face {
     font-family: "Playfair Display";
-    src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf")
-        format("truetype");
+    src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf") format("truetype");
     font-weight: 100 900;
     font-style: italic;
     font-display: swap;
@@ -700,13 +699,14 @@ sub {
 /* ======================================== */
 table {
     border-collapse: collapse;
-    width: fit-content;
-    max-width: 95%;
+    max-width: 100%;
     font-size: 95%;
     margin: 1rem auto;
-    overflow: auto;
+    display: block;
+    overflow-x: auto;
     white-space: nowrap;
     text-align: center;
+    width: fit-content;
 }
 
 table::-webkit-scrollbar {
