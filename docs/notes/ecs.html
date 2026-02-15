@@ -102,11 +102,11 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </p>
 
 <p>Chips are specified using the API style, for nand gate:
-<code>Chip name: Nand</code>
-<code>Input: a,b</code>
-<code>Output: out</code>
-<code>Function: if ((a==1) and (b==1)) then out = 0, else out = 1</code>
 </p>
+<pre class="src src-none"><code>Chip name: Nand
+Input: a,b
+Output: out
+Function: if ((a==1) and (b==1)) then out = 0, else out = 1</code></pre>
 
 <p><b>Multiplexer</b>: Has two input(data) bits <i>a,b</i> and one selection bit <i>sel</i> which decides which input bit would be the output.
 </p>
@@ -127,12 +127,12 @@ The text program is parsed, its semantics are uncovered, it&rsquo;s represented 
 </figure>
 
 <p>HDL programs treat multi-bit values like single-bit values but they are indexed(from right to left, rightmost being 0\(^{th}\) bit) to access individual bits. For example, a <i>m</i>-way <i>n</i>-bit mux would select one of its <i>m n</i>-bit inputs and output it to its <i>n</i>-bit output, where there would be <i>\(k=log_{2}m\)</i> selection bits. A 4-way 16-bit mux API would look like:
-<code>Chip name: Mux4Way16</code>
-<code>Input: a[16],b[16],c[16],d[16],sel[2]</code>
-<code>Output: out[16]</code>
-<code>Function: if(sel==00,01,10, or 11) then out = a,b,c, or d</code>
-<code>Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"</code>
 </p>
+<pre class="src src-none"><code>Chip name: Mux4Way16
+Input: a[16],b[16],c[16],d[16],sel[2]
+Output: out[16]
+Function: if(sel==00,01,10, or 11) then out = a,b,c, or d
+Comment: The assignment is a 16-bit operation. For example, "out = a" means "for i = 0..15 out[i] = a[i]"</code></pre>
 </div>
 </div>
 <div id="outline-container-boolean-arithmetic" class="outline-2">

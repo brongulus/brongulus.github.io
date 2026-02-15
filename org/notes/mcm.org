@@ -435,12 +435,10 @@ Check out [[https://github.com/gardener/machine-controller-manager/blob/master/d
    - If termination condition update results in an error in a /normal deletion/ then, =skipDrain= is set and =state= is set to =failed=.
    - If termination condition update doesn't result in an error then [[*RunDrain]] is invoked; if drain is successful then =state= is set to =Processing= & if it's /normal deletion/ =description= is set to =InitiateVMDeletion= (since regular deletion already waits for volume detach/attach) otherwise if it's /force deletion/ then =description= is set to =DelVolumesAttachments=  alongwith =Processing= =state=. If =RunDrain= is unsuccessful however and its /normal deletion/ then =description= is set to =InitiateDrain= with =failed= =state= for a retry.
    - To summarize the above:
-     #+begin_src
-   To perform forceful machine drain/delete either:
-   1. force-deletion: "True" label must be present
-   2. Deletion operation is more than drain-timeout minutes old
-   3. Last machine drain had failed
-     #+end_src
+     : To perform forceful machine drain/delete either:
+     :   1. force-deletion: "True" label must be present
+     :   2. Deletion operation is more than drain-timeout minutes old
+     :   3. Last machine drain had failed
 
 5. If =skipDrain= is set, then set the state to =Processing=, LastOperation =type= to =delete=, =description= is set to =InitiateVMDeletion= by =printLogInitError()= and it's re-queued.
    
@@ -497,11 +495,9 @@ Handles reconciliation of =MachineDeployment= and =MachineSet= objects.
   2. =AdoptMachine= (Adopt): Runs the previously created =CanAdopt= function to verify that the machine can be adopted by the machineSet, if so then =PatchMachine= with the /OwnerRef/ to the MachineSet and add to =claimedMachines=.
   3. =ReleaseMachine= (Release): Sends a =deleteOwnerRefPatch= to free the Machine from controller. On patching, =NotFound= and =IsInvalid= errors are ignored since if the machine doesn't exist or if it has no ownerRef or if the UID doesn't match (implies machine was recreated after deletion) then it's fine.
 - ClaimObject:
-  #+begin_src
-It will reconcile the following:
-  - Adopt orphans if the match function returns true.
-  - Release owned objects if the match function returns false.
-  #+end_src
+  : It will reconcile the following:
+  : - Adopt orphans if the match function returns true.
+  : - Release owned objects if the match function returns false.
   1. Get the =ownerRef= using =GetControllerOf=, it it's not nil, check if
      ownerRef.UID is the same as the machineSet's UUID. ([[https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids][UID]] is k8s system generated string to uniquely identify object).  If the DeletionTimestamp is not set (nil), and the selector =match= fails, then attempt a =release=.
   2. In case the ownerRef was nil, check if machineSet is not scheduled for deletion (=DeletionTimestamp= nil) and the =match= was succesful. If so, then if the machine isn't scheduled for deletion, attempt =Adopt=.
@@ -583,10 +579,8 @@ For =machineSet= controller, the =Satisfied= method is inactive hence all the cr
   1. Check if newMS.Replicas is same as deployment's Replicas, that means there's no scaling needed.
   2. If newMS.Replicas are more then scale-down needs to happen alongwith updation of =desiredReplicas= and =maxReplicas= annotation. In cases of rolling updates, =surge= is not simply 0 it is calculated via =ResolveFenceposts= as $surge = \lceil\frac{maxSurge * Replicas}{100}\rceil$ when =maxSurge= is passed as a % value otherwise its taken as is. And the =maxReplicas= value is annotated as =Replicas + surge=
   3. If its neither, then scale-up needs to happen, =NewISNewReplicas= is used to get the target Replicas count, first =surge= is computed in a similar fashion as above and then =maxReplicas= is compared with currently active MS replica count. If the current count is more i.e. scale up is not possible and target count is returned the same as newMS replicas count otherwise scale up needs to happen by
-     #+begin_src 
-min(max - current, dep.Replicas - newMS.Replicas)
-     #+end_src
-      and =scaleUp + newIS.Replicas= is returned as the target replicas count.
+     : min(max - current, dep.Replicas - newMS.Replicas)
+     and =scaleUp + newIS.Replicas= is returned as the target replicas count.
   4. If any scaling happens, then =Sync RolloutStatus= is called to update the deployment status.
 - After this an attempt is made to scale-down the active oldMS. First check if their total replica count is 0 in which case no further scale-down is possible. Otherwise we attempt the scale-down:
   1. Check minAvailable needed number of replicas, =deployment.Replicas - unavailable= where it is calculated via =ResolveFenceposts= as $unavail = \lfloor\frac{maxUnavailable * Replicas}{100}\rfloor$ when =maxAvailable= is passed as a % value otherwise its taken as is.
@@ -595,18 +589,14 @@ min(max - current, dep.Replicas - newMS.Replicas)
   4. An attempt is made to clean up those replicas from the oldMS where first oldMS are sorted in the order =notready, ready, unscheduled, scheduled, pending, running= so that unhealthy replicas are cleaned up before to not increase unavailability:
      + Iterating over the sorted oldMS, we first check if the targetMS's replica count is 0 or equal to its availableReplicas in which cases it can't be downscaled or has no unhealthy replicas so we skip its cleanup.
      + Otherwise compute =scaledownCount= for the targetMS by
-       #+begin_src 
-min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)
-       #+end_src
+       : min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)
        where =totalScaledDown= keeps incrementing by =scaleDownCount= as we iterate over all oldMS.
      + We then compute =newReplicacount= as =Replicas - scaledownCount= and attempt to scaledown the targetMS to it. <TODO: Rewrite this>
   5. After attempting the cleanup of old unhealthy MS, we them attempt a scaledown by first checking if its possible, computing =minAvailable= needed replica count and =totalAvailable= and seeing if total's less than min in which case we can't scale down. Otherwise we compute =totalScaledDownCount= (aka target) as =total - min= available replica count & sort oldMS similar to how we did in the cleanup process above and start iterating over them:
      + Check if scaling's done by comparing =totalScaledDown= number with the target in which case we stop.
      + If MS's replicas is 0 then scaling isnt possible for it, so skip it.
      + Otherwise scaledown is attempted with =scaleDownCount= being
-       #+begin_src 
-min(Replicas, target - totalScaledDown)
-       #+end_src
+       : min(Replicas, target - totalScaledDown)
        and =newReplicacount= as =Replicas - scaleDownCount= after which =totalScaledDown= is updated with =scaleDownCount=
   6. If any scaling happens, then =sync RolloutStatus= is invoked later for updating the status.
 - At the end, the progress is estimated and if deployment is *completed* then, autoscaler annotations are removed, deployment is /cleaned up/. At the end =Sync RolloutStatus= is called again. 

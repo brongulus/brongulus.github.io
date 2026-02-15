@@ -540,10 +540,12 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 <li>If termination condition update doesn&rsquo;t result in an error then <a href="#rundrain">RunDrain</a> is invoked; if drain is successful then <code>state</code> is set to <code>Processing</code> &amp; if it&rsquo;s <i>normal deletion</i> <code>description</code> is set to <code>InitiateVMDeletion</code> (since regular deletion already waits for volume detach/attach) otherwise if it&rsquo;s <i>force deletion</i> then <code>description</code> is set to <code>DelVolumesAttachments</code>  alongwith <code>Processing</code> <code>state</code>. If <code>RunDrain</code> is unsuccessful however and its <i>normal deletion</i> then <code>description</code> is set to <code>InitiateDrain</code> with <code>failed</code> <code>state</code> for a retry.</li>
 <li><p>To summarize the above:
 </p>
-<pre class="src src-none"><code>     To perform forceful machine drain/delete either:
-     1. force-deletion: "True" label must be present
-     2. Deletion operation is more than drain-timeout minutes old
-     3. Last machine drain had failed</code></pre></li>
+<pre class="example">
+To perform forceful machine drain/delete either:
+  1. force-deletion: "True" label must be present
+  2. Deletion operation is more than drain-timeout minutes old
+  3. Last machine drain had failed
+</pre></li>
 </ul></li>
 
 <li>If <code>skipDrain</code> is set, then set the state to <code>Processing</code>, LastOperation <code>type</code> to <code>delete</code>, <code>description</code> is set to <code>InitiateVMDeletion</code> by <code>printLogInitError()</code> and it&rsquo;s re-queued.</li>
@@ -654,9 +656,12 @@ Check if finalizers are present on the machine, if not retry after a while. In c
 </ol></li>
 <li><p>ClaimObject:
 </p>
-<pre class="src src-none"><code>  It will reconcile the following:
-    - Adopt orphans if the match function returns true.
-    - Release owned objects if the match function returns false.</code></pre>
+<pre class="example">
+It will reconcile the following:
+- Adopt orphans if the match function returns true.
+- Release owned objects if the match function returns false.
+</pre>
+
 <ol class="org-ol">
 <li>Get the <code>ownerRef</code> using <code>GetControllerOf</code>, it it&rsquo;s not nil, check if
 ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids">UID</a> is k8s system generated string to uniquely identify object).  If the DeletionTimestamp is not set (nil), and the selector <code>match</code> fails, then attempt a <code>release</code>.</li>
@@ -783,7 +788,10 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
 <li>If newMS.Replicas are more then scale-down needs to happen alongwith updation of <code>desiredReplicas</code> and <code>maxReplicas</code> annotation. In cases of rolling updates, <code>surge</code> is not simply 0 it is calculated via <code>ResolveFenceposts</code> as \(surge = \lceil\frac{maxSurge * Replicas}{100}\rceil\) when <code>maxSurge</code> is passed as a % value otherwise its taken as is. And the <code>maxReplicas</code> value is annotated as <code>Replicas + surge</code></li>
 <li><p>If its neither, then scale-up needs to happen, <code>NewISNewReplicas</code> is used to get the target Replicas count, first <code>surge</code> is computed in a similar fashion as above and then <code>maxReplicas</code> is compared with currently active MS replica count. If the current count is more i.e. scale up is not possible and target count is returned the same as newMS replicas count otherwise scale up needs to happen by
 </p>
-<pre class="src src-none"><code>     min(max - current, dep.Replicas - newMS.Replicas)</code></pre>
+<pre class="example">
+min(max - current, dep.Replicas - newMS.Replicas)
+</pre>
+
 <p>and <code>scaleUp + newIS.Replicas</code> is returned as the target replicas count.
 </p></li>
 <li>If any scaling happens, then <code>Sync RolloutStatus</code> is called to update the deployment status.</li>
@@ -798,7 +806,10 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
 <li>Iterating over the sorted oldMS, we first check if the targetMS&rsquo;s replica count is 0 or equal to its availableReplicas in which cases it can&rsquo;t be downscaled or has no unhealthy replicas so we skip its cleanup.</li>
 <li><p>Otherwise compute <code>scaledownCount</code> for the targetMS by
 </p>
-<pre class="src src-none"><code>       min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)</code></pre>
+<pre class="example">
+min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)
+</pre>
+
 <p>where <code>totalScaledDown</code> keeps incrementing by <code>scaleDownCount</code> as we iterate over all oldMS.
 </p></li>
 <li>We then compute <code>newReplicacount</code> as <code>Replicas - scaledownCount</code> and attempt to scaledown the targetMS to it. &lt;TODO: Rewrite this&gt;</li>
@@ -809,7 +820,10 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
 <li>If MS&rsquo;s replicas is 0 then scaling isnt possible for it, so skip it.</li>
 <li><p>Otherwise scaledown is attempted with <code>scaleDownCount</code> being
 </p>
-<pre class="src src-none"><code>       min(Replicas, target - totalScaledDown)</code></pre>
+<pre class="example">
+min(Replicas, target - totalScaledDown)
+</pre>
+
 <p>and <code>newReplicacount</code> as <code>Replicas - scaleDownCount</code> after which <code>totalScaledDown</code> is updated with <code>scaleDownCount</code>
 </p></li>
 </ul></li>
