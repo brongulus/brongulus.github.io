@@ -1,5 +1,6 @@
 #+TITLE: Tracker
 #+DATE: 2025-04-28 Mon
+#+HTML: <style>table { display: block !important; width: 95% !important; } </style>
 
 * Books
 |--------------+-----------------------------|
