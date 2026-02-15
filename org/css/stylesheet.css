@@ -38,7 +38,7 @@ html[data-theme="dark"] {
 /* ======================================== */
 @font-face {
     font-family: "EB Garamond";
-    src: url("../assets/EB_Garamond/EBGaramond-VariableFont_wght.ttf") format("truetype");
+    src: url("../assets/EB_Garamond/EBGaramond-VariableFont_wght.woff2") format("woff2");
     font-weight: 400 800;
     font-style: normal;
     font-display: swap;
@@ -46,7 +46,7 @@ html[data-theme="dark"] {
 
 @font-face {
     font-family: "EB Garamond";
-    src: url("../assets/EB_Garamond/EBGaramond-Italic-VariableFont_wght.ttf") format("truetype");
+    src: url("../assets/EB_Garamond/EBGaramond-Italic-VariableFont_wght.woff2") format("woff2");
     font-weight: 400 800;
     font-style: italic;
     font-display: swap;
@@ -54,7 +54,7 @@ html[data-theme="dark"] {
 
 @font-face {
     font-family: "Playfair Display";
-    src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+    src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.woff2") format("woff2");
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
