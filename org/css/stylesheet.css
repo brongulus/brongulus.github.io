@@ -510,6 +510,7 @@ figure img {
     margin: 0 auto;
 }
 figcaption {
+    font-size: 0.9rem;
     font-style: italic;
     color: var(--accent);
     max-width: 100%;
@@ -571,6 +572,8 @@ ol li {
 }
 
 ol li:before {
+    font-variant: all-small-caps;
+    font-feature-settings: "tnum", "onum";
     counter-increment: foobar;
     content: counter(foobar) ".";
     float: left;
@@ -669,7 +672,6 @@ sub {
     text-align: left;
     display: block;
     font-size: 105%;
-    text-transform: uppercase;
     margin: 0.7rem 0;
     font-style: normal;
 }
