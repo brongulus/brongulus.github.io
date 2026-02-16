@@ -23,13 +23,13 @@ html[data-theme="dark"] {
 
 * {
     box-sizing: border-box;
-    line-height: 150%;
     -webkit-font-smoothing: subpixel-antialiased;
     transition:
-        background 0.6s ease,
+        background-color 0.6s ease,
         color 0.6s ease;
+    line-height: 145%;
     @media (max-width: 625px) {
-        line-height: 135%;
+        line-height: 130%;
     }
 }
 
@@ -59,14 +59,6 @@ html[data-theme="dark"] {
     font-style: normal;
     font-display: swap;
 }
-
-/* @font-face { */
-/*     font-family: "Playfair Display"; */
-/*     src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf") format("truetype"); */
-/*     font-weight: 100 900; */
-/*     font-style: italic; */
-/*     font-display: swap; */
-/* } */
 
 @font-face {
     font-family: "IBM Plex Mono";
@@ -130,7 +122,7 @@ footer,
         font-size: 1rem;
     }
     @media (max-width: 425px) {
-        font-size: 17.4px;
+        font-size: 18px;
     }
 }
 
@@ -155,9 +147,13 @@ footer,
 
 footer {
     border-top: 1px solid var(--accent);
-    font-size: 0.9rem;
+    font-size: 0.9em;
     text-align: center;
-    padding: 1.2rem 0;
+    padding: 1rem 0;
+    @media (max-width: 450px) {
+        padding: 0.8rem 0;
+        font-size: 0.7em;
+    }
 }
 
 #nav {
@@ -493,10 +489,10 @@ figure img {
     margin: 0 auto;
 }
 figcaption {
-    font-size: 0.9em;
     font-style: italic;
     color: var(--accent);
     max-width: 100%;
+    font-size: 90%;
 }
 
 .katex {
@@ -529,14 +525,14 @@ summary {
 summary::marker {
     font-size: 80%;
 }
-    
+
 /* ======================================== */
 /* Lists
 /* ======================================== */
 ol,
 ul {
     padding-left: 24px;
-    margin: 0.45em 0;
+    margin: 0.35em 0;
     @media (max-width: 625px) {
         padding-left: 16px;
     }
@@ -544,8 +540,7 @@ ul {
 
 ol > li,
 ul > li {
-    margin: 0.45em 0;
-    line-height: 1.45;
+    margin: 0.35em 0;
 }
 ol > li p,
 ul > li p {
@@ -591,6 +586,9 @@ ul > li:before {
 /*     --list-bullet: '» '; */
 /* } */
 /* ul.list-level-2 { */
+/*     --list-bullet: '✦ '; */
+/* } */
+/* ul.list-level-3 { */
 /*     --list-bullet: '• '; */
 /* } */
 /* ul > li::marker { */
@@ -602,6 +600,7 @@ sub {
     line-height: 0;
     vertical-align: baseline;
     position: relative;
+    font-size: 80%;
     top: -0.4em;
 }
 
@@ -619,6 +618,9 @@ sub {
     font-size: 1.4rem;
     margin: 0.5rem 0;
     align-items: center;
+    @media (max-width: 625px) {
+        font-size: 20px;
+    }
     @media (max-width: 425px) {
         font-size: 17.4px;
     }
