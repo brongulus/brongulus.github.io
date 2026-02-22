@@ -15,6 +15,7 @@ Some stuff that I came across recently which I enjoyed, presented here in case s
 + [[https://ncase.me/mental-health/][Mental Health]], don't fight your fear, accept it.
 + [[https://substack.com/home/post/p-163622235][the hunger to be everything]], a substack post about abundance
 + [[https://www.gwern.net/Design][Gwern - Design]], considerations to keep in mind while designing for the web.
++ On the same note, here's an [[https://ia.net/topics/the-web-is-all-about-typography-period][iA blog]] about the same. While you're at it, here's [[https://ia.net/topics/learning-to-see][another]]. And finally there's one on [[https://ia.net/topics/acquiring-confidence-before-an-audience][practice]].
 + [[https://observablehq.com/@yurivish/efficient-graph-search][Efficient BFS]]
 + [[https://ohshitgit.com/][Oh Shit Git]], for when you can't recall that specific command to do that particular thing.
 + [[https://www.chessengines.org/][Chess Engines]], how to code a chess engine

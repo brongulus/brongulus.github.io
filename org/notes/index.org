@@ -3,6 +3,7 @@
 
 * Notes
 
+- [[file:jobs.org][Steve Jobs]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-02-21</span>@@
 - [[file:ostep.org][OSTEP - Book Club]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-01-24</span>@@
 - [[file:notes-from-underground.org][Notes from Underground]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-01-03</span>@@
 - [[file:2fast2mcm.org][2 Fast 2 MCM]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2025-01-15</span>@@

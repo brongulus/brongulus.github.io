@@ -187,7 +187,7 @@ INFO is a plist holding export options."
   "Extract #+DATE from FILE in PROJECT, return as time value or nil."
   (let* ((base-dir (org-publish-property :base-directory project))
          (file-path (expand-file-name file base-dir)))
-    (when (and file-path (file-exists-p file-path))
+    (when (and file-path (file-exists-p file-path) (file-regular-p file-path))
       (with-temp-buffer
         (insert-file-contents file-path)
         (goto-char (point-min))
@@ -200,8 +200,10 @@ INFO is a plist holding export options."
 
 (defun my/sitemap-format-entry (entry style project)
   "Format ENTRY for sitemap with date from #+DATE property.
-STYLE is the sitemap style, PROJECT is the current project."
-  (unless (equal entry ".")
+STYLE is the sitemap style, PROJECT is the current project.
+Skip directories and files in subdirectories."
+  (unless (or (equal entry ".") (string-suffix-p "/" entry) ; skip directories
+              (string-match-p "/" entry)) ; skip subdirectory files
     (let* ((title (org-publish-find-title entry project))
            (date (my/sitemap-extract-date entry project))
            (date-str (if date (format-time-string "%Y-%m-%d" date) "")))

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Virtualization</title>
+<meta name="author" content="Tak" />
+<meta name="generator" content="Org Mode" />
+<script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
+</head>
+<body>
+<div id="nav" class="status">
+<a href='/'>bacchanalian madness</a><a href='/rss.xml'>
+    <button id='rss-button' aria-label='Get RSS feed' type='button'>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='currentColor'>
+        <path d='M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z'></path>
+      </svg>
+    </button>
+  </a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
+    <svg id='moon-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'>
+      <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
+    </svg>
+    <svg id='sun-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' style='display: none;'>
+      <path d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' fill-rule='evenodd' clip-rule='evenodd'></path>
+    </svg>
+  </button>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">Virtualization</h1>
+<p class="date">2026-02-19 Thu</p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#abstraction-process">Abstraction: Process</a></li>
+</ul>
+</div>
+</nav>
+<div id="outline-container-abstraction-process" class="outline-2">
+<h2 id="abstraction-process">Abstraction: Process</h2>
+<div class="outline-text-2" id="text-abstraction-process">
+<p>As was earlier stated, a <i>process</i> is just a <i>running program</i>. On a computer, there&rsquo;s a limited amount of CPUs that seemingly run hundreds or thousands of processes at the same time. This illusion of limitless CPUs is created by the OS by <b>virtualizing</b> the CPU. It&rsquo;s done by the <i>time sharing</i> mechanism of the CPU, in which the OS runs one process, stops it and switches to a different one providing the illusion that multiple programs are running simultaneously at the cost of performance. On top of this mechanism resides a <b>policy</b> which is an algorithm for making decisions within the OS.
+</p>
+
+<div class="note">
+<p>A <i>mechanism</i> answers a <i>how</i> question (lower-level mechanism) about a system, whereas the <i>policy</i> provides the answer to a <i>which</i> question (high-level). For example: how does an OS perform a context switch v/s which process should it run right now.
+</p>
+
+</div>
+
+<p>It is necessary to understand the <b>machine state</b> of a process to understand what constitutes it. One of the obvious components of the state is the <i>memory</i> that the process can address (aka <b>address space</b>). Also part of the state are the <i>registers</i>: special ones being <i>program counter</i> (PC aka instruction pointer IP), <i>stack pointer</i>, <i>frame pointer</i> etc.
+</p>
+</div>
+<div id="outline-container-process-api" class="outline-3">
+<h3 id="process-api">Process API</h3>
+<div class="outline-text-3" id="text-process-api">
+<ul class="org-ul">
+<li><b><b>Create</b></b>: New processes.</li>
+<li><b><b>Destory</b></b>: Said processes forcefully.</li>
+<li><b><b>Wait</b></b>: For graceful exit/completion of processes.</li>
+<li><b><b>Miscellaenous Control</b></b>: Process suspension, resuming etc.</li>
+<li><b><b>Status</b></b>: How long did a process run for, what&rsquo;s its current state.</li>
+</ul>
+</div>
+<div id="outline-container-process-creation" class="outline-4">
+<h4 id="process-creation">Process Creation</h4>
+<div class="outline-text-4" id="text-process-creation">
+<p>The first things the OS must do is to <i>load</i> the program code and static data (initialized variables) in memory, into the address space of the process. In early OSes, loading was done <i>eagerly</i> i.e. the entire program was loaded all at once but modern OS do <i>lazy</i> loading where only the pieces of data that&rsquo;s needed is loaded during execution (done via <b>paging/swapping</b>).
+</p>
+
+<p>Once the data&rsquo;s loaded, some memory must be allocated for program&rsquo;s <b>stack</b> (used for local variables, function parameters, return addresses). The OS also initializes the stack with arguments i.e. fill parameters to <code>main()</code> function. Then it must also allocate some <b>heap</b> memory, used for explicitly requested dynamically-allocated data.
+</p>
+
+<p>The OS must also do I/O related initialization, i.e. setup the three <b>file descriptors</b> for the process to read input from terminal and print output/error to the screen. Once all the setup is done, program <i>execution</i> can begin by jumping to the <code>main()</code> routine, and the control is shifted from CPU to the newly-created process.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer id="postamble" class="status">
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+</footer>
+</body>
+</html>

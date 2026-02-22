@@ -6,6 +6,30 @@
     <description>Webpresence of Prashant Tak</description>
     <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Virtualization</title>
+      <link>https://brongulus.github.io/notes/ostep/virtualization.html</link>
+      <guid>https://brongulus.github.io/notes/ostep/virtualization.html</guid>
+      <pubDate>Sun, 22 Feb 2026 18:10:35 +0530</pubDate>
+    </item>
+    <item>
+      <title>Steve Jobs</title>
+      <link>https://brongulus.github.io/notes/jobs.html</link>
+      <guid>https://brongulus.github.io/notes/jobs.html</guid>
+      <pubDate>Sun, 22 Feb 2026 12:52:22 +0530</pubDate>
+    </item>
+    <item>
+      <title>OSTEP - Book Club</title>
+      <link>https://brongulus.github.io/notes/ostep.html</link>
+      <guid>https://brongulus.github.io/notes/ostep.html</guid>
+      <pubDate>Thu, 19 Feb 2026 01:56:47 +0530</pubDate>
+    </item>
+    <item>
+      <title>Introduction</title>
+      <link>https://brongulus.github.io/notes/ostep/intro.html</link>
+      <guid>https://brongulus.github.io/notes/ostep/intro.html</guid>
+      <pubDate>Thu, 19 Feb 2026 01:52:12 +0530</pubDate>
+    </item>
+    <item>
       <title>Elements of computing systems</title>
       <link>https://brongulus.github.io/notes/ecs.html</link>
       <guid>https://brongulus.github.io/notes/ecs.html</guid>
@@ -34,12 +58,6 @@
       <link>https://brongulus.github.io/blog/musturbating.html</link>
       <guid>https://brongulus.github.io/blog/musturbating.html</guid>
       <pubDate>Mon, 09 Feb 2026 22:04:27 +0530</pubDate>
-    </item>
-    <item>
-      <title>OSTEP - Book Club</title>
-      <link>https://brongulus.github.io/notes/ostep.html</link>
-      <guid>https://brongulus.github.io/notes/ostep.html</guid>
-      <pubDate>Mon, 09 Feb 2026 21:44:35 +0530</pubDate>
     </item>
     <item>
       <title>Docker Kubernetes Notes</title>

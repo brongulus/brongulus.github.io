@@ -27,7 +27,7 @@ html[data-theme="dark"] {
     transition:
         background-color 0.6s ease,
         color 0.6s ease;
-    line-height: 145%;
+    line-height: 140%;
     @media (max-width: 625px) {
         line-height: 130%;
     }
@@ -467,6 +467,9 @@ blockquote p:last-child {
     color: var(--font);
     margin: 0.8rem 0;
     padding: 0.25rem 0.5rem;
+    @media (min-width: 625px) {
+        padding-left: 0.7rem;
+    }
     font-size: 0.9em;
 }
 
@@ -523,6 +526,7 @@ summary {
     font-variant: all-small-caps;
 }
 summary::marker {
+    color: var(--accent);
     font-size: 80%;
 }
 
@@ -575,7 +579,7 @@ ol > li::before {
 }
 
 ul > li {
-    list-style: disc;
+    list-style: circle;
 }
 ul > li:before {
     content: none;

@@ -1,0 +1,29 @@
+#+TITLE: Virtualization
+#+DATE: 2026-02-19 Thu
+
+* Abstraction: Process
+
+As was earlier stated, a /process/ is just a /running program/. On a computer, there's a limited amount of CPUs that seemingly run hundreds or thousands of processes at the same time. This illusion of limitless CPUs is created by the OS by *virtualizing* the CPU. It's done by the /time sharing/ mechanism of the CPU, in which the OS runs one process, stops it and switches to a different one providing the illusion that multiple programs are running simultaneously at the cost of performance. On top of this mechanism resides a *policy* which is an algorithm for making decisions within the OS.
+
+#+begin_note
+A /mechanism/ answers a /how/ question (lower-level mechanism) about a system, whereas the /policy/ provides the answer to a /which/ question (high-level). For example: how does an OS perform a context switch v/s which process should it run right now.
+#+end_note
+
+It is necessary to understand the *machine state* of a process to understand what constitutes it. One of the obvious components of the state is the /memory/ that the process can address (aka *address space*). Also part of the state are the /registers/: special ones being /program counter/ (PC aka instruction pointer IP), /stack pointer/, /frame pointer/ etc.
+
+** Process API
+
+- **Create**: New processes.
+- **Destory**: Said processes forcefully.
+- **Wait**: For graceful exit/completion of processes.
+- **Miscellaenous Control**: Process suspension, resuming etc.
+- **Status**: How long did a process run for, what's its current state.
+
+*** Process Creation
+
+The first things the OS must do is to /load/ the program code and static data (initialized variables) in memory, into the address space of the process. In early OSes, loading was done /eagerly/ i.e. the entire program was loaded all at once but modern OS do /lazy/ loading where only the pieces of data that's needed is loaded during execution (done via *paging/swapping*).
+
+Once the data's loaded, some memory must be allocated for program's *stack* (used for local variables, function parameters, return addresses). The OS also initializes the stack with arguments i.e. fill parameters to ~main()~ function. Then it must also allocate some *heap* memory, used for explicitly requested dynamically-allocated data.
+
+The OS must also do I/O related initialization, i.e. setup the three *file descriptors* for the process to read input from terminal and print output/error to the screen. Once all the setup is done, program /execution/ can begin by jumping to the ~main()~ routine, and the control is shifted from CPU to the newly-created process.
+

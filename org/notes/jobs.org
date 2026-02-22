@@ -1,0 +1,86 @@
+#+TITLE: Steve Jobs
+#+DATE: 2026-02-21 Sat
+
+From [[https://book.stevejobsarchive.com/][Steve Jobs Archive Book]]
+
+Funny how he says "two, three hours a day"
+
+#+begin_quote
+By ’86, ’87, pick a year, people are going to spend more time interacting with these machines than they do interacting with automobiles today. People are going to be spending two, three hours a day interacting with these machines—longer than they spend in the car. And so the industrial design, the software design, and how people interact with these things certainly must be given the consideration that we give automobiles today—if not a lot more.
+
+...
+
+Just a bunch of little things: wine labels, paintings in galleries. Just simple things. Not anything real profound, just lots and lots of little things. I don’t think my taste in aesthetics is that much different than a lot of other people’s. The difference is that I just get to be really stubborn about making things as good as we all know they can be. That’s the only difference.
+
+Well, things get more refined as you make mistakes. I’ve had a chance to make a lot of mistakes. Your aesthetics get better as you make mistakes. But the real big thing is: if you’re going to make something, it doesn’t take any more energy—and rarely does it take more money—to make it really great. All it takes is a little more time. Not that much more. And a willingness to do so, a willingness to persevere until it’s really great.
+
+...
+
+You’re going to be buying information or finding information, and really making a lot of decisions about what you’re going to do with your life, or what you’re going to purchase, from the web.
+
+...
+
+One of the things I always tried to coach myself on was not being afraid to fail. When you have something that doesn’t work out, a lot of times, people’s reaction is to get very protective about never wanting to fall on their face again. I think that’s a big mistake, because you never achieve what you want without falling on your face a few times in the process of getting there.
+
+...
+
+Whatever it may be, I bet many of you have had some of these intuitive feelings about what you could do with your lives. These feelings are very real, and if nurtured can blossom into something wonderful and magical. A good way to remember these kinds of intuitive feelings is to walk alone near sunset—and spend a lot of time looking at the sky in general. We are never taught to listen to our intuitions, to develop and nurture our intuitions. But if you do pay attention to these subtle insights, you can make them come true.
+
+...
+
+Don’t be a career. The enemy of most dreams and intuitions, and one of the most dangerous and stifling concepts ever invented by humans, is the "Career." A career is a concept for how one is supposed to progress through stages during the training for and practicing of your working life.
+
+There are some big problems here. First and foremost is the notion that your work is different and separate from the rest of your life. If you are passionate about your life and your work, this can’t be so. They will become more or less one. This is a much better way to live one’s life.
+
+...
+
+Now, as you live your arc across the sky, you want to have as few regrets as possible. Remember, regrets are different from mistakes. Mistakes are those things that you did and wish you could do over again. In some you were a fool (usually concerning women). In others you were scared. In others you hurt someone else. Some mistakes are deep, others not. But if your intent was pure, they are almost always enriching in some way. So mistakes are things that you did and wish you could do over again.
+
+Regrets are most often things you didn’t do, and wish you did. I still regret not kissing Nancy Kinniman in high school. Who knows what might have happened? Maybe she regrets it too…
+
+...
+
+"Technology should enhance human creativity. Process matters. Beauty matters. Details matter. The world we know is a human creation—and we can push it forward."
+
+...
+
+We are what we repeatedly do. Excellence, then, is not an act, but a habit. – Aristotle
+
+...
+
+A wise observer of the economic scene once commented that "what can be left to later, usually is -- and then, alas, it’s too late."
+
+...
+
+You can’t plan to meet the people who will change your life. It just happens. Maybe its random, maybe its fate. Either way, you can’t plan for it. But you want to recognize it when it happens, and have the courage and clarity of mind to grab onto it.
+
+...
+
+The most important thing I’ve ever encountered to help me make the big choices is to remember that I’ll be dead soon. I know it sounds a bit dramatic, but it’s true. And when I remember this, I realize that all of the expectations and standards and restrictions of others and society mean nothing in the end. I realize that I have nothing to lose by following my heart and intuition, even if I embarrass myself or fail in the eyes of others. Because I’ll be dead soon. And I realize that I don’t have forever to decide to find what my intuition tells me is waiting out there for me.
+
+...
+
+And so let’s go invent tomorrow rather than worrying about what happened yesterday.
+
+...
+
+And clearly, most things you carry with you are communications devices. You want to do some entertainment with them as well, but they’re primarily communications devices, and that’s what they’re going to be.
+
+...
+
+Life can be much broader once you discover one simple fact—and that is: everything around you that you call life was made up by people that were no smarter than you.
+
+And you can change it.
+
+You can influence it.
+
+You can build your own things that other people can use.
+
+And the minute you can understand that you can poke life, and if you push in, then something will pop out the other side; that you can change it, you can mold it—that’s maybe the most important thing: to shake off this erroneous notion that life is there, and you’re just going to live in it versus embrace it, change it, improve it, make your mark upon it.
+
+I think that’s very important, and however you learn that, once you learn it, you’ll want to change life and make it better. Because it’s kind of messed up in a lot of ways.
+
+Once you learn that, you’ll never be the same again.
+
+—Steve, 1994
+#+end_quote
