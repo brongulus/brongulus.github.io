@@ -4,7 +4,7 @@
 :root {
     color-scheme: light dark;
     --font: light-dark(#4f4746, #eae6df);
-    --bg: light-dark(#f5f2eb, #21211e);
+    --bg: light-dark(#fffbeb, #21211e);
     --marker: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.02));
     --link: light-dark(#458588, #88c0d0);
     --accent: color-mix(in srgb, var(--font) 60%, var(--bg) 40%);
