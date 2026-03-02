@@ -8,6 +8,7 @@
 <meta name="author" content="Tak" />
 <meta name="generator" content="Org Mode" />
 <script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
+<script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); const currentTheme = (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default'; var config = {startOnLoad: true, theme: currentTheme, align: 'center'}; mermaid.initialize(config); const toggleButton = document.querySelector('#dark-mode-button'); if (toggleButton) {toggleButton.addEventListener('click', () => {window.location.reload();});} </script>
 </head>
 <body>
 <div id="nav" class="status">
@@ -37,6 +38,9 @@
 <li><a href="#docker">Docker</a></li>
 <li><a href="#h:06603D16-4A5E-4AC0-8A9C-8C7F5EE20433">Kubernetes</a></li>
 <li><a href="#helm">Helm</a></li>
+<li><a href="#networking">Networking</a></li>
+<li><a href="#volumes">Volumes</a></li>
+<li><a href="#containerd">Containerd</a></li>
 </ul>
 </div>
 </nav>
@@ -234,6 +238,73 @@
 <h2 id="helm">Helm</h2>
 <div class="outline-text-2" id="text-helm">
 <p>Ref: <a href="https://sysdig.com/learn-cloud-native/what-is-helm-in-kubernetes/">What is helm</a>
+</p>
+</div>
+</div>
+<div id="outline-container-networking" class="outline-2">
+<h2 id="networking">Networking</h2>
+<div class="outline-text-2" id="text-networking">
+<p>Efficient routing usually means routing a contiguous CIDR to each individual node, which means you’re pre-allocating how many IP addresses (and thus pods) each node can serve. Some nodes that are intended for lots of small workloads end up constrained by the number of available IP addresses before they run out of other hardware resources.
+</p>
+</div>
+</div>
+<div id="outline-container-volumes" class="outline-2">
+<h2 id="volumes">Volumes</h2>
+<div class="outline-text-2" id="text-volumes">
+<p>A <i>PersistentVolume</i> (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using <i>Storage Classes</i>. PVs are volume plugins like <code>Volumes</code>, but have a lifecycle independent of any individual Pod that uses the PV. A <i>PersistentVolumeClaim</i> (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted <code>ReadWriteOnce, ReadOnlyMany, ReadWriteMany, or ReadWriteOncePod</code>). Cluster administrators need to be able to offer a variety of PVs that differ in more ways than size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.
+</p>
+
+<p>A <i>StorageClass</i> provides a way for administrators to describe the classes of storage they offer. Different classes might map to quality-of-service levels, or to backup policies, or to arbitrary policies determined by the cluster administrators. Each StorageClass contains the fields <code>provisioner</code>, <code>parameters</code>, and <code>reclaimPolicy</code> (<i>delete</i>: removes PV as well as storage or <i>retain</i>: PV remains on PVC deletion but can&rsquo;t be reclaimed till the previous data remains), which are used when a PV belonging to the class needs to be dynamically provisioned to satisfy a PVC. <code>volumeBindingMode</code> controls when binding and provisioning should occur, <code>WaitForFirstConsumer</code> mode will delay the binding and provisioning of a PV until a Pod using the PVC is created. If unspecified, <code>Immediate</code> mode is used where binding and provisioning occurs when PVC is created which can cause unschedulable pods for TSC constrained storage backends.
+</p>
+
+<p>A user creates, or in the case of dynamic provisioning, has already created, a PVC with a specific amount of storage requested and with certain access modes. A control loop in the control plane watches for new PVCs, finds a matching PV (if possible), and binds them together. A PVC to PV binding is a one-to-one mapping, using a <code>ClaimRef</code> which is a bi-directional binding between the PV and the PVC. Pods use <code>claims</code> as volumes. The cluster inspects the claim to find the bound volume and mounts that volume for a Pod. For volumes that support multiple access modes, the user specifies which mode is desired when using their claim as a volume in a Pod.
+</p>
+
+<p>The out-of-tree volume plugins include <i>Container Storage Interface</i> (CSI) that enable storage vendors to create custom storage plugins without adding their plugin source code to the Kubernetes repository. CSI defines a standard interface for container orchestration systems (like Kubernetes) to expose arbitrary storage systems to their container workloads. Once a CSI-compatible volume driver is deployed on a Kubernetes cluster, users may use the <code>csi</code> volume type to attach or mount the volumes exposed by the CSI driver.
+</p>
+
+<p><i>CSINode</i> holds information about all CSI drivers installed on a node. As long as the CSI driver uses the <code>node-driver-registrar</code> sidecar container, the kubelet will automatically populate the CSINode object for the CSI driver as part of kubelet plugin registration. CSINode has the same name as a node. If the object is missing, it means either there are no CSI Drivers available on the node. CSINode has an OwnerReference that points to the corresponding node object.
+</p>
+</div>
+</div>
+<div id="outline-container-containerd" class="outline-2">
+<h2 id="containerd">Containerd</h2>
+<div class="outline-text-2" id="text-containerd">
+<p><a href="https://labs.iximiuz.com/courses/kubernetes-the-very-hard-way-0cbfd997/worker-node/containerd#overview">Source</a>
+</p>
+
+<p>It is a <b>container runtime</b> that provides several essential services to Kubernetes:
+</p>
+<ol class="org-ol">
+<li><b>Container Lifecycle Management</b>: Creating, starting, stopping, and deleting containers</li>
+<li><b>Image Management</b>: Pulling, storing, and managing container images from registries</li>
+<li><b>Storage Management</b>: Handling container filesystems and volume mounts</li>
+<li><b>Network Management</b>: Coordinating with CNI plugins for container networking</li>
+<li><b>Runtime Management</b>: Interfacing with low-level runtimes</li>
+</ol>
+
+<pre class="mermaid">
+---
+  config:
+    layout: elk
+---
+graph TD
+    containerd["containerd"] --> shim["containerd-shim"]
+    containerd --> CNI["CNI"]
+    CNI --> containerd
+    shim --> runc["runc"]
+    shim --> container["container"]
+    runc --> container
+    container --> shim
+</pre>
+
+<p><code>containerd</code> includes a CLI tool called <code>ctr</code> (<a href="https://github.com/containerd/nerdctl">nerdctl</a> as a better interface) for basic container operations, it&rsquo;s like the <code>docker</code> CLI but for lower-level operations. Some operations would be <code>ctr images pull &lt;image&gt;</code>, <code>ctr run --rm &lt;image&gt;</code>. <code>containerd</code> delegates the task of actually running the container process to a low-level <b>OCI runtime</b>. containerd manages the &ldquo;what&rdquo; (which container to run, with what image, network, and storage) while OCI runtimes (<a href="https://github.com/opencontainers/runc">runc</a>/<a href="https://github.com/containers/crun">crun</a>/<a href="https://gvisor.dev/">gvisor</a> handle the &ldquo;how&rdquo; (the underlying isolation mechanisms like cgroups, namespaces, or VMs). The <code>containerd-shim</code> is a lightweight process that acts as a bridge between containerd and OCI runtimes. It provides a stable interface for containerd to interact with the runtime, keeps containers running even if containerd crashes, handles container I/O, and reaps processes when they exit.
+</p>
+
+<p><code>cgroups</code> (control groups) limit and isolate resource usage (CPU, memory, I/O) for container processes. When using systemd as the init system, it&rsquo;s recommended to use the systemd cgroup driver so both systemd and the container runtime manage cgroups consistently.
+</p>
+
+<p>While <code>ctr</code> doesn&rsquo;t automatically create a network for containers, <code>nerdctl</code> attempts to create a <i>bridge network</i> (to configure the network namespace for each container) by default. Without CNI plugins installed, this network creation fails. Just as <code>containerd</code> delegates container process execution to OCI runtimes, it delegates network configuration to specialized components through the Container Network Interface (CNI). CNI provides a standardized way for container runtimes to set up container networking, including creating network namespaces, configuring IP addresses, and establishing connectivity between containers and the host system.
 </p>
 </div>
 </div>

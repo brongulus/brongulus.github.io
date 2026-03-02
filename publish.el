@@ -17,9 +17,7 @@
 
 ;; (org-babel-do-load-languages
 ;;  'org-babel-load-languages
-;;  '((C . t) (shell . t)
-;;    (python . t)
-;;    (emacs-lisp . t)))
+;;  '((C . t) (shell . t) (python . t) (emacs-lisp . t)))
 ;; (setq org-confirm-babel-evaluate nil)
 
 (defvar blog-base-dir
@@ -162,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
          :sitemap-sort-files anti-chronologically)
         ("assets"
          :base-directory ,(concat blog-base-dir "org/")
-         :base-extension "css\\|ttf\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ico"
+         :base-extension "css\\|woff2\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ico"
          :publishing-directory ,(concat blog-base-dir "docs/")
          :recursive t
          :publishing-function org-publish-attachment)))
@@ -270,6 +268,17 @@ Skip directories and files in subdirectories."
     (replace-regexp-in-string "<p\\(.*?\\)>\n" "<p\\1>" result)))
 
 (advice-add 'org-html-paragraph :around #'my/remove-paragraph-newlines)
+
+
+(defun my/fix-summary-p-tags (output backend info)
+  "Remove <p> tags inside <summary> elements."
+  (when (org-export-derived-backend-p backend 'html)
+    (replace-regexp-in-string
+     "<summary>\n<p>\\(.*?\\)\n</p>\n</summary>"
+     "<summary>\\1</summary>"
+     output)))
+
+(add-hook 'org-export-filter-final-output-functions #'my/fix-summary-p-tags)
 
 (defun my/fix-image-src (orig-fun link desc info)
   (let ((result (funcall orig-fun link desc info)))

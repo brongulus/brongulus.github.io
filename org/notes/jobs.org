@@ -2,8 +2,11 @@
 #+DATE: 2026-02-21 Sat
 
 From [[https://book.stevejobsarchive.com/][Steve Jobs Archive Book]]
+Related [[https://music.youtube.com/playlist?list=PLr2YvAkpee6s8wDDplsoyjs9_nRno4Dy6&si=YT4OrpiuER3Td1j3][playlist]]
 
-Funny how he says "two, three hours a day"
+Funny how he says interacting with computers "two, three hours a day"...
+
+#+HTML: <hr>
 
 #+begin_quote
 By ’86, ’87, pick a year, people are going to spend more time interacting with these machines than they do interacting with automobiles today. People are going to be spending two, three hours a day interacting with these machines—longer than they spend in the car. And so the industrial design, the software design, and how people interact with these things certainly must be given the consideration that we give automobiles today—if not a lot more.

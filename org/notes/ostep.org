@@ -1,18 +1,43 @@
 #+TITLE: OSTEP - Book Club
 #+DATE: 2026-01-24 Sat
-
-Schedule: https://eatonphil.com/2026-ostep.html
-
-Homepage: https://pages.cs.wisc.edu/~remzi/OSTEP/
-Code: https://github.com/remzi-arpacidusseau/ostep-code
-Homework: https://github.com/remzi-arpacidusseau/ostep-homework
-Projects: https://github.com/remzi-arpacidusseau/ostep-projects
-
 #+OPTIONS: toc:nil
+
+[[https://eatonphil.com/2026-ostep.html][Schedule]]
+
+[[https://pages.cs.wisc.edu/~remzi/OSTEP/][Homepage]]   [[https://github.com/remzi-arpacidusseau/ostep-code][Code]]   [[https://github.com/remzi-arpacidusseau/ostep-homework][Homework]]   [[https://github.com/remzi-arpacidusseau/ostep-projects][Projects]]
+
+#+begin_export html
+<style>
+.entries > ul,
+.entries ~ ul {
+    padding-left: 0;
+}
+
+.entries > ul > li,
+.entries ~ ul > li {
+    color: var(--font);
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+    align-items: center;
+    @media (max-width: 625px) {
+        font-size: 20px;
+    }
+    @media (max-width: 425px) {
+        font-size: 17.4px;
+    }
+}
+</style>
+#+end_export
+
+** Introduction
 #+HTML: <div class="entries">
+- [[file:./ostep/intro.org][Introduction]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-01-24</span>@@
+#+HTML: </div>
 
-- [[file:./ostep/intro.org][Introduction]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-01-24</span>@@  
-- [[file:./ostep/virtualization.org][Virtualization]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-02-19</span>@@
-
-
+** CPU Virtualization
+#+HTML: <div class="entries">
+- [[file:./ostep/process.org][Process]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-02-19</span>@@
 #+HTML: </div>

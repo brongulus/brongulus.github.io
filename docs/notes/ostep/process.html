@@ -1,0 +1,2340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Process</title>
+<meta name="author" content="Tak" />
+<meta name="generator" content="Org Mode" />
+<script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
+<script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); const currentTheme = (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default'; var config = {startOnLoad: true, theme: currentTheme, align: 'center'}; mermaid.initialize(config); const toggleButton = document.querySelector('#dark-mode-button'); if (toggleButton) {toggleButton.addEventListener('click', () => {window.location.reload();});} </script>
+</head>
+<body>
+<div id="nav" class="status">
+<a href='/'>bacchanalian madness</a><a href='/rss.xml'>
+    <button id='rss-button' aria-label='Get RSS feed' type='button'>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='currentColor'>
+        <path d='M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z'></path>
+      </svg>
+    </button>
+  </a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
+    <svg id='moon-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'>
+      <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
+    </svg>
+    <svg id='sun-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' style='display: none;'>
+      <path d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' fill-rule='evenodd' clip-rule='evenodd'></path>
+    </svg>
+  </button>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">Process</h1>
+<p class="date">2026-02-19 Thu</p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#process-api">Process API</a></li>
+<li><a href="#process-creation">Process Creation</a></li>
+<li><a href="#process-states">Process States</a></li>
+<li><a href="#process-data-structures">Process Data Structures</a></li>
+<li><a href="#system-calls">System Calls</a></li>
+</ul>
+</div>
+</nav>
+<p>As was earlier stated, a <i>process</i> is just a <i>running program</i>. On a computer, there&rsquo;s a limited amount of CPUs that seemingly run hundreds or thousands of processes at the same time. This illusion of limitless CPUs is created by the OS by <b>virtualizing</b> the CPU. It&rsquo;s done by the <i>time sharing</i> mechanism of the CPU, in which the OS runs one process, stops it and switches to a different one providing the illusion that multiple programs are running simultaneously at the cost of performance. On top of this mechanism resides a <b>policy</b> which is an algorithm for making decisions within the OS.
+</p>
+
+<div class="note">
+<p>A <i>mechanism</i> answers a <i>how</i> question (lower-level mechanism) about a system, whereas the <i>policy</i> provides the answer to a <i>which</i> question (high-level). For example: how does an OS perform a context switch v/s which process should it run right now.
+</p>
+
+</div>
+
+<p>It is necessary to understand the <b>machine state</b> of a process to understand what constitutes it. One of the obvious components of the state is the <i>memory</i> that the process can address (aka <b>address space</b>). Also part of the state are the <i>registers</i>: special ones being <i>program counter</i> (PC aka instruction pointer IP), <i>stack pointer</i>, <i>frame pointer</i> etc.
+</p>
+<div id="outline-container-process-api" class="outline-2">
+<h2 id="process-api">Process API</h2>
+<div class="outline-text-2" id="text-process-api">
+<ul class="org-ul">
+<li><b><b>Create</b></b>: New processes.</li>
+<li><b><b>Destory</b></b>: Said processes forcefully.</li>
+<li><b><b>Wait</b></b>: For graceful exit/completion of processes.</li>
+<li><b><b>Miscellaenous Control</b></b>: Process suspension, resuming etc.</li>
+<li><b><b>Status</b></b>: How long did a process run for, what&rsquo;s its current state.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-process-creation" class="outline-2">
+<h2 id="process-creation">Process Creation</h2>
+<div class="outline-text-2" id="text-process-creation">
+<p>The first things the OS must do is to <i>load</i> the program code and static data (initialized variables) in memory, into the address space of the process. In early OSes, loading was done <i>eagerly</i> i.e. the entire program was loaded all at once but modern OS do <i>lazy</i> loading where only the pieces of data that&rsquo;s needed is loaded during execution (done via <b>paging/swapping</b>).
+</p>
+
+<p>Once the data&rsquo;s loaded, some memory must be allocated for program&rsquo;s <b>stack</b> (used for local variables, function parameters, return addresses). The OS also initializes the stack with arguments i.e. fill parameters to <code>main()</code> function. Then it must also allocate some <b>heap</b> memory, used for explicitly requested dynamically-allocated data.
+</p>
+
+<p>The OS must also do I/O related initialization, i.e. setup the three <b>file descriptors</b> for the process to read input from terminal and print output/error to the screen. Once all the setup is done, program <i>execution</i> can begin by jumping to the <code>main()</code> routine, and the control is shifted from CPU to the newly-created process.
+</p>
+</div>
+</div>
+<div id="outline-container-process-states" class="outline-2">
+<h2 id="process-states">Process States</h2>
+<div class="outline-text-2" id="text-process-states">
+<p>A process can be in <b>Running</b>, <b>Ready</b> or <b>Blocked</b> state. Moving from <i>Ready</i> to <i>Running</i> means the process has been <b>scheduled</b>, if a running process gets blocked due to I/O, the OS doesn&rsquo;t move it to ready unless the blocking event finishes.
+</p>
+
+<pre class="mermaid">
+stateDiagram-v2
+    Running --> Ready: Descheduled
+    Ready --> Running: Scheduled
+
+    Running --> Blocked: I/O initiated
+    Blocked --> Ready: I/O done
+</pre>
+</div>
+</div>
+<div id="outline-container-process-data-structures" class="outline-2">
+<h2 id="process-data-structures">Process Data Structures</h2>
+<div class="outline-text-2" id="text-process-data-structures">
+<p>OS must have a <b>process list</b> to keep track of state of all processes, which ones are ready/running or blocked. For blocked processes, the I/O events must also be tracked somehow. The <b>register context</b> holds the contents of registers for a <i>stopped</i> process, which can then be used to restore the values in physical registers when running of the process resumes.
+</p>
+
+<pre class="src src-C"><code><span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">context</span> {
+  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">eip</span>;
+  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">esp</span>;
+  ...
+  <span class="font-lock-type-face">int</span> ebp;
+};
+
+<span class="font-lock-keyword-face">enum</span> <span class="font-lock-type-face">proc_state</span> { <span class="font-lock-variable-name-face">UNUSED</span>, <span class="font-lock-variable-name-face">EMBRYO</span>, <span class="font-lock-variable-name-face">SLEEPING</span>,
+                  <span class="font-lock-variable-name-face">RUNNABLE</span>, <span class="font-lock-variable-name-face">RUNNING</span>, <span class="font-lock-variable-name-face">ZOMBIE</span> };
+
+<span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">proc</span> {
+  <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">mem</span>;                  <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Start of proc mem
+</span>  <span class="font-lock-type-face">uint</span> <span class="font-lock-variable-name-face">sz</span>;                    <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Size of proc mem
+</span>  <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">kstack</span>;               <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Process kernel stack bottom
+</span>  <span class="font-lock-keyword-face">enum</span> <span class="font-lock-type-face">proc_state</span> <span class="font-lock-variable-name-face">state</span>;      <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Proc state
+</span>  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">pid</span>;
+  <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">proc</span> *<span class="font-lock-variable-name-face">parent</span>;        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Parent process
+</span>  <span class="font-lock-type-face">void</span> *<span class="font-lock-variable-name-face">chan</span>;                 <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">If !zero, sleeping on chan
+</span>  <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">killed</span>;                 <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">If !zero, has been killed
+</span>  <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">file</span> *<span class="font-lock-variable-name-face">ofile</span>[NOFILE]; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Open files
+</span>  <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">inode</span> *<span class="font-lock-variable-name-face">cwd</span>;
+  <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">context</span> <span class="font-lock-variable-name-face">context</span>;
+  <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">trapframe</span> *<span class="font-lock-variable-name-face">tf</span>;       <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Trap frame for current interrupt
+</span>};</code></pre>
+</div>
+<div id="outline-container-system-calls-homework" class="outline-3">
+<h3 id="system-calls-homework">Homework</h3>
+<div class="outline-text-3" id="text-system-calls-homework">
+<p>The below program <code>process-run.py</code> allows for observing how process states change as programs run
+</p>
+
+<details>
+<summary>process-run.py</summary>
+
+<pre class="src src-python"><code><span class="font-lock-comment-face">#! /usr/bin/env python</span>
+
+<span class="font-lock-keyword-face">from</span> __future__ <span class="font-lock-keyword-face">import</span> print_function
+<span class="font-lock-keyword-face">import</span> sys
+<span class="font-lock-keyword-face">from</span> optparse <span class="font-lock-keyword-face">import</span> <span class="font-lock-type-face">OptionParser</span>
+<span class="font-lock-keyword-face">import</span> random
+
+<span class="font-lock-comment-face"># to make Python2 and Python3 act the same -- how dumb</span>
+<span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">random_seed</span>(<span class="font-lock-variable-name-face">seed</span>):
+    <span class="font-lock-keyword-face">try</span>:
+        random.seed(seed, version=<span class="font-lock-number-face">1</span>)
+    <span class="font-lock-keyword-face">except</span>:
+        random.seed(seed)
+    <span class="font-lock-keyword-face">return</span>
+
+<span class="font-lock-comment-face"># process switch behavior</span>
+<span class="font-lock-constant-face">SCHED_SWITCH_ON_IO</span> = <span class="font-lock-string-face">'SWITCH_ON_IO'</span>
+<span class="font-lock-constant-face">SCHED_SWITCH_ON_END</span> = <span class="font-lock-string-face">'SWITCH_ON_END'</span>
+
+<span class="font-lock-comment-face"># io finished behavior</span>
+<span class="font-lock-constant-face">IO_RUN_LATER</span> = <span class="font-lock-string-face">'IO_RUN_LATER'</span>
+<span class="font-lock-constant-face">IO_RUN_IMMEDIATE</span> = <span class="font-lock-string-face">'IO_RUN_IMMEDIATE'</span>
+
+<span class="font-lock-comment-face"># process states</span>
+<span class="font-lock-constant-face">STATE_RUNNING</span> = <span class="font-lock-string-face">'RUNNING'</span>
+<span class="font-lock-constant-face">STATE_READY</span> = <span class="font-lock-string-face">'READY'</span>
+<span class="font-lock-constant-face">STATE_DONE</span> = <span class="font-lock-string-face">'DONE'</span>
+<span class="font-lock-constant-face">STATE_WAIT</span> = <span class="font-lock-string-face">'BLOCKED'</span>
+
+<span class="font-lock-comment-face"># members of process structure</span>
+<span class="font-lock-constant-face">PROC_CODE</span> = <span class="font-lock-string-face">'code_'</span>
+<span class="font-lock-constant-face">PROC_PC</span> = <span class="font-lock-string-face">'pc_'</span>
+<span class="font-lock-constant-face">PROC_ID</span> = <span class="font-lock-string-face">'pid_'</span>
+<span class="font-lock-constant-face">PROC_STATE</span> = <span class="font-lock-string-face">'proc_state_'</span>
+
+<span class="font-lock-comment-face"># things a process can do</span>
+<span class="font-lock-constant-face">DO_COMPUTE</span> = <span class="font-lock-string-face">'cpu'</span>
+<span class="font-lock-constant-face">DO_IO</span> = <span class="font-lock-string-face">'io'</span>
+<span class="font-lock-constant-face">DO_IO_DONE</span> = <span class="font-lock-string-face">'io_done'</span>
+
+
+<span class="font-lock-keyword-face">class</span> <span class="font-lock-type-face">scheduler</span>:
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">__init__</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">process_switch_behavior</span>, <span class="font-lock-variable-name-face">io_done_behavior</span>, <span class="font-lock-variable-name-face">io_length</span>):
+        <span class="font-lock-comment-face"># keep set of instructions for each of the processes</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">proc_info</span> = {}
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">process_switch_behavior</span> = process_switch_behavior
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">io_done_behavior</span> = io_done_behavior
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">io_length</span> = io_length
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">new_process</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-variable-name-face">proc_id</span> = <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)
+        <span class="font-lock-keyword-face">self</span>.proc_info[proc_id] = {}
+        <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_PC] = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_ID] = proc_id
+        <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE] = []
+        <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_STATE] = <span class="font-lock-constant-face">STATE_READY</span>
+        <span class="font-lock-keyword-face">return</span> proc_id
+
+    <span class="font-lock-comment-face"># program looks like this:</span>
+    <span class="font-lock-comment-face">#   c7,i,c1,i</span>
+    <span class="font-lock-comment-face"># which means</span>
+    <span class="font-lock-comment-face">#   compute for 7, then i/o, then compute for 1, then i/o</span>
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">load_program</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">program</span>):
+        <span class="font-lock-variable-name-face">proc_id</span> = <span class="font-lock-keyword-face">self</span>.new_process()
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">line</span> <span class="font-lock-keyword-face">in</span> program.split(<span class="font-lock-string-face">','</span>):
+            <span class="font-lock-variable-name-face">opcode</span> = line[<span class="font-lock-number-face">0</span>]
+            <span class="font-lock-keyword-face">if</span> opcode == <span class="font-lock-string-face">'c'</span>: <span class="font-lock-comment-face"># compute</span>
+                <span class="font-lock-variable-name-face">num</span> = int(line[<span class="font-lock-number-face">1</span>:])
+                <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">i</span> <span class="font-lock-keyword-face">in</span> range(num):
+                    <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE].append(<span class="font-lock-constant-face">DO_COMPUTE</span>)
+            <span class="font-lock-keyword-face">elif</span> opcode == <span class="font-lock-string-face">'i'</span>:
+                <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE].append(<span class="font-lock-constant-face">DO_IO</span>)
+                <span class="font-lock-comment-face"># add one compute to HANDLE the I/O completion</span>
+                <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE].append(<span class="font-lock-constant-face">DO_IO_DONE</span>)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'bad opcode %s (should be c or i)'</span> % opcode)
+                exit(<span class="font-lock-number-face">1</span>)
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">load</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">program_description</span>):
+        <span class="font-lock-variable-name-face">proc_id</span> = <span class="font-lock-keyword-face">self</span>.new_process()
+        <span class="font-lock-variable-name-face">tmp</span> = program_description.split(<span class="font-lock-string-face">':'</span>)
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-builtin-face">len</span>(tmp) != <span class="font-lock-number-face">2</span>:
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Bad description (%s): Must be number &lt;x:y&gt;'</span> % program_description)
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'  where X is the number of instructions'</span>)
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'  and Y is the percent change that an instruction is CPU not IO'</span>)
+            exit(<span class="font-lock-number-face">1</span>)
+
+        <span class="font-lock-variable-name-face">num_instructions</span>, <span class="font-lock-variable-name-face">chance_cpu</span> = int(tmp[<span class="font-lock-number-face">0</span>]), float(tmp[<span class="font-lock-number-face">1</span>])/<span class="font-lock-number-face">100.0</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">i</span> <span class="font-lock-keyword-face">in</span> range(num_instructions):
+            <span class="font-lock-keyword-face">if</span> random.random() &lt; chance_cpu:
+                <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE].append(<span class="font-lock-constant-face">DO_COMPUTE</span>)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE].append(<span class="font-lock-constant-face">DO_IO</span>)
+                <span class="font-lock-comment-face"># add one compute to HANDLE the I/O completion</span>
+                <span class="font-lock-keyword-face">self</span>.proc_info[proc_id][PROC_CODE].append(<span class="font-lock-constant-face">DO_IO_DONE</span>)
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">move_to_ready</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">expected</span>, <span class="font-lock-variable-name-face">pid</span>=-<span class="font-lock-number-face">1</span>):
+        <span class="font-lock-keyword-face">if</span> pid == -<span class="font-lock-number-face">1</span>:
+            <span class="font-lock-variable-name-face">pid</span> = <span class="font-lock-keyword-face">self</span>.curr_proc
+        <span class="font-lock-keyword-face">assert</span>(<span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] == expected)
+        <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] = <span class="font-lock-constant-face">STATE_READY</span>
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">move_to_wait</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">expected</span>):
+        <span class="font-lock-keyword-face">assert</span>(<span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] == expected)
+        <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] = <span class="font-lock-constant-face">STATE_WAIT</span>
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">move_to_running</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">expected</span>):
+        <span class="font-lock-keyword-face">assert</span>(<span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] == expected)
+        <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] = <span class="font-lock-constant-face">STATE_RUNNING</span>
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">move_to_done</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">expected</span>):
+        <span class="font-lock-keyword-face">assert</span>(<span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] == expected)
+        <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] = <span class="font-lock-constant-face">STATE_DONE</span>
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">next_proc</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">pid</span>=-<span class="font-lock-number-face">1</span>):
+        <span class="font-lock-keyword-face">if</span> pid != -<span class="font-lock-number-face">1</span>:
+            <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_proc</span> = pid
+            <span class="font-lock-keyword-face">self</span>.move_to_running(<span class="font-lock-constant-face">STATE_READY</span>)
+            <span class="font-lock-keyword-face">return</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-keyword-face">self</span>.curr_proc + <span class="font-lock-number-face">1</span>, <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] == STATE_READY:
+                <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_proc</span> = pid
+                <span class="font-lock-keyword-face">self</span>.move_to_running(<span class="font-lock-constant-face">STATE_READY</span>)
+                <span class="font-lock-keyword-face">return</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-number-face">0</span>, <span class="font-lock-keyword-face">self</span>.curr_proc + <span class="font-lock-number-face">1</span>):
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] == STATE_READY:
+                <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_proc</span> = pid
+                <span class="font-lock-keyword-face">self</span>.move_to_running(<span class="font-lock-constant-face">STATE_READY</span>)
+                <span class="font-lock-keyword-face">return</span>
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_num_processes</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-keyword-face">return</span> <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_num_instructions</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">pid</span>):
+        <span class="font-lock-keyword-face">return</span> <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_CODE])
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_instruction</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">pid</span>, <span class="font-lock-variable-name-face">index</span>):
+        <span class="font-lock-keyword-face">return</span> <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_CODE][index]
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_num_active</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-variable-name-face">num_active</span> = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] != STATE_DONE:
+                <span class="font-lock-variable-name-face">num_active</span> += <span class="font-lock-number-face">1</span>
+        <span class="font-lock-keyword-face">return</span> num_active
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_num_runnable</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-variable-name-face">num_active</span> = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] == STATE_READY <span class="font-lock-keyword-face">or</span> \
+                   <span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE] == STATE_RUNNING:
+                <span class="font-lock-variable-name-face">num_active</span> += <span class="font-lock-number-face">1</span>
+        <span class="font-lock-keyword-face">return</span> num_active
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_ios_in_flight</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">current_time</span>):
+        <span class="font-lock-variable-name-face">num_in_flight</span> = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">t</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.io_finish_times[pid]:
+                <span class="font-lock-keyword-face">if</span> t &gt; current_time:
+                    <span class="font-lock-variable-name-face">num_in_flight</span> += <span class="font-lock-number-face">1</span>
+        <span class="font-lock-keyword-face">return</span> num_in_flight
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">check_for_switch</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">space</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">num_columns</span>):
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">i</span> <span class="font-lock-keyword-face">in</span> range(num_columns):
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%10s'</span> % <span class="font-lock-string-face">' '</span>, end=<span class="font-lock-string-face">''</span>)
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">check_if_done</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_CODE]) == <span class="font-lock-number-face">0</span>:
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] == STATE_RUNNING:
+                <span class="font-lock-keyword-face">self</span>.move_to_done(<span class="font-lock-constant-face">STATE_RUNNING</span>)
+                <span class="font-lock-keyword-face">self</span>.next_proc()
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">run</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-variable-name-face">clock_tick</span> = <span class="font-lock-number-face">0</span>
+
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info) == <span class="font-lock-number-face">0</span>:
+            <span class="font-lock-keyword-face">return</span>
+
+        <span class="font-lock-comment-face"># track outstanding IOs, per process</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">io_finish_times</span> = {}
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+            <span class="font-lock-keyword-face">self</span>.io_finish_times[pid] = []
+
+        <span class="font-lock-comment-face"># make first one active</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_proc</span> = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-keyword-face">self</span>.move_to_running(<span class="font-lock-constant-face">STATE_READY</span>)
+
+        <span class="font-lock-comment-face"># OUTPUT: headers for each column</span>
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%s'</span> % <span class="font-lock-string-face">'Time'</span>, end=<span class="font-lock-string-face">''</span>) 
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % (<span class="font-lock-string-face">'PID:%2d'</span> % (pid)), end=<span class="font-lock-string-face">''</span>)
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % <span class="font-lock-string-face">'CPU'</span>, end=<span class="font-lock-string-face">''</span>)
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % <span class="font-lock-string-face">'IOs'</span>, end=<span class="font-lock-string-face">''</span>)
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+
+        <span class="font-lock-comment-face"># init statistics</span>
+        <span class="font-lock-variable-name-face">io_busy</span> = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-variable-name-face">cpu_busy</span> = <span class="font-lock-number-face">0</span>
+
+        <span class="font-lock-keyword-face">while</span> <span class="font-lock-keyword-face">self</span>.get_num_active() &gt; <span class="font-lock-number-face">0</span>:
+            <span class="font-lock-variable-name-face">clock_tick</span> += <span class="font-lock-number-face">1</span>
+
+            <span class="font-lock-comment-face"># check for io finish</span>
+            <span class="font-lock-variable-name-face">io_done</span> = <span class="font-lock-constant-face">False</span>
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+                <span class="font-lock-keyword-face">if</span> clock_tick <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.io_finish_times[pid]:
+                    <span class="font-lock-variable-name-face">io_done</span> = <span class="font-lock-constant-face">True</span>
+                    <span class="font-lock-keyword-face">self</span>.move_to_ready(<span class="font-lock-constant-face">STATE_WAIT</span>, pid)
+                    <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.io_done_behavior == IO_RUN_IMMEDIATE:
+                        <span class="font-lock-comment-face"># IO_RUN_IMMEDIATE</span>
+                        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.curr_proc != pid:
+                            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] == STATE_RUNNING:
+                                <span class="font-lock-keyword-face">self</span>.move_to_ready(<span class="font-lock-constant-face">STATE_RUNNING</span>)
+                        <span class="font-lock-keyword-face">self</span>.next_proc(pid)
+                    <span class="font-lock-keyword-face">else</span>:
+                        <span class="font-lock-comment-face"># IO_RUN_LATER</span>
+                        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.process_switch_behavior == SCHED_SWITCH_ON_END <span class="font-lock-keyword-face">and</span> <span class="font-lock-keyword-face">self</span>.get_num_runnable() &gt; <span class="font-lock-number-face">1</span>:
+                            <span class="font-lock-comment-face"># this means the process that issued the io should be run</span>
+                            <span class="font-lock-keyword-face">self</span>.next_proc(pid)
+                        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.get_num_runnable() == <span class="font-lock-number-face">1</span>:
+                            <span class="font-lock-comment-face"># this is the only thing to run: so run it</span>
+                            <span class="font-lock-keyword-face">self</span>.next_proc(pid)
+                    <span class="font-lock-keyword-face">self</span>.check_if_done()
+
+            <span class="font-lock-comment-face"># if current proc is RUNNING and has an instruction, execute it</span>
+            <span class="font-lock-variable-name-face">instruction_to_execute</span> = <span class="font-lock-string-face">''</span>
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_STATE] == STATE_RUNNING <span class="font-lock-keyword-face">and</span> \
+                   <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_CODE]) &gt; <span class="font-lock-number-face">0</span>:
+                <span class="font-lock-variable-name-face">instruction_to_execute</span> = <span class="font-lock-keyword-face">self</span>.proc_info[<span class="font-lock-keyword-face">self</span>.curr_proc][PROC_CODE].pop(<span class="font-lock-number-face">0</span>)
+                <span class="font-lock-variable-name-face">cpu_busy</span> += <span class="font-lock-number-face">1</span>
+
+            <span class="font-lock-comment-face"># OUTPUT: print what everyone is up to</span>
+            <span class="font-lock-keyword-face">if</span> io_done:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%3d*'</span> % clock_tick, end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%3d '</span> % clock_tick, end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(<span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.proc_info)):
+                <span class="font-lock-keyword-face">if</span> pid == <span class="font-lock-keyword-face">self</span>.curr_proc <span class="font-lock-keyword-face">and</span> instruction_to_execute != <span class="font-lock-string-face">''</span>:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % (<span class="font-lock-string-face">'RUN:'</span>+instruction_to_execute), end=<span class="font-lock-string-face">''</span>)
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % (<span class="font-lock-keyword-face">self</span>.proc_info[pid][PROC_STATE]), end=<span class="font-lock-string-face">''</span>)
+
+            <span class="font-lock-comment-face"># CPU output here: if no instruction executes, output a space, otherwise a 1 </span>
+            <span class="font-lock-keyword-face">if</span> instruction_to_execute == <span class="font-lock-string-face">''</span>:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % <span class="font-lock-string-face">' '</span>, end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % <span class="font-lock-string-face">'1'</span>, end=<span class="font-lock-string-face">''</span>)
+
+            <span class="font-lock-comment-face"># IO output here:</span>
+            <span class="font-lock-variable-name-face">num_outstanding</span> = <span class="font-lock-keyword-face">self</span>.get_ios_in_flight(clock_tick)
+            <span class="font-lock-keyword-face">if</span> num_outstanding &gt; <span class="font-lock-number-face">0</span>:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%14s'</span> % str(num_outstanding), end=<span class="font-lock-string-face">''</span>)
+                <span class="font-lock-variable-name-face">io_busy</span> += <span class="font-lock-number-face">1</span>
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%10s'</span> % <span class="font-lock-string-face">' '</span>, end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+
+            <span class="font-lock-comment-face"># if this is an IO start instruction, switch to waiting state</span>
+            <span class="font-lock-comment-face"># and add an io completion in the future</span>
+            <span class="font-lock-keyword-face">if</span> instruction_to_execute == DO_IO:
+                <span class="font-lock-keyword-face">self</span>.move_to_wait(<span class="font-lock-constant-face">STATE_RUNNING</span>)
+                <span class="font-lock-keyword-face">self</span>.io_finish_times[<span class="font-lock-keyword-face">self</span>.curr_proc].append(clock_tick + <span class="font-lock-keyword-face">self</span>.io_length + <span class="font-lock-number-face">1</span>)
+                <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.process_switch_behavior == SCHED_SWITCH_ON_IO:
+                    <span class="font-lock-keyword-face">self</span>.next_proc()
+
+            <span class="font-lock-comment-face"># ENDCASE: check if currently running thing is out of instructions</span>
+            <span class="font-lock-keyword-face">self</span>.check_if_done()
+        <span class="font-lock-keyword-face">return</span> (cpu_busy, io_busy, clock_tick)
+
+<span class="font-lock-comment-face">#</span>
+<span class="font-lock-comment-face"># PARSE ARGUMENTS</span>
+<span class="font-lock-comment-face">#</span>
+
+<span class="font-lock-variable-name-face">parser</span> = <span class="font-lock-type-face">OptionParser</span>()
+parser.add_option(<span class="font-lock-string-face">'-s'</span>, <span class="font-lock-string-face">'--seed'</span>, default=<span class="font-lock-number-face">0</span>, help=<span class="font-lock-string-face">'the random seed'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'int'</span>, dest=<span class="font-lock-string-face">'seed'</span>)
+parser.add_option(<span class="font-lock-string-face">'-P'</span>, <span class="font-lock-string-face">'--program'</span>, default=<span class="font-lock-string-face">''</span>, help=<span class="font-lock-string-face">'more specific controls over programs'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'string'</span>, dest=<span class="font-lock-string-face">'program'</span>)
+parser.add_option(<span class="font-lock-string-face">'-l'</span>, <span class="font-lock-string-face">'--processlist'</span>, default=<span class="font-lock-string-face">''</span>, help=<span class="font-lock-string-face">'a comma-separated list of processes to run, in the form X1:Y1,X2:Y2,... where X is the number of instructions that process should run, and Y the chances (from 0 to 100) that an instruction will use the CPU or issue an IO (i.e., if Y is 100, a process will ONLY use the CPU and issue no I/Os; if Y is 0, a process will only issue I/Os)'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'string'</span>, dest=<span class="font-lock-string-face">'process_list'</span>)
+parser.add_option(<span class="font-lock-string-face">'-L'</span>, <span class="font-lock-string-face">'--iolength'</span>, default=<span class="font-lock-number-face">5</span>, help=<span class="font-lock-string-face">'how long an IO takes'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'int'</span>, dest=<span class="font-lock-string-face">'io_length'</span>)
+parser.add_option(<span class="font-lock-string-face">'-S'</span>, <span class="font-lock-string-face">'--switch'</span>, default=<span class="font-lock-string-face">'SWITCH_ON_IO'</span>, help=<span class="font-lock-string-face">'when to switch between processes: SWITCH_ON_IO, SWITCH_ON_END'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'string'</span>, dest=<span class="font-lock-string-face">'process_switch_behavior'</span>)
+parser.add_option(<span class="font-lock-string-face">'-I'</span>, <span class="font-lock-string-face">'--iodone'</span>, default=<span class="font-lock-string-face">'IO_RUN_LATER'</span>, help=<span class="font-lock-string-face">'type of behavior when IO ends: IO_RUN_LATER, IO_RUN_IMMEDIATE'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'string'</span>, dest=<span class="font-lock-string-face">'io_done_behavior'</span>)
+parser.add_option(<span class="font-lock-string-face">'-c'</span>, help=<span class="font-lock-string-face">'compute answers for me'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'solve'</span>)
+parser.add_option(<span class="font-lock-string-face">'-p'</span>, <span class="font-lock-string-face">'--printstats'</span>, help=<span class="font-lock-string-face">'print statistics at end; only useful with -c flag (otherwise stats are not printed)'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'print_stats'</span>)
+(<span class="font-lock-variable-name-face">options</span>, <span class="font-lock-variable-name-face">args</span>) = parser.parse_args()
+
+random_seed(options.seed)
+
+<span class="font-lock-keyword-face">assert</span>(options.process_switch_behavior == SCHED_SWITCH_ON_IO <span class="font-lock-keyword-face">or</span> options.process_switch_behavior == SCHED_SWITCH_ON_END)
+<span class="font-lock-keyword-face">assert</span>(options.io_done_behavior == IO_RUN_IMMEDIATE <span class="font-lock-keyword-face">or</span> options.io_done_behavior == IO_RUN_LATER)
+
+<span class="font-lock-variable-name-face">s</span> = scheduler(options.process_switch_behavior, options.io_done_behavior, options.io_length)
+
+<span class="font-lock-keyword-face">if</span> options.program != <span class="font-lock-string-face">''</span>:
+    <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">p</span> <span class="font-lock-keyword-face">in</span> options.program.split(<span class="font-lock-string-face">':'</span>):
+        s.load_program(p)
+<span class="font-lock-keyword-face">else</span>:
+    <span class="font-lock-comment-face"># example process description (10:100,10:100)</span>
+    <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">p</span> <span class="font-lock-keyword-face">in</span> options.process_list.split(<span class="font-lock-string-face">','</span>):
+        s.load(p)
+
+<span class="font-lock-keyword-face">assert</span>(options.io_length &gt;= <span class="font-lock-number-face">0</span>)
+
+<span class="font-lock-keyword-face">if</span> options.solve == <span class="font-lock-constant-face">False</span>:
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Produce a trace of what would happen when you run these processes:'</span>)
+    <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">pid</span> <span class="font-lock-keyword-face">in</span> range(s.get_num_processes()):
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Process %d'</span> % pid)
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">inst</span> <span class="font-lock-keyword-face">in</span> range(s.get_num_instructions(pid)):
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'  %s'</span> % s.get_instruction(pid, inst))
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Important behaviors:'</span>)
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'  System will switch when '</span>, end=<span class="font-lock-string-face">''</span>)
+    <span class="font-lock-keyword-face">if</span> options.process_switch_behavior == SCHED_SWITCH_ON_IO:
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'the current process is FINISHED or ISSUES AN IO'</span>)
+    <span class="font-lock-keyword-face">else</span>:
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'the current process is FINISHED'</span>)
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'  After IOs, the process issuing the IO will '</span>, end=<span class="font-lock-string-face">''</span>)
+    <span class="font-lock-keyword-face">if</span> options.io_done_behavior == IO_RUN_IMMEDIATE:
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'run IMMEDIATELY'</span>)
+    <span class="font-lock-keyword-face">else</span>:
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'run LATER (when it is its turn)'</span>)
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+    exit(<span class="font-lock-number-face">0</span>)
+
+(<span class="font-lock-variable-name-face">cpu_busy</span>, <span class="font-lock-variable-name-face">io_busy</span>, <span class="font-lock-variable-name-face">clock_tick</span>) = s.run()
+
+<span class="font-lock-keyword-face">if</span> options.print_stats:
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Stats: Total Time %d'</span> % clock_tick)
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Stats: CPU Busy %d (%.2f%%)'</span> % (cpu_busy, <span class="font-lock-number-face">100.0</span> * float(cpu_busy)/clock_tick))
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Stats: IO Busy  %d (%.2f%%)'</span> % (io_busy, <span class="font-lock-number-face">100.0</span> * float(io_busy)/clock_tick))
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)</code></pre>
+</details>
+
+<pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">'-l': 'a comma-separated list of processes to run, in the form X1:Y1,X2:Y2,...
+</span><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">where X is the number of instructions that process should run
+</span><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">Y the chances (from 0 to 100) that an instruction will use the CPU or issue an IO
+</span><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">i.e., if Y is 100, a process will ONLY use the CPU and issue no I/Os;
+</span><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">if Y is 0, a process will only issue I/Os
+</span>
+python process-run.py -l 5:100,5:100 -c -p</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1           CPU           IOs
+  1        RUN:cpu         READY             1          
+  2        RUN:cpu         READY             1          
+  3        RUN:cpu         READY             1          
+  4        RUN:cpu         READY             1          
+  5        RUN:cpu         READY             1          
+  6           DONE       RUN:cpu             1          
+  7           DONE       RUN:cpu             1          
+  8           DONE       RUN:cpu             1          
+  9           DONE       RUN:cpu             1          
+ 10           DONE       RUN:cpu             1          
+
+Stats: Total Time 10
+Stats: CPU Busy 10 (100.00%)
+Stats: IO Busy  0 (0.00%)
+
+</pre>
+
+</details><pre class="src src-sh"><code>python process-run.py -l 4:100,1:0 -c -p</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1           CPU           IOs
+  1        RUN:cpu         READY             1          
+  2        RUN:cpu         READY             1          
+  3        RUN:cpu         READY             1          
+  4        RUN:cpu         READY             1          
+  5           DONE        RUN:io             1          
+  6           DONE       BLOCKED                           1
+  7           DONE       BLOCKED                           1
+  8           DONE       BLOCKED                           1
+  9           DONE       BLOCKED                           1
+ 10           DONE       BLOCKED                           1
+ 11*          DONE   RUN:io_done             1          
+
+Stats: Total Time 11
+Stats: CPU Busy 6 (54.55%)
+Stats: IO Busy  5 (45.45%)
+
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">switching the order changes the total time taken
+</span>
+python process-run.py -l 1:0,4:100 -c -p</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1           CPU           IOs
+  1         RUN:io         READY             1          
+  2        BLOCKED       RUN:cpu             1             1
+  3        BLOCKED       RUN:cpu             1             1
+  4        BLOCKED       RUN:cpu             1             1
+  5        BLOCKED       RUN:cpu             1             1
+  6        BLOCKED          DONE                           1
+  7*   RUN:io_done          DONE             1          
+
+Stats: Total Time 7
+Stats: CPU Busy 6 (85.71%)
+Stats: IO Busy  5 (71.43%)
+
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-S determines how system reacts when process issues I/O
+</span>
+python process-run.py -l 1:0,4:100 -c -S SWITCH_ON_END</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1           CPU           IOs
+  1         RUN:io         READY             1          
+  2        BLOCKED         READY                           1
+  3        BLOCKED         READY                           1
+  4        BLOCKED         READY                           1
+  5        BLOCKED         READY                           1
+  6        BLOCKED         READY                           1
+  7*   RUN:io_done         READY             1          
+  8           DONE       RUN:cpu             1          
+  9           DONE       RUN:cpu             1          
+ 10           DONE       RUN:cpu             1          
+ 11           DONE       RUN:cpu             1          
+</pre>
+
+</details><pre class="src src-sh"><code>python process-run.py -l 1:0,4:100 -c -S SWITCH_ON_IO</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1           CPU           IOs
+  1         RUN:io         READY             1          
+  2        BLOCKED       RUN:cpu             1             1
+  3        BLOCKED       RUN:cpu             1             1
+  4        BLOCKED       RUN:cpu             1             1
+  5        BLOCKED       RUN:cpu             1             1
+  6        BLOCKED          DONE                           1
+  7*   RUN:io_done          DONE             1          
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-I defines the type of behavior when IO ends
+</span>
+python process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -I IO_RUN_LATER -c -p</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1        PID: 2        PID: 3           CPU           IOs
+  1         RUN:io         READY         READY         READY             1          
+  2        BLOCKED       RUN:cpu         READY         READY             1             1
+  3        BLOCKED       RUN:cpu         READY         READY             1             1
+  4        BLOCKED       RUN:cpu         READY         READY             1             1
+  5        BLOCKED       RUN:cpu         READY         READY             1             1
+  6        BLOCKED       RUN:cpu         READY         READY             1             1
+  7*         READY          DONE       RUN:cpu         READY             1          
+  8          READY          DONE       RUN:cpu         READY             1          
+  9          READY          DONE       RUN:cpu         READY             1          
+ 10          READY          DONE       RUN:cpu         READY             1          
+ 11          READY          DONE       RUN:cpu         READY             1          
+ 12          READY          DONE          DONE       RUN:cpu             1          
+ 13          READY          DONE          DONE       RUN:cpu             1          
+ 14          READY          DONE          DONE       RUN:cpu             1          
+ 15          READY          DONE          DONE       RUN:cpu             1          
+ 16          READY          DONE          DONE       RUN:cpu             1          
+ 17    RUN:io_done          DONE          DONE          DONE             1          
+ 18         RUN:io          DONE          DONE          DONE             1          
+ 19        BLOCKED          DONE          DONE          DONE                           1
+ 20        BLOCKED          DONE          DONE          DONE                           1
+ 21        BLOCKED          DONE          DONE          DONE                           1
+ 22        BLOCKED          DONE          DONE          DONE                           1
+ 23        BLOCKED          DONE          DONE          DONE                           1
+ 24*   RUN:io_done          DONE          DONE          DONE             1          
+ 25         RUN:io          DONE          DONE          DONE             1          
+ 26        BLOCKED          DONE          DONE          DONE                           1
+ 27        BLOCKED          DONE          DONE          DONE                           1
+ 28        BLOCKED          DONE          DONE          DONE                           1
+ 29        BLOCKED          DONE          DONE          DONE                           1
+ 30        BLOCKED          DONE          DONE          DONE                           1
+ 31*   RUN:io_done          DONE          DONE          DONE             1          
+
+Stats: Total Time 31
+Stats: CPU Busy 21 (67.74%)
+Stats: IO Busy  15 (48.39%)
+
+</pre>
+
+</details><pre class="src src-sh"><code>python process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -I IO_RUN_IMMEDIATE -c -p</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1        PID: 2        PID: 3           CPU           IOs
+  1         RUN:io         READY         READY         READY             1          
+  2        BLOCKED       RUN:cpu         READY         READY             1             1
+  3        BLOCKED       RUN:cpu         READY         READY             1             1
+  4        BLOCKED       RUN:cpu         READY         READY             1             1
+  5        BLOCKED       RUN:cpu         READY         READY             1             1
+  6        BLOCKED       RUN:cpu         READY         READY             1             1
+  7*   RUN:io_done          DONE         READY         READY             1          
+  8         RUN:io          DONE         READY         READY             1          
+  9        BLOCKED          DONE       RUN:cpu         READY             1             1
+ 10        BLOCKED          DONE       RUN:cpu         READY             1             1
+ 11        BLOCKED          DONE       RUN:cpu         READY             1             1
+ 12        BLOCKED          DONE       RUN:cpu         READY             1             1
+ 13        BLOCKED          DONE       RUN:cpu         READY             1             1
+ 14*   RUN:io_done          DONE          DONE         READY             1          
+ 15         RUN:io          DONE          DONE         READY             1          
+ 16        BLOCKED          DONE          DONE       RUN:cpu             1             1
+ 17        BLOCKED          DONE          DONE       RUN:cpu             1             1
+ 18        BLOCKED          DONE          DONE       RUN:cpu             1             1
+ 19        BLOCKED          DONE          DONE       RUN:cpu             1             1
+ 20        BLOCKED          DONE          DONE       RUN:cpu             1             1
+ 21*   RUN:io_done          DONE          DONE          DONE             1          
+
+Stats: Total Time 21
+Stats: CPU Busy 21 (100.00%)
+Stats: IO Busy  15 (71.43%)
+
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-s is the seed
+</span>
+python process-run.py -s 1 -l 3:50,3:50 -c -p
+python process-run.py -s 2 -l 3:50,3:50 -c -p
+python process-run.py -s 3 -l 3:50,3:50 -c -p</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+Time        PID: 0        PID: 1           CPU           IOs
+  1        RUN:cpu         READY             1          
+  2         RUN:io         READY             1          
+  3        BLOCKED       RUN:cpu             1             1
+  4        BLOCKED       RUN:cpu             1             1
+  5        BLOCKED       RUN:cpu             1             1
+  6        BLOCKED          DONE                           1
+  7        BLOCKED          DONE                           1
+  8*   RUN:io_done          DONE             1          
+  9         RUN:io          DONE             1          
+ 10        BLOCKED          DONE                           1
+ 11        BLOCKED          DONE                           1
+ 12        BLOCKED          DONE                           1
+ 13        BLOCKED          DONE                           1
+ 14        BLOCKED          DONE                           1
+ 15*   RUN:io_done          DONE             1          
+
+Stats: Total Time 15
+Stats: CPU Busy 8 (53.33%)
+Stats: IO Busy  10 (66.67%)
+
+Time        PID: 0        PID: 1           CPU           IOs
+  1         RUN:io         READY             1          
+  2        BLOCKED       RUN:cpu             1             1
+  3        BLOCKED        RUN:io             1             1
+  4        BLOCKED       BLOCKED                           2
+  5        BLOCKED       BLOCKED                           2
+  6        BLOCKED       BLOCKED                           2
+  7*   RUN:io_done       BLOCKED             1             1
+  8         RUN:io       BLOCKED             1             1
+  9*       BLOCKED   RUN:io_done             1             1
+ 10        BLOCKED        RUN:io             1             1
+ 11        BLOCKED       BLOCKED                           2
+ 12        BLOCKED       BLOCKED                           2
+ 13        BLOCKED       BLOCKED                           2
+ 14*   RUN:io_done       BLOCKED             1             1
+ 15        RUN:cpu       BLOCKED             1             1
+ 16*          DONE   RUN:io_done             1          
+
+Stats: Total Time 16
+Stats: CPU Busy 10 (62.50%)
+Stats: IO Busy  14 (87.50%)
+
+Time        PID: 0        PID: 1           CPU           IOs
+  1        RUN:cpu         READY             1          
+  2         RUN:io         READY             1          
+  3        BLOCKED        RUN:io             1             1
+  4        BLOCKED       BLOCKED                           2
+  5        BLOCKED       BLOCKED                           2
+  6        BLOCKED       BLOCKED                           2
+  7        BLOCKED       BLOCKED                           2
+  8*   RUN:io_done       BLOCKED             1             1
+  9*       RUN:cpu         READY             1          
+ 10           DONE   RUN:io_done             1          
+ 11           DONE        RUN:io             1          
+ 12           DONE       BLOCKED                           1
+ 13           DONE       BLOCKED                           1
+ 14           DONE       BLOCKED                           1
+ 15           DONE       BLOCKED                           1
+ 16           DONE       BLOCKED                           1
+ 17*          DONE   RUN:io_done             1          
+ 18           DONE       RUN:cpu             1          
+
+Stats: Total Time 18
+Stats: CPU Busy 9 (50.00%)
+Stats: IO Busy  11 (61.11%)
+
+</pre>
+
+</details>
+</div>
+</div>
+</div>
+<div id="outline-container-system-calls" class="outline-2">
+<h2 id="system-calls">System Calls</h2>
+<div class="outline-text-2" id="text-system-calls">
+<p>Upon <code>fork()</code> ing, the child isn&rsquo;t an <i>exact</i> copy so it has its own address space and the value it returns to the caller is different. (Mandatory read: <a href="https://dl.acm.org/doi/epdf/10.1145/3317550.3321435">A fork() in the road: Baumann et al.</a>)
+</p>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    printf(<span class="font-lock-string-face">"hello world (pid: %d)\n"</span>, (<span class="font-lock-type-face">int</span>) getpid());
+    fflush(stdout); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Without flushing, the child was getting copy of stdout buffer
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) {
+        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fork failed
+</span>        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) {
+        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">child (new process)
+</span>        printf(<span class="font-lock-string-face">"hello, I am child (pid: %d)\n"</span>, (<span class="font-lock-type-face">int</span>) getpid());
+    } <span class="font-lock-keyword-face">else</span> {
+        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">parent goes down this path (main)
+</span>        printf(<span class="font-lock-string-face">"hello, I am parent of %d (pid: %d)\n"</span>, rc, (<span class="font-lock-type-face">int</span>) getpid());
+    }
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="example">
+hello world (pid: 86839)
+hello, I am parent of 86840 (pid: 86839)
+hello, I am child (pid: 86840)
+</pre>
+
+
+<p>While the parent receives PID of newly-created child, the child receives <code>rc</code> 0. (<del>Why does the second hello world also refer to the parent <code>pid</code> in its &ldquo;hello world&rdquo;?</del> Fixed by flushing the output, without this the child process was getting a copy of the buffered <code>stdout</code>)
+</p>
+
+<pre class="src src-sh"><code>man posix_spawn | col -b</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+POSIX_SPAWN(2)		      System Calls Manual		POSIX_SPAWN(2)
+
+NAME
+     posix_spawn posix_spawnp – spawn a process
+
+SYNOPSIS
+     #include &lt;spawn.h&gt;
+
+     int
+     posix_spawn(pid_t *restrict pid, const char *restrict path,
+	 const posix_spawn_file_actions_t *file_actions,
+	 const posix_spawnattr_t *restrict attrp, char *const argv[restrict],
+	 char *const envp[restrict]);
+
+     int
+     posix_spawnp(pid_t *restrict pid, const char *restrict file,
+	 const posix_spawn_file_actions_t *file_actions,
+	 const posix_spawnattr_t *restrict attrp, char *const argv[restrict],
+	 char *const envp[restrict]);
+
+DESCRIPTION
+     The posix_spawn() function creates a new process from the executable
+     file, called the new process file, specified by path, which is an
+     absolute or relative path to the file.  The posix_spawnp() function is
+     identical to the posix_spawn() function if the file specified contains a
+     slash character; otherwise, the file parameter is used to construct a
+     pathname, with its path prefix being obtained by a search of the path
+     specified in the environment by the “PATH variable”.  If this variable
+     isn't specified, the default path is set according to the _PATH_DEFPATH
+     definition in &lt;paths.h&gt;, which is set to “/usr/bin:/bin”.	This pathname
+     either refers to an executable object file, or a file of data for an
+     interpreter; execve(2) for more details.
+
+     The argument pid is a pointer to a pid_t variable to receive the pid of
+     the spawned process; if this is NULL, then the pid of the spawned process
+     is not returned.  If this pointer is non-NULL, then on successful
+     completion, the variable will be modified to contain the pid of the
+     spawned process.  The value is undefined in the case of a failure.
+
+     The argument file_actions is either NULL, or it is a pointer to a file
+     actions object that was initialized by a call to
+     posix_spawn_file_actions_init(3) and represents zero or more file
+     actions.
+
+     File descriptors open in the calling process image remain open in the new
+     process image, except for those for which the close-on-exec flag is set
+     (see close(2) and fcntl(2)).  Descriptors that remain open are unaffected
+     by posix_spawn() unless their behaviour is modified by particular spawn
+     flags or a file action; see posix_spawnattr_setflags(3) and
+     posix_spawn_file_actions_init(3) for additional information.
+
+     The argument attrp is either NULL, or it is a pointer to an attributes
+     object that was initialized by a call to posix_spawnattr_init(3) and
+     represents a set of spawn attributes to apply.  If NULL, then the default
+     attributes are applied; otherwise, these attributes can control various
+     aspects of the spawned process, and are applied prior to the spawned
+     process beginning execution; see posix_spawnattr_init(3) for more
+     information.
+
+     The argument argv is a pointer to a null-terminated array of character
+     pointers to null-terminated character strings.  These strings construct
+     the argument list to be made available to the new process.  At least
+     argv[0] must be present in the array, and should contain the file name of
+     the program being spawned, e.g. the last component of the path or file
+     argument.
+
+     The argument envp is a pointer to a null-terminated array of character
+     pointers to null-terminated strings.  A pointer to this array is normally
+     stored in the global variable environ. These strings pass information to
+     the new process that is not directly an argument to the command (see
+     environ(7)).
+
+     Signals set to be ignored in the calling process are set to be ignored in
+     the new process, unless the behaviour is modified by user specified spawn
+     attributes.  Signals which are set to be caught in the calling process
+     image are set to default action in the new process image.	Blocked
+     signals remain blocked regardless of changes to the signal action, unless
+     the mask is overridden by user specified spawn attributes.  The signal
+     stack is reset to be undefined (see sigaction(2) for more information).
+
+     By default, the effective user ID and group ID will be the same as those
+     of the calling process image; however, this may be overridden to force
+     them to be the real user ID and group ID of the parent process by user
+     specified spawn attributes (see posix_spawnattr_init(3) for more
+     information).
+
+     If the set-user-ID mode bit of the new process image file is set (see
+     chmod(2)), the effective user ID of the new process image is set to the
+     owner ID of the new process image file.  If the set-group-ID mode bit of
+     the new process image file is set, the effective group ID of the new
+     process image is set to the group ID of the new process image file.  (The
+     effective group ID is the first element of the group list.)  The real
+     user ID, real group ID and supplementary group IDs of the new process
+     image remain the same as the calling process image.  After any set-user-
+     ID and set-group-ID processing, the effective user ID is recorded as the
+     saved set-user-ID, and the effective group ID is recorded as the saved
+     set-group-ID.  These values may be used in changing the effective IDs
+     later (see setuid(2)).
+
+     The new process also inherits the following attributes from the calling
+     process:
+
+	   parent process ID	see getppid(2)
+	   process group ID	see getpgrp(2), posix_spawnattr_init(3)
+	   access groups	see getgroups(2)
+	   working directory	see chdir(2)
+	   root directory	see chroot(2)
+	   control terminal	see termios(4)
+	   resource usages	see getrusage(2)
+	   interval timers	see getitimer(2)
+	   resource limits	see getrlimit(2)
+	   file mode mask	see umask(2)
+	   signal mask		see sigaction(2), sigsetmask(2),
+				posix_spawnattr_init(3)
+
+     When a program is executed as a result of a posix_spawn() or
+     posix_spawnp() call, it is entered as follows:
+
+	   int
+	   main(int argc, char **argv, char **envp);
+
+     where argc is the number of elements in argv (the ``arg count'') and argv
+     points to the array of character pointers to the arguments themselves.
+
+RETURN VALUES
+     If the pid argument is NULL, no pid is returned to the calling process;
+     if it is non-NULL, then posix_spawn() and posix_spawnp() functions return
+     the process ID of the child process into the pid_t variable pointed to by
+     the pid argument and return a 0 on success.  If an error occurs, they
+     return a non-zero error code as the function return value, and no child
+     process is created.
+
+ERRORS
+     The posix_spawn() and posix_spawnp() functions will fail and return to
+     the calling process if:
+
+     [EINVAL]		The value specified by file_actions or attrp is
+			invalid.
+
+     [E2BIG]		The number of bytes in the new process's argument list
+			is larger than the system-imposed limit.  This limit
+			is specified by the sysctl(3) MIB variable
+			KERN_ARGMAX.
+
+     [EACCES]		Search permission is denied for a component of the
+			path prefix.
+
+     [EACCES]		The new process file is not an ordinary file.
+
+     [EACCES]		The new process file mode denies execute permission.
+
+     [EACCES]		The new process file is on a filesystem mounted with
+			execution disabled (MNT_NOEXEC in ⟨sys/mount.h⟩).
+
+     [EFAULT]		The new process file is not as long as indicated by
+			the size values in its header.
+
+     [EFAULT]		Path, argv, or envp point to an illegal address.
+
+     [EIO]		An I/O error occurred while reading from the file
+			system.
+
+     [ELOOP]		Too many symbolic links were encountered in
+			translating the pathname.  This is taken to be
+			indicative of a looping symbolic link.
+
+     [ENAMETOOLONG]	A component of a pathname exceeded {NAME_MAX}
+			characters, or an entire path name exceeded {PATH_MAX}
+			characters.
+
+     [ENOENT]		The new process file does not exist.
+
+     [ENOEXEC]		The new process file has the appropriate access
+			permission, but has an unrecognized format (e.g., an
+			invalid magic number in its header).
+
+     [ENOMEM]		The new process requires more virtual memory than is
+			allowed by the imposed maximum (getrlimit(2)).
+
+     [ENOTDIR]		A component of the path prefix is not a directory.
+
+     [ETXTBSY]		The new process file is a pure procedure (shared text)
+			file that is currently open for writing or reading by
+			some process.
+
+     [EBADARCH] 	The new process file has no architectures appropriate
+			for the current system.
+
+     [EBADF]		Bad file descriptor for one or more file_actions.
+
+     Additionally, they may fail for any of the reasons listed in fork(2) or
+     exec(3).
+
+CAVEAT
+     If a program is setuid to a non-super-user, but is executed when the real
+     uid is ``root'', then the program has some of the powers of a super-user
+     as well.
+
+SEE ALSO
+     exit(2), fork(2), execl(3), sysctl(3), environ(7),
+     posix_spawnattr_init(3), posix_spawn_file_actions_init(3),
+
+STANDARDS
+     Version 3 of the Single UNIX Specification (“SUSv3”) [SPN]
+
+HISTORY
+     The posix_spawn() and posix_spawnp() function calls appeared in Version 3
+     of the Single UNIX Specification (“SUSv3”) [SPN].
+
+Mac OS X		       November 2, 2010 		      Mac OS X
+</pre>
+
+
+</details><p>Sometimes its useful for parent to <code>wait()</code> for child process to finish. In the below program, the child will print first, thus introducing a bit of <i>determinism</i>.
+</p>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/wait.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    printf(<span class="font-lock-string-face">"hello world (pid: %d)\n"</span>, (<span class="font-lock-type-face">int</span>) getpid());
+    fflush(stdout); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Without flushing, the child was getting copy of stdout buffer
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fork failed; exit
+</span>        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">child (new process)
+</span>        printf(<span class="font-lock-string-face">"hello, I am child (pid: %d)\n"</span>, (<span class="font-lock-type-face">int</span>) getpid());
+    } <span class="font-lock-keyword-face">else</span> { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">parent goes down this path (main)
+</span>        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc_wait</span> = wait(<span class="font-lock-constant-face">NULL</span>);
+        printf(<span class="font-lock-string-face">"hello, I am parent of %d (rc_wait: %d) (pid: %d)\n"</span>,
+               rc, rc_wait, (<span class="font-lock-type-face">int</span>) getpid());
+    }
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="example">
+hello world (pid: 86584)
+hello, I am child (pid: 86586)
+hello, I am parent of 86586 (rc_wait: 86586) (pid: 86584)
+</pre>
+
+
+<p>The <code>exec()</code> syscall if useful when one wants to run a program different from the calling program. Here <code>execvp()</code> runs <code>wc</code> which shows how many lines, words and bytes are in <code>process-run.py</code>.
+</p>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;string.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/wait.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    printf(<span class="font-lock-string-face">"hello world (pid: %d)\n"</span>, (<span class="font-lock-type-face">int</span>) getpid());
+    fflush(stdout); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Without flushing, the child was getting copy of stdout buffer
+</span>    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fork failed; exit
+</span>        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">child (new process)
+</span>        printf(<span class="font-lock-string-face">"hello, I am child (pid: %d)\n"</span>, (<span class="font-lock-type-face">int</span>) getpid());
+        fflush(stdout); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Always flush!
+</span>        <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">myargs</span>[3];
+        myargs[0] = strdup(<span class="font-lock-string-face">"wc"</span>);
+        myargs[1] = strdup(<span class="font-lock-string-face">"process-run.py"</span>);
+        myargs[2] = <span class="font-lock-constant-face">NULL</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">marks end of array
+</span>        execvp(myargs[0], myargs); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">runs `wc`
+</span>    } <span class="font-lock-keyword-face">else</span> { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">parent goes down this path (main)
+</span>        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc_wait</span> = wait(<span class="font-lock-constant-face">NULL</span>);
+        printf(<span class="font-lock-string-face">"hello, I am parent of %d (rc_wait: %d) (pid: %d)\n"</span>,
+               rc, rc_wait, (<span class="font-lock-type-face">int</span>) getpid());
+    }
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="example">
+hello world (pid: 2019)
+hello, I am child (pid: 2020)
+  342  1174 13351 process-run.py
+hello, I am parent of 2020 (rc_wait: 2020) (pid: 2019)
+</pre>
+
+
+<p>Here the <code>exec()</code> call, <b>loads</b> code (and static data) from the executable passed to it and overwrites its current code segment (and current static data) with the loaded one; the heap/stack and other parts of memory space of program are re-initialized and the OS just runs the new program. It doesn&rsquo;t even create a new process, just transforms the existing one (<code>fork_wait_exec_p3</code>) into the exec&rsquo;d program (<code>wc</code>).
+</p>
+
+<pre class="src src-sh"><code>man execve | col -b</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+EXECVE(2)		      System Calls Manual		     EXECVE(2)
+
+NAME
+     execve – execute a file
+
+SYNOPSIS
+     #include &lt;unistd.h&gt;
+
+     int
+     execve(const char *path, char *const argv[], char *const envp[]);
+
+DESCRIPTION
+     execve() transforms the calling process into a new process.  The new
+     process is constructed from an ordinary file, whose name is pointed to by
+     path, called the new process file.  This file is either an executable
+     object file, or a file of data for an interpreter.  An executable object
+     file consists of an identifying header, followed by pages of data
+     representing the initial program (text) and initialized data pages.
+     Additional pages may be specified by the header to be initialized with
+     zero data;  see a.out(5).
+
+     An interpreter file begins with a line of the form:
+
+	   #! interpreter [arg ...]
+
+     When an interpreter file is execve()'d, the system runs the specified
+     interpreter.  If any optional args are specified, they become the first
+     (second, ...) argument to the interpreter. The name of the originally
+     execve()'d file becomes the subsequent argument; otherwise, the name of
+     the originally execve()'d file is the first argument.  The original
+     arguments to the invocation of the interpreter are shifted over to become
+     the final arguments.  The zeroth argument, normally the name of the
+     execve()'d file, is left unchanged.
+
+     The argument argv is a pointer to a null-terminated array of character
+     pointers to null-terminated character strings.  These strings construct
+     the argument list to be made available to the new process.  At least one
+     argument must be present in the array; by custom, the first element
+     should be the name of the executed program (for example, the last
+     component of path).
+
+     The argument envp is also a pointer to a null-terminated array of
+     character pointers to null-terminated strings.  A pointer to this array
+     is normally stored in the global variable environ. These strings pass
+     information to the new process that is not directly an argument to the
+     command (see environ(7)).
+
+     File descriptors open in the calling process image remain open in the new
+     process image, except for those for which the close-on-exec flag is set
+     (see close(2) and fcntl(2)).  Descriptors that remain open are unaffected
+     by execve().
+
+     Signals set to be ignored in the calling process are set to be ignored in
+     the new process. Signals which are set to be caught in the calling
+     process image are set to default action in the new process image.
+     Blocked signals remain blocked regardless of changes to the signal
+     action.  The signal stack is reset to be undefined (see sigaction(2) for
+     more information).
+
+     If the set-user-ID mode bit of the new process image file is set (see
+     chmod(2)), the effective user ID of the new process image is set to the
+     owner ID of the new process image file.  If the set-group-ID mode bit of
+     the new process image file is set, the effective group ID of the new
+     process image is set to the group ID of the new process image file.  (The
+     effective group ID is the first element of the group list.)  The real
+     user ID, real group ID and other group IDs of the new process image
+     remain the same as the calling process image.  After any set-user-ID and
+     set-group-ID processing, the effective user ID is recorded as the saved
+     set-user-ID, and the effective group ID is recorded as the saved set-
+     group-ID.	These values may be used in changing the effective IDs later
+     (see setuid(2)).
+
+     The new process also inherits the following attributes from the calling
+     process:
+
+	   process ID		see getpid(2)
+	   parent process ID	see getppid(2)
+	   process group ID	see getpgrp(2)
+	   access groups	see getgroups(2)
+	   working directory	see chdir(2)
+	   root directory	see chroot(2)
+	   control terminal	see termios(4)
+	   resource usages	see getrusage(2)
+	   interval timers	see getitimer(2)
+	   resource limits	see getrlimit(2)
+	   file mode mask	see umask(2)
+	   signal mask		see sigaction(2), sigsetmask(2)
+
+     When a program is executed as a result of an execve() call, it is entered
+     as follows:
+
+	   int
+	   main(int argc, char **argv, char **envp);
+
+     where argc is the number of elements in argv (the ``arg count'') and argv
+     points to the array of character pointers to the arguments themselves.
+
+RETURN VALUES
+     As the execve() function overlays the current process image  with a new
+     process image, the successful call has no process to return to.  If
+     execve() does return to the calling process, an error has occurred; the
+     return value will be -1 and the global variable errno is set to indicate
+     the error.
+
+ERRORS
+     execve() will fail and return to the calling process if:
+
+     [E2BIG]		The number of bytes in the new process's argument list
+			is larger than the system-imposed limit.  This limit
+			is specified by the sysctl(3) MIB variable
+			KERN_ARGMAX.
+
+     [EACCES]		Search permission is denied for a component of the
+			path prefix.
+
+     [EACCES]		The new process file is not an ordinary file.
+
+     [EACCES]		The new process file mode denies execute permission.
+
+     [EACCES]		The new process file is on a filesystem mounted with
+			execution disabled (MNT_NOEXEC in ⟨sys/mount.h⟩).
+
+     [EFAULT]		The new process file is not as long as indicated by
+			the size values in its header.
+
+     [EFAULT]		Path, argv, or envp point to an illegal address.
+
+     [EIO]		An I/O error occurred while reading from the file
+			system.
+
+     [ELOOP]		Too many symbolic links were encountered in
+			translating the pathname.  This is taken to be
+			indicative of a looping symbolic link.
+
+     [ENAMETOOLONG]	A component of a pathname exceeded {NAME_MAX}
+			characters, or an entire path name exceeded {PATH_MAX}
+			characters.
+
+     [ENOENT]		The new process file does not exist.
+
+     [ENOEXEC]		The new process file has the appropriate access
+			permission, but has an unrecognized format (e.g., an
+			invalid magic number in its header).
+
+     [ENOMEM]		The new process requires more virtual memory than is
+			allowed by the imposed maximum (getrlimit(2)).
+
+     [ENOTDIR]		A component of the path prefix is not a directory.
+
+     [ETXTBSY]		The new process file is a pure procedure (shared text)
+			file that is currently open for writing or reading by
+			some process.
+
+CAVEAT
+     If a program is setuid to a non-super-user, but is executed when the real
+     uid is ``root'', then the program has some of the powers of a super-user
+     as well.
+
+SEE ALSO
+     exit(2), fork(2), execl(3), sysctl(3), environ(7)
+
+HISTORY
+     The execve() function call appeared in 4.2BSD.
+
+BSD 4			       January 24, 1994 			 BSD 4
+</pre>
+
+</details><p>The separation and interface of <code>fork()</code> and <code>exec()</code> allows the <b>shell</b> to run code <i>after</i> forking, <b>but</b> <i>before</i> execing; giving it the ability to alter the environment of the program that is about to run. What happens in a shell is that after getting the command, it finds out where the executable resides, <code>fork()</code> s a new child process to run the command, runs <code>exec()</code> for the command and then <code>wait()</code> s for it to return. To illustrate: in <code>wc redir.c &gt; newfile.txt</code>, the output redirection happens by the shell closing <b>stdout</b> and opens <code>newfile.txt</code> before execing.
+</p>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;string.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;fcntl.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/wait.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fork failed; exit
+</span>        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">child (new process)
+</span>        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">child: redirect standard output to a file
+</span>        close(STDOUT_FILENO);
+        open(<span class="font-lock-string-face">"./newfile.txt"</span>, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
+
+        <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">myargs</span>[3];
+        myargs[0] = strdup(<span class="font-lock-string-face">"wc"</span>);
+        myargs[1] = strdup(<span class="font-lock-string-face">"redir.c"</span>);
+        myargs[2] = <span class="font-lock-constant-face">NULL</span>; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">marks end of array
+</span>        execvp(myargs[0], myargs); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">runs `wc`
+</span>    } <span class="font-lock-keyword-face">else</span> { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">parent goes down this path (main)
+</span>        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc_wait</span> = wait(<span class="font-lock-constant-face">NULL</span>);
+    }
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="src src-sh"><code>gcc -o redir redir.c
+./redir
+<span class="font-lock-builtin-face">wait</span>
+cat newfile.txt
+rm redir newfile.txt</code></pre>
+
+<pre class="example">
+27  97 786 redir.c
+</pre>
+
+
+<p>Other syscalls, such as <code>kill()</code> is used to <b>signal</b> to a process to pause, die etc. Some shell keys also sends these signals, for example: <code>C-c</code> sends <code>SIGINT</code> (interrupt, normal termination), <code>C-z</code> sends <code>SIGSTP</code> (stop, can <i>resume</i> with <code>fg</code>). This <code>signal()</code> subsystem allows for sending external events to processes. The process must &ldquo;catch&rdquo; these signals, suspend normal execution and run some code in response.
+</p>
+</div>
+<div id="outline-container-homework" class="outline-3">
+<h3 id="homework">Homework</h3>
+<div class="outline-text-3" id="text-homework">
+<details>
+<summary>fork.py</summary>
+
+<pre class="src src-python"><code><span class="font-lock-comment-face">#! /usr/bin/env python3</span>
+
+<span class="font-lock-comment-face"># from this sort of thing</span>
+<span class="font-lock-comment-face"># a forks b</span>
+<span class="font-lock-comment-face"># a forks c</span>
+<span class="font-lock-comment-face"># a forks d</span>
+<span class="font-lock-comment-face"># b forks e</span>
+<span class="font-lock-comment-face"># b forks f</span>
+<span class="font-lock-comment-face"># d forks g</span>
+
+<span class="font-lock-comment-face"># to a process tree</span>
+<span class="font-lock-comment-face">#a --- b --- e</span>
+<span class="font-lock-comment-face">#   |     |</span>
+<span class="font-lock-comment-face">#   |     |- f</span>
+<span class="font-lock-comment-face">#   |- c</span>
+<span class="font-lock-comment-face">#   |</span>
+<span class="font-lock-comment-face">#   |- d --- g</span>
+
+
+<span class="font-lock-keyword-face">from</span> __future__ <span class="font-lock-keyword-face">import</span> print_function
+<span class="font-lock-keyword-face">import</span> random
+<span class="font-lock-keyword-face">import</span> string
+<span class="font-lock-keyword-face">from</span> optparse <span class="font-lock-keyword-face">import</span> <span class="font-lock-type-face">OptionParser</span>
+
+<span class="font-lock-comment-face">#</span>
+<span class="font-lock-comment-face"># to make Python2 and Python3 act the same -- how dumb</span>
+<span class="font-lock-comment-face"># </span>
+<span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">random_seed</span>(<span class="font-lock-variable-name-face">seed</span>):
+    <span class="font-lock-keyword-face">try</span>:
+        random.seed(seed, version=<span class="font-lock-number-face">1</span>)
+    <span class="font-lock-keyword-face">except</span>:
+        random.seed(seed)
+    <span class="font-lock-keyword-face">return</span>
+
+<span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">random_randint</span>(<span class="font-lock-variable-name-face">low</span>, <span class="font-lock-variable-name-face">hi</span>):
+    <span class="font-lock-keyword-face">return</span> int(low + random.random() * (hi - low + <span class="font-lock-number-face">1</span>))
+
+<span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">random_choice</span>(<span class="font-lock-variable-name-face">L</span>):
+    <span class="font-lock-keyword-face">return</span> L[random_randint(<span class="font-lock-number-face">0</span>, <span class="font-lock-builtin-face">len</span>(L)-<span class="font-lock-number-face">1</span>)]
+
+<span class="font-lock-comment-face">#</span>
+<span class="font-lock-comment-face"># class Forker does all the work</span>
+<span class="font-lock-comment-face">#</span>
+<span class="font-lock-keyword-face">class</span> <span class="font-lock-type-face">Forker</span>:
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">__init__</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">fork_percentage</span>, <span class="font-lock-variable-name-face">actions</span>, <span class="font-lock-variable-name-face">action_list</span>, <span class="font-lock-variable-name-face">show_tree</span>, <span class="font-lock-variable-name-face">just_final</span>,
+                 <span class="font-lock-variable-name-face">leaf_only</span>, <span class="font-lock-variable-name-face">local_reparent</span>, <span class="font-lock-variable-name-face">print_style</span>, <span class="font-lock-variable-name-face">solve</span>):
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">fork_percentage</span> = fork_percentage
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">max_actions</span> = actions
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">action_list</span> = action_list
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">show_tree</span> = show_tree
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">just_final</span> = just_final
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">leaf_only</span> = leaf_only
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">local_reparent</span> = local_reparent
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">print_style</span> = print_style
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">solve</span> = solve
+
+        <span class="font-lock-comment-face"># root process is always this</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">root_name</span> = <span class="font-lock-string-face">'a'</span>
+
+        <span class="font-lock-comment-face"># process list: names of all active processes</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">process_list</span> = [<span class="font-lock-keyword-face">self</span>.root_name]
+
+        <span class="font-lock-comment-face"># for each process, it's children</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">children</span> = {}
+        <span class="font-lock-keyword-face">self</span>.children[<span class="font-lock-keyword-face">self</span>.root_name] = []
+
+        <span class="font-lock-comment-face"># and track parents</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">parents</span> = {}
+
+        <span class="font-lock-comment-face"># this is for pretty process names...</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">name_length</span> = <span class="font-lock-number-face">1</span>
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">base_names</span> = string.ascii_lowercase + string.ascii_uppercase
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_names</span> = <span class="font-lock-keyword-face">self</span>.base_names
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_index</span> = <span class="font-lock-number-face">1</span>
+
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">grow_names</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-variable-name-face">new_names</span> = []
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">b1</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.curr_names:
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">b2</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.base_names:
+                new_names.append(b1 + b2)
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_names</span> = new_names
+        <span class="font-lock-keyword-face">self</span>.<span class="font-lock-variable-name-face">curr_index</span> = <span class="font-lock-number-face">0</span>
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">get_name</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.curr_index == <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.curr_names):
+            <span class="font-lock-keyword-face">self</span>.grow_names()
+
+        <span class="font-lock-variable-name-face">name</span> = <span class="font-lock-keyword-face">self</span>.curr_names[<span class="font-lock-keyword-face">self</span>.curr_index]
+        <span class="font-lock-keyword-face">self</span>.curr_index += <span class="font-lock-number-face">1</span>
+        <span class="font-lock-keyword-face">return</span> name
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">walk</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">p</span>, <span class="font-lock-variable-name-face">level</span>, <span class="font-lock-variable-name-face">pmask</span>, <span class="font-lock-variable-name-face">is_last</span>):
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'                               '</span>, end=<span class="font-lock-string-face">''</span>)
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.print_style == <span class="font-lock-string-face">'basic'</span>:
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">i</span> <span class="font-lock-keyword-face">in</span> range(level):
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'   '</span>, end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%2s'</span> % p)
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">child</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.children[p]:
+                <span class="font-lock-keyword-face">self</span>.walk(child, level + <span class="font-lock-number-face">1</span>, {}, <span class="font-lock-constant-face">False</span>)
+            <span class="font-lock-keyword-face">return</span>
+        <span class="font-lock-keyword-face">elif</span> <span class="font-lock-keyword-face">self</span>.print_style == <span class="font-lock-string-face">'line1'</span>:
+            <span class="font-lock-variable-name-face">chars</span> = (<span class="font-lock-string-face">'|'</span>, <span class="font-lock-string-face">'-'</span>, <span class="font-lock-string-face">'+'</span>, <span class="font-lock-string-face">'|'</span>)
+        <span class="font-lock-keyword-face">elif</span> <span class="font-lock-keyword-face">self</span>.print_style == <span class="font-lock-string-face">'line2'</span>:
+            <span class="font-lock-variable-name-face">chars</span> = (<span class="font-lock-string-face">'|'</span>, <span class="font-lock-string-face">'_'</span>, <span class="font-lock-string-face">'|'</span>, <span class="font-lock-string-face">'|'</span>)
+        <span class="font-lock-keyword-face">elif</span> <span class="font-lock-keyword-face">self</span>.print_style == <span class="font-lock-string-face">'fancy'</span>:
+            <span class="font-lock-comment-face"># these characters taken from 'treelib', a fun printing package for trees</span>
+            <span class="font-lock-comment-face"># https://github.com/caesar0301/treelib</span>
+            <span class="font-lock-comment-face"># chars = ('\u2502', '\u2500', '\u251c', '\u2514')</span>
+            <span class="font-lock-variable-name-face">chars</span> = (u<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\u2502</span><span class="font-lock-string-face">'</span>, u<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\u2500</span><span class="font-lock-string-face">'</span>, u<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\u251c</span><span class="font-lock-string-face">'</span>, u<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\u2514</span><span class="font-lock-string-face">'</span>)
+        <span class="font-lock-keyword-face">else</span>:
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'bad style %s'</span> % <span class="font-lock-keyword-face">self</span>.print_style)
+            exit(<span class="font-lock-number-face">1</span>)
+
+        <span class="font-lock-comment-face"># print stuff before node</span>
+        <span class="font-lock-keyword-face">if</span> level &gt; <span class="font-lock-number-face">0</span>:
+            <span class="font-lock-comment-face"># main printing</span>
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">i</span> <span class="font-lock-keyword-face">in</span> range(level-<span class="font-lock-number-face">1</span>):
+                <span class="font-lock-keyword-face">if</span> pmask[i]:
+                    <span class="font-lock-comment-face"># '|  '</span>
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%s   '</span> % chars[<span class="font-lock-number-face">0</span>], end=<span class="font-lock-string-face">''</span>)
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'    '</span>, end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-keyword-face">if</span> pmask[level-<span class="font-lock-number-face">1</span>]:
+                <span class="font-lock-comment-face"># '|__'</span>
+                <span class="font-lock-keyword-face">if</span> is_last:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%s%s%s '</span> % (chars[<span class="font-lock-number-face">3</span>], chars[<span class="font-lock-number-face">1</span>], chars[<span class="font-lock-number-face">1</span>]), end=<span class="font-lock-string-face">''</span>)
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%s%s%s '</span> % (chars[<span class="font-lock-number-face">2</span>], chars[<span class="font-lock-number-face">1</span>], chars[<span class="font-lock-number-face">1</span>]), end=<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-comment-face"># '___' </span>
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">' %s%s%s '</span> % (chars[<span class="font-lock-number-face">1</span>], chars[<span class="font-lock-number-face">1</span>], chars[<span class="font-lock-number-face">1</span>]), end=<span class="font-lock-string-face">''</span>)
+
+        <span class="font-lock-comment-face"># print node</span>
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'%s'</span> % p)
+
+        <span class="font-lock-comment-face"># undo parent verticals</span>
+        <span class="font-lock-keyword-face">if</span> is_last:
+            pmask[level-<span class="font-lock-number-face">1</span>] = <span class="font-lock-constant-face">False</span>
+
+        <span class="font-lock-comment-face"># recurse</span>
+        pmask[level] = <span class="font-lock-constant-face">True</span>
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">child</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.children[p][:-<span class="font-lock-number-face">1</span>]:
+            <span class="font-lock-keyword-face">self</span>.walk(child, level + <span class="font-lock-number-face">1</span>, pmask, <span class="font-lock-constant-face">False</span>)
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">child</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.children[p][-<span class="font-lock-number-face">1</span>:]:
+            <span class="font-lock-keyword-face">self</span>.walk(child, level + <span class="font-lock-number-face">1</span>, pmask, <span class="font-lock-constant-face">True</span>)
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">print_tree</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-keyword-face">return</span> <span class="font-lock-keyword-face">self</span>.walk(<span class="font-lock-keyword-face">self</span>.root_name, <span class="font-lock-number-face">0</span>, {}, <span class="font-lock-constant-face">False</span>)
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">do_fork</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">p</span>, <span class="font-lock-variable-name-face">c</span>):
+        <span class="font-lock-keyword-face">self</span>.process_list.append(c)
+        <span class="font-lock-keyword-face">self</span>.children[c] = []
+        <span class="font-lock-keyword-face">self</span>.children[p].append(c)
+        <span class="font-lock-keyword-face">self</span>.parents[c] = p
+        <span class="font-lock-keyword-face">return</span> <span class="font-lock-string-face">'%s forks %s'</span> % (p, c)
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">collect_children</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">p</span>):
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.children[p] == []:
+            <span class="font-lock-keyword-face">return</span> [p]
+        <span class="font-lock-keyword-face">else</span>:
+            <span class="font-lock-variable-name-face">L</span> = [p]
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">c</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.children[p]:
+                <span class="font-lock-variable-name-face">L</span> += <span class="font-lock-keyword-face">self</span>.collect_children(c)
+            <span class="font-lock-keyword-face">return</span> L
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">do_exit</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">p</span>):
+        <span class="font-lock-comment-face"># remove the process from the process list</span>
+        <span class="font-lock-keyword-face">if</span> p == <span class="font-lock-keyword-face">self</span>.root_name:
+            <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'root process: cannot exit'</span>)
+            exit(<span class="font-lock-number-face">1</span>)
+        <span class="font-lock-variable-name-face">exit_parent</span> = <span class="font-lock-keyword-face">self</span>.parents[p]
+        <span class="font-lock-keyword-face">self</span>.process_list.remove(p)
+
+        <span class="font-lock-comment-face"># for each orphan, set its parent to exiting proc's parent or root</span>
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.local_reparent:
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">orphan</span> <span class="font-lock-keyword-face">in</span> <span class="font-lock-keyword-face">self</span>.children[p]:
+                <span class="font-lock-keyword-face">self</span>.parents[orphan] = exit_parent
+                <span class="font-lock-keyword-face">self</span>.children[exit_parent].append(orphan)
+        <span class="font-lock-keyword-face">else</span>:
+            <span class="font-lock-comment-face"># should set ALL descendants to be child of ROOT </span>
+            <span class="font-lock-variable-name-face">descendents</span> = <span class="font-lock-keyword-face">self</span>.collect_children(p)
+            descendents.remove(p)
+            <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">d</span> <span class="font-lock-keyword-face">in</span> descendents:
+                <span class="font-lock-keyword-face">self</span>.children[d] = []
+                <span class="font-lock-keyword-face">self</span>.parents[d] = <span class="font-lock-keyword-face">self</span>.root_name
+                <span class="font-lock-keyword-face">self</span>.children[<span class="font-lock-keyword-face">self</span>.root_name].append(d)
+
+        <span class="font-lock-comment-face"># remove the entry from its parent child list</span>
+        <span class="font-lock-keyword-face">self</span>.children[exit_parent].remove(p)
+        <span class="font-lock-keyword-face">self</span>.children[p] = -<span class="font-lock-number-face">1</span> <span class="font-lock-comment-face"># should never be used again</span>
+        <span class="font-lock-keyword-face">self</span>.parents[p] = -<span class="font-lock-number-face">1</span>  <span class="font-lock-comment-face"># should never be used again</span>
+
+        <span class="font-lock-comment-face"># remove the entry for this proc from children</span>
+        <span class="font-lock-keyword-face">return</span> <span class="font-lock-string-face">'%s EXITS'</span> % p
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">bad_action</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">action</span>):
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'bad action (%s), must be X+Y or X- where X and Y are processes'</span> % action)
+        exit(<span class="font-lock-number-face">1</span>)
+        <span class="font-lock-keyword-face">return</span>
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">check_legal</span>(<span class="font-lock-keyword-face">self</span>, <span class="font-lock-variable-name-face">action</span>):
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-string-face">'+'</span> <span class="font-lock-keyword-face">in</span> action:
+            <span class="font-lock-variable-name-face">tmp</span> = action.split(<span class="font-lock-string-face">'+'</span>)
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-builtin-face">len</span>(tmp) != <span class="font-lock-number-face">2</span>:
+                <span class="font-lock-keyword-face">self</span>.bad_action(action)
+            <span class="font-lock-keyword-face">return</span> [tmp[<span class="font-lock-number-face">0</span>], tmp[<span class="font-lock-number-face">1</span>]]
+        <span class="font-lock-keyword-face">elif</span> <span class="font-lock-string-face">'-'</span> <span class="font-lock-keyword-face">in</span> action:
+            <span class="font-lock-variable-name-face">tmp</span> = action.split(<span class="font-lock-string-face">'-'</span>)
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-builtin-face">len</span>(tmp) != <span class="font-lock-number-face">2</span>:
+                <span class="font-lock-keyword-face">self</span>.bad_action(action)
+            <span class="font-lock-keyword-face">return</span> [tmp[<span class="font-lock-number-face">0</span>]]
+        <span class="font-lock-keyword-face">else</span>:
+            <span class="font-lock-keyword-face">self</span>.bad_action(action)
+        <span class="font-lock-keyword-face">return</span> 
+
+    <span class="font-lock-keyword-face">def</span> <span class="font-lock-function-name-face">run</span>(<span class="font-lock-keyword-face">self</span>):
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'                           Process Tree:'</span>)
+        <span class="font-lock-keyword-face">self</span>.print_tree()
+        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.action_list != <span class="font-lock-string-face">''</span>:
+            <span class="font-lock-comment-face"># use specific action list</span>
+            <span class="font-lock-variable-name-face">action_list</span> = <span class="font-lock-keyword-face">self</span>.action_list.split(<span class="font-lock-string-face">','</span>)
+        <span class="font-lock-keyword-face">else</span>:
+            <span class="font-lock-variable-name-face">action_list</span> = []
+            <span class="font-lock-variable-name-face">actions</span> = <span class="font-lock-number-face">0</span>
+            <span class="font-lock-variable-name-face">temp_process_list</span> = [<span class="font-lock-keyword-face">self</span>.root_name]
+            <span class="font-lock-variable-name-face">level_list</span> = {}
+            level_list[<span class="font-lock-keyword-face">self</span>.root_name] = <span class="font-lock-number-face">1</span>
+
+            <span class="font-lock-comment-face"># this got a little yucky, too much re-doing of the work</span>
+            <span class="font-lock-keyword-face">while</span> actions &lt; <span class="font-lock-keyword-face">self</span>.max_actions:
+                <span class="font-lock-keyword-face">if</span> random.random() &lt; <span class="font-lock-keyword-face">self</span>.fork_percentage:
+                    <span class="font-lock-comment-face"># FORK:: pick random parent, add child to it</span>
+                    <span class="font-lock-variable-name-face">fork_choice</span> = random_choice(temp_process_list)
+                    <span class="font-lock-variable-name-face">new_child</span> = <span class="font-lock-keyword-face">self</span>.get_name()
+                    action_list.append(<span class="font-lock-string-face">'%s+%s'</span> % (fork_choice, new_child))
+                    temp_process_list.append(new_child)
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-comment-face"># EXIT:: pick random child, remove it</span>
+                    <span class="font-lock-comment-face">#        exception: no killing root process, sorry</span>
+                    <span class="font-lock-variable-name-face">exit_choice</span> = random_choice(temp_process_list)
+                    <span class="font-lock-keyword-face">if</span> exit_choice == <span class="font-lock-keyword-face">self</span>.root_name:
+                        <span class="font-lock-keyword-face">continue</span>
+                    temp_process_list.remove(exit_choice)
+                    action_list.append(<span class="font-lock-string-face">'%s-'</span> % exit_choice)
+                <span class="font-lock-variable-name-face">actions</span> += <span class="font-lock-number-face">1</span>
+
+        <span class="font-lock-keyword-face">for</span> <span class="font-lock-variable-name-face">a</span> <span class="font-lock-keyword-face">in</span> action_list:
+            <span class="font-lock-variable-name-face">tmp</span> = <span class="font-lock-keyword-face">self</span>.check_legal(a)
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-builtin-face">len</span>(tmp) == <span class="font-lock-number-face">2</span>:
+                <span class="font-lock-variable-name-face">fork_choice</span>, <span class="font-lock-variable-name-face">new_child</span> = tmp[<span class="font-lock-number-face">0</span>], tmp[<span class="font-lock-number-face">1</span>]
+                <span class="font-lock-keyword-face">if</span> fork_choice <span class="font-lock-keyword-face">not in</span> <span class="font-lock-keyword-face">self</span>.process_list:
+                    <span class="font-lock-keyword-face">self</span>.bad_action(a)
+                <span class="font-lock-variable-name-face">action</span> = <span class="font-lock-keyword-face">self</span>.do_fork(fork_choice, new_child)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-variable-name-face">exit_choice</span> = tmp[<span class="font-lock-number-face">0</span>]
+                <span class="font-lock-keyword-face">if</span> exit_choice <span class="font-lock-keyword-face">not in</span> <span class="font-lock-keyword-face">self</span>.process_list:
+                    <span class="font-lock-keyword-face">self</span>.bad_action(a)
+                <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.leaf_only <span class="font-lock-keyword-face">and</span> <span class="font-lock-builtin-face">len</span>(<span class="font-lock-keyword-face">self</span>.children[exit_choice]) &gt; <span class="font-lock-number-face">0</span>:
+                    <span class="font-lock-variable-name-face">action</span> = <span class="font-lock-string-face">'%s EXITS (failed: has children)'</span> % exit_choice
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-variable-name-face">action</span> = <span class="font-lock-keyword-face">self</span>.do_exit(exit_choice)
+
+            <span class="font-lock-comment-face"># if we got here, we actually did an action...</span>
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.show_tree:
+                <span class="font-lock-comment-face"># SHOW TREES (guess actions)</span>
+                <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.solve:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Action:'</span>, action)
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Action?'</span>)
+                <span class="font-lock-comment-face"># print('Process Tree:')</span>
+                <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">not</span> <span class="font-lock-keyword-face">self</span>.just_final:
+                    <span class="font-lock-keyword-face">self</span>.print_tree()
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-comment-face"># SHOW ACTIONS (guess tree)</span>
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Action:'</span>, action)
+                <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">not</span> <span class="font-lock-keyword-face">self</span>.just_final:
+                    <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.solve:
+                        <span class="font-lock-comment-face"># print('Process Tree:')</span>
+                        <span class="font-lock-keyword-face">self</span>.print_tree()
+                    <span class="font-lock-keyword-face">else</span>:
+                        <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'Process Tree?'</span>)
+
+        <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.just_final:
+            <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.show_tree:
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\n</span><span class="font-lock-string-face">                        Final Process Tree:'</span>)
+                <span class="font-lock-keyword-face">self</span>.print_tree()
+                <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+            <span class="font-lock-keyword-face">else</span>:
+                <span class="font-lock-keyword-face">if</span> <span class="font-lock-keyword-face">self</span>.solve:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\n</span><span class="font-lock-string-face">                        Final Process Tree:'</span>)
+                    <span class="font-lock-keyword-face">self</span>.print_tree()
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+                <span class="font-lock-keyword-face">else</span>:
+                    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'</span><span class="font-lock-escape-face">\n</span><span class="font-lock-string-face">                        Final Process Tree?</span><span class="font-lock-escape-face">\n</span><span class="font-lock-string-face">'</span>)
+
+        <span class="font-lock-keyword-face">return</span>
+
+
+<span class="font-lock-comment-face">#</span>
+<span class="font-lock-comment-face"># main</span>
+<span class="font-lock-comment-face">#</span>
+
+<span class="font-lock-variable-name-face">parser</span> = <span class="font-lock-type-face">OptionParser</span>()
+parser.add_option(<span class="font-lock-string-face">'-s'</span>, <span class="font-lock-string-face">'--seed'</span>, default=-<span class="font-lock-number-face">1</span>, help=<span class="font-lock-string-face">'the random seed'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'int'</span>, dest=<span class="font-lock-string-face">'seed'</span>)
+parser.add_option(<span class="font-lock-string-face">'-f'</span>, <span class="font-lock-string-face">'--forks'</span>, default=<span class="font-lock-number-face">0.7</span>, help=<span class="font-lock-string-face">'percent of actions that are forks (not exits)'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'float'</span>, dest=<span class="font-lock-string-face">'fork_percentage'</span>)
+parser.add_option(<span class="font-lock-string-face">'-A'</span>, <span class="font-lock-string-face">'--action_list'</span>, default=<span class="font-lock-string-face">''</span>, help=<span class="font-lock-string-face">'action list, instead of randomly generated ones (format: a+b,b+c,b- means a fork b, b fork c, b exit)'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'string'</span>, dest=<span class="font-lock-string-face">'action_list'</span>)
+parser.add_option(<span class="font-lock-string-face">'-a'</span>, <span class="font-lock-string-face">'--actions'</span>, default=<span class="font-lock-number-face">5</span>, help=<span class="font-lock-string-face">'number of forks/exits to do'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'int'</span>, dest=<span class="font-lock-string-face">'actions'</span>)
+parser.add_option(<span class="font-lock-string-face">'-t'</span>, <span class="font-lock-string-face">'--show_tree'</span>, help=<span class="font-lock-string-face">'show tree (not actions)'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'show_tree'</span>)
+parser.add_option(<span class="font-lock-string-face">'-P'</span>, <span class="font-lock-string-face">'--print_style'</span>, help=<span class="font-lock-string-face">'tree print style (basic, line1, line2, fancy)'</span>, action=<span class="font-lock-string-face">'store'</span>, type=<span class="font-lock-string-face">'string'</span>, default=<span class="font-lock-string-face">'fancy'</span>, dest=<span class="font-lock-string-face">'print_style'</span>)
+parser.add_option(<span class="font-lock-string-face">'-F'</span>, <span class="font-lock-string-face">'--final_only'</span>, help=<span class="font-lock-string-face">'just show final state'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'just_final'</span>)
+parser.add_option(<span class="font-lock-string-face">'-L'</span>, <span class="font-lock-string-face">'--leaf_only'</span>, help=<span class="font-lock-string-face">'only leaf processes exit'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'leaf_only'</span>)
+parser.add_option(<span class="font-lock-string-face">'-R'</span>, <span class="font-lock-string-face">'--local_reparent'</span>, help=<span class="font-lock-string-face">'reparent to local parent'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'local_reparent'</span>)
+parser.add_option(<span class="font-lock-string-face">'-c'</span>, <span class="font-lock-string-face">'--compute'</span>, help=<span class="font-lock-string-face">'compute answers for me'</span>, action=<span class="font-lock-string-face">'store_true'</span>, default=<span class="font-lock-constant-face">False</span>, dest=<span class="font-lock-string-face">'solve'</span>)
+
+(<span class="font-lock-variable-name-face">options</span>, <span class="font-lock-variable-name-face">args</span>) = parser.parse_args()
+
+<span class="font-lock-keyword-face">if</span> options.seed != -<span class="font-lock-number-face">1</span>:
+    random_seed(options.seed)
+
+<span class="font-lock-keyword-face">if</span> options.fork_percentage &lt;= <span class="font-lock-number-face">0.001</span>:
+    <span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'fork_percentage must be &gt; 0.001'</span>)
+    exit(<span class="font-lock-number-face">1</span>)
+
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG seed'</span>, options.seed)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG fork_percentage'</span>, options.fork_percentage)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG actions'</span>, options.actions)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG action_list'</span>, options.action_list)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG show_tree'</span>, options.show_tree)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG just_final'</span>, options.just_final)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG leaf_only'</span>, options.leaf_only)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG local_reparent'</span>, options.local_reparent)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG print_style'</span>, options.print_style)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">'ARG solve'</span>, options.solve)
+<span class="font-lock-builtin-face">print</span>(<span class="font-lock-string-face">''</span>)
+
+<span class="font-lock-variable-name-face">f</span> = <span class="font-lock-type-face">Forker</span>(options.fork_percentage, options.actions, options.action_list, options.show_tree, options.just_final, options.leaf_only, options.local_reparent, options.print_style, options.solve)
+f.run()</code></pre>
+</details>
+
+<pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-s is for specifying the seed
+</span>python fork.py -s 10 -c</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+
+ARG seed 10
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list 
+ARG show_tree False
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve True
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+                               a
+                               └── b
+Action: a forks c
+                               a
+                               ├── b
+                               └── c
+Action: c EXITS
+                               a
+                               └── b
+Action: a forks d
+                               a
+                               ├── b
+                               └── d
+Action: a forks e
+                               a
+                               ├── b
+                               ├── d
+                               └── e
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-f is for controlling the fork percentage
+</span>python fork.py -a 20 -f 0.1 -c
+<span class="font-lock-builtin-face">echo</span> <span class="font-lock-string-face">"------------------------"</span>
+python fork.py -a 20 -f 0.9 -c</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+
+ARG seed -1
+ARG fork_percentage 0.1
+ARG actions 20
+ARG action_list 
+ARG show_tree False
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve True
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+                               a
+                               └── b
+Action: b EXITS
+                               a
+Action: a forks c
+                               a
+                               └── c
+Action: c forks d
+                               a
+                               └── c
+                                   └── d
+Action: d EXITS
+                               a
+                               └── c
+Action: c EXITS
+                               a
+Action: a forks e
+                               a
+                               └── e
+Action: e EXITS
+                               a
+Action: a forks f
+                               a
+                               └── f
+Action: f EXITS
+                               a
+Action: a forks g
+                               a
+                               └── g
+Action: g EXITS
+                               a
+Action: a forks h
+                               a
+                               └── h
+Action: h EXITS
+                               a
+Action: a forks i
+                               a
+                               └── i
+Action: i EXITS
+                               a
+Action: a forks j
+                               a
+                               └── j
+Action: j EXITS
+                               a
+Action: a forks k
+                               a
+                               └── k
+Action: k EXITS
+                               a
+------------------------
+
+ARG seed -1
+ARG fork_percentage 0.9
+ARG actions 20
+ARG action_list 
+ARG show_tree False
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve True
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+                               a
+                               └── b
+Action: b forks c
+                               a
+                               └── b
+                                   └── c
+Action: a forks d
+                               a
+                               ├── b
+                               │   └── c
+                               └── d
+Action: c forks e
+                               a
+                               ├── b
+                               │   └── c
+                               │       └── e
+                               └── d
+Action: c forks f
+                               a
+                               ├── b
+                               │   └── c
+                               │       ├── e
+                               │       └── f
+                               └── d
+Action: c forks g
+                               a
+                               ├── b
+                               │   └── c
+                               │       ├── e
+                               │       ├── f
+                               │       └── g
+                               └── d
+Action: b forks h
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   ├── f
+                               │   │   └── g
+                               │   └── h
+                               └── d
+Action: a forks i
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   ├── f
+                               │   │   └── g
+                               │   └── h
+                               ├── d
+                               └── i
+Action: c forks j
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   ├── f
+                               │   │   ├── g
+                               │   │   └── j
+                               │   └── h
+                               ├── d
+                               └── i
+Action: j forks k
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   ├── f
+                               │   │   ├── g
+                               │   │   └── j
+                               │   │       └── k
+                               │   └── h
+                               ├── d
+                               └── i
+Action: e forks l
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   ├── g
+                               │   │   └── j
+                               │   │       └── k
+                               │   └── h
+                               ├── d
+                               └── i
+Action: j EXITS
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   └── h
+                               ├── d
+                               ├── i
+                               └── k
+Action: i forks m
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   └── h
+                               ├── d
+                               ├── i
+                               │   └── m
+                               └── k
+Action: g forks n
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       └── n
+                               │   └── h
+                               ├── d
+                               ├── i
+                               │   └── m
+                               └── k
+Action: h forks o
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       └── n
+                               │   └── h
+                               │       └── o
+                               ├── d
+                               ├── i
+                               │   └── m
+                               └── k
+Action: i forks p
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       └── n
+                               │   └── h
+                               │       └── o
+                               ├── d
+                               ├── i
+                               │   ├── m
+                               │   └── p
+                               └── k
+Action: g forks q
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       ├── n
+                               │   │       └── q
+                               │   └── h
+                               │       └── o
+                               ├── d
+                               ├── i
+                               │   ├── m
+                               │   └── p
+                               └── k
+Action: a forks r
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       ├── n
+                               │   │       └── q
+                               │   └── h
+                               │       └── o
+                               ├── d
+                               ├── i
+                               │   ├── m
+                               │   └── p
+                               ├── k
+                               └── r
+Action: b forks s
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       ├── n
+                               │   │       └── q
+                               │   ├── h
+                               │   │   └── o
+                               │   └── s
+                               ├── d
+                               ├── i
+                               │   ├── m
+                               │   └── p
+                               ├── k
+                               └── r
+Action: n forks t
+                               a
+                               ├── b
+                               │   ├── c
+                               │   │   ├── e
+                               │   │   │   └── l
+                               │   │   ├── f
+                               │   │   └── g
+                               │   │       ├── n
+                               │   │       │   └── t
+                               │   │       └── q
+                               │   ├── h
+                               │   │   └── o
+                               │   └── s
+                               ├── d
+                               ├── i
+                               │   ├── m
+                               │   └── p
+                               ├── k
+                               └── r
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-t is for showing the process tree and not actions
+</span>python fork.py -t</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list 
+ARG show_tree True
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve False
+
+                           Process Tree:
+                               a
+
+Action?
+                               a
+                               └── b
+Action?
+                               a
+                               ├── b
+                               └── c
+Action?
+                               a
+                               ├── b
+                               └── c
+                                   └── d
+Action?
+                               a
+                               ├── b
+                               └── c
+Action?
+                               a
+                               └── c
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-A action list: a+b =&gt; a fork b; b- =&gt; b exit
+</span>python fork.py -A a+b,b+c,c+d,c+e,c- -c
+
+<span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">even though c exits, d &amp; e are running with a as parent
+</span>
+<span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-R reparents to local parent i.e. b
+</span>python fork.py -A a+b,b+c,c+d,c+e,c- -R -c</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list a+b,b+c,c+d,c+e,c-
+ARG show_tree False
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve True
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+                               a
+                               └── b
+Action: b forks c
+                               a
+                               └── b
+                                   └── c
+Action: c forks d
+                               a
+                               └── b
+                                   └── c
+                                       └── d
+Action: c forks e
+                               a
+                               └── b
+                                   └── c
+                                       ├── d
+                                       └── e
+Action: c EXITS
+                               a
+                               ├── b
+                               ├── d
+                               └── e
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list a+b,b+c,c+d,c+e,c-
+ARG show_tree False
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent True
+ARG print_style fancy
+ARG solve True
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+                               a
+                               └── b
+Action: b forks c
+                               a
+                               └── b
+                                   └── c
+Action: c forks d
+                               a
+                               └── b
+                                   └── c
+                                       └── d
+Action: c forks e
+                               a
+                               └── b
+                                   └── c
+                                       ├── d
+                                       └── e
+Action: c EXITS
+                               a
+                               └── b
+                                   ├── d
+                                   └── e
+</pre>
+
+</details><pre class="src src-sh"><code><span class="font-lock-comment-delimiter-face"># </span><span class="font-lock-comment-face">-F skip intermediate steps, show final tree
+</span>python fork.py -t -F</code></pre>
+
+<details>
+<summary>Output</summary>
+<pre class="example">
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list 
+ARG show_tree True
+ARG just_final True
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve False
+
+                           Process Tree:
+                               a
+
+Action?
+Action?
+Action?
+Action?
+Action?
+
+                        Final Process Tree:
+                               a
+                               ├── b
+                               └── d
+                                   └── e
+
+</pre>
+
+</details>
+</div>
+</div>
+<div id="outline-container-code-homework" class="outline-3">
+<h3 id="code-homework">Code Homework</h3>
+<div class="outline-text-3" id="text-code-homework">
+<p>Write a program that calls fork while setting a variable value, what happens to variable when both child and parent change this value?
+</p>
+
+<details>
+<summary>p1.C</summary>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">x</span> = 100;
+    printf(<span class="font-lock-string-face">"hello, x is '%d' (pid: %d)\n"</span>, x, (<span class="font-lock-type-face">int</span>) getpid());
+    fflush(stdout);
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+
+    x += 5;
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">fork failed
+</span>        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">child (new process)
+</span>        x -= 10;
+        printf(<span class="font-lock-string-face">"hello, I am child, x is '%d' (pid: %d)\n"</span>, x, (<span class="font-lock-type-face">int</span>) getpid());
+    } <span class="font-lock-keyword-face">else</span> { <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">parent goes down this path (main)
+</span>        printf(<span class="font-lock-string-face">"hello, I am parent of %d, x is '%d' (pid: %d)\n"</span>, rc, x, (<span class="font-lock-type-face">int</span>) getpid());
+    }
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="example">
+hello, x is '100' (pid: 90319)
+hello, I am parent of 90320, x is '105' (pid: 90319)
+hello, I am child, x is '95' (pid: 90320)
+</pre>
+</details>
+
+<p>Write a program that opens a file and then forks. Can child and parent access <code>fd</code> returned by <code>open()</code>? What happens when both write to file concurrently? How to ensure child process prints before parent, can it be done without using wait()?
+</p>
+
+<details>
+<summary>p2-p3.C</summary>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;fcntl.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;sys/types.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;assert.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">fd</span> = open(<span class="font-lock-string-face">"/tmp/file_ostep"</span>, O_WRONLY|O_CREAT|O_TRUNC, S_IRWXU);
+    assert(fd &gt; -1);
+
+    printf(<span class="font-lock-string-face">"hello, fd is '%d' (pid: %d)\n"</span>, fd, (<span class="font-lock-type-face">int</span>) getpid());
+    fflush(stdout);
+
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) {
+        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) {
+        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rcw</span> = write(fd, <span class="font-lock-string-face">"hello from child\n"</span>, 17); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">17 = nbyte
+</span>        assert(rcw == 17);
+        printf(<span class="font-lock-string-face">"hello, I am child, rc is '%d', rcw is '%d' (pid: %d)\n"</span>,
+               rc, rcw, (<span class="font-lock-type-face">int</span>) getpid());
+    } <span class="font-lock-keyword-face">else</span> {
+        <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">wait(NULL);
+</span>        sleep(2); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">To ensure child writes first without using `wait()`
+</span>        <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rcw</span> = write(fd, <span class="font-lock-string-face">"goodbye from parent\n"</span>, 20); <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">20 = nbyte
+</span>        assert(rcw == 20);
+        printf(<span class="font-lock-string-face">"hello, I am parent of %d, rcw is '%d', (pid: %d)\n"</span>,
+               rc, rcw, (<span class="font-lock-type-face">int</span>) getpid());
+    }
+    close(fd);
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="example">
+hello, fd is '3' (pid: 18508)
+hello, I am child, rc is '0', rcw is '17' (pid: 18509)
+hello, I am parent of 18509, rcw is '20', (pid: 18508)
+</pre>
+
+
+<pre class="src src-sh"><code>cat /tmp/file_ostep</code></pre>
+
+<pre class="example">
+hello from child
+goodbye from parent
+</pre>
+</details>
+
+<p>Write program that forks, then calls various variants of <code>exec()</code> to run <code>/bin/ls</code>.
+</p>
+
+<details>
+<summary>p4.C</summary>
+
+<pre class="src src-C"><code><span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdio.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;stdlib.h&gt;</span>
+<span class="font-lock-preprocessor-face">#include</span> <span class="font-lock-string-face">&lt;unistd.h&gt;</span>
+
+<span class="font-lock-type-face">int</span> <span class="font-lock-function-name-face">main</span>(<span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">argc</span>, <span class="font-lock-type-face">char</span> *<span class="font-lock-variable-name-face">argv</span>[]) {
+    <span class="font-lock-type-face">int</span> <span class="font-lock-variable-name-face">rc</span> = fork();
+
+    <span class="font-lock-keyword-face">if</span> (rc &lt; 0) {
+        fprintf(stderr, <span class="font-lock-string-face">"fork failed\n"</span>);
+        exit(1);
+    } <span class="font-lock-keyword-face">else</span> <span class="font-lock-keyword-face">if</span> (rc == 0) {
+        printf(<span class="font-lock-string-face">"hello, I am child, rc is '%d' (pid: %d)\n"</span>, rc, (<span class="font-lock-type-face">int</span>) getpid());
+
+        <span class="font-lock-type-face">char</span> * <span class="font-lock-variable-name-face">args</span>[] = {<span class="font-lock-string-face">"ls"</span>, <span class="font-lock-string-face">"-l"</span>, <span class="font-lock-constant-face">NULL</span>}; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">List of pointers to null-terminated strings
+</span>        <span class="font-lock-type-face">char</span> * <span class="font-lock-variable-name-face">env</span>[] = {<span class="font-lock-constant-face">NULL</span>}; <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Environment of exectured process
+</span>        execl(<span class="font-lock-string-face">"/bin/ls"</span>, <span class="font-lock-string-face">"ls"</span>, <span class="font-lock-string-face">"-l"</span>, (<span class="font-lock-type-face">char</span> *) 0);
+        execv(<span class="font-lock-string-face">"/bin/ls"</span>, args);
+        execle(<span class="font-lock-string-face">"/bin/ls"</span>, <span class="font-lock-string-face">"ls"</span>, <span class="font-lock-string-face">"-l"</span>, (<span class="font-lock-type-face">char</span> *) 0, env);
+        execve(<span class="font-lock-string-face">"/bin/ls"</span>, args, env);
+        execlp(<span class="font-lock-string-face">"ls"</span>, <span class="font-lock-string-face">"ls"</span>, <span class="font-lock-string-face">"-l"</span>, (<span class="font-lock-type-face">char</span> *) 0);
+        execvp(<span class="font-lock-string-face">"ls"</span>, args);
+    } <span class="font-lock-keyword-face">else</span> {
+        printf(<span class="font-lock-string-face">"hello, I am parent of %d, (pid: %d)\n"</span>, rc, (<span class="font-lock-type-face">int</span>) getpid());
+    }
+    <span class="font-lock-keyword-face">return</span> 0;
+}</code></pre>
+
+<pre class="example">
+hello, I am parent of 29461, (pid: 29460)
+total 352
+-rw-r--r--@ 1 IABDCEF  staff  12109  2 Mar 23:35 fork.py
+-rw-r--r--@ 1 IABDCEF  staff  14194 19 Feb 01:52 intro.org
+-rwx------@ 1 IABDCEF  staff     20  2 Mar 17:59 newfile.txt
+-rw-r--r--@ 1 IABDCEF  staff  13351  2 Mar 12:14 process-run.py
+-rw-r--r--@ 1 IABDCEF  staff  88866  3 Mar 02:33 process.org
+-rwxr-xr-x@ 1 IABDCEF  staff  33896  2 Mar 17:59 redir
+-rw-r--r--@ 1 IABDCEF  staff    786  2 Mar 17:59 redir.c
+</pre>
+</details>
+</div>
+</div>
+</div>
+</div>
+<footer id="postamble" class="status">
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+</footer>
+</body>
+</html>

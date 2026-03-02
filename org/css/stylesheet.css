@@ -5,7 +5,7 @@
     color-scheme: light dark;
     --font: light-dark(#4f4746, #eae6df);
     --bg: light-dark(#fffbeb, #21211e);
-    --marker: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.02));
+    --marker: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.07));
     --link: light-dark(#458588, #88c0d0);
     --accent: color-mix(in srgb, var(--font) 60%, var(--bg) 40%);
     --highlight: light-dark(#edbd7766, #617bff66);
@@ -360,6 +360,8 @@ pre code {
 
 .mermaid {
     border: none;
+    align-items: center;
+    text-align: center;
 }
 .mermaid p {
     font-family: "IBM Plex Mono", monospace;
@@ -528,6 +530,10 @@ summary {
 summary::marker {
     color: var(--accent);
     font-size: 80%;
+}
+
+hr {
+    border-bottom: 0.5px solid var(--accent);
 }
 
 /* ======================================== */

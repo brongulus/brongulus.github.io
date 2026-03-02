@@ -6,22 +6,28 @@
     <description>Webpresence of Prashant Tak</description>
     <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Virtualization</title>
-      <link>https://brongulus.github.io/notes/ostep/virtualization.html</link>
-      <guid>https://brongulus.github.io/notes/ostep/virtualization.html</guid>
-      <pubDate>Sun, 22 Feb 2026 18:10:35 +0530</pubDate>
-    </item>
-    <item>
-      <title>Steve Jobs</title>
-      <link>https://brongulus.github.io/notes/jobs.html</link>
-      <guid>https://brongulus.github.io/notes/jobs.html</guid>
-      <pubDate>Sun, 22 Feb 2026 12:52:22 +0530</pubDate>
+      <title>Process</title>
+      <link>https://brongulus.github.io/notes/ostep/process.html</link>
+      <guid>https://brongulus.github.io/notes/ostep/process.html</guid>
+      <pubDate>Tue, 03 Mar 2026 02:37:45 +0530</pubDate>
     </item>
     <item>
       <title>OSTEP - Book Club</title>
       <link>https://brongulus.github.io/notes/ostep.html</link>
       <guid>https://brongulus.github.io/notes/ostep.html</guid>
-      <pubDate>Thu, 19 Feb 2026 01:56:47 +0530</pubDate>
+      <pubDate>Tue, 03 Mar 2026 02:29:56 +0530</pubDate>
+    </item>
+    <item>
+      <title>Steve Jobs</title>
+      <link>https://brongulus.github.io/notes/jobs.html</link>
+      <guid>https://brongulus.github.io/notes/jobs.html</guid>
+      <pubDate>Wed, 25 Feb 2026 11:03:13 +0530</pubDate>
+    </item>
+    <item>
+      <title>Docker Kubernetes Notes</title>
+      <link>https://brongulus.github.io/notes/k8s.html</link>
+      <guid>https://brongulus.github.io/notes/k8s.html</guid>
+      <pubDate>Wed, 25 Feb 2026 08:44:44 +0530</pubDate>
     </item>
     <item>
       <title>Introduction</title>
@@ -58,12 +64,6 @@
       <link>https://brongulus.github.io/blog/musturbating.html</link>
       <guid>https://brongulus.github.io/blog/musturbating.html</guid>
       <pubDate>Mon, 09 Feb 2026 22:04:27 +0530</pubDate>
-    </item>
-    <item>
-      <title>Docker Kubernetes Notes</title>
-      <link>https://brongulus.github.io/notes/k8s.html</link>
-      <guid>https://brongulus.github.io/notes/k8s.html</guid>
-      <pubDate>Sun, 08 Feb 2026 01:42:34 +0530</pubDate>
     </item>
     <item>
       <title>Find and Replace</title>

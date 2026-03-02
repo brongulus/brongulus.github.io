@@ -2,6 +2,7 @@
 #+date:       2024-11-08 Fri 09:52
 #+filetags:   :k8s:sap:
 #+identifier: 20241108T095209
+#+HTML_HEAD_EXTRA: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs'; mermaid.registerLayoutLoaders(elkLayouts); const currentTheme = (localStorage.getItem('theme') === 'dark') ? 'dark' : 'default'; var config = {startOnLoad: true, theme: currentTheme, align: 'center'}; mermaid.initialize(config); const toggleButton = document.querySelector('#dark-mode-button'); if (toggleButton) {toggleButton.addEventListener('click', () => {window.location.reload();});} </script>
 
 * Docker
 A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. The Linux kernel does not know about containers at all – for it, containers are nothing more than just regular processes running on the system. It however offers several features that Docker and other container engines leverage to achieve an almost complete isolation of processes from each other. Some of them being
@@ -15,9 +16,9 @@ Creating a Docker image involves two things:
 - A /Dockerfile/ containing directives on how the image is meant to be built
 - A /build-context/ (or PATH) which is a directory on your hard disk; every file to be added to the image must be inside the build-context
 
-Each line in a Dockerfile is executed in a temporary container which gets persisted as a new layer on top of the existing layers. Some directives to keep in mind are =FROM, ENV, LABEL, COPY, ADD, RUN, EXPOSE, CMD, ENTRYPOINT, USER=.
+Each line in a Dockerfile is executed in a temporary container which gets persisted as a new layer on top of the existing layers. Some directives to keep in mind are ~FROM, ENV, LABEL, COPY, ADD, RUN, EXPOSE, CMD, ENTRYPOINT, USER~.
 
-*Multistage builds* are another powerful feature of the container ecosystem. Typically, you do not want ship your build environment, but have a dedicated runtime environment. Multistage builds are an elegant way to separate these two things. The first stage is a build environment with a compiler or whatever is needed. The 2nd stage is much smaller in size/content (e.g. distroless) and should contain only those things needed to run the application. The stages are referred later on by specifying their names as =FROM <stage/image> AS <stage-name>=
+*Multistage builds* are another powerful feature of the container ecosystem. Typically, you do not want ship your build environment, but have a dedicated runtime environment. Multistage builds are an elegant way to separate these two things. The first stage is a build environment with a compiler or whatever is needed. The 2nd stage is much smaller in size/content (e.g. distroless) and should contain only those things needed to run the application. The stages are referred later on by specifying their names as ~FROM <stage/image> AS <stage-name>~
 
 * Kubernetes
 :PROPERTIES:
@@ -57,7 +58,7 @@ Reconciliation consists of three stages - "Observe, Analyze, Act"
 3. Act: If there is a delta, controller should act and trigger a defined action to bring the observed objects into desired state
 
 GVK: Groups are a collection of related functionality, versions are specific implementations and kinds are types. Namespaces group a set of resources.
-=/api/<version>/= or =/apis/<g>/<v>/namespaces/<name>/=
+~/api/<version>/~ or ~/apis/<g>/<v>/namespaces/<name>/~
 
 ** Communication
 Communication between pods requires something called as a "service", it's not sensible to rely on IP addresses for pods are they can change if a pod dies/restarts. Services act as a reliable and stable endpoint that provides cluster-internal and external connectivity. Services determine their managed pods by labels and corresponding selectors. Kubernetes also offers a way to name any port on a container/service level which can then be used as a reference even if the port value changes over time without impacting the application. ([[https://sysdig.com/learn-cloud-native/what-is-kubernetes-networking/][k8s networking]])
@@ -72,7 +73,7 @@ Ingress exposes HTTP and HTTPS routes from outside the cluster to services withi
 The easiest way of using an Ingress is as an entry point to a single service with one to multiple pods. The ingress is created for a dedicated URL. From the services' perspective everything works as usual. A port and a target port are specified and base on labels and selectors the traffic is routed. Rules define forwarding of incoming traffic to backends. In this case traffic is sent to a service.
 
 [[https://kubernetes.io/docs/concepts/services-networking/ingress/#types-of-ingress][Types of ingress]]:
-1. An Ingress with no rules sends all traffic to a single default backend and =.spec.defaultBackend= is the backend that should handle requests in that case.
+1. An Ingress with no rules sends all traffic to a single default backend and ~.spec.defaultBackend~ is the backend that should handle requests in that case.
 2. A fanout configuration routes traffic from a single IP address to more than one Service, based on the HTTP URI being requested.
    #+begin_src yaml
 spec:
@@ -120,15 +121,15 @@ Claims can request specific sizes and access modes and claims bind pod storage t
 
 CSI – Container Storage Interface:
 1. User requests a PVC
-2. =StorageClass= is triggered to provision a PV
+2. ~StorageClass~ is triggered to provision a PV
 3. PV is backed by a physical volume, which is made available via the container storage interface.
    
-Upon deletion of the claim object, PV becomes "unbound", then it can either be retained, deleted or recycled (deprecated). The access modes a PVC can specify are =RWO= (ReadWriteOnce) where a single node can mount a PVC at a time but if multiple pods are running on the same node they can all access it for restricting that to a single Pod use =RWOP= (ReadWriteOncePod). There's also =ROX= (ReadOnlyMany) and =RWX= (ReadWriteMany) where the volumes can be mounted as specified by many nodes.
+Upon deletion of the claim object, PV becomes "unbound", then it can either be retained, deleted or recycled (deprecated). The access modes a PVC can specify are ~RWO~ (ReadWriteOnce) where a single node can mount a PVC at a time but if multiple pods are running on the same node they can all access it for restricting that to a single Pod use ~RWOP~ (ReadWriteOncePod). There's also ~ROX~ (ReadOnlyMany) and ~RWX~ (ReadWriteMany) where the volumes can be mounted as specified by many nodes.
 
 ** Additional Setup
 An application container certainly needs configuration. However, adding this information to the container image is not feasible at all. Instead, we need a way through the Kubernetes API to reach our goal of dynamically injecting configuration, this is where ConfigMaps and Secrets come in. They separate configuration & credentials from the application and the required configuration data can be stored in specific data objects in etcd.
 
-Configmaps and [[https://sysdig.com/learn-cloud-native/how-to-create-and-use-kubernetes-secrets/][secrets]] are based on key-value pairs. Allowed values are string or binary data. When using binary data, =base64 encoding= of the binary is mandatory. The contents of both can be project to environment variables of a container or mounted to the container file system via the volumes API.
+Configmaps and [[https://sysdig.com/learn-cloud-native/how-to-create-and-use-kubernetes-secrets/][secrets]] are based on key-value pairs. Allowed values are string or binary data. When using binary data, ~base64 encoding~ of the binary is mandatory. The contents of both can be project to environment variables of a container or mounted to the container file system via the volumes API.
 
 The secrets can be used like any other volume and bound to the pod. When mounted into the filesystem the content/values are decoded and available in plain text so it's advised to set proper file permissions for them. There are 3 different types of secrets:
 1. generic: to store credentials like passwords. Include as env variables or mount files
@@ -137,3 +138,53 @@ The secrets can be used like any other volume and bound to the pod. When mounted
 
 * Helm
 Ref: [[https://sysdig.com/learn-cloud-native/what-is-helm-in-kubernetes/][What is helm]]
+
+* Networking
+
+Efficient routing usually means routing a contiguous CIDR to each individual node, which means you’re pre-allocating how many IP addresses (and thus pods) each node can serve. Some nodes that are intended for lots of small workloads end up constrained by the number of available IP addresses before they run out of other hardware resources.
+
+* Volumes
+
+A /PersistentVolume/ (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using /Storage Classes/. PVs are volume plugins like ~Volumes~, but have a lifecycle independent of any individual Pod that uses the PV. A /PersistentVolumeClaim/ (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted ~ReadWriteOnce, ReadOnlyMany, ReadWriteMany, or ReadWriteOncePod~). Cluster administrators need to be able to offer a variety of PVs that differ in more ways than size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.
+
+A /StorageClass/ provides a way for administrators to describe the classes of storage they offer. Different classes might map to quality-of-service levels, or to backup policies, or to arbitrary policies determined by the cluster administrators. Each StorageClass contains the fields ~provisioner~, ~parameters~, and ~reclaimPolicy~ (/delete/: removes PV as well as storage or /retain/: PV remains on PVC deletion but can't be reclaimed till the previous data remains), which are used when a PV belonging to the class needs to be dynamically provisioned to satisfy a PVC. ~volumeBindingMode~ controls when binding and provisioning should occur, ~WaitForFirstConsumer~ mode will delay the binding and provisioning of a PV until a Pod using the PVC is created. If unspecified, ~Immediate~ mode is used where binding and provisioning occurs when PVC is created which can cause unschedulable pods for TSC constrained storage backends.
+
+A user creates, or in the case of dynamic provisioning, has already created, a PVC with a specific amount of storage requested and with certain access modes. A control loop in the control plane watches for new PVCs, finds a matching PV (if possible), and binds them together. A PVC to PV binding is a one-to-one mapping, using a ~ClaimRef~ which is a bi-directional binding between the PV and the PVC. Pods use ~claims~ as volumes. The cluster inspects the claim to find the bound volume and mounts that volume for a Pod. For volumes that support multiple access modes, the user specifies which mode is desired when using their claim as a volume in a Pod.
+
+The out-of-tree volume plugins include /Container Storage Interface/ (CSI) that enable storage vendors to create custom storage plugins without adding their plugin source code to the Kubernetes repository. CSI defines a standard interface for container orchestration systems (like Kubernetes) to expose arbitrary storage systems to their container workloads. Once a CSI-compatible volume driver is deployed on a Kubernetes cluster, users may use the ~csi~ volume type to attach or mount the volumes exposed by the CSI driver.
+
+/CSINode/ holds information about all CSI drivers installed on a node. As long as the CSI driver uses the ~node-driver-registrar~ sidecar container, the kubelet will automatically populate the CSINode object for the CSI driver as part of kubelet plugin registration. CSINode has the same name as a node. If the object is missing, it means either there are no CSI Drivers available on the node. CSINode has an OwnerReference that points to the corresponding node object.
+
+* Containerd
+
+[[https://labs.iximiuz.com/courses/kubernetes-the-very-hard-way-0cbfd997/worker-node/containerd#overview][Source]]
+
+It is a *container runtime* that provides several essential services to Kubernetes:
+1. *Container Lifecycle Management*: Creating, starting, stopping, and deleting containers
+2. *Image Management*: Pulling, storing, and managing container images from registries
+3. *Storage Management*: Handling container filesystems and volume mounts
+4. *Network Management*: Coordinating with CNI plugins for container networking
+5. *Runtime Management*: Interfacing with low-level runtimes
+
+#+begin_export html
+<pre class="mermaid">
+---
+  config:
+    layout: elk
+---
+graph TD
+    containerd["containerd"] --> shim["containerd-shim"]
+    containerd --> CNI["CNI"]
+    CNI --> containerd
+    shim --> runc["runc"]
+    shim --> container["container"]
+    runc --> container
+    container --> shim
+</pre>
+#+end_export
+
+~containerd~ includes a CLI tool called ~ctr~ ([[https://github.com/containerd/nerdctl][nerdctl]] as a better interface) for basic container operations, it's like the ~docker~ CLI but for lower-level operations. Some operations would be ~ctr images pull <image>~, ~ctr run --rm <image>~. ~containerd~ delegates the task of actually running the container process to a low-level *OCI runtime*. containerd manages the "what" (which container to run, with what image, network, and storage) while OCI runtimes ([[https://github.com/opencontainers/runc][runc]]/[[https://github.com/containers/crun][crun]]/[[https://gvisor.dev/][gvisor]] handle the "how" (the underlying isolation mechanisms like cgroups, namespaces, or VMs). The ~containerd-shim~ is a lightweight process that acts as a bridge between containerd and OCI runtimes. It provides a stable interface for containerd to interact with the runtime, keeps containers running even if containerd crashes, handles container I/O, and reaps processes when they exit.
+
+~cgroups~ (control groups) limit and isolate resource usage (CPU, memory, I/O) for container processes. When using systemd as the init system, it's recommended to use the systemd cgroup driver so both systemd and the container runtime manage cgroups consistently.
+
+While ~ctr~ doesn't automatically create a network for containers, ~nerdctl~ attempts to create a /bridge network/ (to configure the network namespace for each container) by default. Without CNI plugins installed, this network creation fails. Just as ~containerd~ delegates container process execution to OCI runtimes, it delegates network configuration to specialized components through the Container Network Interface (CNI). CNI provides a standardized way for container runtimes to set up container networking, including creating network namespaces, configuring IP addresses, and establishing connectivity between containers and the host system.
