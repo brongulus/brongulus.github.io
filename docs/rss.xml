@@ -6,6 +6,12 @@
     <description>Webpresence of Prashant Tak</description>
     <atom:link href="https://brongulus.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Beej&apos;s Networking Guide</title>
+      <link>https://brongulus.github.io/notes/beej.html</link>
+      <guid>https://brongulus.github.io/notes/beej.html</guid>
+      <pubDate>Sun, 05 Apr 2026 20:48:47 +0530</pubDate>
+    </item>
+    <item>
       <title>Process</title>
       <link>https://brongulus.github.io/notes/ostep/process.html</link>
       <guid>https://brongulus.github.io/notes/ostep/process.html</guid>

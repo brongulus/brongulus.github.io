@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beej's Networking Guide</title>
+<meta name="author" content="Tak" />
+<meta name="generator" content="Org Mode" />
+<script src='/css/head.js'></script> <link rel='stylesheet' type='text/css' href='/css/stylesheet.css'>
+</head>
+<body>
+<div id="nav" class="status">
+<a href='/'>bacchanalian madness</a><a href='/rss.xml'>
+    <button id='rss-button' aria-label='Get RSS feed' type='button'>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='currentColor'>
+        <path d='M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z'></path>
+      </svg>
+    </button>
+  </a><button id='dark-mode-button' aria-label='Toggle Dark Mode' type='button'>
+    <svg id='moon-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'>
+      <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
+    </svg>
+    <svg id='sun-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' style='display: none;'>
+      <path d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' fill-rule='evenodd' clip-rule='evenodd'></path>
+    </svg>
+  </button>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">Beej&rsquo;s Networking Guide</h1>
+<p class="date">2026-05-04 Sat</p>
+</header><p><a href="https://beej.us/guide/bgnet/">Guide to network programming</a>
+<a href="https://beej.us/guide/bgnet0/">Guide to networking concepts</a> (<a href="https://abstractnonsense.xyz/micro-blog/2026-01-24-networking-concepts-textbook-review/">Solutions</a>)
+</p>
+
+<p>Consider using <a href="https://janet-lang.org/1.17.1/docs/networking.html">Janet&rsquo;s Networking Module</a> for the exercises.
+</p>
+
+<p>To watch:
+</p>
+<ol class="org-ol">
+<li><a href="https://www.youtube.com/watch?v=0Omvgd7Hg1I">Life of a packet - kubecon</a></li>
+<li><a href="https://www.youtube.com/watch?v=6v_BDHIgOY8">Container Networking from scratch</a></li>
+<li><a href="https://www.youtube.com/watch?v=cUGXu2tiZMc">K8S Networking 101</a></li>
+<li><a href="https://www.youtube.com/watch?v=Oslwx3hj2Eg">Why service is the worst API - thockin</a></li>
+<li><a href="https://www.youtube.com/watch?v=tq9ng_Nz9j8">K8S networking intro and deep dive</a></li>
+<li><a href="https://www.youtube.com/watch?v=_mvgjvqc4bI">Gateway API vs Ingress</a></li>
+<li><a href="https://www.youtube.com/watch?v=FknTw9bJsXM">From TCP to HTTP - Primeagen</a></li>
+</ol>
+
+<p>To read:
+</p>
+<ol class="org-ol">
+<li><a href="https://hpbn.co/">https://hpbn.co/</a></li>
+<li><a href="https://book.mixu.net/distsys/ebook.html">https://book.mixu.net/distsys/ebook.html</a></li>
+<li><a href="https://healeycodes.com/building-a-shell">https://healeycodes.com/building-a-shell</a></li>
+<li><a href="https://www.cs.unc.edu/~stotts/723/Lambda/scheme.html">https://www.cs.unc.edu/~stotts/723/Lambda/scheme.html</a></li>
+</ol>
+
+<p>TODO: Routing table, forwarding table
+</p>
+
+<p>A <code>Server</code> is a program that <i>listens</i> for incoming connections, <i>accepts</i> them and receives a request from the <code>Client</code> and sends back a response. Typically, one server exists for many clients.
+</p>
+
+<p><code>Sockets</code> are a way to speak to other programs using standard Unix file descriptors (which are just integers associated with an open file). And the <code>fd</code> for network communication (aka the <i>socket descriptor</i>) is returned by the <code>socket()</code> system routine. This can then be used for communication via the specialized <code>send()</code> and <code>recv()</code> socket calls.
+</p>
+
+<p><b>Client Connection Process</b>: Connection a computer to another involves several steps:
+</p>
+<ol class="org-ol">
+<li><i>Ask OS for a socket</i>. This gives the <code>fd</code> that is used to refer to this network connection.</li>
+<li><i>Perform DNS lookup</i> to convert human-readable name (<code>example.com</code>) to IP address (<code>198.51.100.12</code>). DNS (<a href="https://www.youtube.com/watch?v=tsxjNsFu_2g">Learn More</a>) is the distributed database holding this mapping, and is queried to get the IP address to know which machine to connect to.</li>
+<li><i>Connect the socket</i> to the IP address on a specific port. There must be a server listening on that port on the remote computer, else the connection fails.</li>
+<li><i>Send and receive data</i></li>
+<li><i>Close the connection</i></li>
+</ol>
+
+<p><b>Server Listening Process</b>:
+</p>
+<ol class="org-ol">
+<li><i>Ask OS for a socket</i> for listening purposes</li>
+<li><i>Bind socket to a port</i>, assigning a port number to the server so that other clients can connect. Two programs on same computer cannot use the same port on that computer.</li>
+<li><i>Listen for incoming connections</i></li>
+<li><i>Accept incoming connections</i>, accepting returns a new, different socket specifically for that connection. This allows for a server to handle multiple clients.</li>
+<li><i>Send and receive data</i></li>
+<li><i>Go back and accept another connection</i></li>
+</ol>
+
+<p>The two type of internet sockets talked about in the book are <i>Stream Sockets</i> <code>SOCK_STREAM</code> and <i>Datagram Sockets</i> (aka <i>connectionless sockets</i>) <code>SOCK_DGRAM</code> (also check out <i>Raw Sockets</i>).
+</p>
+
+<p>Stream sockets are reliable (error-free) two-way connected communication streams. Socket item order is preserved on the receiving end. They are used by <code>telnet</code> or <code>ssh</code> and even the <code>HTTP</code> protocol. Stream sockets use the <code>TCP</code> (Transmission Control Protocol) which ensures sequential and error-free data arrival. TCP is better half of &ldquo;TCP/IP&rdquo; where IP (<a href="https://www.rfc-editor.org/rfc/rfc791">Internet Protocol</a>) deals primarily with Internet routing and is not responsible for data integrity.
+</p>
+
+<p>Datagram sockets also use IP for routing but they use <code>UDP</code> (User Datagram Protocol) instead of TCP. Since its just a packet with an IP header containing destination information that&rsquo;s sent out, it&rsquo;s a connectionless socket. Since there&rsquo;s a high chance of packet loss, protocols that internally use UDP (such as <code>tftp</code> or <code>dhcpd</code>) implement the need for an <code>ACK</code> packet that the recepient must send when they receive the packet. If the &ldquo;acknowledgement&rdquo; isn&rsquo;t received, the packet is re-transmitted. The reason for using an unreliable protocol is for the &ldquo;speed&rdquo; gains, and the only thing it guarantees is that the data that arrives will be error-free.
+</p>
+
+<p><b>Data Encapsulation</b>: A packet is born, wrapped (encapsulated) in a header by the first protocol (tftp or http) then that is wrapped by the next protocol (udp or tcp: error detection/correction information alongwith source/destination port number) which is then wrapped again by the next header (IP: source and destination IP addr) and finally by the final protocol on the hardware (physical) layer (ethernet: source and destination MAC addr). On the receiving end, the headers are stripped in the reverse order to get the packet data.
+</p>
+
+<p><b>Layered Network Model</b>: (aka <code>ISO OSI</code>) Describes a system of network functionality that encapsulates the various classes of protocols resposible for different things like describing data, preserving integrity, routing etc. The layers being:
+</p>
+<ol class="org-ol">
+<li>Physical (hardware, signals on wires: ethernet physical layer)</li>
+<li>Data Link (encapsulation into frames: ethernet)</li>
+<li>Network (routing: IP IPv6, ICMP)</li>
+<li>Transport (data integrity, packet splitting and reassembly: TCP, UDP)</li>
+<li>Session (suspending, terminating, restarting sessions: SOCKETS, TCP)</li>
+<li>Presentation (encoding translation, encryption, compression: MIME, SSL/TLS)</li>
+<li>Application (where users interact with the network: HTTP, FTP, SMTP, IMAP)</li>
+</ol>
+
+<p>Comparison with the TCP/IP layers (Internet Protocol Suite) leads to these similarities:
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">TCP/IP (Internet Layer Model)</th>
+<th scope="col" class="org-left">OSI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Application (ftp, http, ssh, smtp, imap)</td>
+<td class="org-left">Application, Presentaton, Session</td>
+</tr>
+
+<tr>
+<td class="org-left">Transport (tcp, udp)</td>
+<td class="org-left">Session, Transport</td>
+</tr>
+
+<tr>
+<td class="org-left">Internet (IP and routing)</td>
+<td class="org-left">Subset of Network</td>
+</tr>
+
+<tr>
+<td class="org-left">Link (Network access: ethernet, wifi)</td>
+<td class="org-left">Data Link, Physical</td>
+</tr>
+</tbody>
+</table>
+
+<p>The network routing system called Internet Protocol Version 4 (aka <code>IPv4</code>) had addresses made up of four bytes (four <i>octets</i>) e.g.: <code>192.0.2.111</code>. This is a unique identifier for a computer on the internet. But this limits it to 32 bits or just <i>4 billion addresses</i>, the limit of which was surpassed when all devices starting having their own addresses. So <code>IPv6</code> was born where you get 128 bits for an address which is represented by hexadecimal numbers. And addresses with lots of zeros can be compressed with 2 colons i.e. <code>2001:0db8:c9d2:0012:0000:0000:000:0051</code> becomes <code>2001:db8:c9d2:12::51</code>.
+</p>
+
+<p>The address <code>::1</code> is the <i>loopback address</i> aka <code>localhost</code>, which in IPv4 is <code>127.0.0.1</code>. IP addresses are also divided into two portions <i>network portion</i> and the <i>host portion</i>. Earlier, there were &ldquo;classes&rdquo; of <i>subnets</i> where first byte (<i>A</i>: 24-bit worth of hosts) of the address is for the network, or class <i>B</i> and <i>C</i> with two and three network portion bytes respectively.
+</p>
+
+<p>The initial bits identify the individual networks while the trailing ones identify the individual hosts on the network. The individual networks are called <i>Subnets</i>. Hosts with all zero or all one bits are reserved or broadcast (intended for all hosts on a subnet).
+</p>
+
+<p>The network portion of the IP address is described by the <i>netmask</i>, which is bitwise <code>AND</code> ed with the IP address to get the network number. For example, if the netmask is <code>255.255.255.0</code> and the IP is <code>192.0.2.12</code> then the network is <code>192.0.2.0</code>. But understanding how many bits the netmask represented was confusing (consider <code>255.192.0.0</code>) so a new style where the number of network bits were added after the IP address came along: <code>192.0.2.12/30</code>. Since there are 30 network bits and hosts can&rsquo;t have all 0 or all 1 (reserved and broadcast), so there are two possible hosts on the subnet in the example.
+</p>
+
+<p><code>NAT</code> (Network Address Translation) is a way for organizations to have private subnets with <i>non-globally-unique</i> addresses (commonly starting with <code>192.168.x.x</code> or <code>10.x.x.x</code>) that get translated to <i>globally-unique</i> addresses as they pass through the router. A router is a specialized computer that forwards packets through the packet switching network by inspecting destination IP address to determine which route gets the packet closer to its goal.
+</p>
+
+<p>An <i>Interface</i> is a physical networking hardware on computer (wired ethernet or wireless ethernet). A router can have a large number of interfaces. Each interface has one IP address and one MAC (Media Access Control) address (of the form <code>aa:bb:cc:dd:ee:ff</code> random-ish six one-byte hex numbers). When a network adapter is manufactured, its given a unique MAC address that it typically keeps for life.
+</p>
+
+<p>Besides the IP address (used by the IP layer), there&rsquo;s another address used by TCP or UDP which is the 16-bit <i>port number</i> that acts as the local address for the connection. Think of IP address as street address of hotel, and the port number as the room number. Different services on internet have different well-known port numbers so that (for example) the mail and the web services can be differentiated. (Check the <code>/etc/services/</code> file)
+</p>
+
+<p>The representation of a two-byte hex number <code>b34f</code> can be stored in two ways:
+</p>
+<ol class="org-ol">
+<li><i>Big-Endian</i>: <code>b3</code> followed by <code>4f</code>. (Network Byte Order)</li>
+<li><i>Little-Endian</i>: Stores them as <code>4f</code> then <code>b3</code> to allow for better arithmetic. (<a href="https://stackoverflow.com/a/36263273">Read More</a>, <a href="https://github.com/KeyhanSalehi/endianness-guide">Some more</a>)</li>
+</ol>
+
+<p><i>Network Byte Order</i> is what is used over the network when sending packets or filling data but the computer stores it in <i>Host Byte Order</i> so if there&rsquo;s a mismatch in the representation, the received data can be incorrect. Depending on the type of number, <code>short</code> or <code>long</code>, it can be converted from <code>host</code> to <code>network</code> or vice-versa. To illustrate <code>ntohs()</code> would be network to host short.
+</p>
+</div>
+<footer id="postamble" class="status">
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+</footer>
+</body>
+</html>

@@ -1,0 +1,88 @@
+#+TITLE: Beej's Networking Guide
+#+DATE: 2026-05-04 Sat
+
+[[https://beej.us/guide/bgnet/][Guide to network programming]]
+[[https://beej.us/guide/bgnet0/][Guide to networking concepts]] ([[https://abstractnonsense.xyz/micro-blog/2026-01-24-networking-concepts-textbook-review/][Solutions]])
+
+Consider using [[https://janet-lang.org/1.17.1/docs/networking.html][Janet's Networking Module]] for the exercises.
+
+To watch:
+1. [[https://www.youtube.com/watch?v=0Omvgd7Hg1I][Life of a packet - kubecon]]
+2. [[https://www.youtube.com/watch?v=6v_BDHIgOY8][Container Networking from scratch]]
+3. [[https://www.youtube.com/watch?v=cUGXu2tiZMc][K8S Networking 101]]
+4. [[https://www.youtube.com/watch?v=Oslwx3hj2Eg][Why service is the worst API - thockin]]
+5. [[https://www.youtube.com/watch?v=tq9ng_Nz9j8][K8S networking intro and deep dive]]
+6. [[https://www.youtube.com/watch?v=_mvgjvqc4bI][Gateway API vs Ingress]]
+7. [[https://www.youtube.com/watch?v=FknTw9bJsXM][From TCP to HTTP - Primeagen]]
+
+To read:
+1. https://hpbn.co/
+2. https://book.mixu.net/distsys/ebook.html
+3. https://healeycodes.com/building-a-shell
+4. https://www.cs.unc.edu/~stotts/723/Lambda/scheme.html
+
+TODO: Routing table, forwarding table
+
+A ~Server~ is a program that /listens/ for incoming connections, /accepts/ them and receives a request from the ~Client~ and sends back a response. Typically, one server exists for many clients.
+
+~Sockets~ are a way to speak to other programs using standard Unix file descriptors (which are just integers associated with an open file). And the ~fd~ for network communication (aka the /socket descriptor/) is returned by the ~socket()~ system routine. This can then be used for communication via the specialized ~send()~ and ~recv()~ socket calls.
+
+*Client Connection Process*: Connection a computer to another involves several steps:
+1. /Ask OS for a socket/. This gives the ~fd~ that is used to refer to this network connection.
+2. /Perform DNS lookup/ to convert human-readable name (~example.com~) to IP address (~198.51.100.12~). DNS ([[https://www.youtube.com/watch?v=tsxjNsFu_2g][Learn More]]) is the distributed database holding this mapping, and is queried to get the IP address to know which machine to connect to.
+3. /Connect the socket/ to the IP address on a specific port. There must be a server listening on that port on the remote computer, else the connection fails.
+4. /Send and receive data/
+5. /Close the connection/
+
+*Server Listening Process*:
+1. /Ask OS for a socket/ for listening purposes
+2. /Bind socket to a port/, assigning a port number to the server so that other clients can connect. Two programs on same computer cannot use the same port on that computer.
+3. /Listen for incoming connections/
+4. /Accept incoming connections/, accepting returns a new, different socket specifically for that connection. This allows for a server to handle multiple clients.
+5. /Send and receive data/
+6. /Go back and accept another connection/
+
+The two type of internet sockets talked about in the book are /Stream Sockets/ ~SOCK_STREAM~ and /Datagram Sockets/ (aka /connectionless sockets/) ~SOCK_DGRAM~ (also check out /Raw Sockets/).
+
+Stream sockets are reliable (error-free) two-way connected communication streams. Socket item order is preserved on the receiving end. They are used by ~telnet~ or ~ssh~ and even the ~HTTP~ protocol. Stream sockets use the ~TCP~ (Transmission Control Protocol) which ensures sequential and error-free data arrival. TCP is better half of "TCP/IP" where IP ([[https://www.rfc-editor.org/rfc/rfc791][Internet Protocol]]) deals primarily with Internet routing and is not responsible for data integrity.
+
+Datagram sockets also use IP for routing but they use ~UDP~ (User Datagram Protocol) instead of TCP. Since its just a packet with an IP header containing destination information that's sent out, it's a connectionless socket. Since there's a high chance of packet loss, protocols that internally use UDP (such as ~tftp~ or ~dhcpd~) implement the need for an ~ACK~ packet that the recepient must send when they receive the packet. If the "acknowledgement" isn't received, the packet is re-transmitted. The reason for using an unreliable protocol is for the "speed" gains, and the only thing it guarantees is that the data that arrives will be error-free.
+
+*Data Encapsulation*: A packet is born, wrapped (encapsulated) in a header by the first protocol (tftp or http) then that is wrapped by the next protocol (udp or tcp: error detection/correction information alongwith source/destination port number) which is then wrapped again by the next header (IP: source and destination IP addr) and finally by the final protocol on the hardware (physical) layer (ethernet: source and destination MAC addr). On the receiving end, the headers are stripped in the reverse order to get the packet data.
+
+*Layered Network Model*: (aka ~ISO OSI~) Describes a system of network functionality that encapsulates the various classes of protocols resposible for different things like describing data, preserving integrity, routing etc. The layers being:
+1. Physical (hardware, signals on wires: ethernet physical layer)
+2. Data Link (encapsulation into frames: ethernet)
+3. Network (routing: IP IPv6, ICMP)
+4. Transport (data integrity, packet splitting and reassembly: TCP, UDP)
+5. Session (suspending, terminating, restarting sessions: SOCKETS, TCP)
+6. Presentation (encoding translation, encryption, compression: MIME, SSL/TLS)
+7. Application (where users interact with the network: HTTP, FTP, SMTP, IMAP)
+
+Comparison with the TCP/IP layers (Internet Protocol Suite) leads to these similarities:
+| TCP/IP (Internet Layer Model)            | OSI                               |
+|------------------------------------------+-----------------------------------|
+| Application (ftp, http, ssh, smtp, imap) | Application, Presentaton, Session |
+| Transport (tcp, udp)                     | Session, Transport                |
+| Internet (IP and routing)                | Subset of Network                 |
+| Link (Network access: ethernet, wifi)    | Data Link, Physical               |
+
+The network routing system called Internet Protocol Version 4 (aka ~IPv4~) had addresses made up of four bytes (four /octets/) e.g.: ~192.0.2.111~. This is a unique identifier for a computer on the internet. But this limits it to 32 bits or just /4 billion addresses/, the limit of which was surpassed when all devices starting having their own addresses. So ~IPv6~ was born where you get 128 bits for an address which is represented by hexadecimal numbers. And addresses with lots of zeros can be compressed with 2 colons i.e. ~2001:0db8:c9d2:0012:0000:0000:000:0051~ becomes ~2001:db8:c9d2:12::51~.
+
+The address ~::1~ is the /loopback address/ aka ~localhost~, which in IPv4 is ~127.0.0.1~. IP addresses are also divided into two portions /network portion/ and the /host portion/. Earlier, there were "classes" of /subnets/ where first byte (/A/: 24-bit worth of hosts) of the address is for the network, or class /B/ and /C/ with two and three network portion bytes respectively.
+
+The initial bits identify the individual networks while the trailing ones identify the individual hosts on the network. The individual networks are called /Subnets/. Hosts with all zero or all one bits are reserved or broadcast (intended for all hosts on a subnet).
+
+The network portion of the IP address is described by the /netmask/, which is bitwise ~AND~ ed with the IP address to get the network number. For example, if the netmask is ~255.255.255.0~ and the IP is ~192.0.2.12~ then the network is ~192.0.2.0~. But understanding how many bits the netmask represented was confusing (consider ~255.192.0.0~) so a new style where the number of network bits were added after the IP address came along: ~192.0.2.12/30~. Since there are 30 network bits and hosts can't have all 0 or all 1 (reserved and broadcast), so there are two possible hosts on the subnet in the example.
+
+~NAT~ (Network Address Translation) is a way for organizations to have private subnets with /non-globally-unique/ addresses (commonly starting with ~192.168.x.x~ or ~10.x.x.x~) that get translated to /globally-unique/ addresses as they pass through the router. A router is a specialized computer that forwards packets through the packet switching network by inspecting destination IP address to determine which route gets the packet closer to its goal.
+
+An /Interface/ is a physical networking hardware on computer (wired ethernet or wireless ethernet). A router can have a large number of interfaces. Each interface has one IP address and one MAC (Media Access Control) address (of the form ~aa:bb:cc:dd:ee:ff~ random-ish six one-byte hex numbers). When a network adapter is manufactured, its given a unique MAC address that it typically keeps for life.
+
+Besides the IP address (used by the IP layer), there's another address used by TCP or UDP which is the 16-bit /port number/ that acts as the local address for the connection. Think of IP address as street address of hotel, and the port number as the room number. Different services on internet have different well-known port numbers so that (for example) the mail and the web services can be differentiated. (Check the ~/etc/services/~ file)
+
+The representation of a two-byte hex number ~b34f~ can be stored in two ways:
+1. /Big-Endian/: ~b3~ followed by ~4f~. (Network Byte Order)
+2. /Little-Endian/: Stores them as ~4f~ then ~b3~ to allow for better arithmetic. ([[https://stackoverflow.com/a/36263273][Read More]], [[https://github.com/KeyhanSalehi/endianness-guide][Some more]])
+
+/Network Byte Order/ is what is used over the network when sending packets or filling data but the computer stores it in /Host Byte Order/ so if there's a mismatch in the representation, the received data can be incorrect. Depending on the type of number, ~short~ or ~long~, it can be converted from ~host~ to ~network~ or vice-versa. To illustrate ~ntohs()~ would be network to host short.

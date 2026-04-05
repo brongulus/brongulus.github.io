@@ -3,12 +3,11 @@
 #+DATE: 2021-03-21 Mon
 
 #+begin_quote
-Why should a man climb Everest?
-Because it is there.
--Meredith Edwards, The conquest of Everest
+Even bacchanalian madness has its charms.
+- Cowper.
 #+end_quote
 
-Hi! I'm Prashant. This is something experimental for me, the entire /"blog"/ experience. I've never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that's something which will be decided in the future.
+Hi! I'm Prashant. I've never been someone who can openly share their thoughts so this might not end up being a personal blog and just a random collection of articles and notes but that's something which will be decided in the future.
 
 Some stuff that I came across recently which I enjoyed, presented here in case someone's interested.
 
@@ -16,6 +15,8 @@ Some stuff that I came across recently which I enjoyed, presented here in case s
 + [[https://substack.com/home/post/p-163622235][the hunger to be everything]], a substack post about abundance
 + [[https://www.gwern.net/Design][Gwern - Design]], considerations to keep in mind while designing for the web.
 + On the same note, here's an [[https://ia.net/topics/the-web-is-all-about-typography-period][iA blog]] about the same. While you're at it, here's [[https://ia.net/topics/learning-to-see][another]]. And finally there's one on [[https://ia.net/topics/acquiring-confidence-before-an-audience][practice]].
++ [[https://terriblesoftware.org/2025/01/22/the-7-most-influential-papers-in-computer-science-history/][7 most influential papers in computer science history]]
++ This hit close to heart: [[https://terriblesoftware.org/2026/01/08/life-happens-at-1x-speed/][Life happens at 1x speed]]
 + [[https://observablehq.com/@yurivish/efficient-graph-search][Efficient BFS]]
 + [[https://ohshitgit.com/][Oh Shit Git]], for when you can't recall that specific command to do that particular thing.
 + [[https://www.chessengines.org/][Chess Engines]], how to code a chess engine
