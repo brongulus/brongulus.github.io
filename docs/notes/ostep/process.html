@@ -126,9 +126,9 @@ stateDiagram-v2
   <span class="font-lock-keyword-face">struct</span> <span class="font-lock-type-face">trapframe</span> *<span class="font-lock-variable-name-face">tf</span>;       <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">Trap frame for current interrupt
 </span>};</code></pre>
 </div>
-<div id="outline-container-system-calls-homework" class="outline-3">
-<h3 id="system-calls-homework">Homework</h3>
-<div class="outline-text-3" id="text-system-calls-homework">
+<div id="outline-container-homework" class="outline-3">
+<h3 id="homework">Homework</h3>
+<div class="outline-text-3" id="text-homework">
 <p>The below program <code>process-run.py</code> allows for observing how process states change as programs run
 </p>
 
@@ -786,7 +786,6 @@ hello, I am parent of 86840 (pid: 86839)
 hello, I am child (pid: 86840)
 </pre>
 
-
 <p>While the parent receives PID of newly-created child, the child receives <code>rc</code> 0. (<del>Why does the second hello world also refer to the parent <code>pid</code> in its &ldquo;hello world&rdquo;?</del> Fixed by flushing the output, without this the child process was getting a copy of the buffered <code>stdout</code>)
 </p>
 
@@ -1039,7 +1038,6 @@ hello, I am child (pid: 86586)
 hello, I am parent of 86586 (rc_wait: 86586) (pid: 86584)
 </pre>
 
-
 <p>The <code>exec()</code> syscall if useful when one wants to run a program different from the calling program. Here <code>execvp()</code> runs <code>wc</code> which shows how many lines, words and bytes are in <code>process-run.py</code>.
 </p>
 
@@ -1078,7 +1076,6 @@ hello, I am child (pid: 2020)
   342  1174 13351 process-run.py
 hello, I am parent of 2020 (rc_wait: 2020) (pid: 2019)
 </pre>
-
 
 <p>Here the <code>exec()</code> call, <b>loads</b> code (and static data) from the executable passed to it and overwrites its current code segment (and current static data) with the loaded one; the heap/stack and other parts of memory space of program are re-initialized and the OS just runs the new program. It doesn&rsquo;t even create a new process, just transforms the existing one (<code>fork_wait_exec_p3</code>) into the exec&rsquo;d program (<code>wc</code>).
 </p>
@@ -1296,13 +1293,12 @@ rm redir newfile.txt</code></pre>
 27  97 786 redir.c
 </pre>
 
-
 <p>Other syscalls, such as <code>kill()</code> is used to <b>signal</b> to a process to pause, die etc. Some shell keys also sends these signals, for example: <code>C-c</code> sends <code>SIGINT</code> (interrupt, normal termination), <code>C-z</code> sends <code>SIGSTP</code> (stop, can <i>resume</i> with <code>fg</code>). This <code>signal()</code> subsystem allows for sending external events to processes. The process must &ldquo;catch&rdquo; these signals, suspend normal execution and run some code in response.
 </p>
 </div>
-<div id="outline-container-homework" class="outline-3">
-<h3 id="homework">Homework</h3>
-<div class="outline-text-3" id="text-homework">
+<div id="outline-container-system-calls-homework" class="outline-3">
+<h3 id="system-calls-homework">Homework</h3>
+<div class="outline-text-3" id="text-system-calls-homework">
 <details>
 <summary>fork.py</summary>
 
@@ -2275,7 +2271,6 @@ hello, I am child, rc is '0', rcw is '17' (pid: 18509)
 hello, I am parent of 18509, rcw is '20', (pid: 18508)
 </pre>
 
-
 <pre class="src src-sh"><code>cat /tmp/file_ostep</code></pre>
 
 <pre class="example">
@@ -2334,7 +2329,7 @@ total 352
 </div>
 </div>
 <footer id="postamble" class="status">
-&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8.2).
 </footer>
 </body>
 </html>

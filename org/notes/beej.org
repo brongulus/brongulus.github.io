@@ -20,6 +20,8 @@ To read:
 2. https://book.mixu.net/distsys/ebook.html
 3. https://healeycodes.com/building-a-shell
 4. https://www.cs.unc.edu/~stotts/723/Lambda/scheme.html
+5. https://fasterthanli.me/articles/pin-and-suffering
+6. Heavy Wizardry 101
 
 TODO: Routing table, forwarding table
 

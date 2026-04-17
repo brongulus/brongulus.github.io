@@ -661,7 +661,6 @@ It will reconcile the following:
 - Adopt orphans if the match function returns true.
 - Release owned objects if the match function returns false.
 </pre>
-
 <ol class="org-ol">
 <li>Get the <code>ownerRef</code> using <code>GetControllerOf</code>, it it&rsquo;s not nil, check if
 ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids">UID</a> is k8s system generated string to uniquely identify object).  If the DeletionTimestamp is not set (nil), and the selector <code>match</code> fails, then attempt a <code>release</code>.</li>
@@ -791,7 +790,6 @@ ownerRef.UID is the same as the machineSet&rsquo;s UUID. (<a href="https://kuber
 <pre class="example">
 min(max - current, dep.Replicas - newMS.Replicas)
 </pre>
-
 <p>and <code>scaleUp + newIS.Replicas</code> is returned as the target replicas count.
 </p></li>
 <li>If any scaling happens, then <code>Sync RolloutStatus</code> is called to update the deployment status.</li>
@@ -809,7 +807,6 @@ min(max - current, dep.Replicas - newMS.Replicas)
 <pre class="example">
 min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)
 </pre>
-
 <p>where <code>totalScaledDown</code> keeps incrementing by <code>scaleDownCount</code> as we iterate over all oldMS.
 </p></li>
 <li>We then compute <code>newReplicacount</code> as <code>Replicas - scaledownCount</code> and attempt to scaledown the targetMS to it. &lt;TODO: Rewrite this&gt;</li>
@@ -823,7 +820,6 @@ min(maxCleanupCount - totalScaledDown, Replicas - AvailableReplicas)
 <pre class="example">
 min(Replicas, target - totalScaledDown)
 </pre>
-
 <p>and <code>newReplicacount</code> as <code>Replicas - scaleDownCount</code> after which <code>totalScaledDown</code> is updated with <code>scaleDownCount</code>
 </p></li>
 </ul></li>
@@ -943,7 +939,7 @@ min(Replicas, target - totalScaledDown)
 </div>
 </div>
 <footer id="postamble" class="status">
-&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.11).
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8.2).
 </footer>
 </body>
 </html>
