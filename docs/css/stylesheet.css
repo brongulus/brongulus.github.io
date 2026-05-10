@@ -195,11 +195,12 @@ b {
 /* ======================================== */
 h1 {
     font-family: "Playfair Display", serif;
-    font-weight: normal;
+    font-weight: 500;
     text-align: left;
     margin: 0 0 0.25rem;
     padding: 1.2rem 0;
     font-size: 3.6rem;
+    letter-spacing: -0.02em;
 }
 
 .title {

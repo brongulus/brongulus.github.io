@@ -1,5 +1,5 @@
 #+TITLE: Beej's Networking Guide
-#+DATE: 2026-05-04 Sat
+#+DATE: 2026-04-04 Sat
 
 [[https://beej.us/guide/bgnet/][Guide to network programming]]
 [[https://beej.us/guide/bgnet0/][Guide to networking concepts]] ([[https://abstractnonsense.xyz/micro-blog/2026-01-24-networking-concepts-textbook-review/][Solutions]])

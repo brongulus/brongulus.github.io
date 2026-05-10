@@ -1251,7 +1251,7 @@ rm redir newfile.txt
 #+RESULTS:
 :  27  97 786 redir.c
 
-Other syscalls, such as ~kill()~ is used to *signal* to a process to pause, die etc. Some shell keys also sends these signals, for example: ~C-c~ sends ~SIGINT~ (interrupt, normal termination), ~C-z~ sends ~SIGSTP~ (stop, can /resume/ with ~fg~). This ~signal()~ subsystem allows for sending external events to processes. The process must "catch" these signals, suspend normal execution and run some code in response.
+Other syscall, such as ~kill()~ is used to *signal* to a process to pause, die etc. Some shell keys also sends these signals, for example: ~C-c~ sends ~SIGINT~ (interrupt, normal termination), ~C-z~ sends ~SIGSTP~ (stop, can /resume/ with ~fg~). This ~signal()~ subsystem allows for sending external events to processes. The process must "catch" these signals, suspend normal execution and run some code in response.
 
 ** Homework
 
@@ -2293,3 +2293,5 @@ int main(int argc, char *argv[]) {
 : -rw-r--r--@ 1 IABDCEF  staff    786  2 Mar 17:59 redir.c
 
 #+end_details
+
+** Limited Direct Execution

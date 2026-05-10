@@ -1,0 +1,58 @@
+#+TITLE: Compose, don't Complect
+#+DATE: 2026-04-17 Fri
+
+#+begin_quote
+Your sensibilities equating simplicity with ease and familiarity are wrong
+#+end_quote
+
+[[/assets/knitted-rope.png]]
+
+- Point your sensibilities towards entaglement and sniffing them out.
+- Avoid constructs with complex artifcats.
+- Create abstractions with simplicity as basis.
+- Simplify the problem space before you start.
+- Simplicity often means making more things, not fewer.
+- Partitioning and layering don't imply simplicity, rather they are enabled by it.
+- State is never simple, it complects value and time. It is /easy/ however.
+- What matters for simplicity is that there is no interleaving, not that there's only one thing.
+
+** Complexity Toolkit
+
+| Construct              | Complects                      |
+|------------------------+--------------------------------|
+| State                  | Everything that touches it     |
+| Objects                | State, Identity, Value         |
+| Methods                | Function and State, Namespaces |
+| Syntax                 | What/Who                       |
+| Inheritance            | Meaning, Order                 |
+| Switch/Match           | Types                          |
+| Variables              | Multiple who/what pair         |
+| Imperative loops, fold | Value and Time                 |
+| Actors                 | What/How                       |
+| Conditionals           | Why, rest of program           |
+
+** Simplicity Toolkit
+
+| Construct                     | Simplicity                                |
+|-------------------------------+-------------------------------------------|
+| Value                         | Final (immutable), persistent collections |
+| Functions                     | aka Stateless methods                     |
+| Namespaces                    | Language support                          |
+| Data                          | Maps, arrays, sets, XML, JSON etc         |
+| Polymorphism a la carte       | Protocols, type classes, interfaces       |
+| Set functions                 | Libraries                                 |
+| Queues                        | Libraries                                 |
+| Declarative data manipulation | SQL                                       |
+| Rules                         | Libraries, Prolog                         |
+| Consistency                   | Transactions, Values                      |
+
+** Don't Complect
+
+- /What/ with /How/
+- /Who/ with component details or other entities
+- /How/ with anything
+- /When, where/ with anything (use queues)
+
+*** Sources
+- [[https://www.youtube.com/watch?v=SxdOUGdseq4][Simple Made Easy]]
+- [[https://kristoff.it/blog/simple-not-just-easy/][Kristoff - Simple, not just easy]]

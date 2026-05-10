@@ -9,6 +9,7 @@
 | Feb 2026 TDB | Crime and Punishment        |
 | Jan 2026     | Courage to be disliked      |
 | Jan 2026     | [[file:../notes/notes-from-underground.org][Notes from the Underground]]  |
+| May 2025     | The answer is no            |
 | May 2025     | Before the Coffee Gets Cold |
 | May 2025 TBD | Four Thousand Weeks         |
 | May 2025 TBD | Right Concentration         |
@@ -19,6 +20,8 @@
 |---------+-----------------------|
 | Time    | Title                 |
 |---------+-----------------------|
+| Apr     | Music Room            |
+| Apr     | Past Lives            |
 | Mar-Apr | Beyblade (R)          |
 | Mar     | Trailer Park Boys (R) |
 | Feb     | Mushishi              |
