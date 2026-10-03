@@ -7,6 +7,13 @@ if (localStorage.theme) {
     document.documentElement.setAttribute("data-theme", systemTheme);
 }
 
+// Switch to p.long tag if the paragraph is longer than specified characters.
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('p').forEach(p => {
+        if (p.textContent.trim().length > 150) p.classList.add('long');
+    });
+});
+
 // Flash free theme switch
 document.addEventListener("DOMContentLoaded", function() {
     const toggleButton = document.querySelector('#dark-mode-button');
