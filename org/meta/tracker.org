@@ -3,28 +3,37 @@
 #+HTML: <style>table { display: block !important; width: 95% !important; } </style>
 
 * Books
-|----------------+-------------------------------------|
-| Time           | Title                               |
-|----------------+-------------------------------------|
-| September 2026 | The Housekeeper and the Professor   |
-| September 2026 | How to train your dragon 1-12       |
-| September 2026 | Flowers for Algernon                |
-| August 2026    | The Haunting of Hill House          |
-| August 2026    | The Castle of Otranto               |
-| August 2026    | Welcome to the Hyunam-dong Bookshop |
-| 16 August 2026 | Do Androids Dream of Electric Sheep |
-| 15 August 2026 | The Silent Patient                  |
-| June 2026      | There is no Antimemetics Division   |
-| June 2026      | Snow Crash                          |
-| May 2026 TBD   | How to Solve It                     |
-| Feb - May 2026 | Crime and Punishment                |
-| Jan 2026       | Courage to be disliked              |
-| Jan 2026       | [[file:../notes/notes-from-underground.org][Notes from the Underground]]          |
-| May 2025       | The Answer is No                    |
-| May 2025       | Before the Coffee Gets Cold         |
-| May 2025 TBD   | Four Thousand Weeks                 |
-| May 2025 TBD   | Right Concentration                 |
-|----------------+-------------------------------------|
+
+** 2026
+|---------------+-------------------------------------|
+| Time          | Title                               |
+|---------------+-------------------------------------|
+| September TBD | The Idiot                           |
+| September     | The Housekeeper and the Professor   |
+| September     | How to train your dragon 1-12       |
+| September     | Flowers for Algernon                |
+| August        | The Haunting of Hill House          |
+| August        | The Castle of Otranto               |
+| August        | Welcome to the Hyunam-dong Bookshop |
+| 16 August     | Do Androids Dream of Electric Sheep |
+| 15 August     | The Silent Patient                  |
+| June          | There is no Antimemetics Division   |
+| June          | Snow Crash                          |
+| May TBD       | How to Solve It                     |
+| Feb - May     | Crime and Punishment                |
+| Jan           | Courage to be disliked              |
+| Jan           | [[file:../notes/notes-from-underground.org][Notes from the Underground]]          |
+|---------------+-------------------------------------|
+
+** 2025
+|---------+-----------------------------|
+| Time    | Title                       |
+|---------+-----------------------------|
+| May     | The Answer is No            |
+| May     | Before the Coffee Gets Cold |
+| May TBD | Four Thousand Weeks         |
+| May TBD | Right Concentration         |
+|---------+-----------------------------|
 
 * Media
 
@@ -32,6 +41,7 @@
 |---------+----------------------------|
 | Time    | Title                      |
 |---------+----------------------------|
+| Oct     | True Detective             |
 | Sep     | Nathan For You (R)         |
 | Sep     | Fall of the House of Usher |
 | Aug-Sep | Bojack Horseman (R)        |
