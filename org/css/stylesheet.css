@@ -1,3 +1,7 @@
+/* TODO:
+- https://www.carmenansio.com/articles/editorial-typography-css/
+*/
+
 /* ======================================== */
 /* Colors
 /* ======================================== */
@@ -27,9 +31,9 @@ html[data-theme="dark"] {
     transition:
         background-color 0.6s ease,
         color 0.6s ease;
-    line-height: 140%;
+    line-height: 1.5;
     @media (max-width: 625px) {
-        line-height: 130%;
+        line-height: 140%;
     }
 }
 
@@ -37,17 +41,17 @@ html[data-theme="dark"] {
 /* Fonts
 /* ======================================== */
 @font-face {
-    font-family: "EB Garamond";
-    src: url("../assets/EB_Garamond/EBGaramond-VariableFont_wght.woff2") format("woff2");
-    font-weight: 400 800;
+    font-family: "Lora";
+    src: url("../assets/Lora/Lora-VariableFont_wght.woff2") format("woff2");
+    font-weight: 400 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "EB Garamond";
-    src: url("../assets/EB_Garamond/EBGaramond-Italic-VariableFont_wght.woff2") format("woff2");
-    font-weight: 400 800;
+    font-family: "Lora";
+    src: url("../assets/Lora/Lora-Italic-VariableFont_wght.woff2") format("woff2");
+    font-weight: 400 700;
     font-style: italic;
     font-display: swap;
 }
@@ -57,6 +61,14 @@ html[data-theme="dark"] {
     src: url("../assets/Playfair_Display/PlayfairDisplay-VariableFont_wght.woff2") format("woff2");
     font-weight: 100 900;
     font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Playfair Display";
+    src: url("../assets/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: italic;
     font-display: swap;
 }
 
@@ -81,13 +93,13 @@ html[data-theme="dark"] {
 /* ======================================== */
 html {
     color: var(--bg);
-    font-family: "EB Garamond", "Helvetica Neue", "Segoe UI", Helvetica, Arial, serif;
+    font-family: "Lora", "Helvetica Neue", "Segoe UI", Helvetica, Arial, serif;
     overflow: hidden;
     margin: 0;
     scroll-behavior: smooth;
-    font-size: 23px;
+    font-size: 22px;
     @media (max-width: 625px) {
-        font-size: 21px;
+        font-size: 20px;
     }
 }
 
@@ -98,6 +110,8 @@ body {
     overflow-y: auto;
     height: 100vh;
     display: flex;
+    text-wrap: pretty;
+    hanging-punctuation: first;
     flex-direction: column;
     -webkit-text-size-adjust: 100%;
 }
@@ -116,7 +130,7 @@ footer,
     font-size: 1.1rem;
     @media (min-width: 1480px) {
         max-width: 1000px;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
     @media (max-width: 775px) {
         font-size: 1rem;
@@ -224,6 +238,7 @@ header h1:has(+ .date) {
 }
 
 h2 {
+    font-family: "Lora", serif;
     text-align: center;
     font-size: 2.2rem;
     font-weight: 400;
@@ -260,13 +275,13 @@ h5,
 h6 {
     font-variant: all-small-caps;
     color: var(--accent);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.15em;
     margin: 0.9rem 0 0.7rem;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 h4 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 h5,
 h6 {
@@ -295,11 +310,13 @@ h6 + div > p:first-child {
 /* ======================================== */
 p {
     white-space: pre-line;
-    font-family: "EB Garamond", serif;
+    font-family: "Lora", serif;
     font-weight: 400;
     letter-spacing: 0.01em;
-    margin: 1em auto auto;
+    margin: 1.2em auto auto;
     text-align: left;
+    font-variant-numeric: oldstyle-nums;
+    /* font-feature-settings: "c2sc" 1; */
     hyphens: none;
 }
 
@@ -319,7 +336,7 @@ code {
 
 code {
     border-radius: 6px;
-    font-size: 75%;
+    font-size: 85%;
     font-weight: 400;
     padding: 0 0.2rem;
     background-color: var(--marker);
@@ -338,7 +355,7 @@ pre {
     border-left: 1px solid var(--accent);
     margin: 1em 0 0.4rem;
     padding: 0.5rem;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
 pre code {
@@ -542,16 +559,17 @@ hr {
 /* ======================================== */
 ol,
 ul {
-    padding-left: 24px;
+    font-size: 95%;
+    padding-left: 1.5rem;
     margin: 0.35em 0;
     @media (max-width: 625px) {
-        padding-left: 16px;
+        padding-left: 0.9rem;
     }
 }
 
 ol > li,
 ul > li {
-    margin: 0.35em 0;
+    margin: 0.25em 0;
 }
 ol > li p,
 ul > li p {
@@ -562,27 +580,8 @@ ol {
     counter-reset: foobar;
 }
 
-ol > li {
-    list-style: none;
-    position: relative;
-}
-
-ol > li::before {
-    font-variant: all-small-caps;
-    font-feature-settings: "tnum", "onum";
-    counter-increment: foobar;
-    content: counter(foobar) ".";
-    float: left;
-    margin-left: -1.2rem;
-    width: 1.2rem;
-    @media (min-width: 1480px) {
-        margin-left: -1.4rem;
-        width: 1.4rem;
-    }
-    @media (max-width: 625px) {
-        margin-left: -1rem;
-        width: 1rem;
-    }
+li::marker {
+    font-size: 90%;
 }
 
 ul > li {
@@ -591,20 +590,6 @@ ul > li {
 ul > li:before {
     content: none;
 }
-
-/* ul, */
-/* ul.list-level-1 { */
-/*     --list-bullet: '» '; */
-/* } */
-/* ul.list-level-2 { */
-/*     --list-bullet: '✦ '; */
-/* } */
-/* ul.list-level-3 { */
-/*     --list-bullet: '• '; */
-/* } */
-/* ul > li::marker { */
-/*     content: var(--list-bullet); */
-/* } */
 
 sup,
 sub {
@@ -617,6 +602,8 @@ sub {
 
 .entries > .outline-2 > .outline-text-2 > ul,
 .entries ~ .outline-2 > .outline-text-2 > ul {
+    font-family: "Playfair Display", serif;
+    letter-spacing: 0.02em;
     padding-left: 0;
 }
 
@@ -670,17 +657,19 @@ sub {
 /* TOC
 /* ======================================== */
 #table-of-contents {
+    font-variant: all-small-caps;
+    letter-spacing: 0.05em;
     font-size: 1.15rem;
     border-bottom: 1px solid var(--accent);
-    font-weight: 200;
+    /* font-weight: 200; */
     @media (max-width: 625px) {
         font-size: 1rem;
     }
 }
 
 #table-of-contents h2 {
-    font-variant: all-small-caps;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-align: left;
     display: block;
     font-size: 105%;
@@ -735,7 +724,8 @@ thead {
 
 table th {
     font-variant: all-small-caps;
-    font-weight: normal;
+    letter-spacing: 0.05em;
+    font-weight: 600;
     font-size: 90%;
     font-style: bold;
     letter-spacing: 1px;
