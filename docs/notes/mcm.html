@@ -863,7 +863,7 @@ min(Replicas, target - totalScaledDown)
 <li>Secret&rsquo;s <code>userData</code> is checked for existence and is encoded if found. (Later used in <code>RunInstancesInput</code>)</li>
 <li>Validate given AMI&rsquo;s (Amazon Machine Image) existence, verify that the image exists and is valid using <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html">DescribeImages</a> <code>POST</code> request.</li>
 <li>Block devices are the <i>storage volumes</i> attached to an <code>Instance</code>. And <code>BlockDeviceMappings</code> define the EBS volumes and instance store volumes to attach to an instance at launch. So using the list of devices from providerSpec and the <code>RootDeviceName</code> from the image, block device mappings are generated for storage.</li>
-<li>Then tags are generated for <code>instance</code>, <code>volume</code> and <code>NetworkInterface</code>. These tags are useful as they act as identifiers which map the clusters that resources belong to and for management (cleanup, securtiy) etc. Failure in tag generation results in an <code>Internal</code> error code being returned.</li>
+<li>Then tags are generated for <code>instance</code>, <code>volume</code> and <code>NetworkInterface</code>. These tags are useful as they act as identifiers which map the clusters that resources belong to and for management (cleanup, security) etc. Failure in tag generation results in an <code>Internal</code> error code being returned.</li>
 <li>Afterwards, <code>NetworkInterfaceSpec</code> is defined for all the interfaces and by iterative over providerSpec NetworkInterfaces. And <code>IamInstanceProfile</code> is set up by going through <i>IAM name and ARN</i>. And after that <i>instance metadata options</i> are initialized.</li>
 <li>Following all this, the <code>RunInstancesInput</code> config is initialized using all the above fetched/initialized fields. Some additional fields such as <code>Placement</code>, <code>Capacity Reservation Target</code>, <code>CPU Options</code> and <code>Spot Price</code> are further set up before the <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html">RunInstance</a> call which launches the EC2 instance.</li>
 <li>Then we wait for the VM with <code>ProviderID</code> for machine <code>Name</code> to be visible to AWS endpoints by checking using <code>confirmInstance</code> calls following which&rsquo;s success the <i>MachineResponse</i> consisting of the <code>ProviderID</code> and <code>Machine Name</code> is returned.</li>
@@ -939,7 +939,7 @@ min(Replicas, target - totalScaledDown)
 </div>
 </div>
 <footer id="postamble" class="status">
-&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8.3).
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8.7).
 </footer>
 </body>
 </html>

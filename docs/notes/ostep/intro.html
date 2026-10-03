@@ -205,24 +205,25 @@ B
 
 <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">wrapper around pthread_create() that ensures the return value is success
 </span><span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_create</span>(<span class="font-lock-variable-name-face">thread</span>, <span class="font-lock-variable-name-face">attr</span>, <span class="font-lock-variable-name-face">start_routine</span>, <span class="font-lock-variable-name-face">arg</span>) assert(pthread_create(thread, attr, start_routine, arg) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_join</span>(<span class="font-lock-variable-name-face">thread</span>, <span class="font-lock-variable-name-face">value_ptr</span>)                  assert(pthread_join(thread, value_ptr) == 0);
 
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_mutex_lock</span>(<span class="font-lock-variable-name-face">m</span>)                            assert(pthread_mutex_lock(m) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_mutex_unlock</span>(<span class="font-lock-variable-name-face">m</span>)                          assert(pthread_mutex_unlock(m) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_cond_signal</span>(<span class="font-lock-variable-name-face">cond</span>)                        assert(pthread_cond_signal(cond) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_cond_wait</span>(<span class="font-lock-variable-name-face">cond</span>, <span class="font-lock-variable-name-face">mutex</span>)                   assert(pthread_cond_wait(cond, mutex) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_join</span>(<span class="font-lock-variable-name-face">thread</span>, <span class="font-lock-variable-name-face">value_ptr</span>) assert(pthread_join(thread, value_ptr) == 0);
 
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_init</span>(<span class="font-lock-variable-name-face">m</span>)                                    assert(pthread_mutex_init(m, <span class="font-lock-constant-face">NULL</span>) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_lock</span>(<span class="font-lock-variable-name-face">m</span>)                                    assert(pthread_mutex_lock(m) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_unlock</span>(<span class="font-lock-variable-name-face">m</span>)                                  assert(pthread_mutex_unlock(m) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_init</span>(<span class="font-lock-variable-name-face">cond</span>)                                  assert(pthread_cond_init(cond, <span class="font-lock-constant-face">NULL</span>) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_signal</span>(<span class="font-lock-variable-name-face">cond</span>)                                assert(pthread_cond_signal(cond) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_wait</span>(<span class="font-lock-variable-name-face">cond</span>, <span class="font-lock-variable-name-face">mutex</span>)                           assert(pthread_cond_wait(cond, mutex) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_mutex_lock</span>(<span class="font-lock-variable-name-face">m</span>)           assert(pthread_mutex_lock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_mutex_unlock</span>(<span class="font-lock-variable-name-face">m</span>)         assert(pthread_mutex_unlock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_cond_signal</span>(<span class="font-lock-variable-name-face">cond</span>)       assert(pthread_cond_signal(cond) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Pthread_cond_wait</span>(<span class="font-lock-variable-name-face">cond</span>, <span class="font-lock-variable-name-face">mutex</span>)  assert(pthread_cond_wait(cond, mutex) == 0);
+
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_init</span>(<span class="font-lock-variable-name-face">m</span>)                   assert(pthread_mutex_init(m, <span class="font-lock-constant-face">NULL</span>) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_lock</span>(<span class="font-lock-variable-name-face">m</span>)                   assert(pthread_mutex_lock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Mutex_unlock</span>(<span class="font-lock-variable-name-face">m</span>)                 assert(pthread_mutex_unlock(m) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_init</span>(<span class="font-lock-variable-name-face">cond</span>)                 assert(pthread_cond_init(cond, <span class="font-lock-constant-face">NULL</span>) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_signal</span>(<span class="font-lock-variable-name-face">cond</span>)               assert(pthread_cond_signal(cond) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Cond_wait</span>(<span class="font-lock-variable-name-face">cond</span>, <span class="font-lock-variable-name-face">mutex</span>)          assert(pthread_cond_wait(cond, mutex) == 0);
 
 <span class="font-lock-preprocessor-face">#ifdef</span> __linux__
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_init</span>(<span class="font-lock-variable-name-face">sem</span>, <span class="font-lock-variable-name-face">value</span>)                             assert(sem_init(sem, 0, value) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_wait</span>(<span class="font-lock-variable-name-face">sem</span>)                                    assert(sem_wait(sem) == 0);
-<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_post</span>(<span class="font-lock-variable-name-face">sem</span>)                                    assert(sem_post(sem) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_init</span>(<span class="font-lock-variable-name-face">sem</span>, <span class="font-lock-variable-name-face">value</span>)            assert(sem_init(sem, 0, value) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_wait</span>(<span class="font-lock-variable-name-face">sem</span>)                   assert(sem_wait(sem) == 0);
+<span class="font-lock-preprocessor-face">#define</span> <span class="font-lock-function-name-face">Sem_post</span>(<span class="font-lock-variable-name-face">sem</span>)                   assert(sem_post(sem) == 0);
 <span class="font-lock-preprocessor-face">#endif</span> <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">__linux__
 </span>
 <span class="font-lock-preprocessor-face">#endif</span> <span class="font-lock-comment-delimiter-face">// </span><span class="font-lock-comment-face">__common_threads_h__</span></code></pre>
@@ -414,7 +415,7 @@ hello world
 </div>
 </div>
 <footer id="postamble" class="status">
-&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8.3).
+&copy; 2026 . Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8.7).
 </footer>
 </body>
 </html>

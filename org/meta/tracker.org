@@ -3,34 +3,55 @@
 #+HTML: <style>table { display: block !important; width: 95% !important; } </style>
 
 * Books
-|--------------+-----------------------------|
-| Time         | Title                       |
-|--------------+-----------------------------|
-| Feb 2026 TDB | Crime and Punishment        |
-| Jan 2026     | Courage to be disliked      |
-| Jan 2026     | [[file:../notes/notes-from-underground.org][Notes from the Underground]]  |
-| May 2025     | The answer is no            |
-| May 2025     | Before the Coffee Gets Cold |
-| May 2025 TBD | Four Thousand Weeks         |
-| May 2025 TBD | Right Concentration         |
-|--------------+-----------------------------|
+|----------------+-------------------------------------|
+| Time           | Title                               |
+|----------------+-------------------------------------|
+| September 2026 | The Housekeeper and the Professor   |
+| September 2026 | How to train your dragon 1-12       |
+| September 2026 | Flowers for Algernon                |
+| August 2026    | The Haunting of Hill House          |
+| August 2026    | The Castle of Otranto               |
+| August 2026    | Welcome to the Hyunam-dong Bookshop |
+| 16 August 2026 | Do Androids Dream of Electric Sheep |
+| 15 August 2026 | The Silent Patient                  |
+| June 2026      | There is no Antimemetics Division   |
+| June 2026      | Snow Crash                          |
+| May 2026 TBD   | How to Solve It                     |
+| Feb - May 2026 | Crime and Punishment                |
+| Jan 2026       | Courage to be disliked              |
+| Jan 2026       | [[file:../notes/notes-from-underground.org][Notes from the Underground]]          |
+| May 2025       | The Answer is No                    |
+| May 2025       | Before the Coffee Gets Cold         |
+| May 2025 TBD   | Four Thousand Weeks                 |
+| May 2025 TBD   | Right Concentration                 |
+|----------------+-------------------------------------|
 
 * Media
+
 ** 2026
-|---------+-----------------------|
-| Time    | Title                 |
-|---------+-----------------------|
-| Apr     | Music Room            |
-| Apr     | Past Lives            |
-| Mar-Apr | Beyblade (R)          |
-| Mar     | Trailer Park Boys (R) |
-| Feb     | Mushishi              |
-|---------+-----------------------|
+|---------+----------------------------|
+| Time    | Title                      |
+|---------+----------------------------|
+| Sep     | Nathan For You (R)         |
+| Sep     | Fall of the House of Usher |
+| Aug-Sep | Bojack Horseman (R)        |
+| Aug     | Haunting of Hill House     |
+| Jul     | Chernobyl                  |
+| May     | Dark S3                    |
+| May     | The Big Short              |
+| May     | Zodiac                     |
+| Apr     | Music Room                 |
+| Apr     | Past Lives                 |
+| Mar-Apr | Beyblade (R)               |
+| Mar     | Trailer Park Boys (R)      |
+| Feb     | Mushishi                   |
+|---------+----------------------------|
 
 ** 2025
 |-----------+---------------------------|
 | Time      | Title                     |
 |-----------+---------------------------|
+| May TBD   | Death Note (R)            |
 | Apr       | Bojack Horseman (R)       |
 | Apr - May | Rehearsal                 |
 | Apr       | Unsolicited advice (YT)   |
@@ -43,13 +64,16 @@
 | May       | Rams                      |
 | May       | Etoile                    |
 |-----------+---------------------------|
+
 * Music
+
 ** April 2026
 |-------------+--------------------|
 | Artist      | Work               |
 |-------------+--------------------|
 | Ninajirachi | I Love My Computer |
 |-------------+--------------------|
+
 ** February 2026
 |----------+---------------------|
 | Artist   | Work                |
@@ -57,6 +81,7 @@
 | Deftones | Milk of the Madonna |
 | Deftones | Sextape             |
 |----------+---------------------|
+
 ** May 2025
 |------------------+-------------------------|
 | Artist           | Work                    |
@@ -66,6 +91,7 @@
 | Space Remedy     | Deformity               |
 | Phil Collins     | Another Day in Paradise |
 |------------------+-------------------------|
+
 ** April 2025
 |---------------+-------------------------------|
 | Artist        | Work                          |

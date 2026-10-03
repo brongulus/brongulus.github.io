@@ -56,3 +56,5 @@ Your sensibilities equating simplicity with ease and familiarity are wrong
 *** Sources
 - [[https://www.youtube.com/watch?v=SxdOUGdseq4][Simple Made Easy]]
 - [[https://kristoff.it/blog/simple-not-just-easy/][Kristoff - Simple, not just easy]]
+- [[https://jyn.dev/simple-is-not-the-same-as-small/][Simple is not the same as small]]
+  
