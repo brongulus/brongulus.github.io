@@ -81,17 +81,17 @@ html[data-theme="dark"] {
 }
 
 @font-face {
-    font-family: "IBM Plex Mono";
-    src: url("../assets/IBM_Plex_Mono/IBMPlexMono-Regular.woff2") format("woff2");
+    font-family: "Spline Sans Mono";
+    src: url("../assets/Spline_Sans_Mono/SplineSansMono-VariableFont_wght.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "IBM Plex Mono";
-    src: url("../assets/IBM_Plex_Mono/IBMPlexMono-Italic.woff2") format("woff2");
+    font-family: "Spline Sans Mono";
     font-weight: 400;
+    src: url("../assets/Spline_Sans_Mono/SplineSansMono-Italic-VariableFont_wght.woff2") format("woff2");
     font-style: italic;
     font-display: swap;
 }
@@ -342,8 +342,8 @@ code {
 }
 
 code {
-    font-family: "Monda", monospace;
-    font-size: 95%;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 90%;
     /* border-radius: 6px; */
     /* padding: 0 0.2rem; */
     /* background-color: var(--marker); */
@@ -366,7 +366,7 @@ pre {
 }
 
 pre code {
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "Spline Sans Mono", monospace;
     font-feature-settings: "ss06" 1;
     background-color: transparent;
     padding: 0;
