@@ -553,10 +553,15 @@ span > .katex-display {
 
 summary {
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    @media (max-width: 625px) {
+        font-size: 0.7rem;
+    }
+    font-weight: 500;
 }
 summary::marker {
     color: var(--accent);
-    font-size: 80%;
 }
 
 hr {
