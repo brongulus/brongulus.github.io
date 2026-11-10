@@ -670,6 +670,7 @@ sub {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-size: 0.9rem;
+    font-weight: 600;
     border-bottom: 1px solid var(--accent);
     @media (max-width: 625px) {
         font-size: 0.8rem;
@@ -677,7 +678,6 @@ sub {
 }
 
 #table-of-contents h2 {
-    font-weight: 600;
     letter-spacing: 0.1em;
     text-align: left;
     display: block;

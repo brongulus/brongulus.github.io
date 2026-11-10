@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
          :auto-sitemap t
          :sitemap-function my-sitemap-function
          :sitemap-format-entry my/sitemap-format-entry
-         :sitemap-title "Blog Posts"
+         :sitemap-title "Weblog"
          :sitemap-filename "index.org"
          :sitemap-sort-files anti-chronologically)
         ("notes"

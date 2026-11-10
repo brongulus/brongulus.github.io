@@ -1,7 +1,7 @@
 #+OPTIONS: toc:nil
 #+HTML: <div class="entries">
 
-* Blog Posts
+* Weblog
 
 - [[file:find-replace.org][Find and Replace]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2026-02-06</span>@@
 - [[file:musturbating.org][Stop Musturbating]]@@html:<div class="connector"></div>@@ @@html:<span class="entry-date">2025-12-25</span>@@

@@ -17,7 +17,7 @@
 * [[file:meta/index.org][Meta]]
 #+INCLUDE: meta/index.org :lines "6-11"
 
-* [[file:blog/index.org][Blog Posts]]
+* [[file:blog/index.org][Weblog]]
 #+INCLUDE: blog/index.org :lines "6-11"
 
 * [[file:notes/index.org][Notes]]
